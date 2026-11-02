@@ -1,0 +1,140 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 11
+  metrics: count: path: 27
+  metrics: count: method: 29
+
+  entity: capability: {
+    path: "/api/v1/capabilities/providers/countries": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: client_hosted_ui_customizations_output_dto: {
+    path: "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations": {
+      action: "hosted-ui-customizations": {}
+      rename: param: "clientId": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: create_payment_output_dto: {
+    path: "/api/v1/ob/payments": {
+      op: create: method: *POST
+    }
+    path: "/api/v1/ob/payments/{paymentId}/followups": {
+      rename: param: "paymentId": *"payment_id"
+      op: create: method: *POST
+    }
+  }
+
+  entity: create_token_output_dto: {
+    path: "/api/v1/auth/token": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: healthcheck: {
+    path: "/api/status": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: latest: {
+    path: "/api/v1/archive/payment-statuses/latest": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.failureReasons`")|top
+    }
+  }
+
+  entity: obn: {
+    path: "/api/v1/ob/callbacks": {
+      action: "callback": {}
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/callbacks/with-provider-nano-id": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/client-jwks": {
+      action: "client_jwk": {}
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/payments/cancel": {
+      op: create: method: *POST
+    }
+    path: "/api/v1/ob/payments/decoupled/confirmation-data": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/payments/decoupled/consent-status": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/payments/decoupled/sca-data": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+    }
+    path: "/api/v1/ob/payments/decoupled/sca-methods": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/ob/payments/decoupled/selected-sca-method": {
+      op: patch: method: *PATCH
+    }
+    path: "/api/v1/ob/payments/psu-provided-data": {
+      op: patch: method: *PATCH
+    }
+    path: "/api/v1/ob/payments/sender-accounts": {
+      op: load: method: *GET
+      op: patch: method: *PATCH
+    }
+  }
+
+  entity: payment: {
+    path: "/api/v1/archive/internal/payments/{id}": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/archive/payments": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+    path: "/api/v1/archive/payments/{id}": {
+      op: load: method: *GET
+    }
+    path: "/api/v1/reports/payments/{id}": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: payment_status: {
+    path: "/api/v1/archive/payment-statuses": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: provider: {
+    path: "/api/v1/capabilities/internal/providers": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+    path: "/api/v1/capabilities/providers": {
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+  }
+
+  entity: providers_subsidiary_output_dto: {
+    path: "/api/v1/capabilities/internal/providers/{id}/subsidiaries": {
+      rename: param: "id": *"provider_id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+    path: "/api/v1/capabilities/providers/{id}/subsidiaries": {
+      rename: param: "id": *"provider_id"
+      op: list: method: *GET
+      op: list: transform: res: *("`body.items`")|top
+    }
+  }
+
+}

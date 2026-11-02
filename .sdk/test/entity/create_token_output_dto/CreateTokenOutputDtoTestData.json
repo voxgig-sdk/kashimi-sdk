@@ -1,0 +1,48 @@
+{
+  "existing": {
+    "create_token_output_dto": {
+      "CREATE_TOKEN_OUTPUT_DTO00": {
+        "access_token": "s32",
+        "expires_in": 51,
+        "grant_type": "s34",
+        "scope": "s35",
+        "token_type": "s36",
+        "id": "CREATE_TOKEN_OUTPUT_DTO00"
+      },
+      "CREATE_TOKEN_OUTPUT_DTO01": {
+        "access_token": "s64",
+        "expires_in": 101,
+        "grant_type": "s66",
+        "scope": "s67",
+        "token_type": "s68",
+        "id": "CREATE_TOKEN_OUTPUT_DTO01"
+      },
+      "CREATE_TOKEN_OUTPUT_DTO02": {
+        "access_token": "s96",
+        "expires_in": 151,
+        "grant_type": "s98",
+        "scope": "s99",
+        "token_type": "s9a",
+        "id": "CREATE_TOKEN_OUTPUT_DTO02"
+      }
+    }
+  },
+  "new": {
+    "create_token_output_dto": {
+      "create_token_output_dto_ref01": {
+        "access_token": "sc8",
+        "expires_in": 201,
+        "grant_type": "sca",
+        "scope": "scb",
+        "token_type": "scc"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/auth/token": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

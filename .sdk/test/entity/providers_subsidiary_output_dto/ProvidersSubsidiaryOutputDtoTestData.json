@@ -1,0 +1,68 @@
+{
+  "existing": {
+    "providers_subsidiary_output_dto": {
+      "PROVIDERS_SUBSIDIARY_OUTPUT_DTO00": {
+        "bic": "s5a",
+        "countryCode": "s5b",
+        "hasSubsidiaries": true,
+        "iconUrl": "s5d",
+        "id": "PROVIDERS_SUBSIDIARY_OUTPUT_DTO00",
+        "logoUrl": "s5f",
+        "name": "s60",
+        "paymentSchemes": [],
+        "requiredPaymentFields": [],
+        "provider_id": "PROVIDER01"
+      },
+      "PROVIDERS_SUBSIDIARY_OUTPUT_DTO01": {
+        "bic": "sb4",
+        "countryCode": "sb5",
+        "hasSubsidiaries": true,
+        "iconUrl": "sb7",
+        "id": "PROVIDERS_SUBSIDIARY_OUTPUT_DTO01",
+        "logoUrl": "sb9",
+        "name": "sba",
+        "paymentSchemes": [],
+        "requiredPaymentFields": [],
+        "provider_id": "PROVIDER01"
+      },
+      "PROVIDERS_SUBSIDIARY_OUTPUT_DTO02": {
+        "bic": "s10e",
+        "countryCode": "s10f",
+        "hasSubsidiaries": true,
+        "iconUrl": "s111",
+        "id": "PROVIDERS_SUBSIDIARY_OUTPUT_DTO02",
+        "logoUrl": "s113",
+        "name": "s114",
+        "paymentSchemes": [],
+        "requiredPaymentFields": [],
+        "provider_id": "PROVIDER01"
+      }
+    }
+  },
+  "new": {
+    "providers_subsidiary_output_dto": {
+      "providers_subsidiary_output_dto_ref01": {
+        "bic": "s168",
+        "countryCode": "s169",
+        "hasSubsidiaries": true,
+        "iconUrl": "s16b",
+        "logoUrl": "s16d",
+        "name": "s16e",
+        "paymentSchemes": [],
+        "requiredPaymentFields": []
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/capabilities/internal/providers/{id}/subsidiaries": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/capabilities/providers/{id}/subsidiaries": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

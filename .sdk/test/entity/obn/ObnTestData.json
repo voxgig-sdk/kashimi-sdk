@@ -1,0 +1,87 @@
+{
+  "existing": {
+    "obn": {
+      "OBN00": {
+        "id": "OBN00"
+      },
+      "OBN01": {
+        "id": "OBN01"
+      },
+      "OBN02": {
+        "id": "OBN02"
+      }
+    }
+  },
+  "new": {
+    "obn": {
+      "obn_ref01": {}
+    }
+  },
+  "requests": {
+    "POST /api/v1/ob/payments/cancel": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/callbacks": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/client-jwks": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/payments/sender-accounts": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/callbacks/with-provider-nano-id": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/payments/decoupled/confirmation-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/payments/decoupled/consent-status": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/payments/decoupled/sca-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/payments/decoupled/sca-methods": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/decoupled/sca-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/decoupled/selected-sca-method": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/psu-provided-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/sender-accounts": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,0 +1,160 @@
+// VENDORED: @voxgig/sekreto sdk-20261016-0845-0 (go/plugins/boru/boru.go)
+// Source: https://github.com/voxgig/sekreto @ ee837130bf444ca46a5a46181bdd6743e118898c  [tag: sdk-20261016-0845-0]
+// License: MIT (c) voxgig - see repository LICENSE. Do not edit: resync from upstream.
+// The boru plugin: a boru vault through its CLI, or over `boru vault
+// serve`. Needs a child process, or HTTPS in wire mode. A port of
+// typescript/plugins/boru.ts.
+package boru
+
+import (
+	"bytes"
+	"errors"
+	"net/http"
+	"os"
+	"os/exec"
+	"strconv"
+	"strings"
+
+	"GOMODULE/feature/secrets/plugins/httpjson"
+	"GOMODULE/feature/secrets/sekreto"
+)
+
+type Provider struct {
+	Command   string
+	Namespace string
+	Home      string
+	Addr      string
+	Token     string
+	Mount     string
+}
+
+func (provider *Provider) command() string {
+	if "" == provider.Command {
+		return "boru"
+	}
+	return provider.Command
+}
+
+func (provider *Provider) wireaddr() string {
+	return strings.TrimSuffix(provider.Addr, "/")
+}
+
+func (provider *Provider) wiremount() string {
+	if "" == provider.Mount {
+		return "secret"
+	}
+	return provider.Mount
+}
+
+func (provider *Provider) wirelookup(name string) (string, bool, error) {
+	addr := provider.wireaddr()
+	if err := sekreto.CheckAddr(addr); nil != err {
+		return "", false, err
+	}
+
+	// The dotted name stays one segment: boru aliases keep their dots.
+	alias := name
+	if "" != provider.Namespace {
+		alias = provider.Namespace + "/" + name
+	}
+	target := addr + "/v1/" + provider.wiremount() + "/data/" + alias
+
+	status, body, err := httpjson.Get(target, map[string]string{"X-Vault-Token": provider.Token})
+	if nil != err {
+		return "", false, err
+	}
+
+	if http.StatusNotFound == status {
+		return "", false, nil
+	}
+
+	if http.StatusOK != status {
+		return "", false, sekreto.Fail("sekreto: boru serve error: " + strconv.Itoa(status) + ": " + target)
+	}
+
+	value := httpjson.Dig(body, "data", "data", "value")
+	if nil == value {
+		return "", false, nil
+	}
+
+	return httpjson.ToString(value), true, nil
+}
+
+func (provider *Provider) Lookup(name string) (string, bool, error) {
+	if err := sekreto.CheckName(name); nil != err {
+		return "", false, err
+	}
+
+	if "" != provider.Addr {
+		return provider.wirelookup(name)
+	}
+
+	alias := name
+	if "" != provider.Namespace {
+		alias = provider.Namespace + ":" + name
+	}
+
+	run := exec.Command(provider.command(), "vault", "get", "--reveal", alias)
+
+	if "" != provider.Home {
+		run.Env = append(os.Environ(), "BORU_HOME="+provider.Home)
+	}
+
+	var out, errout bytes.Buffer
+	run.Stdout = &out
+	run.Stderr = &errout
+
+	err := run.Run()
+
+	if nil == err {
+		// boru prints the value and one newline, and nothing else.
+		return strings.TrimSuffix(out.String(), "\n"), true, nil
+	}
+
+	var exiterr *exec.ExitError
+	if !errors.As(err, &exiterr) {
+		return "", false, sekreto.Fail("sekreto: cannot run " + provider.command() + ": " + err.Error())
+	}
+
+	why := strings.TrimSpace(errout.String())
+
+	// "no alias named" is boru saying it does not hold this secret, which is a
+	// miss: the chain carries on to the next provider. A locked vault or a
+	// wrong passphrase is not a miss - treating it as one would fall through
+	// to a weaker store without saying so.
+	if borumiss(why) {
+		return "", false, nil
+	}
+
+	if "" == why {
+		why = "exit " + strconv.Itoa(exiterr.ExitCode())
+	}
+
+	return "", false, sekreto.Fail("sekreto: boru vault error: " + why)
+}
+
+func (provider *Provider) Describe() string {
+	if "" != provider.Addr {
+		return "boru:" + provider.wireaddr()
+	}
+	if "" != provider.Namespace {
+		return "boru:" + provider.Namespace
+	}
+	return "boru"
+}
+
+func borumiss(why string) bool {
+	return strings.Contains(why, "no alias named")
+}
+
+// Plugin is the `boru` provider kind, as a voxgig/plugin definition.
+var Plugin = sekreto.ProviderPlugin("boru", func(spec *sekreto.ProviderSpec) (sekreto.Provider, error) {
+	return &Provider{
+		Command:   spec.Command,
+		Namespace: spec.Namespace,
+		Home:      spec.Home,
+		Addr:      spec.Addr,
+		Token:     spec.Token,
+		Mount:     spec.Mount,
+	}, nil
+})

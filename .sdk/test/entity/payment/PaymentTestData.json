@@ -1,0 +1,91 @@
+{
+  "existing": {
+    "payment": {
+      "PAYMENT00": {
+        "amount": 130,
+        "clientId": "s83",
+        "createdAt": "s84",
+        "currency": "s85",
+        "id": "PAYMENT00",
+        "metadata": {},
+        "paymentScheme": "s88",
+        "provider": "s89",
+        "recipient": {},
+        "remittanceInformation": "s8b",
+        "sender": {},
+        "status": "s8d",
+        "updatedAt": "s8e"
+      },
+      "PAYMENT01": {
+        "amount": 260,
+        "clientId": "s105",
+        "createdAt": "s106",
+        "currency": "s107",
+        "id": "PAYMENT01",
+        "metadata": {},
+        "paymentScheme": "s10a",
+        "provider": "s10b",
+        "recipient": {},
+        "remittanceInformation": "s10d",
+        "sender": {},
+        "status": "s10f",
+        "updatedAt": "s110"
+      },
+      "PAYMENT02": {
+        "amount": 390,
+        "clientId": "s187",
+        "createdAt": "s188",
+        "currency": "s189",
+        "id": "PAYMENT02",
+        "metadata": {},
+        "paymentScheme": "s18c",
+        "provider": "s18d",
+        "recipient": {},
+        "remittanceInformation": "s18f",
+        "sender": {},
+        "status": "s191",
+        "updatedAt": "s192"
+      }
+    }
+  },
+  "new": {
+    "payment": {
+      "payment_ref01": {
+        "amount": 520,
+        "clientId": "s209",
+        "createdAt": "s20a",
+        "currency": "s20b",
+        "metadata": {},
+        "paymentScheme": "s20e",
+        "provider": "s20f",
+        "recipient": {},
+        "remittanceInformation": "s211",
+        "sender": {},
+        "status": "s213",
+        "updatedAt": "s214"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/archive/payments": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/archive/internal/payments/{id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/archive/payments/{id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/reports/payments/{id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

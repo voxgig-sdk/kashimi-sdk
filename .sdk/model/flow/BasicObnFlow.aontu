@@ -1,0 +1,54 @@
+# BasicObnFlow
+
+main: kit: flow: BasicObnFlow:
+{
+  entity: "obn",
+  kind: "basic",
+  name: "BasicObnFlow",
+  step: [
+    {
+      i: {
+        ref: "obn_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "obn_ref01",
+        srcdatavar: "obn_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-obn_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "obn_ref01",
+        srcdatavar: "obn_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-obn_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicObnFlow"
+}

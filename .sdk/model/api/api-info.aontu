@@ -1,0 +1,24 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: "gatekeeper API"
+      servers: [
+        {
+          url: "{base}"
+          variables: {
+            base: {
+              description: "The base URL of the API, which its definition does not name."
+            }
+          }
+        }
+      ]
+      summary: "gatekeeper API"
+      title: "Gatekeeper docs"
+      version: "1.0"
+    }
+  }
+}
+

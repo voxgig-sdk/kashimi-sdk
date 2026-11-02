@@ -1,0 +1,392 @@
+# Entity: payment
+
+main: kit: entity: payment: {
+
+  alias: field: {}
+
+  fields: {
+    amount: {
+      h: "Amount"
+      n: "amount"
+      r: true
+      sh: "Payment amount"
+      t: "`$NUMBER`"
+    }
+    clientId: {
+      h: "Client Id"
+      n: "clientId"
+      r: true
+      sh: "Client identifier"
+      t: "`$STRING`"
+    }
+    createdAt: {
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      t: "`$STRING`"
+    }
+    currency: {
+      h: "Currency"
+      n: "currency"
+      r: true
+      sh: "Currency code"
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "Unique payment identifier"
+      t: "`$STRING`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: true
+      t: "`$OBJECT`"
+    }
+    paymentScheme: {
+      h: "Payment Scheme"
+      n: "paymentScheme"
+      r: true
+      sh: "Payment scheme used"
+      t: "`$ANY`"
+    }
+    provider: {
+      h: "Provider"
+      n: "provider"
+      op: {
+        load: {
+          req: false
+          type: "`$OBJECT`"
+        }
+      }
+      r: true
+      sh: "Payment provider details."
+      t: "`$ANY`"
+    }
+    recipient: {
+      h: "Recipient"
+      n: "recipient"
+      r: true
+      t: "`$OBJECT`"
+    }
+    remittanceInformation: {
+      h: "Remittance Information"
+      n: "remittanceInformation"
+      r: true
+      sh: "Unstructured or structured remittance information."
+      t: "`$ANY`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      op: {
+        load: {
+          req: false
+          type: "`$OBJECT`"
+        }
+      }
+      r: true
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "The most recent status of the payment."
+      t: "`$STRING`"
+    }
+    updatedAt: {
+      h: "Updated At"
+      n: "updatedAt"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "payment"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/archive/payments"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "cursor_value"
+                or: "cursor[value]"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "2026-07-01T00:00:00.000Z"
+                k: "query"
+                n: "filters_created_at_from"
+                or: "filters[createdAt][from]"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "2026-07-02T00:00:00.000Z"
+                k: "query"
+                n: "filters_created_at_to"
+                or: "filters[createdAt][to]"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "1234567890"
+                k: "query"
+                n: "filters_metadata_end_to_end_id"
+                or: "filters[metadata][endToEndId]"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/archive/payments"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "archive"
+            }
+            {
+              lit: "payments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.items`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/archive/internal/payments/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/archive/internal/payments/{id}"
+          q: {
+            exist: [
+              "authorization"
+              "id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "archive"
+            }
+            {
+              lit: "internal"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/v1/archive/payments/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/archive/payments/{id}"
+          q: {
+            exist: [
+              "authorization"
+              "id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "archive"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/v1/reports/payments/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/reports/payments/{id}"
+          q: {
+            exist: [
+              "authorization"
+              "id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "reports"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

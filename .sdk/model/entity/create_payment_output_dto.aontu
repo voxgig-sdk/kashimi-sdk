@@ -1,0 +1,222 @@
+# Entity: create_payment_output_dto
+
+main: kit: entity: create_payment_output_dto: {
+
+  alias: field: {}
+
+  fields: {
+    amount: {
+      h: "Amount"
+      n: "amount"
+      r: true
+      sh: "The amount to be transferred."
+      t: "`$NUMBER`"
+    }
+    currency: {
+      h: "Currency"
+      n: "currency"
+      r: true
+      sh: "The currency of the payment."
+      t: "`$STRING`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: true
+      t: "`$OBJECT`"
+    }
+    paymentScheme: {
+      h: "Payment Scheme"
+      n: "paymentScheme"
+      r: true
+      sh: "Payment scheme."
+      t: "`$ANY`"
+    }
+    provider: {
+      h: "Provider"
+      n: "provider"
+      op: {
+        create: {
+          req: false
+          type: "`$ANY`"
+        }
+      }
+      r: true
+      sh: "The provider information for the followup"
+      t: "`$ANY`"
+    }
+    recipient: {
+      h: "Recipient"
+      n: "recipient"
+      r: true
+      sh: "Data about the party receiving the payment."
+      t: "`$ANY`"
+    }
+    remittanceInformation: {
+      h: "Remittance Information"
+      n: "remittanceInformation"
+      r: true
+      sh: "Unstructured or structured remittance information."
+      t: "`$ANY`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: false
+      sh: "The sender information to be used with the payment"
+      t: "`$ANY`"
+    }
+  }
+
+  name: "create_payment_output_dto"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "provider"
+            "sender"
+          ]
+          co: {
+            id: "POST /api/v1/ob/payments/{paymentId}/followups"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "payment_id"
+                or: "paymentId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/ob/payments/{paymentId}/followups"
+          q: {
+            exist: [
+              "authorization"
+              "payment_id"
+            ]
+          }
+          r: {
+            param: {
+              paymentId: "payment_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "payment_id"
+            }
+            {
+              lit: "followups"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "amount"
+            "currency"
+            "metadata"
+            "paymentScheme"
+            "provider"
+            "recipient"
+            "remittanceInformation"
+            "sender"
+          ]
+          co: {
+            id: "POST /api/v1/ob/payments"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "en"
+                k: "header"
+                n: "accept_language"
+                or: "Accept-Language"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/ob/payments"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.payment")]
+  ]
+
+}

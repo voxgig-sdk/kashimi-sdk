@@ -1,0 +1,22 @@
+# BasicPaymentStatusFlow
+
+main: kit: flow: BasicPaymentStatusFlow:
+{
+  entity: "payment_status",
+  kind: "basic",
+  name: "BasicPaymentStatusFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "payment_status_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPaymentStatusFlow"
+}

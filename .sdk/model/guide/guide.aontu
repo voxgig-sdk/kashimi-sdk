@@ -1,0 +1,101 @@
+# Guide
+
+@"@voxgig/apidef/model/guide.aontu"
+
+@"./base-guide.aontu"
+
+
+# KASHIMI'S OWN NAMES. The heuristic named several entities after response
+# DTOs (create_payment_output_dto, create_token_output_dto, ...) and put the
+# whole hosted payment flow, /api/v1/ob/..., into one entity, `obn`, where
+# five loads and four updates shared a selector so only one of each could
+# ever be called. Each route is declared again below under the resource
+# Kashimi's documentation names, then switched off where the heuristic put it.
+
+
+# Authentication: POST /api/v1/auth/token exchanges client credentials for a
+# bearer token.
+guide: entity: token: path: "/api/v1/auth/token": op: create: method: POST
+guide: entity: create_token_output_dto: active: false
+
+
+# Payments. Initiate, list, load, and cancel from the hosted flow.
+guide: entity: payment: path: "/api/v1/ob/payments": op: create: method: POST
+guide: entity: payment: path: "/api/v1/ob/payments/cancel": {
+  action: cancel: {}
+  op: create: method: POST
+}
+guide: entity: create_payment_output_dto: path: "/api/v1/ob/payments": active: false
+
+# A follow-up retries a payment at its provider, under the payment's id.
+guide: entity: followup: path: "/api/v1/ob/payments/{paymentId}/followups": {
+  rename: param: paymentId: payment_id
+  op: create: method: POST
+}
+guide: entity: create_payment_output_dto: path: "/api/v1/ob/payments/{paymentId}/followups": active: false
+guide: entity: create_payment_output_dto: active: false
+
+# GET /api/v1/reports/payments/{id} is a payment REPORT, a different shape
+# from the archived payment; on `payment` it shared the load selector with it.
+guide: entity: report: path: "/api/v1/reports/payments/{id}": op: load: method: GET
+guide: entity: payment: path: "/api/v1/reports/payments/{id}": active: false
+
+
+# Payment statuses: the history is a list, the latest is one record.
+guide: entity: payment_status: path: "/api/v1/archive/payment-statuses/latest": {
+  action: latest: {}
+  op: load: method: GET
+}
+guide: entity: latest: active: false
+
+
+# Capabilities: providers, their subsidiaries, the countries they cover, and
+# the hosted UI customizations of a client.
+guide: entity: subsidiary: path: "/api/v1/capabilities/providers/{id}/subsidiaries": {
+  rename: param: id: provider_id
+  op: list: method: GET
+  op: list: transform: res: "`body.items`"
+}
+guide: entity: providers_subsidiary_output_dto: active: false
+
+guide: entity: country: path: "/api/v1/capabilities/providers/countries": op: list: method: GET
+guide: entity: capability: active: false
+
+guide: entity: hosted_ui_customization: path: "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations": {
+  rename: param: clientId: client_id
+  op: load: method: GET
+}
+guide: entity: client_hosted_ui_customizations_output_dto: active: false
+
+
+# INTERNAL ENDPOINTS. Kashimi tags three operations "Internal Endpoints" in
+# the published definition. As a courtesy the SDK does not expose them.
+guide: entity: payment: path: "/api/v1/archive/internal/payments/{id}": active: false
+guide: entity: provider: path: "/api/v1/capabilities/internal/providers": active: false
+guide: entity: providers_subsidiary_output_dto: path: "/api/v1/capabilities/internal/providers/{id}/subsidiaries": active: false
+
+
+# THE HOSTED PAYMENT FLOW. These routes carry no security and answer the
+# hosted payment pages and the bank's redirects: most take the flow's `state`
+# and `providerId`, and several answer with a redirect. Each gets its own
+# entity so every one can be called.
+guide: entity: callback: path: "/api/v1/ob/callbacks": op: load: method: GET
+guide: entity: callback: path: "/api/v1/ob/callbacks/with-provider-nano-id": {
+  action: "with-provider-nano-id": {}
+  op: load: method: GET
+}
+guide: entity: client_jwk: path: "/api/v1/ob/client-jwks": op: load: method: GET
+guide: entity: sender_account: path: "/api/v1/ob/payments/sender-accounts": {
+  op: load: method: GET
+  op: patch: method: PATCH
+}
+guide: entity: psu_provided_data: path: "/api/v1/ob/payments/psu-provided-data": op: patch: method: PATCH
+guide: entity: sca_method: path: "/api/v1/ob/payments/decoupled/sca-methods": op: load: method: GET
+guide: entity: sca_method: path: "/api/v1/ob/payments/decoupled/selected-sca-method": op: patch: method: PATCH
+guide: entity: sca_data: path: "/api/v1/ob/payments/decoupled/sca-data": {
+  op: load: method: GET
+  op: patch: method: PATCH
+}
+guide: entity: confirmation_data: path: "/api/v1/ob/payments/decoupled/confirmation-data": op: load: method: GET
+guide: entity: consent_status: path: "/api/v1/ob/payments/decoupled/consent-status": op: load: method: GET
+guide: entity: obn: active: false

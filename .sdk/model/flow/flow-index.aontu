@@ -1,0 +1,13 @@
+# Flows
+
+@"./BasicCapabilityFlow.aontu"
+@"./BasicClientHostedUiCustomizationsOutputDtoFlow.aontu"
+@"./BasicCreatePaymentOutputDtoFlow.aontu"
+@"./BasicCreateTokenOutputDtoFlow.aontu"
+@"./BasicHealthcheckFlow.aontu"
+@"./BasicLatestFlow.aontu"
+@"./BasicObnFlow.aontu"
+@"./BasicPaymentFlow.aontu"
+@"./BasicPaymentStatusFlow.aontu"
+@"./BasicProviderFlow.aontu"
+@"./BasicProvidersSubsidiaryOutputDtoFlow.aontu"

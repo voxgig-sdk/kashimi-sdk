@@ -1,0 +1,22 @@
+# BasicLatestFlow
+
+main: kit: flow: BasicLatestFlow:
+{
+  entity: "latest",
+  kind: "basic",
+  name: "BasicLatestFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "latest_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicLatestFlow"
+}

@@ -1,0 +1,44 @@
+# README wording — YOURS. The scaffold creates this file once and never
+# overwrites it. A slot set here words the generated README files and the
+# documentation over the same slot of main.kit.info.
+
+# The spec's info.title is "Gatekeeper docs", Kashimi's internal service name.
+# Its schemas carry no descriptions, so the entity descriptions come from
+# Kashimi's documentation (docs.kashimi.tech).
+main: kit: text: {
+  title: 'Kashimi API'
+  summary: 'Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks.'
+  website: 'https://www.kashimi.tech'
+  about_md: `**Credentials.** Kashimi uses OAuth 2.0 client credentials. Exchange your client ID
+and secret for a short-lived access token at \`POST /api/v1/auth/token\` (HTTP Basic auth,
+form-encoded \`grant_type=client_credentials\`), then pass the token as the \`apikey\` option.
+The SDK sends it as \`Authorization: Bearer <token>\`.
+
+**Environments.** The SDK calls Production, \`https://api.kashimi.tech\`. For the Sandbox,
+pass \`base: 'https://api-sandbox.kashimi.tech'\`.
+
+**Scope.** Every operation in Kashimi's published definition is here except the three it
+tags "Internal Endpoints". The \`callback\`, \`client_jwk\`, \`sender_account\`,
+\`psu_provided_data\`, \`sca_method\`, \`sca_data\`, \`confirmation_data\` and
+\`consent_status\` entities are the routes of Kashimi's hosted payment flow.`
+  entity_desc: {
+    token: 'A short-lived access token, issued for your client credentials.'
+    payment: 'A bank payment: initiate one, list yours, load one by id, or cancel one in the hosted flow.'
+    followup: 'A follow-up for a payment, created at its provider.'
+    report: 'A reporting summary of one payment: amount, status, provider, sender, recipient and remittance information.'
+    payment_status: 'The status of a payment: its full history, or the latest.'
+    provider: 'A bank or payment provider, with its supported payment schemes and required fields.'
+    subsidiary: 'A regional or subsidiary institution of a provider.'
+    country: 'A country where Kashimi supports payment providers.'
+    hosted_ui_customization: 'The customizations of the hosted payment UI for a client.'
+    healthcheck: 'The status of the API.'
+    callback: 'The bank redirect back into the hosted payment flow.'
+    client_jwk: 'The JSON Web Key Set of a client at a provider.'
+    sender_account: 'The sender accounts offered in the hosted payment flow, and the one chosen.'
+    psu_provided_data: 'Data the payer provides in the hosted payment flow.'
+    sca_method: 'The strong customer authentication methods of a decoupled payment, and the one chosen.'
+    sca_data: 'The strong customer authentication data of a decoupled payment.'
+    confirmation_data: 'The confirmation data of a decoupled payment.'
+    consent_status: 'The consent status of a decoupled payment.'
+  }
+}

@@ -1,0 +1,70 @@
+# Entity: healthcheck
+
+main: kit: entity: healthcheck: {
+
+  alias: field: {}
+
+  fields: {
+    details: {
+      h: "Details"
+      n: "details"
+      r: false
+      t: "`$OBJECT`"
+    }
+    error: {
+      h: "Error"
+      n: "error"
+      r: false
+      t: "`$OBJECT`"
+    }
+    info: {
+      h: "Info"
+      n: "info"
+      r: false
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  name: "healthcheck"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/status"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/status"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "status"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -1,0 +1,22 @@
+# BasicCapabilityFlow
+
+main: kit: flow: BasicCapabilityFlow:
+{
+  entity: "capability",
+  kind: "basic",
+  name: "BasicCapabilityFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "capability_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCapabilityFlow"
+}

@@ -1,0 +1,48 @@
+{
+  "existing": {
+    "payment_status": {
+      "PAYMENT_STATUS00": {
+        "createdAt": "s3c",
+        "detailedStatus": "s3d",
+        "failureReasons": [],
+        "id": "PAYMENT_STATUS00",
+        "paymentId": "s40",
+        "status": "s41"
+      },
+      "PAYMENT_STATUS01": {
+        "createdAt": "s78",
+        "detailedStatus": "s79",
+        "failureReasons": [],
+        "id": "PAYMENT_STATUS01",
+        "paymentId": "s7c",
+        "status": "s7d"
+      },
+      "PAYMENT_STATUS02": {
+        "createdAt": "sb4",
+        "detailedStatus": "sb5",
+        "failureReasons": [],
+        "id": "PAYMENT_STATUS02",
+        "paymentId": "sb8",
+        "status": "sb9"
+      }
+    }
+  },
+  "new": {
+    "payment_status": {
+      "payment_status_ref01": {
+        "createdAt": "sf0",
+        "detailedStatus": "sf1",
+        "failureReasons": [],
+        "paymentId": "sf4",
+        "status": "sf5"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/archive/payment-statuses": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

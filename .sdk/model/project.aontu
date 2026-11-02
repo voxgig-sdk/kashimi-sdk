@@ -1,0 +1,55 @@
+# Project overlay — YOURS. The scaffold creates this file once and never
+# overwrites it.
+#
+# Most of model/ is toolchain-derived and is deliberately regenerated so that
+# toolchain fixes propagate; this file, the guide, and the target, feature and
+# edition indexes are kept. Put anything here that is a decision about THIS
+# project rather than a fact about the API.
+#
+# Included LAST by sdk.aontu, after target/target-index.aontu, because a key
+# under main.kit.target.<t> can only refine a target that has already been
+# defined. Declared earlier, the model build fails with "Cannot unify value:
+# nil with value: string / key ext value was: nil", which names nothing that
+# would lead you here.
+#
+# The release version each generated manifest declares (package.json,
+# pyproject.toml, the gemspec, the rockspec) and that the port Makefiles tag:
+#
+#   main: kit: target: ts: publish: version: '1.2.3'
+#
+# Per target, because ports publish to different registries on different
+# clocks. Set every target to the same value for a lockstep repo.
+#
+# A published package name that does not follow the derivation:
+#
+#   main: kit: target: ts: publish: registry: package: '@scope/name'
+# --- cedar: secrets active (written by cedar-regen.sh, do not hand-edit)
+main: kit: feature: secrets: active: true
+# --- end cedar: secrets active
+
+# outreach1 standard (2026-11-02): std8 targets, the standard features
+# (including secrets) and a branded GitHub Pages documentation site.
+main: kit: doc: edition: 'github-pages': active: true
+# GitHub Pages is enabled for this repository, so generated documentation may
+# link the site.
+main: kit: doc: edition: 'github-pages': published: true
+# Brand palette, taken from kashimi.tech's own stylesheet: blue #437eff is the
+# primary, the deeper #284c99 the accent (docgen uses the accent only for
+# tints and gradients, never for text). The site is light: #fdfdfd page,
+# #181d27 text, which become the dark pair reversed.
+main: kit: doc: style: mode: 'auto'
+main: kit: doc: style: color: {
+  primary: '#437eff'
+  accent: '#284c99'
+  background: '#fdfdfd'
+  text: '#181d27'
+  darkBackground: '#181d27'
+  darkText: '#fdfdfd'
+}
+# Published package names, declared so a change in the generator's naming
+# rule cannot rename a released package.
+main: kit: target: ts: publish: registry: package: '@voxgig-sdk/kashimi-sdk'
+main: kit: target: py: publish: registry: package: 'voxgig-sdk-kashimi-sdk'
+main: kit: target: lua: publish: registry: package: 'voxgig-sdk-kashimi-sdk'
+main: kit: target: php: publish: registry: package: 'voxgig-sdk/kashimi-sdk'
+main: kit: target: rb: publish: registry: package: 'voxgig-sdk-kashimi-sdk'

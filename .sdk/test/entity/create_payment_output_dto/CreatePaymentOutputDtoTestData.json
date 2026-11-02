@@ -1,0 +1,68 @@
+{
+  "existing": {
+    "create_payment_output_dto": {
+      "CREATE_PAYMENT_OUTPUT_DTO00": {
+        "amount": 80,
+        "currency": "s51",
+        "metadata": {},
+        "paymentScheme": "s53",
+        "provider": "s54",
+        "recipient": "s55",
+        "remittanceInformation": "s56",
+        "sender": "s57",
+        "payment_id": "PAYMENT01",
+        "id": "CREATE_PAYMENT_OUTPUT_DTO00"
+      },
+      "CREATE_PAYMENT_OUTPUT_DTO01": {
+        "amount": 160,
+        "currency": "sa1",
+        "metadata": {},
+        "paymentScheme": "sa3",
+        "provider": "sa4",
+        "recipient": "sa5",
+        "remittanceInformation": "sa6",
+        "sender": "sa7",
+        "payment_id": "PAYMENT01",
+        "id": "CREATE_PAYMENT_OUTPUT_DTO01"
+      },
+      "CREATE_PAYMENT_OUTPUT_DTO02": {
+        "amount": 240,
+        "currency": "sf1",
+        "metadata": {},
+        "paymentScheme": "sf3",
+        "provider": "sf4",
+        "recipient": "sf5",
+        "remittanceInformation": "sf6",
+        "sender": "sf7",
+        "payment_id": "PAYMENT01",
+        "id": "CREATE_PAYMENT_OUTPUT_DTO02"
+      }
+    }
+  },
+  "new": {
+    "create_payment_output_dto": {
+      "create_payment_output_dto_ref01": {
+        "amount": 320,
+        "currency": "s141",
+        "metadata": {},
+        "paymentScheme": "s143",
+        "provider": "s144",
+        "recipient": "s145",
+        "remittanceInformation": "s146",
+        "sender": "s147"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/ob/payments/{paymentId}/followups": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "POST /api/v1/ob/payments": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

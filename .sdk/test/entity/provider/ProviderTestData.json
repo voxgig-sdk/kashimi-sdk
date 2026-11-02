@@ -1,0 +1,65 @@
+{
+  "existing": {
+    "provider": {
+      "PROVIDER00": {
+        "bic": "s5a",
+        "countryCode": "s5b",
+        "hasSubsidiaries": true,
+        "iconUrl": "s5d",
+        "id": "PROVIDER00",
+        "logoUrl": "s5f",
+        "name": "s60",
+        "paymentSchemes": [],
+        "requiredPaymentFields": []
+      },
+      "PROVIDER01": {
+        "bic": "sb4",
+        "countryCode": "sb5",
+        "hasSubsidiaries": true,
+        "iconUrl": "sb7",
+        "id": "PROVIDER01",
+        "logoUrl": "sb9",
+        "name": "sba",
+        "paymentSchemes": [],
+        "requiredPaymentFields": []
+      },
+      "PROVIDER02": {
+        "bic": "s10e",
+        "countryCode": "s10f",
+        "hasSubsidiaries": true,
+        "iconUrl": "s111",
+        "id": "PROVIDER02",
+        "logoUrl": "s113",
+        "name": "s114",
+        "paymentSchemes": [],
+        "requiredPaymentFields": []
+      }
+    }
+  },
+  "new": {
+    "provider": {
+      "provider_ref01": {
+        "bic": "s168",
+        "countryCode": "s169",
+        "hasSubsidiaries": true,
+        "iconUrl": "s16b",
+        "logoUrl": "s16d",
+        "name": "s16e",
+        "paymentSchemes": [],
+        "requiredPaymentFields": []
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/capabilities/internal/providers": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/capabilities/providers": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

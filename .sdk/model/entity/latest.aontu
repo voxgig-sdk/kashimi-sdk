@@ -1,0 +1,130 @@
+# Entity: latest
+
+main: kit: entity: latest: {
+
+  alias: field: {}
+
+  fields: {
+    createdAt: {
+      fo: "date-time"
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      sh: "Timestamp of status creation"
+      t: "`$STRING`"
+    }
+    detailedStatus: {
+      h: "Detailed Status"
+      n: "detailedStatus"
+      r: true
+      sh: "Detailed payment status"
+      t: "`$STRING`"
+    }
+    failureReasons: {
+      h: "Failure Reasons"
+      n: "failureReasons"
+      r: true
+      sh: "Failure reasons (for `status: FAILED` only)"
+      t: "`$ARRAY`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "Unique payment status identifier"
+      t: "`$STRING`"
+    }
+    paymentId: {
+      h: "Payment Id"
+      n: "paymentId"
+      r: true
+      sh: "Unique payment identifier"
+      t: "`$STRING`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "Payment status."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "latest"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/archive/payment-statuses/latest"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: "123e4567-e89b-12d3-a456-426614174000"
+                k: "query"
+                n: "payment_id"
+                or: "paymentId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/archive/payment-statuses/latest"
+          q: {
+            exist: [
+              "authorization"
+              "payment_id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "archive"
+            }
+            {
+              lit: "payment-statuses"
+            }
+            {
+              lit: "latest"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.failureReasons`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

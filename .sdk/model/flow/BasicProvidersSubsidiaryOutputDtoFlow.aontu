@@ -1,0 +1,26 @@
+# BasicProvidersSubsidiaryOutputDtoFlow
+
+main: kit: flow: BasicProvidersSubsidiaryOutputDtoFlow:
+{
+  entity: "providers_subsidiary_output_dto",
+  kind: "basic",
+  name: "BasicProvidersSubsidiaryOutputDtoFlow",
+  step: [
+    {
+      m: {
+        provider_id: "provider01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "providers_subsidiary_output_dto_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicProvidersSubsidiaryOutputDtoFlow"
+}

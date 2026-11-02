@@ -1,0 +1,44 @@
+{
+  "existing": {
+    "healthcheck": {
+      "HEALTHCHECK00": {
+        "details": {},
+        "error": {},
+        "info": {},
+        "status": "s2b",
+        "id": "HEALTHCHECK00"
+      },
+      "HEALTHCHECK01": {
+        "details": {},
+        "error": {},
+        "info": {},
+        "status": "s53",
+        "id": "HEALTHCHECK01"
+      },
+      "HEALTHCHECK02": {
+        "details": {},
+        "error": {},
+        "info": {},
+        "status": "s7b",
+        "id": "HEALTHCHECK02"
+      }
+    }
+  },
+  "new": {
+    "healthcheck": {
+      "healthcheck_ref01": {
+        "details": {},
+        "error": {},
+        "info": {},
+        "status": "sa3"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/status": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

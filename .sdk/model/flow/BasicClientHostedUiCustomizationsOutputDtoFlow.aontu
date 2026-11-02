@@ -1,0 +1,32 @@
+# BasicClientHostedUiCustomizationsOutputDtoFlow
+
+main: kit: flow: BasicClientHostedUiCustomizationsOutputDtoFlow:
+{
+  entity: "client_hosted_ui_customizations_output_dto",
+  kind: "basic",
+  name: "BasicClientHostedUiCustomizationsOutputDtoFlow",
+  step: [
+    {
+      i: {
+        ref: "client_hosted_ui_customizations_output_dto_ref01",
+        srcdatavar: "client_hosted_ui_customizations_output_dto_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "client_hosted_ui_customizations_output_dto01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-client_hosted_ui_customizations_output_dto_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicClientHostedUiCustomizationsOutputDtoFlow"
+}
