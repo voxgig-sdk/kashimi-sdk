@@ -25,7 +25,7 @@ class HostedUiCustomizationDirectTest < Minitest::Test
       return
     end
     if setup[:live]
-      ["client01"].each do |_live_key|
+      ["hosted_ui_customization01"].each do |_live_key|
         if setup[:idmap][_live_key].nil?
           Runner.live_miss(LIVE_STRICT, "Live test blocked: needs #{_live_key} via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
         end
@@ -36,13 +36,13 @@ class HostedUiCustomizationDirectTest < Minitest::Test
     params = {}
     query = {}
     if setup[:live]
-      params["client_id"] = setup[:idmap]["client01"]
+      params["id"] = setup[:idmap]["hosted_ui_customization01"]
     else
-      params["client_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     result = client.direct({
-      "path" => "api/v1/capabilities/clients/{client_id}/hosted-ui-customizations",
+      "path" => "api/v1/capabilities/clients/{id}/hosted-ui-customizations",
       "method" => "GET",
       "params" => params,
       "query" => query,

@@ -56,6 +56,7 @@
 ---@field clientId string
 ---@field faviconUrl string
 ---@field footerText string
+---@field id? string
 ---@field logoUrl string
 ---@field primaryColor string
 ---@field privacyPolicyUrl string
@@ -63,7 +64,7 @@
 ---@field termsUrl string
 
 ---@class HostedUiCustomizationLoadMatch
----@field client_id string
+---@field id string
 
 ---@class Payment
 ---@field amount number

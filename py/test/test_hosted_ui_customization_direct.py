@@ -31,7 +31,7 @@ class TestHostedUiCustomizationDirect:
             pytest.skip(_reason or "skipped via sdk-test-control.json")
             return
         if setup["live"]:
-            for _live_key in ["client01"]:
+            for _live_key in ["hosted_ui_customization01"]:
                 if setup["idmap"].get(_live_key) is None:
                     runner.live_miss(LIVE_STRICT, f"Live test blocked: needs {_live_key} via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
 
@@ -40,14 +40,14 @@ class TestHostedUiCustomizationDirect:
         params = {}
         query = {}
         if setup["live"]:
-            params["client_id"] = setup["idmap"].get("client01")
+            params["id"] = setup["idmap"].get("hosted_ui_customization01")
             pass
         else:
-            params["client_id"] = "direct01"
+            params["id"] = "direct01"
             pass
 
         result = client.direct({
-            "path": "api/v1/capabilities/clients/{client_id}/hosted-ui-customizations",
+            "path": "api/v1/capabilities/clients/{id}/hosted-ui-customizations",
             "method": "GET",
             "params": params,
             "query": query,

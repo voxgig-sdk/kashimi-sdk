@@ -38,7 +38,7 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		client := sdk.TestSDK(nil, map[string]any{
 			"feature": map[string]any{"validate": map[string]any{"active": true}},
 		})
-		_, err := client.HostedUiCustomization(nil).Load(map[string]any{"client_id": 1}, nil)
+		_, err := client.HostedUiCustomization(nil).Load(map[string]any{"id": 1}, nil)
 		if sdkerr, ok := err.(*core.KashimiError); !ok || "validate_failed" != sdkerr.Code {
 			t.Fatalf("expected validate_failed, got %v", err)
 		}
@@ -53,7 +53,7 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{} {
+		for _, _op := range []string{"load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "hosted_ui_customization." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -62,6 +62,12 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 				return
 			}
 		}
+		if setup.live {
+			liveMiss(t, hosted_ui_customizationEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a hosted_ui_customization record it has no list to find")
+		}
+		client := setup.client
+		_ = client
+
 		// Bootstrap entity data from existing test data (no create step in flow).
 		hostedUiCustomizationRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.hosted_ui_customization")))
 		var hostedUiCustomizationRef01Data map[string]any
@@ -71,6 +77,23 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		// Discard guards against Go's unused-var check when the flow's steps
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = hostedUiCustomizationRef01Data
+
+		// LOAD
+		hostedUiCustomizationRef01Ent := client.HostedUiCustomization(nil)
+		hostedUiCustomizationRef01MatchDt0 := map[string]any{
+			"id": hostedUiCustomizationRef01Data["id"],
+		}
+		hostedUiCustomizationRef01DataDt0Loaded, err := hostedUiCustomizationRef01Ent.Load(hostedUiCustomizationRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		hostedUiCustomizationRef01DataDt0LoadResult := core.ToMapAny(entityData(hostedUiCustomizationRef01DataDt0Loaded))
+		if hostedUiCustomizationRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if hostedUiCustomizationRef01DataDt0LoadResult["id"] != hostedUiCustomizationRef01Data["id"] {
+			t.Fatal("expected load result id to match")
+		}
 
 	})
 }

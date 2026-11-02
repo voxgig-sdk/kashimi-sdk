@@ -484,12 +484,21 @@ declare class Config {
             };
         };
         hosted_ui_customization: {
-            fields: {
+            fields: ({
                 name: string;
                 title: string;
                 type: string;
                 req: boolean;
-            }[];
+            } | {
+                name: string;
+                title: string;
+                type: string;
+                req?: undefined;
+            })[];
+            id: {
+                field: string;
+                name: string;
+            };
             name: string;
             op: {
                 load: {

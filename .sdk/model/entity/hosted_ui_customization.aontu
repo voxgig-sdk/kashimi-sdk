@@ -23,6 +23,12 @@ main: kit: entity: hosted_ui_customization: {
       r: true
       t: "`$STRING`"
     }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
     logoUrl: {
       h: "Logo Url"
       n: "logoUrl"
@@ -55,6 +61,11 @@ main: kit: entity: hosted_ui_customization: {
     }
   }
 
+  id: {
+    field: "id"
+    name: "id"
+  }
+
   name: "hosted_ui_customization"
   op: {
     load: {
@@ -79,7 +90,7 @@ main: kit: entity: hosted_ui_customization: {
             params: [
               {
                 k: "param"
-                n: "client_id"
+                n: "id"
                 or: "clientId"
                 r: true
                 t: "`$STRING`"
@@ -91,12 +102,12 @@ main: kit: entity: hosted_ui_customization: {
           q: {
             exist: [
               "authorization"
-              "client_id"
+              "id"
             ]
           }
           r: {
             param: {
-              clientId: "client_id"
+              clientId: "id"
             }
           }
           rs: {
@@ -117,7 +128,7 @@ main: kit: entity: hosted_ui_customization: {
               lit: "clients"
             }
             {
-              var: "client_id"
+              var: "id"
             }
             {
               lit: "hosted-ui-customizations"

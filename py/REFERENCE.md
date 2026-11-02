@@ -495,6 +495,7 @@ hosted_ui_customization = client.HostedUiCustomization()
 | `clientId` | `str` | Yes |  |
 | `faviconUrl` | `str` | Yes |  |
 | `footerText` | `str` | Yes |  |
+| `id` | `str` | No |  |
 | `logoUrl` | `str` | Yes |  |
 | `primaryColor` | `str` | Yes |  |
 | `privacyPolicyUrl` | `str` | Yes |  |
@@ -508,7 +509,7 @@ hosted_ui_customization = client.HostedUiCustomization()
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
-result = client.HostedUiCustomization().load({"client_id": "client_id"})
+result = client.HostedUiCustomization().load({"id": "hosted_ui_customization_id"})
 ```
 
 ### Common Methods

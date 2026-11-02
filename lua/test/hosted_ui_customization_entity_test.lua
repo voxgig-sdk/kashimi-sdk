@@ -29,7 +29,7 @@ describe("HostedUiCustomizationEntity", function()
       return
     end
     local client = sdk.test(nil, { feature = { validate = { active = true } } })
-    local _, err = client:HostedUiCustomization(nil):load({ ["client_id"] = 1 }, nil)
+    local _, err = client:HostedUiCustomization(nil):load({ ["id"] = 1 }, nil)
     assert.are.equal("validate_failed", type(err) == "table" and err.code or nil)
   end)
 
@@ -37,12 +37,15 @@ describe("HostedUiCustomizationEntity", function()
     local setup = hosted_ui_customization_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({}) do
+    for _, _op in ipairs({"load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "hosted_ui_customization." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
       end
+    end
+    if setup.live then
+      runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: " .. "the flow loads a hosted_ui_customization record it has no list to find")
     end
     local client = setup.client
 
@@ -53,6 +56,17 @@ describe("HostedUiCustomizationEntity", function()
     if #hosted_ui_customization_ref01_data_raw > 0 then
       hosted_ui_customization_ref01_data = helpers.to_map(hosted_ui_customization_ref01_data_raw[1][2])
     end
+
+    -- LOAD
+    local hosted_ui_customization_ref01_ent = client:HostedUiCustomization(nil)
+    local hosted_ui_customization_ref01_match_dt0 = {
+      id = hosted_ui_customization_ref01_data["id"],
+    }
+    local hosted_ui_customization_ref01_data_dt0_loaded, err = hosted_ui_customization_ref01_ent:load(hosted_ui_customization_ref01_match_dt0, nil)
+    assert.is_nil(err)
+    local hosted_ui_customization_ref01_data_dt0_load_result = helpers.to_map(type(hosted_ui_customization_ref01_data_dt0_loaded) == 'table' and hosted_ui_customization_ref01_data_dt0_loaded.data_get and hosted_ui_customization_ref01_data_dt0_loaded:data_get() or hosted_ui_customization_ref01_data_dt0_loaded)
+    assert.is_not_nil(hosted_ui_customization_ref01_data_dt0_load_result)
+    assert.are.equal(hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"])
 
   end)
 end)

@@ -337,6 +337,7 @@ API path: `/api/status`
 | `clientId` |  |
 | `faviconUrl` |  |
 | `footerText` |  |
+| `id` |  |
 | `logoUrl` |  |
 | `primaryColor` |  |
 | `privacyPolicyUrl` |  |
@@ -646,6 +647,7 @@ Create an instance: `hosted_ui_customization = client.HostedUiCustomization()`
 | `clientId` | `str` |  |
 | `faviconUrl` | `str` |  |
 | `footerText` | `str` |  |
+| `id` | `str` |  |
 | `logoUrl` | `str` |  |
 | `primaryColor` | `str` |  |
 | `privacyPolicyUrl` | `str` |  |
@@ -655,7 +657,7 @@ Create an instance: `hosted_ui_customization = client.HostedUiCustomization()`
 #### Example: Load
 
 ```python
-hosted_ui_customization = client.HostedUiCustomization().load({"client_id": "client_id"})
+hosted_ui_customization = client.HostedUiCustomization().load({"id": "hosted_ui_customization_id"})
 ```
 
 

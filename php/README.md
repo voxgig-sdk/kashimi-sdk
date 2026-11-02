@@ -130,13 +130,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = KashimiSDK::test([
-    "entity" => ["payment" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["report" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// list() returns entity instances (throws on error);
+// Entity ops return the ENTITY (throws on error);
 // call data_get() for the mock record.
-$payment = $client->Payment()->list();
-print_r(array_map(fn($item) => $item->data_get(), $payment));
+$report = $client->Report()->load(["id" => "test01"]);
+print_r($report->data_get());
 ```
 
 ### Use a custom fetch function
@@ -349,6 +349,7 @@ API path: `/api/status`
 | `clientId` |  |
 | `faviconUrl` |  |
 | `footerText` |  |
+| `id` |  |
 | `logoUrl` |  |
 | `primaryColor` |  |
 | `privacyPolicyUrl` |  |
@@ -664,6 +665,7 @@ Create an instance: `$hosted_ui_customization = $client->HostedUiCustomization()
 | `clientId` | `string` |  |
 | `faviconUrl` | `string` |  |
 | `footerText` | `string` |  |
+| `id` | `string` |  |
 | `logoUrl` | `string` |  |
 | `primaryColor` | `string` |  |
 | `privacyPolicyUrl` | `string` |  |
@@ -674,7 +676,7 @@ Create an instance: `$hosted_ui_customization = $client->HostedUiCustomization()
 
 ```php
 // load() returns the ENTITY — call data_get() for the HostedUiCustomization record (throws on error).
-$hosted_ui_customization = $client->HostedUiCustomization()->load(["client_id" => "client_id"]);
+$hosted_ui_customization = $client->HostedUiCustomization()->load(["id" => "hosted_ui_customization_id"]);
 ```
 
 

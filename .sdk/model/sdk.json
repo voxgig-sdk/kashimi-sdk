@@ -728,6 +728,13 @@
               "r": true,
               "t": "`$STRING`"
             },
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
+            },
             "logoUrl": {
               "a": true,
               "h": "Logo Url",
@@ -764,6 +771,10 @@
               "t": "`$STRING`"
             }
           },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
           "name": "hosted_ui_customization",
           "op": {
             "load": {
@@ -792,7 +803,7 @@
                       {
                         "a": true,
                         "k": "param",
-                        "n": "client_id",
+                        "n": "id",
                         "or": "clientId",
                         "r": true,
                         "t": "`$STRING`"
@@ -805,12 +816,12 @@
                   "q": {
                     "exist": [
                       "authorization",
-                      "client_id"
+                      "id"
                     ]
                   },
                   "r": {
                     "param": {
-                      "clientId": "client_id"
+                      "clientId": "id"
                     }
                   },
                   "rs": {
@@ -831,7 +842,7 @@
                       "lit": "clients"
                     },
                     {
-                      "var": "client_id"
+                      "var": "id"
                     },
                     {
                       "lit": "hosted-ui-customizations"

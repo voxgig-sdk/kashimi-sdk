@@ -25,7 +25,7 @@ class HostedUiCustomizationEntityTest < Minitest::Test
     end
     client = KashimiSDK.test(nil, { "feature" => { "validate" => { "active" => true } } })
     err = assert_raises(StandardError) do
-      client.HostedUiCustomization(nil).load({ "client_id" => 1 }, nil)
+      client.HostedUiCustomization(nil).load({ "id" => 1 }, nil)
     end
     assert_equal "validate_failed", err.code
   end
@@ -34,12 +34,15 @@ class HostedUiCustomizationEntityTest < Minitest::Test
     setup = hosted_ui_customization_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    [].each do |_op|
+    ["load"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "hosted_ui_customization." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
         return
       end
+    end
+    if setup[:live]
+      Runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a hosted_ui_customization record it has no list to find")
     end
     client = setup[:client]
 
@@ -50,6 +53,16 @@ class HostedUiCustomizationEntityTest < Minitest::Test
     if hosted_ui_customization_ref01_data_raw.length > 0
       hosted_ui_customization_ref01_data = Helpers.to_map(hosted_ui_customization_ref01_data_raw[0][1])
     end
+
+    # LOAD
+    hosted_ui_customization_ref01_ent = client.HostedUiCustomization(nil)
+    hosted_ui_customization_ref01_match_dt0 = {
+      "id" => hosted_ui_customization_ref01_data["id"],
+    }
+    hosted_ui_customization_ref01_data_dt0_loaded = hosted_ui_customization_ref01_ent.load(hosted_ui_customization_ref01_match_dt0, nil)
+    hosted_ui_customization_ref01_data_dt0_load_result = Helpers.to_map(hosted_ui_customization_ref01_data_dt0_loaded.respond_to?(:data_get) ? hosted_ui_customization_ref01_data_dt0_loaded.data_get : hosted_ui_customization_ref01_data_dt0_loaded)
+    assert !hosted_ui_customization_ref01_data_dt0_load_result.nil?
+    assert_equal hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"]
 
   end
 end

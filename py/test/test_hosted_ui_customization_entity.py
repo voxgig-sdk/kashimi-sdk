@@ -37,7 +37,7 @@ class TestHostedUiCustomizationEntity:
         client = KashimiSDK.test(
             None, {"feature": {"validate": {"active": True}}})
         with pytest.raises(Exception) as err:
-            client.HostedUiCustomization(None).load({"client_id": 1}, None)
+            client.HostedUiCustomization(None).load({"id": 1}, None)
         assert "validate_failed" == getattr(err.value, "code", None)
 
     def test_should_run_basic_flow(self):
@@ -46,11 +46,13 @@ class TestHostedUiCustomizationEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in []:
+        for _op in ["load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "hosted_ui_customization." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
+        if setup["live"]:
+            runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a hosted_ui_customization record it has no list to find")
         client = setup["client"]
 
         # Bootstrap entity data from existing test data.
@@ -59,6 +61,16 @@ class TestHostedUiCustomizationEntity:
         hosted_ui_customization_ref01_data = None
         if len(hosted_ui_customization_ref01_data_raw) > 0:
             hosted_ui_customization_ref01_data = helpers.to_map(hosted_ui_customization_ref01_data_raw[0][1])
+
+        # LOAD
+        hosted_ui_customization_ref01_ent = client.HostedUiCustomization(None)
+        hosted_ui_customization_ref01_match_dt0 = {
+            "id": hosted_ui_customization_ref01_data["id"],
+        }
+        hosted_ui_customization_ref01_data_dt0_loaded = hosted_ui_customization_ref01_ent.load(hosted_ui_customization_ref01_match_dt0, None)
+        hosted_ui_customization_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(hosted_ui_customization_ref01_data_dt0_loaded))
+        assert hosted_ui_customization_ref01_data_dt0_load_result is not None
+        assert hosted_ui_customization_ref01_data_dt0_load_result["id"] == hosted_ui_customization_ref01_data["id"]
 
 
 

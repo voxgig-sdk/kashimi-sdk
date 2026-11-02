@@ -29,7 +29,7 @@ describe("HostedUiCustomizationDirect", function()
       return
     end
     if setup.live then
-      for _, _live_key in ipairs({"client01"}) do
+      for _, _live_key in ipairs({"hosted_ui_customization01"}) do
         if setup.idmap[_live_key] == nil then
           runner.live_miss(pending, LIVE_STRICT, "Live test blocked: needs " .. _live_key .. " via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
         end
@@ -40,13 +40,13 @@ describe("HostedUiCustomizationDirect", function()
     local params = {}
     local query = {}
     if setup.live then
-      params["client_id"] = setup.idmap["client01"]
+      params["id"] = setup.idmap["hosted_ui_customization01"]
     else
-      params["client_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "api/v1/capabilities/clients/{client_id}/hosted-ui-customizations",
+      path = "api/v1/capabilities/clients/{id}/hosted-ui-customizations",
       method = "GET",
       params = params,
       query = query,

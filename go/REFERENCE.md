@@ -562,6 +562,7 @@ fmt.Println(hostedUiCustomization.GetName()) // "hosted_ui_customization"
 | `clientId` | `string` | Yes |  |
 | `faviconUrl` | `string` | Yes |  |
 | `footerText` | `string` | Yes |  |
+| `id` | `string` | No |  |
 | `logoUrl` | `string` | Yes |  |
 | `primaryColor` | `string` | Yes |  |
 | `privacyPolicyUrl` | `string` | Yes |  |
@@ -575,7 +576,7 @@ fmt.Println(hostedUiCustomization.GetName()) // "hosted_ui_customization"
 Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
 
 ```go
-result, err := client.HostedUiCustomization(nil).Load(map[string]any{"client_id": "client_id"}, nil)
+result, err := client.HostedUiCustomization(nil).Load(map[string]any{"id": "hosted_ui_customization_id"}, nil)
 if err != nil {
     panic(err)
 }

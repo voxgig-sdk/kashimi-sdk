@@ -86,7 +86,7 @@ type HostedUiCustomization struct {
 
 // HostedUiCustomizationLoadMatch is the typed request payload for HostedUiCustomization.LoadTyped.
 type HostedUiCustomizationLoadMatch struct {
-	ClientId string `json:"client_id"`
+	Id string `json:"id"`
 }
 
 // Payment is the typed data model for the payment entity.

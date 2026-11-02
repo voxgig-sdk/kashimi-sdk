@@ -31,7 +31,7 @@ class HostedUiCustomizationDirectTest extends TestCase
             return;
         }
         if ($setup["live"]) {
-            foreach (["client01"] as $_liveKey) {
+            foreach (["hosted_ui_customization01"] as $_liveKey) {
                 if (null === ($setup["idmap"][$_liveKey] ?? null)) {
                     Runner::live_miss(self::LIVE_STRICT, "Live test blocked: needs " . $_liveKey . " via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID");
                 }
@@ -42,13 +42,13 @@ class HostedUiCustomizationDirectTest extends TestCase
         $params = [];
         $query = [];
         if ($setup["live"]) {
-            $params["client_id"] = $setup["idmap"]["client01"] ?? null;
+            $params["id"] = $setup["idmap"]["hosted_ui_customization01"] ?? null;
         } else {
-            $params["client_id"] = "direct01";
+            $params["id"] = "direct01";
         }
 
         $result = $client->direct([
-            "path" => "api/v1/capabilities/clients/{client_id}/hosted-ui-customizations",
+            "path" => "api/v1/capabilities/clients/{id}/hosted-ui-customizations",
             "method" => "GET",
             "params" => $params,
             "query" => $query,

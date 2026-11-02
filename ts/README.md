@@ -391,6 +391,7 @@ API path: `/api/status`
 | `clientId` |  |
 | `faviconUrl` |  |
 | `footerText` |  |
+| `id` |  |
 | `logoUrl` |  |
 | `primaryColor` |  |
 | `privacyPolicyUrl` |  |
@@ -700,6 +701,7 @@ Create an instance: `const hosted_ui_customization = client.HostedUiCustomizatio
 | `clientId` | `string` |  |
 | `faviconUrl` | `string` |  |
 | `footerText` | `string` |  |
+| `id` | `string` |  |
 | `logoUrl` | `string` |  |
 | `primaryColor` | `string` |  |
 | `privacyPolicyUrl` | `string` |  |
@@ -709,7 +711,7 @@ Create an instance: `const hosted_ui_customization = client.HostedUiCustomizatio
 #### Example: Load
 
 ```ts
-const hosted_ui_customization = await client.HostedUiCustomization().load({ client_id: 'client_id' })
+const hosted_ui_customization = await client.HostedUiCustomization().load({ id: 'hosted_ui_customization_id' })
 ```
 
 

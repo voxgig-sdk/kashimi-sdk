@@ -324,6 +324,7 @@ API path: `/api/status`
 | `clientId` |  |
 | `faviconUrl` |  |
 | `footerText` |  |
+| `id` |  |
 | `logoUrl` |  |
 | `primaryColor` |  |
 | `privacyPolicyUrl` |  |
@@ -633,6 +634,7 @@ Create an instance: `local hosted_ui_customization = client:HostedUiCustomizatio
 | `clientId` | `string` |  |
 | `faviconUrl` | `string` |  |
 | `footerText` | `string` |  |
+| `id` | `string` |  |
 | `logoUrl` | `string` |  |
 | `primaryColor` | `string` |  |
 | `privacyPolicyUrl` | `string` |  |
@@ -642,7 +644,7 @@ Create an instance: `local hosted_ui_customization = client:HostedUiCustomizatio
 #### Example: Load
 
 ```lua
-local hosted_ui_customization, err = client:HostedUiCustomization():load({ client_id = "client_id" })
+local hosted_ui_customization, err = client:HostedUiCustomization():load({ id = "hosted_ui_customization_id" })
 ```
 
 

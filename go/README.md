@@ -357,6 +357,7 @@ API path: `/api/status`
 | `"clientId"` |  |
 | `"faviconUrl"` |  |
 | `"footerText"` |  |
+| `"id"` |  |
 | `"logoUrl"` |  |
 | `"primaryColor"` |  |
 | `"privacyPolicyUrl"` |  |
@@ -697,6 +698,7 @@ Create an instance: `hostedUiCustomization := client.HostedUiCustomization(nil)`
 | `clientId` | `string` |  |
 | `faviconUrl` | `string` |  |
 | `footerText` | `string` |  |
+| `id` | `string` |  |
 | `logoUrl` | `string` |  |
 | `primaryColor` | `string` |  |
 | `privacyPolicyUrl` | `string` |  |
@@ -706,7 +708,7 @@ Create an instance: `hostedUiCustomization := client.HostedUiCustomization(nil)`
 #### Example: Load
 
 ```go
-hostedUiCustomization, err := client.HostedUiCustomization(nil).Load(map[string]any{"client_id": "client_id"}, nil)
+hostedUiCustomization, err := client.HostedUiCustomization(nil).Load(map[string]any{"id": "hosted_ui_customization_id"}, nil)
 if err != nil {
     panic(err)
 }

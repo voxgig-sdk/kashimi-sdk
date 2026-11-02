@@ -776,6 +776,11 @@ class KashimiConfig
               'req' => true,
             ],
             [
+              'name' => 'id',
+              'title' => 'Id',
+              'type' => '`$STRING`',
+            ],
+            [
               'name' => 'logoUrl',
               'title' => 'Logo Url',
               'type' => '`$STRING`',
@@ -806,6 +811,10 @@ class KashimiConfig
               'req' => true,
             ],
           ],
+          'id' => [
+            'field' => 'id',
+            'name' => 'id',
+          ],
           'name' => 'hosted_ui_customization',
           'op' => [
             'load' => [
@@ -830,7 +839,7 @@ class KashimiConfig
                       'lit' => 'clients',
                     ],
                     [
-                      'var' => 'client_id',
+                      'var' => 'id',
                     ],
                     [
                       'lit' => 'hosted-ui-customizations',
@@ -841,12 +850,12 @@ class KashimiConfig
                     'v1',
                     'capabilities',
                     'clients',
-                    '{client_id}',
+                    '{id}',
                     'hosted-ui-customizations',
                   ],
                   'rename' => [
                     'param' => [
-                      'clientId' => 'client_id',
+                      'clientId' => 'id',
                     ],
                   ],
                   'transform' => [
@@ -865,7 +874,7 @@ class KashimiConfig
                     ],
                     'params' => [
                       [
-                        'name' => 'client_id',
+                        'name' => 'id',
                         'orig' => 'clientId',
                         'type' => '`$STRING`',
                         'kind' => 'param',
@@ -876,7 +885,7 @@ class KashimiConfig
                   'select' => [
                     'exist' => [
                       'authorization',
-                      'client_id',
+                      'id',
                     ],
                   ],
                   'response' => [

@@ -93,7 +93,7 @@ class HealthcheckLoadMatch(TypedDict, total=False):
     status: str
 
 
-class HostedUiCustomization(TypedDict):
+class HostedUiCustomizationRequired(TypedDict):
     clientId: str
     faviconUrl: str
     footerText: str
@@ -104,8 +104,12 @@ class HostedUiCustomization(TypedDict):
     termsUrl: str
 
 
+class HostedUiCustomization(HostedUiCustomizationRequired, total=False):
+    id: str
+
+
 class HostedUiCustomizationLoadMatch(TypedDict):
-    client_id: str
+    id: str
 
 
 class Payment(TypedDict):

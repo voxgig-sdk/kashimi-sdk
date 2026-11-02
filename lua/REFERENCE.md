@@ -503,6 +503,7 @@ local hosted_ui_customization = client:HostedUiCustomization(nil)
 | `clientId` | `string` | Yes |  |
 | `faviconUrl` | `string` | Yes |  |
 | `footerText` | `string` | Yes |  |
+| `id` | `string` | No |  |
 | `logoUrl` | `string` | Yes |  |
 | `primaryColor` | `string` | Yes |  |
 | `privacyPolicyUrl` | `string` | Yes |  |
@@ -516,7 +517,7 @@ local hosted_ui_customization = client:HostedUiCustomization(nil)
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:HostedUiCustomization():load({ client_id = "client_id" })
+local result, err = client:HostedUiCustomization():load({ id = "hosted_ui_customization_id" })
 ```
 
 ### Common Methods

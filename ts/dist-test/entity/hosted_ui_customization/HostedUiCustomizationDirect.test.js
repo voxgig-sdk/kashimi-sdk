@@ -29,19 +29,19 @@ const utility_1 = require("../../utility");
         const setup = directSetup({ id: 'direct01' });
         if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-hosted_ui_customization', setup.live))
             return;
-        if ((0, utility_1.skipIfMissingIds)(t, setup, ["client01"], LIVE_STRICT))
+        if ((0, utility_1.skipIfMissingIds)(t, setup, ["hosted_ui_customization01"], LIVE_STRICT))
             return;
         const { client, calls } = setup;
         const params = {};
         const query = {};
         if (setup.live) {
-            params.client_id = setup.idmap['client01'];
+            params.id = setup.idmap['hosted_ui_customization01'];
         }
         else {
-            params.client_id = 'direct01';
+            params.id = 'direct01';
         }
         const result = await client.direct({
-            path: 'api/v1/capabilities/clients/{client_id}/hosted-ui-customizations',
+            path: 'api/v1/capabilities/clients/{id}/hosted-ui-customizations',
             method: 'GET',
             params,
             query,

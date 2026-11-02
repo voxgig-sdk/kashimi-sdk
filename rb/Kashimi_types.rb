@@ -153,6 +153,9 @@ HealthcheckLoadMatch = Struct.new(
 # @!attribute [rw] footerText
 #   @return [String]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] logoUrl
 #   @return [String]
 #
@@ -171,6 +174,7 @@ HostedUiCustomization = Struct.new(
   :clientId,
   :faviconUrl,
   :footerText,
+  :id,
   :logoUrl,
   :primaryColor,
   :privacyPolicyUrl,
@@ -181,10 +185,10 @@ HostedUiCustomization = Struct.new(
 
 # Request payload for HostedUiCustomization#load.
 #
-# @!attribute [rw] client_id
+# @!attribute [rw] id
 #   @return [String]
 HostedUiCustomizationLoadMatch = Struct.new(
-  :client_id,
+  :id,
   keyword_init: true
 )
 

@@ -70,7 +70,7 @@
 <p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
 <h3 id="golang">Golang</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
-<pre><code class="language-go">hosted_ui_customization, err := client.HostedUiCustomization(nil).Load(map[string]any{&quot;client_id&quot;: &quot;example&quot;}, nil)
+<pre><code class="language-go">hosted_ui_customization, err := client.HostedUiCustomization(nil).Load(map[string]any{&quot;id&quot;: &quot;example_id&quot;}, nil)
 if err != nil {
     panic(err)
 }
@@ -78,23 +78,23 @@ fmt.Println(hosted_ui_customization)
 </code></pre>
 <h3 id="lua">Lua</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
-<pre><code class="language-lua">local hosted_ui_customization, err = client:HostedUiCustomization():load({ client_id = &quot;example&quot; })
+<pre><code class="language-lua">local hosted_ui_customization, err = client:HostedUiCustomization():load({ id = &quot;example_id&quot; })
 </code></pre>
 <h3 id="php">PHP</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
-<pre><code class="language-php">$hosted_ui_customization = $client-&gt;HostedUiCustomization()-&gt;load([&quot;client_id&quot; =&gt; &quot;example&quot;]);
+<pre><code class="language-php">$hosted_ui_customization = $client-&gt;HostedUiCustomization()-&gt;load([&quot;id&quot; =&gt; &quot;example_id&quot;]);
 </code></pre>
 <h3 id="python">Python</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
-<pre><code class="language-py">hosted_ui_customization = client.HostedUiCustomization().load({&quot;client_id&quot;: &quot;example&quot;})
+<pre><code class="language-py">hosted_ui_customization = client.HostedUiCustomization().load({&quot;id&quot;: &quot;example_id&quot;})
 </code></pre>
 <h3 id="ruby">Ruby</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
-<pre><code class="language-rb">hosted_ui_customization = client.HostedUiCustomization.load({ &quot;client_id&quot; =&gt; &quot;example&quot; })
+<pre><code class="language-rb">hosted_ui_customization = client.HostedUiCustomization.load({ &quot;id&quot; =&gt; &quot;example_id&quot; })
 </code></pre>
 <h3 id="typescript">TypeScript</h3>
 <p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
-<pre><code class="language-ts">const hosted_ui_customization = await client.HostedUiCustomization().load({ client_id: &quot;example&quot; })
+<pre><code class="language-ts">const hosted_ui_customization = await client.HostedUiCustomization().load({ id: &quot;example_id&quot; })
 </code></pre>
 <h2 id="fields">Fields</h2>
 <table>
@@ -124,6 +124,12 @@ fmt.Println(hosted_ui_customization)
 <td><code>string</code></td>
 <td>Yes</td>
 <td>Footer Text</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>logoUrl</code></td>

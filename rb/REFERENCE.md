@@ -507,6 +507,7 @@ hosted_ui_customization = client.HostedUiCustomization
 | `clientId` | `String` | Yes |  |
 | `faviconUrl` | `String` | Yes |  |
 | `footerText` | `String` | Yes |  |
+| `id` | `String` | No |  |
 | `logoUrl` | `String` | Yes |  |
 | `primaryColor` | `String` | Yes |  |
 | `privacyPolicyUrl` | `String` | Yes |  |
@@ -520,7 +521,7 @@ hosted_ui_customization = client.HostedUiCustomization
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
-result = client.HostedUiCustomization.load({ "client_id" => "client_id" })
+result = client.HostedUiCustomization.load({ "id" => "hosted_ui_customization_id" })
 ```
 
 ### Common Methods

@@ -341,6 +341,7 @@ API path: `/api/status`
 | `clientId` |  |
 | `faviconUrl` |  |
 | `footerText` |  |
+| `id` |  |
 | `logoUrl` |  |
 | `primaryColor` |  |
 | `privacyPolicyUrl` |  |
@@ -657,6 +658,7 @@ Create an instance: `hosted_ui_customization = client.HostedUiCustomization`
 | `clientId` | `String` |  |
 | `faviconUrl` | `String` |  |
 | `footerText` | `String` |  |
+| `id` | `String` |  |
 | `logoUrl` | `String` |  |
 | `primaryColor` | `String` |  |
 | `privacyPolicyUrl` | `String` |  |
@@ -667,7 +669,7 @@ Create an instance: `hosted_ui_customization = client.HostedUiCustomization`
 
 ```ruby
 # load returns the ENTITY — call data_get for the HostedUiCustomization record (raises on error).
-hosted_ui_customization = client.HostedUiCustomization.load({ "client_id" => "client_id" })
+hosted_ui_customization = client.HostedUiCustomization.load({ "id" => "hosted_ui_customization_id" })
 ```
 
 

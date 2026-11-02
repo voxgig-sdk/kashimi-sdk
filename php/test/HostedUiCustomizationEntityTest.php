@@ -33,7 +33,7 @@ class HostedUiCustomizationEntityTest extends TestCase
         $client = KashimiSDK::test(null, ["feature" => ["validate" => ["active" => true]]]);
         $err = null;
         try {
-            $client->HostedUiCustomization(null)->load(["client_id" => 1], null);
+            $client->HostedUiCustomization(null)->load(["id" => 1], null);
         } catch (\Throwable $e) {
             $err = $e;
         }
@@ -45,12 +45,15 @@ class HostedUiCustomizationEntityTest extends TestCase
         $setup = hosted_ui_customization_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach ([] as $_op) {
+        foreach (["load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "hosted_ui_customization." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
             }
+        }
+        if (!empty($setup["live"])) {
+            Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: " . "the flow loads a hosted_ui_customization record it has no list to find");
         }
         $client = $setup["client"];
 
@@ -61,6 +64,16 @@ class HostedUiCustomizationEntityTest extends TestCase
         if (count($hosted_ui_customization_ref01_data_raw) > 0) {
             $hosted_ui_customization_ref01_data = Helpers::to_map($hosted_ui_customization_ref01_data_raw[0][1]);
         }
+
+        // LOAD
+        $hosted_ui_customization_ref01_ent = $client->HostedUiCustomization(null);
+        $hosted_ui_customization_ref01_match_dt0 = [
+            "id" => $hosted_ui_customization_ref01_data["id"],
+        ];
+        $hosted_ui_customization_ref01_data_dt0_loaded = $hosted_ui_customization_ref01_ent->load($hosted_ui_customization_ref01_match_dt0, null);
+        $hosted_ui_customization_ref01_data_dt0_load_result = Helpers::to_map(is_object($hosted_ui_customization_ref01_data_dt0_loaded) && method_exists($hosted_ui_customization_ref01_data_dt0_loaded, 'data_get') ? $hosted_ui_customization_ref01_data_dt0_loaded->data_get() : $hosted_ui_customization_ref01_data_dt0_loaded);
+        $this->assertNotNull($hosted_ui_customization_ref01_data_dt0_load_result);
+        $this->assertEquals($hosted_ui_customization_ref01_data_dt0_load_result["id"], $hosted_ui_customization_ref01_data["id"]);
 
     }
 }

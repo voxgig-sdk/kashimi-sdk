@@ -231,7 +231,7 @@ const PLAN = [
         "path": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
         "args": [
             {
-                "name": "client_id",
+                "name": "id",
                 "wire": "clientId",
                 "value": "p1"
             }

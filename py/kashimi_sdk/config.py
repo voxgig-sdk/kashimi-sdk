@@ -779,6 +779,11 @@ def make_config():
             "req": True,
           },
           {
+            "name": "id",
+            "title": "Id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "logoUrl",
             "title": "Logo Url",
             "type": "`$STRING`",
@@ -809,6 +814,10 @@ def make_config():
             "req": True,
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "hosted_ui_customization",
         "op": {
           "load": {
@@ -833,7 +842,7 @@ def make_config():
                     "lit": "clients",
                   },
                   {
-                    "var": "client_id",
+                    "var": "id",
                   },
                   {
                     "lit": "hosted-ui-customizations",
@@ -844,12 +853,12 @@ def make_config():
                   "v1",
                   "capabilities",
                   "clients",
-                  "{client_id}",
+                  "{id}",
                   "hosted-ui-customizations",
                 ],
                 "rename": {
                   "param": {
-                    "clientId": "client_id",
+                    "clientId": "id",
                   },
                 },
                 "transform": {
@@ -868,7 +877,7 @@ def make_config():
                   ],
                   "params": [
                     {
-                      "name": "client_id",
+                      "name": "id",
                       "orig": "clientId",
                       "type": "`$STRING`",
                       "kind": "param",
@@ -879,7 +888,7 @@ def make_config():
                 "select": {
                   "exist": [
                     "authorization",
-                    "client_id",
+                    "id",
                   ],
                 },
                 "response": {

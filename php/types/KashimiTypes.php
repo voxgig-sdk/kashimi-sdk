@@ -106,6 +106,7 @@ class HostedUiCustomization
     public string $clientId;
     public string $faviconUrl;
     public string $footerText;
+    public ?string $id = null;
     public string $logoUrl;
     public string $primaryColor;
     public string $privacyPolicyUrl;
@@ -116,7 +117,7 @@ class HostedUiCustomization
 /** Request payload for HostedUiCustomization#load. */
 class HostedUiCustomizationLoadMatch
 {
-    public string $client_id;
+    public string $id;
 }
 
 /** Payment entity data model. */

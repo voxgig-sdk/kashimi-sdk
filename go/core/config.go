@@ -754,6 +754,11 @@ func MakeConfig() map[string]any {
 						"req": true,
 					},
 					map[string]any{
+						"name": "id",
+						"title": "Id",
+						"type": "`$STRING`",
+					},
+					map[string]any{
 						"name": "logoUrl",
 						"title": "Logo Url",
 						"type": "`$STRING`",
@@ -784,6 +789,10 @@ func MakeConfig() map[string]any {
 						"req": true,
 					},
 				},
+				"id": map[string]any{
+					"field": "id",
+					"name": "id",
+				},
 				"name": "hosted_ui_customization",
 				"op": map[string]any{
 					"load": map[string]any{
@@ -808,7 +817,7 @@ func MakeConfig() map[string]any {
 										"lit": "clients",
 									},
 									map[string]any{
-										"var": "client_id",
+										"var": "id",
 									},
 									map[string]any{
 										"lit": "hosted-ui-customizations",
@@ -819,12 +828,12 @@ func MakeConfig() map[string]any {
 									"v1",
 									"capabilities",
 									"clients",
-									"{client_id}",
+									"{id}",
 									"hosted-ui-customizations",
 								},
 								"rename": map[string]any{
 									"param": map[string]any{
-										"clientId": "client_id",
+										"clientId": "id",
 									},
 								},
 								"transform": map[string]any{
@@ -843,7 +852,7 @@ func MakeConfig() map[string]any {
 									},
 									"params": []any{
 										map[string]any{
-											"name": "client_id",
+											"name": "id",
 											"orig": "clientId",
 											"type": "`$STRING`",
 											"kind": "param",
@@ -854,7 +863,7 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"exist": []any{
 										"authorization",
-										"client_id",
+										"id",
 									},
 								},
 								"response": map[string]any{

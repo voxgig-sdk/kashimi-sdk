@@ -50,6 +50,7 @@ export interface HostedUiCustomization {
     clientId: string;
     faviconUrl: string;
     footerText: string;
+    id?: string;
     logoUrl: string;
     primaryColor: string;
     privacyPolicyUrl: string;
@@ -57,7 +58,7 @@ export interface HostedUiCustomization {
     termsUrl: string;
 }
 export interface HostedUiCustomizationLoadMatch {
-    client_id: string;
+    id: string;
 }
 export interface Payment {
     amount: number;
