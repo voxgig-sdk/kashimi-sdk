@@ -1,0 +1,6459 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/ob/callbacks": {
+      "get": {
+        "operationId": "CallbacksController_get_v1",
+        "parameters": [
+          {
+            "name": "state",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Returns the redirect URL"
+          },
+          "400": {
+            "description": "The request is not formatted correctly"
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/callbacks/with-provider-nano-id": {
+      "get": {
+        "operationId": "CallbacksController_getWithProviderNanoId_v1",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "Returns the redirect URL"
+          },
+          "400": {
+            "description": "The request is not formatted correctly"
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments": {
+      "post": {
+        "operationId": "PaymentsController_create_v1",
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "Preferred initial UI language for payment initiation. The user will be able to change it later. Must be a two-letter ISO 639-1 language code (e.g., 'en' for English, 'fr' for French). Invalid values will be ignored.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "en"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The payment object has been stored successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePaymentOutputDto"
+                },
+                "example": {
+                  "paymentId": "56caec01-85cc-4fc6-8080-cc0f7ed03a7e",
+                  "providerPaymentId": "123456789",
+                  "redirectUrl": "https://example.com/provider/specific/redirect/url",
+                  "createdAt": "2023-04-05T17:02:11.954Z",
+                  "updatedAt": "2023-04-05T17:02:11.954Z",
+                  "status": "PENDING"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "providerId should not be empty, providerId must be a UUID, paymentScheme should not be empty, paymentScheme must be one of the following values: SEPA, recipient must be a non-empty object, amount must not be less than 0.01, amount must be a number conforming to the specified constraints"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider with the specified ID was not found.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "title": "Not Found",
+                  "statusCode": 404,
+                  "message": "Provider with this ID was not found."
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "A payment with the specified endToEndId already exists.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "title": "Conflict",
+                  "statusCode": 409,
+                  "message": "Payment with this end-to-end ID already exists."
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a payment",
+        "tags": [
+          "OB"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request POST \"https://api.kashimi.tech/api/v1/ob/payments\" \n--header \"Content-Type: application/json\" \n--header \"Accept: application/json\" \n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \n--data '{\n  \"provider\": { \"id\": \"123e4567-e89b-12d3-a456-426614174000\" },\n  \"paymentScheme\":  {\n    \"name\": \"SEPA\",\n    \"preferences\": { \"mode\": \"INSTANT\" }\n  },\n  \"sender\": {\n    \"account\": {\n      \"number\": {\n        \"type\": \"IBAN\",\n        \"value\": \"DE89370400440532013000\"\n      },\n      \"currency\": \"EUR\"\n    },\n    \"address\": {\n      \"country\": \"NL\",\n      \"city\": \"Amsterdam\",\n      \"streetName\": \"Damstraat\",\n      \"buildingNumber\": \"1A\",\n      \"postCode\": \"1012AB\"\n    }\n  },\n  \"recipient\": {\n    \"account\": {\n      \"number\": {\n        \"type\": \"IBAN\",\n        \"value\": \"DE89370400440532013000\"\n      }\n    },\n    \"name\": \"John Doe\",\n    \"address\": {\n      \"country\": \"NL\",\n      \"city\": \"Amsterdam\",\n      \"streetName\": \"Damstraat\",\n      \"buildingNumber\": \"1A\",\n      \"postCode\": \"1012AB\"\n    }\n  },\n  \"amount\": 10,\n  \"currency\": \"EUR\",\n  \"remittanceInformation\": {\n    \"type\": \"UNSTRUCTURED\",\n    \"value\": \"Invoice1234567890\"\n  },\n  \"metadata\": {\n    \"redirectUri\": \"https://example.com/redirect?paymentId=12345\",\n    \"psuIpAddress\": \"84.240.80.120\",\n    \"psuUserAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\",\n    \"endToEndId\": \"123456789123456789\",\n    \"webhookUrl\": \"https://example.com/webhook\"\n  }\n}'"
+          }
+        ]
+      }
+    },
+    "/api/v1/ob/payments/cancel": {
+      "post": {
+        "operationId": "PaymentsController_cancel_v1",
+        "parameters": [
+          {
+            "name": "state",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The payment has been cancelled successfully"
+          },
+          "400": {
+            "description": ""
+          },
+          "404": {
+            "description": "Payment associated with the provided state ID and provider ID was not found or cannot be cancelled in its current state."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/sender-accounts": {
+      "patch": {
+        "operationId": "PaymentsController_updateSenderAccount_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePaymentSenderAccountBodyInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "The payment object has been updated successfully"
+          },
+          "400": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      },
+      "get": {
+        "operationId": "PaymentsController_getSenderAccounts_v1",
+        "parameters": [
+          {
+            "name": "state",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "providerId",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the sender accounts."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/psu-provided-data": {
+      "patch": {
+        "operationId": "PaymentsController_updatePsuProvidedData_v1",
+        "parameters": [],
+        "responses": {
+          "302": {
+            "description": "The payment object has been updated successfully"
+          },
+          "400": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/decoupled/sca-methods": {
+      "get": {
+        "operationId": "DecoupledPaymentsController_getScaMethods_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the available SCA methods for the payment."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/decoupled/selected-sca-method": {
+      "patch": {
+        "operationId": "DecoupledPaymentsController_updateScaMethod_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDecoupledPaymentScaMethodBodyInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Sca method for the payment has been selected successfully."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/decoupled/sca-data": {
+      "get": {
+        "operationId": "DecoupledPaymentsController_getScaData_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the SCA data for the selected SCA method."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      },
+      "patch": {
+        "operationId": "DecoupledPaymentsController_updateScaData_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDecoupledPaymentScaDataBodyInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Sca data for the selected SCA method has been updated successfully."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/decoupled/confirmation-data": {
+      "get": {
+        "operationId": "DecoupledPaymentsController_getConfirmationData_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the confirmation data for the payment."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/decoupled/consent-status": {
+      "get": {
+        "operationId": "DecoupledPaymentsController_getConsentStatus_v1",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns the consent status for the payment."
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/client-jwks": {
+      "get": {
+        "operationId": "ClientJwksController_get_v1",
+        "parameters": [
+          {
+            "name": "providerId",
+            "required": true,
+            "in": "query",
+            "description": "Provider id in uuid format.",
+            "schema": {
+              "example": "b7e1c2a4-8f3b-4e2a-9c5d-2a1b3c4d5e6f",
+              "type": "string"
+            }
+          },
+          {
+            "name": "clientId",
+            "required": true,
+            "in": "query",
+            "description": "Client id in uuid format.",
+            "schema": {
+              "example": "f2d4a1b7-3c8e-4f9a-b2d1-7e6c5b4a3f2e",
+              "type": "string"
+            }
+          },
+          {
+            "name": "revoked",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Returns clients certificates",
+            "content": {
+              "application/json": {
+                "example": {
+                  "keys": [
+                    {
+                      "e": "AQAB",
+                      "kid": "c61e827a8d90ea7617164b9844725fb6597338935abdcdbe98988c5a1cd7aec5",
+                      "kty": "RSA",
+                      "n": "ni_I5xDOi-n-_Au81TxsFfrHyVcXbHJgrc4xcvKHyAN-ln3qbZq2_svqq6wWxA87SYF-h5NujX4GxuVvUfCl1UjDXH8teC1dqQmxzB7GZ4L8qicym0S1bilmIHmbHrm_exLBQ4jzF4LYGE8eS0SzI2ehbhobrINMuDy3b_xrMRi8f60h5EVfbQSeyOZEY3wFlGZPAFfqMcd7O-Nvd7ErjnyBpxKdhCglzmDWJJsKW_3G9D8jMG2KZkDtlMwor6RjEmqGPn7SErIrBRRIr-LjTz3SrofXdeLgLKjwcntzwG7losNiKYUAnG9bxhKWAxttZLMQaxbQwBmbuXgKT0xC4nHS4ipbHFdYiXwINMJKBeQK0hGUcGxkJpULMAGmT8IM-2l6bgdF9yT9yyaLp5_m5yi2MoG_x5jEW8rX5y2WRIAXbHpP79-kiEC2VusU_2XSxzPYpd7-wOMxI2jgle5vYSroWa0Ka0vhoWmbTNa3GltQyeqcmVjZGsbyOJ1Md21t",
+                      "use": "sig",
+                      "x5c": [
+                        "MIIG..."
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "OB"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/ob/payments/{paymentId}/followups": {
+      "post": {
+        "operationId": "FollowupsController_create_v1",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePaymentFollowupsAtProviderInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The payment followup has been stored successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePaymentOutputDto"
+                },
+                "example": {
+                  "paymentId": "56caec01-85cc-4fc6-8080-cc0f7ed03a7e",
+                  "redirectUrl": "https://example.com/provider/specific/redirect/url",
+                  "createdAt": "2023-04-05T17:02:11.954Z",
+                  "updatedAt": "2023-04-05T17:02:11.954Z",
+                  "status": "PENDING"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "provider must be a non-empty object; provider.id must be a UUID; provider.id should not be empty"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a followup",
+        "tags": [
+          "OB"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request POST \"https://api.kashimi.tech/api/v1/ob/payments/{paymentId}/followups\" --header \"Content-Type: application/json\" --header \"Accept: application/json\" --header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" --data '{\n  \"provider\": {\n    \"id\": \"123e4567-e89b-12d3-a456-426614174000\"\n  },\n  \"sender\": {\n    \"credentials\": {\n      \"id\": \"your-sender-id\",\n      \"password\": \"your-sender-password\"\n    }\n  }\n}'"
+          }
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/archive/payments/{id}": {
+      "get": {
+        "operationId": "PaymentsController_getById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid ID value"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 404,
+                  "title": "Not Found",
+                  "message": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a payment by ID",
+        "tags": [
+          "Payment Archive"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/archive/payments/{paymentId}\" \n--header \"Accept: application/json\" \n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \n"
+          }
+        ]
+      }
+    },
+    "/api/v1/archive/payments": {
+      "get": {
+        "operationId": "PaymentsController_get_v1",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cursor[value]",
+            "required": false,
+            "in": "query",
+            "description": "Opaque cursor returned as `meta.cursor.next.value` by a previous response. Returns items after this position. Omit to fetch the first page.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters[createdAt][to]",
+            "required": false,
+            "in": "query",
+            "description": "Exclusive upper bound (ISO-8601). Matches payments created strictly before this instant.",
+            "schema": {
+              "example": "2026-07-02T00:00:00.000Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters[createdAt][from]",
+            "required": false,
+            "in": "query",
+            "description": "Inclusive lower bound (ISO-8601). Matches payments created at or after this instant.",
+            "schema": {
+              "example": "2026-07-01T00:00:00.000Z",
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters[metadata][endToEndId]",
+            "required": false,
+            "in": "query",
+            "description": "Filter payments by end-to-end ID",
+            "schema": {
+              "example": "1234567890",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a page of payments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentsOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "filters.metadata must be an object"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a filtered, cursor-paginated list of payments",
+        "tags": [
+          "Payment Archive"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/archive/payments\" \n--header \"Accept: application/json\" \n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \n"
+          }
+        ]
+      }
+    },
+    "/api/v1/archive/internal/payments/{id}": {
+      "get": {
+        "operationId": "PaymentsInternalController_getById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentInternalOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid ID value"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 404,
+                  "title": "Not Found",
+                  "message": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a payment by ID with clientId field included",
+        "tags": [
+          "Payment Archive - Internal Endpoints"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/archive/payment-statuses/latest": {
+      "get": {
+        "operationId": "PaymentStatusesController_getLatestByPaymentId_v1",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "required": true,
+            "in": "query",
+            "description": "Kashimi payment ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the latest payment status for the given payment ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetLatestPaymentStatusOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 400,
+                    "title": "Bad Request",
+                    "message": "Invalid UUID format"
+                  },
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid UUID format"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment status with the specified payment ID was not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 404,
+                  "title": "Not Found",
+                  "message": "Payment status not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get the latest payment status for the provided payment ID",
+        "tags": [
+          "Payment Archive"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/archive/payment-statuses/latest?paymentId=123e4567-e89b-12d3-a456-426614174000\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \n"
+          }
+        ]
+      }
+    },
+    "/api/v1/archive/payment-statuses": {
+      "get": {
+        "operationId": "PaymentStatusesController_getStatusesByPaymentId_v1",
+        "parameters": [
+          {
+            "name": "paymentId",
+            "required": true,
+            "in": "query",
+            "description": "Kashimi payment ID",
+            "schema": {
+              "example": "123e4567-e89b-12d3-a456-426614174000",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all payment statuses for the given payment ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetPaymentStatusesOutputDto"
+                  }
+                },
+                "example": [
+                  {
+                    "id": "e68eee70-bfe9-4885-8650-46ec7d017458",
+                    "paymentId": "123e4567-e89b-12d3-a456-426614174000",
+                    "status": "PENDING",
+                    "detailedStatus": "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING",
+                    "failureReasons": [],
+                    "createdAt": "2023-10-01T12:00:00Z"
+                  },
+                  {
+                    "id": "f79fff81-cff0-5996-9761-57fd8e128569",
+                    "paymentId": "123e4567-e89b-12d3-a456-426614174000",
+                    "status": "COMPLETED",
+                    "detailedStatus": "PAYMENT_EXECUTION_COMPLETED",
+                    "failureReasons": [],
+                    "createdAt": "2023-10-01T12:05:00Z"
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 400,
+                    "title": "Bad Request",
+                    "message": "Invalid UUID format"
+                  },
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid UUID format"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get all payment statuses for the provided payment ID",
+        "tags": [
+          "Payment Archive"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/archive/payment-statuses?paymentId=123e4567-e89b-12d3-a456-426614174000\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\" \n"
+          }
+        ]
+      }
+    },
+    "/api/v1/reports/payments/{id}": {
+      "get": {
+        "operationId": "PaymentsController_getById_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPaymentReportOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid ID value"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The payment with the specified ID was not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 404,
+                  "title": "Not Found",
+                  "message": "Not Found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a payment report by payment ID",
+        "tags": [
+          "Reports"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/reports/payments/{paymentId}\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\"\n"
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/token": {
+      "post": {
+        "operationId": "AuthController_token_v1",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Basic authorization header with client credentials in the format 'Basic <base64-encoded string of format clientId:clientSecret>'",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTokenInputDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns the access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateTokenOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OauthErrorOutputDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The OAuth service is currently unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OauthErrorOutputDto"
+                },
+                "example": {
+                  "error": "server_error",
+                  "error_description": "The authorization server is currently unavailable"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create an access token",
+        "tags": [
+          "Auth"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "curl --location --request POST \"https://api.kashimi.tech/api/v1/auth/token\"\n--header \"Content-Type: application/x-www-form-urlencoded\"\n--header \"Accept: application/json\"\n--header \"Authorization: Basic BASE64_CLIENT_CREDENTIALS\"\n--data-urlencode \"grant_type=client_credentials\"\n--data-urlencode \"scope=payments:read payments:write providers:read\""
+          }
+        ]
+      }
+    },
+    "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations": {
+      "get": {
+        "operationId": "ClientsController_get_v1",
+        "parameters": [
+          {
+            "name": "clientId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The UI customizations have been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetClientHostedUiCustomizationsOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "Invalid ID value"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customizations for the specified client ID were not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 404,
+                  "title": "Not Found",
+                  "message": "Customizations for the specified client ID were not found"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get hosted UI customizations for a client",
+        "tags": [
+          "Capabilities"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/capabilities/providers": {
+      "get": {
+        "operationId": "ProvidersController_get_v1",
+        "parameters": [
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filters narrowing down the returned providers, passed as nested query parameters, e.g. ?filters[countryCode]=NL",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersFilters"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Opaque cursor for pagination, passed as a nested query parameter, e.g. ?cursor[value]=... Use the `meta.cursor.next.value` from a previous response; omit to fetch the first page.",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersCursorInputDto"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of providers has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProvidersOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 400,
+                    "title": "Bad Request",
+                    "message": "filters.countryCode must be one of the following values: LT, DE, NL"
+                  },
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a list of providers",
+        "tags": [
+          "Capabilities"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/capabilities/providers?filters[countryCode]=LT\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\"\n"
+          }
+        ]
+      }
+    },
+    "/api/v1/capabilities/providers/{id}/subsidiaries": {
+      "get": {
+        "operationId": "ProvidersController_getSubsidiaries_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "required": false,
+            "in": "query",
+            "description": "Filters narrowing down the returned providers, passed as nested query parameters, e.g. ?filters[countryCode]=NL",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersFilters"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Opaque cursor for pagination, passed as a nested query parameter, e.g. ?cursor[value]=... Use the `meta.cursor.next.value` from a previous response; omit to fetch the first page.",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersCursorInputDto"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of the provider's subsidiaries has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProvidersSubsidiariesOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "statusCode": 400,
+                    "title": "Bad Request",
+                    "message": "Validation failed (uuid v4 is expected)"
+                  },
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a list of the provider's subsidiaries",
+        "tags": [
+          "Capabilities"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/capabilities/providers/3a9f7916-1b45-473c-bf34-3e601b8aae90/subsidiaries\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\"\n"
+          }
+        ]
+      }
+    },
+    "/api/v1/capabilities/providers/countries": {
+      "get": {
+        "operationId": "ProvidersController_getCountries_v1",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The list of provider countries has been retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "DE",
+                    "LT",
+                    "NL"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a list of country codes where enabled providers operate in alphabetical order",
+        "tags": [
+          "Capabilities"
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "cURL",
+            "source": "\ncurl --location --request GET \"https://api.kashimi.tech/api/v1/capabilities/providers/countries\"\n--header \"Accept: application/json\"\n--header \"Authorization: Bearer YOUR_ACCESS_TOKEN\"\n"
+          }
+        ]
+      }
+    },
+    "/api/v1/capabilities/internal/providers": {
+      "get": {
+        "operationId": "ProvidersInternalController_get_v1",
+        "parameters": [
+          {
+            "name": "filters",
+            "required": true,
+            "in": "query",
+            "description": "Filters narrowing down the returned providers, passed as nested query parameters, e.g. ?filters[clientId]=...&filters[countryCode]=NL",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersInternalFilters"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Opaque cursor for pagination, passed as a nested query parameter, e.g. ?cursor[value]=... Use the `meta.cursor.next.value` from a previous response; omit to fetch the first page.",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersCursorInputDto"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProvidersOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "filters.clientId must be a UUID"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a list of providers for a given client",
+        "tags": [
+          "Capabilities - Internal Endpoints"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/v1/capabilities/internal/providers/{id}/subsidiaries": {
+      "get": {
+        "operationId": "ProvidersInternalController_getSubsidiaries_v1",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "required": true,
+            "in": "query",
+            "description": "Filters narrowing down the returned providers, passed as nested query parameters, e.g. ?filters[clientId]=...&filters[countryCode]=NL",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersInternalFilters"
+            }
+          },
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "Opaque cursor for pagination, passed as a nested query parameter, e.g. ?cursor[value]=... Use the `meta.cursor.next.value` from a previous response; omit to fetch the first page.",
+            "schema": {
+              "$ref": "#/components/schemas/GetProvidersCursorInputDto"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Bearer token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProvidersSubsidiariesOutputDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is not formatted correctly",
+            "content": {
+              "application/json": {
+                "example": {
+                  "statusCode": 400,
+                  "title": "Bad Request",
+                  "message": "filters.clientId must be a UUID"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Your access token was either not passed with the request, or it is invalid (e.g. expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 401,
+                  "title": "Unauthorized",
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "You do not have the necessary permissions to perform this action.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorOutputDto"
+                },
+                "example": {
+                  "statusCode": 403,
+                  "title": "Forbidden",
+                  "message": "Access denied"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a list of the provider's subsidiaries for a given client",
+        "tags": [
+          "Capabilities - Internal Endpoints"
+        ],
+        "x-excluded": true
+      }
+    },
+    "/api/status": {
+      "get": {
+        "operationId": "HealthCheckController_checkStatus",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Healthcheck"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Gatekeeper docs",
+    "description": "gatekeeper API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "PaymentProviderPreferencesCountryCodesInputDto": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "string",
+            "description": "List of country codes that user will be able to select from when making a payment.",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "example": [
+              "NL",
+              "DE"
+            ]
+          },
+          "default": {
+            "type": "string",
+            "description": "Default country code that user will be able to select from when making a payment.",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "example": "NL"
+          }
+        }
+      },
+      "PaymentProviderPreferencesInputDto": {
+        "type": "object",
+        "properties": {
+          "countryCodes": {
+            "description": "Country codes that user will be able to select from when making a payment.",
+            "example": {
+              "list": [
+                "NL",
+                "DE"
+              ],
+              "default": "NL"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderPreferencesCountryCodesInputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentProviderInputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the provider. Corresponds to the ID received from the Capabilities API.",
+            "example": "123e4567-e89b-12d3-a456-426614174000",
+            "format": "uuid"
+          },
+          "preferences": {
+            "description": "Preferences for the payment providers.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderPreferencesInputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentPaymentSchemePreferencesInputDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Preferred urgency of the payment. This preference will be honored if the provider supports it, but it may be ignored - some providers pick the mode automatically. If INSTANT is preferred but isn't possible for the payment, STANDARD will be used as a fallback.",
+            "example": "INSTANT"
+          },
+          "feePaidBy": {
+            "type": "string",
+            "description": "Preferred distribution of the transaction fees. Mostly irrelevant for SEPA Standard payments, but could be used for SEPA Instant in certain markets if charging (higher than standard) fees for instant payments is allowed there",
+            "example": "SENDER"
+          }
+        }
+      },
+      "PaymentPaymentSchemeInputDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Payment scheme.",
+            "example": "SEPA",
+            "enum": [
+              "SEPA",
+              "DOMESTIC"
+            ]
+          },
+          "preferences": {
+            "description": "Preferences for the payment scheme.",
+            "example": {
+              "mode": "INSTANT",
+              "feePaidBy": "SENDER"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemePreferencesInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PaymentAccountNumberInputDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Account number type.",
+            "example": "IBAN",
+            "enum": [
+              "IBAN"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Account number.",
+            "example": "DE89370400440532013000"
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ]
+      },
+      "PaymentSenderAccountInputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Sender's account number data. If not provided, the PSU will either be able to select the account in the UI of the provider (if possible), or we will perform an AIS request to the provider and prompt the PSU to select an account.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberInputDto"
+              }
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "Sender's account currency. If not provided, the PSU will either be able to select the account in the UI of the provider (if possible), or we will perform an AIS request to the provider and prompt the PSU to select an account.",
+            "example": "EUR",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLE",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VED",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWG"
+            ]
+          }
+        },
+        "required": [
+          "number",
+          "currency"
+        ]
+      },
+      "PaymentAddressInputDto": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "description": "Country code of the address.",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "example": "NL"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the address.",
+            "example": "Amsterdam"
+          },
+          "streetName": {
+            "type": "string",
+            "description": "Street name of the address.",
+            "example": "Damstraat"
+          },
+          "buildingNumber": {
+            "type": "string",
+            "description": "Building and apartment/office/suite number of the address.",
+            "example": "1A"
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Postcode of the address.",
+            "example": "1012AB"
+          }
+        },
+        "required": [
+          "country",
+          "city",
+          "streetName",
+          "buildingNumber",
+          "postCode"
+        ]
+      },
+      "PaymentSenderCredentialsInputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Sender's login id in the provider's system. If not provided, the PSU will be able to enter it during the payment process.",
+            "example": "12345678"
+          },
+          "password": {
+            "type": "string",
+            "description": "Sender's password in the provider's system. If not provided, the PSU will be able to enter it during the payment process.",
+            "example": "password123"
+          }
+        }
+      },
+      "PaymentSenderInputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Sender's account data. If not provided, the PSU will be able to select the account during the payment initiation process.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentSenderAccountInputDto"
+              }
+            ]
+          },
+          "address": {
+            "description": "Sender's address.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAddressInputDto"
+              }
+            ]
+          },
+          "credentials": {
+            "description": "Sender's online banking credentials.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentSenderCredentialsInputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentRecipientAccountInputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Sender's account number data. If not provided, the PSU will either be able to select the account in the UI of the provider (if possible), or we will perform an AIS request to the provider and prompt the PSU to select an account.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "number"
+        ]
+      },
+      "PaymentRecipientInputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Recipient's account information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRecipientAccountInputDto"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Recipient's name.",
+            "example": "John Doe"
+          },
+          "address": {
+            "description": "Recipient's address.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAddressInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "account",
+          "name",
+          "address"
+        ]
+      },
+      "PaymentRemittanceInformationPreferencesInputDto": {
+        "type": "object",
+        "properties": {
+          "truncate": {
+            "type": "boolean",
+            "description": "If set to true, remittance information value will be truncated to fit the specified provider's requirements. If false or not provided, the value will be returned as is, and may cause errors if it exceeds provider limits."
+          }
+        }
+      },
+      "PaymentRemittanceInformationInputDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Remittance information type.",
+            "example": "UNSTRUCTURED",
+            "enum": [
+              "UNSTRUCTURED"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "Remittance information value. Maximum length depends on the payment scheme (140 characters for SEPA). Only alphanumeric characters and these special characters are allowed: / + - [space].",
+            "example": "ABCD-EFGHI 12/34+567890"
+          },
+          "preferences": {
+            "description": "Preferences for remittance information.",
+            "example": {
+              "truncate": true
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRemittanceInformationPreferencesInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ]
+      },
+      "PaymentMetadataInputDto": {
+        "type": "object",
+        "properties": {
+          "redirectUri": {
+            "type": "string",
+            "description": "The URI to which the PSU will be redirected once the payment flow is completed.",
+            "example": "https://example.com/redirect?paymentId=12345"
+          },
+          "psuIpAddress": {
+            "type": "string",
+            "description": "The IPv4 or IPv6 address of the PSU. Required by providers. IPv4 must be a full four-octet IP address, e.g. 84.240.80.120. IPv6 must be expanded to eight segments without the `::` shorthand.",
+            "example": "84.240.80.120"
+          },
+          "psuUserAgent": {
+            "type": "string",
+            "description": "The user agent of the PSU. Required by providers.",
+            "example": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+          },
+          "endToEndId": {
+            "type": "string",
+            "description": "The ID of the payment in your system. Maximum 35 characters. If you are using UUIDs, remove hyphens to fit into the character limit. Only alphanumeric characters and these special characters are allowed: / + - : [space].",
+            "example": "123456789123456789"
+          },
+          "webhookUrl": {
+            "type": "string",
+            "description": "The URL where you want to receive a webhook when the payment status changes. Must be a valid HTTPS URL.",
+            "example": "https://example.com/webhook"
+          },
+          "note": {
+            "type": "string",
+            "description": "A free-text note for your own reference. This value is not passed to the bank and is purely for the client's usage.",
+            "example": "Invoice 12345"
+          }
+        },
+        "required": [
+          "redirectUri",
+          "psuIpAddress",
+          "psuUserAgent",
+          "endToEndId"
+        ]
+      },
+      "CreatePaymentInputDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "description": "Data about the payment provider.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderInputDto"
+              }
+            ]
+          },
+          "paymentScheme": {
+            "description": "Payment scheme.",
+            "example": {
+              "name": "SEPA"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemeInputDto"
+              }
+            ]
+          },
+          "sender": {
+            "description": "Data about the party sending the payment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentSenderInputDto"
+              }
+            ]
+          },
+          "recipient": {
+            "description": "Data about the party receiving the payment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRecipientInputDto"
+              }
+            ]
+          },
+          "amount": {
+            "type": "number",
+            "description": "The amount to be transferred.",
+            "example": 10
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency of the payment.",
+            "example": "EUR"
+          },
+          "remittanceInformation": {
+            "description": "Unstructured or structured remittance information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRemittanceInformationInputDto"
+              }
+            ]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaymentMetadataInputDto"
+          }
+        },
+        "required": [
+          "paymentScheme",
+          "recipient",
+          "amount",
+          "currency",
+          "remittanceInformation",
+          "metadata"
+        ]
+      },
+      "CreatePaymentOutputDto": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "The Kashimi ID of the initiated payment",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "providerPaymentId": {
+            "type": "string",
+            "description": "The provider ID of the initiated payment",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "redirectUrl": {
+            "type": "string",
+            "description": "The URL to redirect the user to complete the payment",
+            "example": "https://your-website.com/authorize-payment"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "The status of the initiated payment",
+            "example": "PENDING",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "required": [
+          "paymentId",
+          "redirectUrl",
+          "createdAt",
+          "updatedAt",
+          "status"
+        ]
+      },
+      "ErrorOutputDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Name of the error"
+          },
+          "statusCode": {
+            "type": "number",
+            "description": "HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "description": "Error message"
+          }
+        },
+        "required": [
+          "title",
+          "statusCode",
+          "message"
+        ]
+      },
+      "UpdatePaymentSenderAccountBodyInputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateDecoupledPaymentScaMethodBodyInputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateDecoupledPaymentScaDataBodyInputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "FollowupProviderInputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Provider ID to be used for the payment"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "FollowupSenderAccountInputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Sender's account number details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "number"
+        ]
+      },
+      "PaymentFollowupSenderCredentialsInputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User ID used by the sender to log in to their online banking"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password used by the sender to log in to their online banking (if required by the provider)"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PaymentFollowupSenderInputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Sender account details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FollowupSenderAccountInputDto"
+              }
+            ]
+          },
+          "credentials": {
+            "description": "Sender's online banking credentials",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentFollowupSenderCredentialsInputDto"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Sender name"
+          }
+        }
+      },
+      "CreatePaymentFollowupsAtProviderInputDto": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "description": "The provider information for the followup",
+            "example": {
+              "id": "d290f1ee-6c54-4b01-90e6-d701748f0851"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FollowupProviderInputDto"
+              }
+            ]
+          },
+          "sender": {
+            "description": "The sender information to be used with the payment",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentFollowupSenderInputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "provider"
+        ]
+      },
+      "PaymentProviderPreferencesCountryCodesOutputDto": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "description": "List of country codes available for provider selection.",
+            "example": [
+              "US",
+              "GB",
+              "LT"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "default": {
+            "type": "string",
+            "description": "Default country code for provider selection.",
+            "example": "LT"
+          }
+        }
+      },
+      "PaymentProviderPreferencesOutputDto": {
+        "type": "object",
+        "properties": {
+          "countryCodes": {
+            "description": "Countries available for provider selection.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderPreferencesCountryCodesOutputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentProviderOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Payment provider identifier",
+            "example": "a5613c23-0317-4c51-a6fe-6723993e43e9"
+          },
+          "preferences": {
+            "description": "Payment provider preferences",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderPreferencesOutputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentPaymentSchemePreferencesOutputDto": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "Preferred urgency of the payment. This preference will be honored if the provider supports it, but it may be ignored - some providers pick the mode automatically. If INSTANT is preferred but isn't possible for the payment, STANDARD will be used as a fallback.",
+            "example": "INSTANT"
+          },
+          "feePaidBy": {
+            "type": "string",
+            "description": "Preferred distribution of the transaction fees. Mostly irrelevant for SEPA Standard payments, but could be used for SEPA Instant in certain markets if charging (higher than standard) fees for instant payments is allowed there",
+            "example": "SENDER"
+          }
+        }
+      },
+      "PaymentPaymentSchemeOutputDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Payment scheme name.",
+            "example": "SEPA",
+            "enum": [
+              "SEPA",
+              "DOMESTIC"
+            ]
+          },
+          "preferences": {
+            "description": "Preferences for the payment scheme.",
+            "example": {
+              "mode": "INSTANT",
+              "feePaidBy": "SENDER"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemePreferencesOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "PaymentAccountNumberOutputDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the account number",
+            "example": "IBAN"
+          },
+          "value": {
+            "type": "string",
+            "description": "Value of the account number",
+            "example": "DE89370400440532013000"
+          }
+        },
+        "required": [
+          "type",
+          "value"
+        ]
+      },
+      "PaymentSenderAccountOutputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Account number details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberOutputDto"
+              }
+            ]
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency of the account"
+          }
+        },
+        "required": [
+          "number",
+          "currency"
+        ]
+      },
+      "PaymentAddressOutputDto": {
+        "type": "object",
+        "properties": {
+          "country": {
+            "type": "string",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "description": "Country code in ISO format"
+          },
+          "city": {
+            "type": "string",
+            "description": "City",
+            "example": "Amsterdam"
+          },
+          "streetName": {
+            "type": "string",
+            "description": "Street name",
+            "example": "Damstraat"
+          },
+          "buildingNumber": {
+            "type": "string",
+            "description": "Building number",
+            "example": "1A"
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Post code",
+            "example": "1012AB"
+          }
+        },
+        "required": [
+          "country",
+          "city",
+          "streetName",
+          "buildingNumber",
+          "postCode"
+        ]
+      },
+      "PaymentSenderCredentialsOutputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "PaymentSenderOutputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Sender account details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentSenderAccountOutputDto"
+              }
+            ]
+          },
+          "address": {
+            "description": "Sender address",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAddressOutputDto"
+              }
+            ]
+          },
+          "credentials": {
+            "description": "Sender online banking credentials",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentSenderCredentialsOutputDto"
+              }
+            ]
+          }
+        }
+      },
+      "PaymentRecipientAccountOutputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Recipient account number details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "number"
+        ]
+      },
+      "PaymentRecipientOutputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Recipient account details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRecipientAccountOutputDto"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Recipient name"
+          },
+          "address": {
+            "description": "Recipient address",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAddressOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "account",
+          "name",
+          "address"
+        ]
+      },
+      "PaymentRemittanceInformationOutputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "PaymentMetadataOutputDto": {
+        "type": "object",
+        "properties": {
+          "redirectUri": {
+            "type": "string",
+            "description": "URI to redirect PSU",
+            "example": "https://example.com/redirect"
+          },
+          "psuIpAddress": {
+            "type": "string",
+            "description": "PSU IP address",
+            "example": "192.168.1.1"
+          },
+          "psuUserAgent": {
+            "type": "string",
+            "description": "PSU user agent",
+            "example": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+          },
+          "endToEndId": {
+            "type": "string",
+            "description": "Payment end-to-end identifier",
+            "example": "E2E123456789"
+          },
+          "webhookUrl": {
+            "type": "string",
+            "description": "Webhook URL",
+            "nullable": true,
+            "example": "https://example.com/webhook"
+          },
+          "note": {
+            "type": "string",
+            "description": "A free-text note for your own reference. This value is not passed to the bank and is purely for the client's usage.",
+            "nullable": true,
+            "example": "Invoice #12345"
+          }
+        },
+        "required": [
+          "redirectUri",
+          "psuIpAddress",
+          "psuUserAgent",
+          "endToEndId"
+        ]
+      },
+      "GetPaymentOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "5fad63ad-f79d-4505-b068-88450100750d"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "provider": {
+            "description": "Payment provider details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderOutputDto"
+              }
+            ]
+          },
+          "paymentScheme": {
+            "description": "Payment scheme used",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemeOutputDto"
+              }
+            ]
+          },
+          "sender": {
+            "$ref": "#/components/schemas/PaymentSenderOutputDto"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/PaymentRecipientOutputDto"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount",
+            "example": 100
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLE",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VED",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWG"
+            ],
+            "description": "Currency code",
+            "example": "EUR"
+          },
+          "remittanceInformation": {
+            "description": "Unstructured or structured remittance information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRemittanceInformationOutputDto"
+              }
+            ]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaymentMetadataOutputDto"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "provider",
+          "paymentScheme",
+          "sender",
+          "recipient",
+          "amount",
+          "currency",
+          "remittanceInformation",
+          "metadata"
+        ]
+      },
+      "GetPaymentsItemOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "5fad63ad-f79d-4505-b068-88450100750d"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "provider": {
+            "description": "Payment provider details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderOutputDto"
+              }
+            ]
+          },
+          "paymentScheme": {
+            "description": "Payment scheme used",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemeOutputDto"
+              }
+            ]
+          },
+          "sender": {
+            "$ref": "#/components/schemas/PaymentSenderOutputDto"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/PaymentRecipientOutputDto"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount",
+            "example": 100
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLE",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VED",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWG"
+            ],
+            "description": "Currency code",
+            "example": "EUR"
+          },
+          "remittanceInformation": {
+            "description": "Unstructured or structured remittance information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRemittanceInformationOutputDto"
+              }
+            ]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaymentMetadataOutputDto"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "provider",
+          "paymentScheme",
+          "sender",
+          "recipient",
+          "amount",
+          "currency",
+          "remittanceInformation",
+          "metadata"
+        ]
+      },
+      "GetPaymentsCursorPointerOutputDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true,
+            "description": "Opaque cursor to pass as `cursor[value]` to fetch the next page, or null on the last page."
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "GetPaymentsCursorOutputDto": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "description": "Cursor pointing forward to the next page of results.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetPaymentsCursorPointerOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "next"
+        ]
+      },
+      "GetPaymentsMetaOutputDto": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "description": "Cursor pointers for paginating through the result set.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetPaymentsCursorOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "cursor"
+        ]
+      },
+      "GetPaymentsOutputDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "The page of payments matching the given filters.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetPaymentsItemOutputDto"
+            }
+          },
+          "meta": {
+            "description": "Metadata needed to fetch subsequent pages.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetPaymentsMetaOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "meta"
+        ]
+      },
+      "GetPaymentInternalOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "5fad63ad-f79d-4505-b068-88450100750d"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "provider": {
+            "description": "Payment provider details.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentProviderOutputDto"
+              }
+            ]
+          },
+          "paymentScheme": {
+            "description": "Payment scheme used",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentPaymentSchemeOutputDto"
+              }
+            ]
+          },
+          "sender": {
+            "$ref": "#/components/schemas/PaymentSenderOutputDto"
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/PaymentRecipientOutputDto"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount",
+            "example": 100
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLE",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VED",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWG"
+            ],
+            "description": "Currency code",
+            "example": "EUR"
+          },
+          "remittanceInformation": {
+            "description": "Unstructured or structured remittance information.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRemittanceInformationOutputDto"
+              }
+            ]
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/PaymentMetadataOutputDto"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Client identifier",
+            "example": "a5613c23-0317-4c51-a6fe-6723993e43e9"
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "updatedAt",
+          "provider",
+          "paymentScheme",
+          "sender",
+          "recipient",
+          "amount",
+          "currency",
+          "remittanceInformation",
+          "metadata",
+          "clientId"
+        ]
+      },
+      "GetLatestPaymentStatusOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment status identifier",
+            "example": "e68eee70-bfe9-4885-8650-46ec7d017458"
+          },
+          "paymentId": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "status": {
+            "type": "string",
+            "description": "Payment status. There are 3 main values: `PENDING`, `COMPLETED`, `FAILED`. In very rare cases, caused by internal system issues, the status might resolve to `UNKNOWN`",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "UNKNOWN"
+            ],
+            "example": "PENDING"
+          },
+          "detailedStatus": {
+            "type": "string",
+            "description": "Detailed payment status",
+            "enum": [
+              "PROVIDER_SELECTION_REDIRECT_PENDING",
+              "PROVIDER_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_REQUIRED_CHECK_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_REDIRECT_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_FAILED",
+              "SENDER_AUTHORIZATION_REQUIRED_CHECK_PENDING",
+              "SENDER_AUTHORIZATION_REDIRECT_PENDING",
+              "SENDER_AUTHORIZATION_REDIRECT_FAILED",
+              "SENDER_AUTHORIZATION_CALLBACK_PROCESSING_PENDING",
+              "SENDER_AUTHORIZATION_CALLBACK_PROCESSING_FAILED",
+              "SENDER_ACCOUNT_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REDIRECT_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REDIRECT_FAILED",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_CALLBACK_PROCESSING_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_CALLBACK_PROCESSING_FAILED",
+              "SENDER_ACCOUNT_LIST_RETRIEVAL_PENDING",
+              "SENDER_ACCOUNT_LIST_RETRIEVAL_FAILED",
+              "SENDER_ACCOUNT_SELECTION_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_SELECTION_REQUIRED_CHECK_FAILED",
+              "SENDER_ACCOUNT_SELECTION_REDIRECT_PENDING",
+              "SENDER_ACCOUNT_SELECTION_REDIRECT_FAILED",
+              "SENDER_ACCOUNT_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "SENDER_ACCOUNT_SELECTION_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_REGISTRATION_PENDING",
+              "PAYMENT_REGISTRATION_FAILED",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REQUIRED_CHECK_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REQUIRED_CHECK_FAILED",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REDIRECT_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_CONSENT_REQUIRED_CHECK_PENDING",
+              "PAYMENT_CONSENT_REDIRECT_PENDING",
+              "PAYMENT_CONSENT_REDIRECT_FAILED",
+              "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING",
+              "PAYMENT_CONSENT_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_EXECUTION_PENDING",
+              "PAYMENT_EXECUTION_COMPLETED",
+              "PAYMENT_EXECUTION_FAILED"
+            ],
+            "example": "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING"
+          },
+          "failureReasons": {
+            "type": "array",
+            "description": "Failure reasons (for `status: FAILED` only)",
+            "example": [
+              "AMOUNT_EXCEEDS_AVAILABLE_FUNDS"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN_ERROR",
+                "INTERNAL_TECHNICAL_ERROR",
+                "PAYMENT_EXPIRED",
+                "SENDER_CREDENTIALS_INVALID",
+                "REMITTANCE_INFORMATION_INVALID",
+                "SENDER_ACCOUNT_INVALID",
+                "RECIPIENT_ACCOUNT_INVALID",
+                "RECIPIENT_NAME_INVALID",
+                "CURRENCY_INVALID",
+                "AMOUNT_EXCEEDS_AVAILABLE_FUNDS",
+                "AMOUNT_EXCEEDS_DAILY_LIMIT",
+                "AMOUNT_EXCEEDS_MONTHLY_LIMIT",
+                "AMOUNT_EXCEEDS_LIMIT",
+                "PAYMENT_SCHEME_NOT_ALLOWED",
+                "PAYMENT_SCHEME_MODE_INSTANT_NOT_ALLOWED",
+                "PROVIDER_AGREEMENT_MISSING",
+                "SENDER_BLOCKED",
+                "SENDER_RIGHTS_MISSING",
+                "SENDER_ACCOUNT_BLOCKED",
+                "PAYMENT_ABORTED_BY_SENDER",
+                "PAYMENT_ABORTED_BY_PROVIDER",
+                "PAYMENT_ABORTED_BY_PLATFORM",
+                "CALLBACK_NOT_RECEIVED",
+                "SENDER_AUTHORIZATION_NOT_GRANTED",
+                "ACCOUNT_INFORMATION_CONSENT_NOT_GRANTED",
+                "PAYMENT_CONSENT_INCOMPLETE",
+                "PAYMENT_CONSENT_NOT_GRANTED",
+                "PROVIDER_TECHNICAL_ERROR",
+                "MTLS_CERTIFICATE_INVALID",
+                "SIGNATURE_CERTIFICATE_INVALID"
+              ]
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Timestamp of status creation",
+            "example": "2023-10-01T12:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "paymentId",
+          "status",
+          "detailedStatus",
+          "failureReasons",
+          "createdAt"
+        ]
+      },
+      "GetPaymentStatusesOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment status identifier",
+            "example": "e68eee70-bfe9-4885-8650-46ec7d017458"
+          },
+          "paymentId": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "status": {
+            "type": "string",
+            "description": "Payment status. There are 3 main values: `PENDING`, `COMPLETED`, `FAILED`. In very rare cases, caused by internal system issues, the status might resolve to `UNKNOWN`",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "UNKNOWN"
+            ],
+            "example": "PENDING"
+          },
+          "detailedStatus": {
+            "type": "string",
+            "description": "Detailed payment status",
+            "enum": [
+              "PROVIDER_SELECTION_REDIRECT_PENDING",
+              "PROVIDER_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_REQUIRED_CHECK_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_REDIRECT_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_PENDING",
+              "FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_FAILED",
+              "SENDER_AUTHORIZATION_REQUIRED_CHECK_PENDING",
+              "SENDER_AUTHORIZATION_REDIRECT_PENDING",
+              "SENDER_AUTHORIZATION_REDIRECT_FAILED",
+              "SENDER_AUTHORIZATION_CALLBACK_PROCESSING_PENDING",
+              "SENDER_AUTHORIZATION_CALLBACK_PROCESSING_FAILED",
+              "SENDER_ACCOUNT_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REDIRECT_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_REDIRECT_FAILED",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_CALLBACK_PROCESSING_PENDING",
+              "SENDER_ACCOUNT_INFORMATION_CONSENT_CALLBACK_PROCESSING_FAILED",
+              "SENDER_ACCOUNT_LIST_RETRIEVAL_PENDING",
+              "SENDER_ACCOUNT_LIST_RETRIEVAL_FAILED",
+              "SENDER_ACCOUNT_SELECTION_REQUIRED_CHECK_PENDING",
+              "SENDER_ACCOUNT_SELECTION_REQUIRED_CHECK_FAILED",
+              "SENDER_ACCOUNT_SELECTION_REDIRECT_PENDING",
+              "SENDER_ACCOUNT_SELECTION_REDIRECT_FAILED",
+              "SENDER_ACCOUNT_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "SENDER_ACCOUNT_SELECTION_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_REGISTRATION_PENDING",
+              "PAYMENT_REGISTRATION_FAILED",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REQUIRED_CHECK_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REQUIRED_CHECK_FAILED",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_REDIRECT_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_CALLBACK_PROCESSING_PENDING",
+              "PAYMENT_CONSENT_AUTHENTICATION_METHOD_SELECTION_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_CONSENT_REQUIRED_CHECK_PENDING",
+              "PAYMENT_CONSENT_REDIRECT_PENDING",
+              "PAYMENT_CONSENT_REDIRECT_FAILED",
+              "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING",
+              "PAYMENT_CONSENT_CALLBACK_PROCESSING_FAILED",
+              "PAYMENT_EXECUTION_PENDING",
+              "PAYMENT_EXECUTION_COMPLETED",
+              "PAYMENT_EXECUTION_FAILED"
+            ],
+            "example": "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING"
+          },
+          "failureReasons": {
+            "type": "array",
+            "description": "Failure reasons (for `status: FAILED` only)",
+            "example": [
+              "AMOUNT_EXCEEDS_AVAILABLE_FUNDS"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN_ERROR",
+                "INTERNAL_TECHNICAL_ERROR",
+                "PAYMENT_EXPIRED",
+                "SENDER_CREDENTIALS_INVALID",
+                "REMITTANCE_INFORMATION_INVALID",
+                "SENDER_ACCOUNT_INVALID",
+                "RECIPIENT_ACCOUNT_INVALID",
+                "RECIPIENT_NAME_INVALID",
+                "CURRENCY_INVALID",
+                "AMOUNT_EXCEEDS_AVAILABLE_FUNDS",
+                "AMOUNT_EXCEEDS_DAILY_LIMIT",
+                "AMOUNT_EXCEEDS_MONTHLY_LIMIT",
+                "AMOUNT_EXCEEDS_LIMIT",
+                "PAYMENT_SCHEME_NOT_ALLOWED",
+                "PAYMENT_SCHEME_MODE_INSTANT_NOT_ALLOWED",
+                "PROVIDER_AGREEMENT_MISSING",
+                "SENDER_BLOCKED",
+                "SENDER_RIGHTS_MISSING",
+                "SENDER_ACCOUNT_BLOCKED",
+                "PAYMENT_ABORTED_BY_SENDER",
+                "PAYMENT_ABORTED_BY_PROVIDER",
+                "PAYMENT_ABORTED_BY_PLATFORM",
+                "CALLBACK_NOT_RECEIVED",
+                "SENDER_AUTHORIZATION_NOT_GRANTED",
+                "ACCOUNT_INFORMATION_CONSENT_NOT_GRANTED",
+                "PAYMENT_CONSENT_INCOMPLETE",
+                "PAYMENT_CONSENT_NOT_GRANTED",
+                "PROVIDER_TECHNICAL_ERROR",
+                "MTLS_CERTIFICATE_INVALID",
+                "SIGNATURE_CERTIFICATE_INVALID"
+              ]
+            }
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Timestamp of status creation",
+            "example": "2023-10-01T12:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "paymentId",
+          "status",
+          "detailedStatus",
+          "failureReasons",
+          "createdAt"
+        ]
+      },
+      "PaymentReportProviderOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Provider identifier",
+            "example": "4c3cead2-9719-4abc-9372-9371c8652676"
+          },
+          "name": {
+            "type": "string",
+            "description": "Provider name",
+            "example": "Swedbank"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Provider country code",
+            "example": "LT"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "countryCode"
+        ]
+      },
+      "PaymentReportSenderAccountOutputDto": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "description": "Account number details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentAccountNumberOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "number"
+        ]
+      },
+      "PaymentReportSenderOutputDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Sender's name (if received from the provider)",
+            "example": "John Doe"
+          },
+          "account": {
+            "$ref": "#/components/schemas/PaymentReportSenderAccountOutputDto"
+          }
+        }
+      },
+      "PaymentReportRecipientOutputDto": {
+        "type": "object",
+        "properties": {
+          "account": {
+            "description": "Recipient account details",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentRecipientAccountOutputDto"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Recipient's name",
+            "example": "Jane Doe"
+          }
+        },
+        "required": [
+          "account",
+          "name"
+        ]
+      },
+      "PaymentReportRemittanceInformationOutputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "GetPaymentReportOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique payment identifier",
+            "example": "5fad63ad-f79d-4505-b068-88450100750d"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2023-04-05T17:02:11.954Z"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Payment amount",
+            "example": 100
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "AED",
+              "AFN",
+              "ALL",
+              "AMD",
+              "ANG",
+              "AOA",
+              "ARS",
+              "AUD",
+              "AWG",
+              "AZN",
+              "BAM",
+              "BBD",
+              "BDT",
+              "BGN",
+              "BHD",
+              "BIF",
+              "BMD",
+              "BND",
+              "BOB",
+              "BOV",
+              "BRL",
+              "BSD",
+              "BTN",
+              "BWP",
+              "BYN",
+              "BZD",
+              "CAD",
+              "CDF",
+              "CHE",
+              "CHF",
+              "CHW",
+              "CLF",
+              "CLP",
+              "CNY",
+              "COP",
+              "COU",
+              "CRC",
+              "CUP",
+              "CVE",
+              "CZK",
+              "DJF",
+              "DKK",
+              "DOP",
+              "DZD",
+              "EGP",
+              "ERN",
+              "ETB",
+              "EUR",
+              "FJD",
+              "FKP",
+              "GBP",
+              "GEL",
+              "GHS",
+              "GIP",
+              "GMD",
+              "GNF",
+              "GTQ",
+              "GYD",
+              "HKD",
+              "HNL",
+              "HTG",
+              "HUF",
+              "IDR",
+              "ILS",
+              "INR",
+              "IQD",
+              "IRR",
+              "ISK",
+              "JMD",
+              "JOD",
+              "JPY",
+              "KES",
+              "KGS",
+              "KHR",
+              "KMF",
+              "KPW",
+              "KRW",
+              "KWD",
+              "KYD",
+              "KZT",
+              "LAK",
+              "LBP",
+              "LKR",
+              "LRD",
+              "LSL",
+              "LYD",
+              "MAD",
+              "MDL",
+              "MGA",
+              "MKD",
+              "MMK",
+              "MNT",
+              "MOP",
+              "MRU",
+              "MUR",
+              "MVR",
+              "MWK",
+              "MXN",
+              "MXV",
+              "MYR",
+              "MZN",
+              "NAD",
+              "NGN",
+              "NIO",
+              "NOK",
+              "NPR",
+              "NZD",
+              "OMR",
+              "PAB",
+              "PEN",
+              "PGK",
+              "PHP",
+              "PKR",
+              "PLN",
+              "PYG",
+              "QAR",
+              "RON",
+              "RSD",
+              "RUB",
+              "RWF",
+              "SAR",
+              "SBD",
+              "SCR",
+              "SDG",
+              "SEK",
+              "SGD",
+              "SHP",
+              "SLE",
+              "SOS",
+              "SRD",
+              "SSP",
+              "STN",
+              "SVC",
+              "SYP",
+              "SZL",
+              "THB",
+              "TJS",
+              "TMT",
+              "TND",
+              "TOP",
+              "TRY",
+              "TTD",
+              "TWD",
+              "TZS",
+              "UAH",
+              "UGX",
+              "USD",
+              "USN",
+              "UYI",
+              "UYU",
+              "UYW",
+              "UZS",
+              "VED",
+              "VES",
+              "VND",
+              "VUV",
+              "WST",
+              "XAF",
+              "XAG",
+              "XAU",
+              "XBA",
+              "XBB",
+              "XBC",
+              "XBD",
+              "XCD",
+              "XDR",
+              "XOF",
+              "XPD",
+              "XPF",
+              "XPT",
+              "XSU",
+              "XTS",
+              "XUA",
+              "XXX",
+              "YER",
+              "ZAR",
+              "ZMW",
+              "ZWG"
+            ],
+            "description": "Currency code",
+            "example": "EUR"
+          },
+          "provider": {
+            "nullable": true,
+            "description": "Selected provider details (name, country). Null when the payment has no provider assigned to it.",
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentReportProviderOutputDto"
+              }
+            ]
+          },
+          "sender": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentReportSenderOutputDto"
+              }
+            ]
+          },
+          "recipient": {
+            "$ref": "#/components/schemas/PaymentReportRecipientOutputDto"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "COMPLETED",
+              "FAILED",
+              "UNKNOWN"
+            ],
+            "nullable": true,
+            "description": "The most recent status of the payment."
+          },
+          "remittanceInformation": {
+            "example": {
+              "type": "UNSTRUCTURED",
+              "value": "Invoice 12345"
+            },
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaymentReportRemittanceInformationOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "createdAt",
+          "amount",
+          "currency",
+          "recipient",
+          "status",
+          "remittanceInformation"
+        ]
+      },
+      "CreateTokenInputDto": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "type": "string",
+            "description": "The type of grant being requested.",
+            "example": "client_credentials",
+            "enum": [
+              "client_credentials"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "description": "Scopes being requested. Must be a space-separated list of scopes.",
+            "example": "payments:read payments:write providers:read"
+          }
+        },
+        "required": [
+          "grant_type",
+          "scope"
+        ]
+      },
+      "CreateTokenOutputDto": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "The JWT access token.",
+            "example": "YOUR_ACCESS_TOKEN"
+          },
+          "token_type": {
+            "type": "string",
+            "description": "Token type.",
+            "example": "Bearer"
+          },
+          "expires_in": {
+            "type": "number",
+            "description": "Expiration time of the token in seconds.",
+            "example": 1800
+          }
+        },
+        "required": [
+          "access_token",
+          "token_type",
+          "expires_in"
+        ]
+      },
+      "OauthErrorOutputDto": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error code representing the type of error.",
+            "example": "invalid_request"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Detailed message describing the error.",
+            "example": "Missing parameter: `client_secret`"
+          }
+        },
+        "required": [
+          "error",
+          "error_description"
+        ]
+      },
+      "GetClientHostedUiCustomizationsOutputDto": {
+        "type": "object",
+        "properties": {
+          "clientId": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "primaryColor": {
+            "type": "string",
+            "nullable": true,
+            "example": "#000000"
+          },
+          "faviconUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://example.com/favicon.ico"
+          },
+          "logoUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://example.com/logo.png"
+          },
+          "termsUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://example.com/terms"
+          },
+          "privacyPolicyUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://example.com/privacy"
+          },
+          "footerText": {
+            "type": "string",
+            "nullable": true,
+            "example": "© 2023 Example Company. All rights reserved."
+          },
+          "psuPortalBaseUrl": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://psu.example.com"
+          }
+        },
+        "required": [
+          "clientId",
+          "primaryColor",
+          "faviconUrl",
+          "logoUrl",
+          "termsUrl",
+          "privacyPolicyUrl",
+          "footerText",
+          "psuPortalBaseUrl"
+        ]
+      },
+      "GetProvidersFilters": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "example": "NL",
+            "description": "Country code of the provider. Providers that operate in multiple countries are treated as separate entities in our system, each with their own ID. For instance, Swedbank Lithuania and Swedbank Estonia are considered two different providers."
+          }
+        }
+      },
+      "GetProvidersCursorInputDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ProviderOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the provider. This value should be used in the payment object as providerId.",
+            "example": "3a9f7916-1b45-473c-bf34-3e601b8aae90"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the provider.",
+            "example": "Swedbank"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Country code of the provider. Providers that operate in multiple countries are treated as separate entities in our system, each with their own ID. For instance, Swedbank Lithuania and Swedbank Estonia are considered two different providers.",
+            "example": "LT"
+          },
+          "bic": {
+            "type": "string",
+            "description": "BIC code of the provider",
+            "example": "HABALT22",
+            "nullable": true
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "URL of the provider's logo.",
+            "example": "https://kashimi.s3.com/logo.png"
+          },
+          "iconUrl": {
+            "type": "string",
+            "description": "URL of the provider's icon.",
+            "example": "https://kashimi.s3.com/icon.png"
+          },
+          "paymentSchemes": {
+            "type": "array",
+            "description": "Array of payment schemes that we support for this provider.",
+            "example": [
+              "SEPA"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "SEPA",
+                "DOMESTIC"
+              ]
+            }
+          },
+          "requiredPaymentFields": {
+            "type": "array",
+            "description": "Array of required payment fields for this provider. These fields can be included in the payment object to skip PSU data collection step",
+            "example": [
+              "SENDER_ACCOUNT"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "SENDER_ACCOUNT",
+                "SENDER_PROVIDER_CREDENTIALS_ID",
+                "SENDER_PROVIDER_CREDENTIALS_PASSWORD"
+              ]
+            }
+          },
+          "hasSubsidiaries": {
+            "type": "boolean",
+            "description": "Whether the provider has subsidiaries. Subsidiaries can be retrieved with GET /capabilities/providers/:providerId/subsidiaries.",
+            "example": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "countryCode",
+          "bic",
+          "logoUrl",
+          "iconUrl",
+          "paymentSchemes",
+          "requiredPaymentFields",
+          "hasSubsidiaries"
+        ]
+      },
+      "GetProvidersCursorPointerOutputDto": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "nullable": true,
+            "description": "Opaque cursor to pass as `cursor[value]` to fetch the next page, or null on the last page."
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "GetProvidersCursorOutputDto": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "description": "Cursor pointing forward to the next page of results.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetProvidersCursorPointerOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "next"
+        ]
+      },
+      "GetProvidersMetaOutputDto": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "description": "Cursor pointers for paginating through the result set.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetProvidersCursorOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "cursor"
+        ]
+      },
+      "GetProvidersOutputDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "The page of providers.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProviderOutputDto"
+            }
+          },
+          "meta": {
+            "description": "Metadata needed to fetch subsequent pages.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetProvidersMetaOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "meta"
+        ]
+      },
+      "GetProvidersSubsidiaryOutputDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the provider. This value should be used in the payment object as providerId.",
+            "example": "3a9f7916-1b45-473c-bf34-3e601b8aae90"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the provider.",
+            "example": "Swedbank"
+          },
+          "countryCode": {
+            "type": "string",
+            "description": "Country code of the provider. Providers that operate in multiple countries are treated as separate entities in our system, each with their own ID. For instance, Swedbank Lithuania and Swedbank Estonia are considered two different providers.",
+            "example": "LT"
+          },
+          "bic": {
+            "type": "string",
+            "description": "BIC code of the provider",
+            "example": "HABALT22",
+            "nullable": true
+          },
+          "logoUrl": {
+            "type": "string",
+            "description": "URL of the provider's logo.",
+            "example": "https://kashimi.s3.com/logo.png"
+          },
+          "iconUrl": {
+            "type": "string",
+            "description": "URL of the provider's icon.",
+            "example": "https://kashimi.s3.com/icon.png"
+          },
+          "paymentSchemes": {
+            "type": "array",
+            "description": "Array of payment schemes that we support for this provider.",
+            "example": [
+              "SEPA"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "SEPA",
+                "DOMESTIC"
+              ]
+            }
+          },
+          "requiredPaymentFields": {
+            "type": "array",
+            "description": "Array of required payment fields for this provider. These fields can be included in the payment object to skip PSU data collection step",
+            "example": [
+              "SENDER_ACCOUNT"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "SENDER_ACCOUNT",
+                "SENDER_PROVIDER_CREDENTIALS_ID",
+                "SENDER_PROVIDER_CREDENTIALS_PASSWORD"
+              ]
+            }
+          },
+          "hasSubsidiaries": {
+            "type": "boolean",
+            "description": "Whether the provider has subsidiaries. Subsidiaries can be retrieved with GET /capabilities/providers/:providerId/subsidiaries.",
+            "example": false
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "countryCode",
+          "bic",
+          "logoUrl",
+          "iconUrl",
+          "paymentSchemes",
+          "requiredPaymentFields",
+          "hasSubsidiaries"
+        ]
+      },
+      "GetProvidersSubsidiariesOutputDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "The page of the provider's subsidiaries.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetProvidersSubsidiaryOutputDto"
+            }
+          },
+          "meta": {
+            "description": "Metadata needed to fetch subsequent pages.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GetProvidersMetaOutputDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "items",
+          "meta"
+        ]
+      },
+      "GetProvidersInternalFilters": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "enum": [
+              "AF",
+              "AL",
+              "DZ",
+              "AS",
+              "AD",
+              "AO",
+              "AI",
+              "AQ",
+              "AG",
+              "AR",
+              "AM",
+              "AW",
+              "AU",
+              "AT",
+              "AZ",
+              "BS",
+              "BH",
+              "BD",
+              "BB",
+              "BY",
+              "BE",
+              "BZ",
+              "BJ",
+              "BM",
+              "BT",
+              "BO",
+              "BA",
+              "BW",
+              "BR",
+              "IO",
+              "BN",
+              "BG",
+              "BF",
+              "BI",
+              "CV",
+              "KH",
+              "CM",
+              "CA",
+              "KY",
+              "CF",
+              "TD",
+              "CL",
+              "CN",
+              "CX",
+              "CC",
+              "CO",
+              "KM",
+              "CG",
+              "CD",
+              "CK",
+              "CR",
+              "HR",
+              "CU",
+              "CY",
+              "CZ",
+              "DK",
+              "DJ",
+              "DM",
+              "DO",
+              "EC",
+              "EG",
+              "SV",
+              "GQ",
+              "ER",
+              "EE",
+              "SZ",
+              "ET",
+              "FJ",
+              "FI",
+              "FR",
+              "GF",
+              "PF",
+              "GA",
+              "GM",
+              "GE",
+              "DE",
+              "GH",
+              "GI",
+              "GR",
+              "GL",
+              "GD",
+              "GP",
+              "GU",
+              "GT",
+              "GN",
+              "GW",
+              "GY",
+              "HT",
+              "HN",
+              "HK",
+              "HU",
+              "IS",
+              "IN",
+              "ID",
+              "IR",
+              "IQ",
+              "IE",
+              "IL",
+              "IT",
+              "JM",
+              "JP",
+              "JO",
+              "KZ",
+              "KE",
+              "KI",
+              "KP",
+              "KR",
+              "KW",
+              "KG",
+              "LA",
+              "LV",
+              "LB",
+              "LS",
+              "LR",
+              "LY",
+              "LI",
+              "LT",
+              "LU",
+              "MO",
+              "MG",
+              "MW",
+              "MY",
+              "MV",
+              "ML",
+              "MT",
+              "MH",
+              "MQ",
+              "MR",
+              "MU",
+              "YT",
+              "MX",
+              "FM",
+              "MD",
+              "MC",
+              "MN",
+              "ME",
+              "MS",
+              "MA",
+              "MZ",
+              "MM",
+              "NA",
+              "NR",
+              "NP",
+              "NL",
+              "NC",
+              "NZ",
+              "NI",
+              "NE",
+              "NG",
+              "NU",
+              "NF",
+              "MK",
+              "MP",
+              "NO",
+              "OM",
+              "PK",
+              "PW",
+              "PS",
+              "PA",
+              "PG",
+              "PY",
+              "PE",
+              "PH",
+              "PN",
+              "PL",
+              "PT",
+              "PR",
+              "QA",
+              "RE",
+              "RO",
+              "RU",
+              "RW",
+              "BL",
+              "SH",
+              "KN",
+              "LC",
+              "MF",
+              "PM",
+              "VC",
+              "WS",
+              "SM",
+              "ST",
+              "SA",
+              "SN",
+              "RS",
+              "SC",
+              "SL",
+              "SG",
+              "SX",
+              "SK",
+              "SI",
+              "SB",
+              "SO",
+              "ZA",
+              "SS",
+              "ES",
+              "LK",
+              "SD",
+              "SR",
+              "SE",
+              "CH",
+              "SY",
+              "TW",
+              "TJ",
+              "TZ",
+              "TH",
+              "TL",
+              "TG",
+              "TK",
+              "TO",
+              "TT",
+              "TN",
+              "TR",
+              "TM",
+              "TV",
+              "UG",
+              "UA",
+              "AE",
+              "GB",
+              "US",
+              "UY",
+              "UZ",
+              "VU",
+              "VE",
+              "VN",
+              "VG",
+              "VI",
+              "WF",
+              "EH",
+              "YE",
+              "ZM",
+              "ZW"
+            ],
+            "example": "NL",
+            "description": "Country code of the provider. Providers that operate in multiple countries are treated as separate entities in our system, each with their own ID. For instance, Swedbank Lithuania and Swedbank Estonia are considered two different providers."
+          },
+          "clientId": {
+            "type": "string",
+            "description": "Client identifier whose providers should be returned.",
+            "example": "1c1c75a7-c8ee-41c5-bc2c-ada8c6625f94"
+          }
+        },
+        "required": [
+          "clientId"
+        ]
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "JSON document",
+    "url": "/api/docs-json"
+  }
+}
