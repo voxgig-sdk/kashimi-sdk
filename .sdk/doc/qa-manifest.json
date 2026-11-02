@@ -61,6 +61,7 @@
       "Detailed payment status",
       "Expiration time of the token in seconds.",
       "Failure reasons (for `status: FAILED` only)",
+      "Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks.",
       "Payment amount",
       "Payment provider details.",
       "Payment scheme used",
@@ -104,8 +105,7 @@
       "Unique identifier for the provider. This value should be used in the payment object as providerId.",
       "Unique payment identifier",
       "Unique payment status identifier",
-      "Whether the provider has subsidiaries. Subsidiaries can be retrieved with GET /capabilities/providers/:providerId/subsidiaries.",
-      "gatekeeper API"
+      "Whether the provider has subsidiaries. Subsidiaries can be retrieved with GET /capabilities/providers/:providerId/subsidiaries."
     ],
     "docs/api/callback.html": [
       "Returns the redirect URL",
@@ -222,7 +222,7 @@
       "The request is not formatted correctly"
     ],
     "docs/index.html": [
-      "gatekeeper API"
+      "Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks."
     ]
   }
 }

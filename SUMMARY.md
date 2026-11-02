@@ -1,6 +1,6 @@
 # Kashimi API
 
-gatekeeper API
+Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks.
 
 ## Start here
 
