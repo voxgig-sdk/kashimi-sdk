@@ -1,7 +1,7 @@
 @"@voxgig/docgen/model/docgen.aontu"
 main: kit: doc: edition: 'github-pages': {
   kind: 'github-pages'
-  active: *false | boolean
+  active: *true | boolean
   base: 'node_modules/@voxgig/docgen/project/.sdk'
   package: '@voxgig/docgen'
   output: path: *'docs' | string

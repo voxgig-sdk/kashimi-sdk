@@ -1,44 +1,102 @@
 {
   "files": [
-    "SUMMARY.md"
+    "SUMMARY.md",
+    "docs/api/callback.html",
+    "docs/api/client_jwk.html",
+    "docs/api/confirmation_data.html",
+    "docs/api/consent_status.html",
+    "docs/api/country.html",
+    "docs/api/followup.html",
+    "docs/api/healthcheck.html",
+    "docs/api/hosted_ui_customization.html",
+    "docs/api/index.html",
+    "docs/api/payment.html",
+    "docs/api/payment_status.html",
+    "docs/api/provider.html",
+    "docs/api/psu_provided_data.html",
+    "docs/api/report.html",
+    "docs/api/sca_data.html",
+    "docs/api/sca_method.html",
+    "docs/api/sender_account.html",
+    "docs/api/subsidiary.html",
+    "docs/api/token.html",
+    "docs/features/debug.html",
+    "docs/features/idempotency.html",
+    "docs/features/metrics.html",
+    "docs/features/paging.html",
+    "docs/features/ratelimit.html",
+    "docs/features/retry.html",
+    "docs/features/secrets.html",
+    "docs/features/test.html",
+    "docs/features/timeout.html",
+    "docs/guides/authentication.html",
+    "docs/guides/concepts.html",
+    "docs/guides/errors.html",
+    "docs/guides/first-call.html",
+    "docs/index.html",
+    "docs/sdks/go.html",
+    "docs/sdks/lua.html",
+    "docs/sdks/php.html",
+    "docs/sdks/py.html",
+    "docs/sdks/rb.html",
+    "docs/sdks/ts.html",
+    "docs/tools/go-cli.html",
+    "docs/tools/go-mcp.html"
   ],
   "config": ".sdk/doc/qa/vale.ini",
   "routes": {},
   "quoted": {
     "SUMMARY.md": [
+      "A bank or payment provider, with its supported payment schemes and required fields.",
+      "A bank payment: initiate one, list yours, load one by id, or cancel one in the hosted flow.",
+      "A country where Kashimi supports payment providers.",
+      "A follow-up for a payment, created at its provider.",
+      "A regional or subsidiary institution of a provider.",
+      "A reporting summary of one payment: amount, status, provider, sender, recipient and remittance information.",
+      "A short-lived access token, issued for your client credentials.",
       "BIC code of the provider",
-      "Client identifier",
       "Country code of the provider. Providers that operate in multiple countries are treated as separate entities in our system, each with their own ID. For instance, Swedbank Lithuania and Swedbank Estonia are considered two different providers.",
       "Currency code",
-      "Data about the party receiving the payment.",
+      "Data the payer provides in the hosted payment flow.",
       "Detailed payment status",
       "Expiration time of the token in seconds.",
       "Failure reasons (for `status: FAILED` only)",
       "Payment amount",
+      "Payment provider details.",
       "Payment scheme used",
-      "Payment scheme.",
       "Returns a page of payments",
       "Returns all payment statuses for the given payment ID",
-      "Returns the SCA data for the selected SCA method.",
+      "Returns the SCA data for the selected SCA method",
       "Returns the access token",
       "Returns the available SCA methods for the payment",
-      "Returns the confirmation data for the payment.",
-      "Returns the consent status for the payment.",
+      "Returns the confirmation data for the payment",
+      "Returns the consent status for the payment",
       "Returns the latest payment status for the given payment ID",
-      "Returns the sender accounts.",
+      "Returns the sender accounts",
       "Scopes being requested.",
+      "Selected provider details (name, country). Null when the payment has no provider assigned to it.",
       "The Health Check is successful",
+      "The JSON Web Key Set of a client at a provider.",
       "The JWT access token.",
       "The UI customizations have been retrieved successfully",
-      "The amount to be transferred.",
-      "The currency of the payment.",
+      "The bank redirect back into the hosted payment flow.",
+      "The confirmation data of a decoupled payment.",
+      "The consent status of a decoupled payment.",
+      "The customizations of the hosted payment UI for a client.",
       "The list of provider countries has been retrieved successfully",
       "The list of providers has been retrieved successfully",
       "The list of the provider&#39;s subsidiaries has been retrieved successfully",
+      "The most recent status of the payment.",
       "The payment followup has been stored successfully",
       "The payment has been cancelled successfully",
       "The payment object has been stored successfully",
       "The provider information for the followup",
+      "The sender accounts offered in the hosted payment flow, and the one chosen.",
+      "The sender information to be used with the payment",
+      "The status of a payment: its full history, or the latest.",
+      "The status of the API.",
+      "The strong customer authentication data of a decoupled payment.",
+      "The strong customer authentication methods of a decoupled payment, and the one chosen.",
       "The type of grant being requested.",
       "Timestamp of status creation",
       "Token type.",
@@ -47,6 +105,123 @@
       "Unique payment identifier",
       "Unique payment status identifier",
       "Whether the provider has subsidiaries. Subsidiaries can be retrieved with GET /capabilities/providers/:providerId/subsidiaries.",
+      "gatekeeper API"
+    ],
+    "docs/api/callback.html": [
+      "Returns the redirect URL",
+      "The bank redirect back into the hosted payment flow.",
+      "The request is not formatted correctly"
+    ],
+    "docs/api/client_jwk.html": [
+      "Returns clients certificates",
+      "The JSON Web Key Set of a client at a provider."
+    ],
+    "docs/api/confirmation_data.html": [
+      "Returns the confirmation data for the payment",
+      "The confirmation data of a decoupled payment."
+    ],
+    "docs/api/consent_status.html": [
+      "Returns the consent status for the payment",
+      "The consent status of a decoupled payment."
+    ],
+    "docs/api/country.html": [
+      "A country where Kashimi supports payment providers.",
+      "The list of provider countries has been retrieved successfully",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/followup.html": [
+      "A follow-up for a payment, created at its provider.",
+      "The payment followup has been stored successfully",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/healthcheck.html": [
+      "The Health Check is not successful",
+      "The Health Check is successful",
+      "The status of the API."
+    ],
+    "docs/api/hosted_ui_customization.html": [
+      "Customizations for the specified client ID were not found",
+      "The UI customizations have been retrieved successfully",
+      "The customizations of the hosted payment UI for a client.",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/index.html": [
+      "Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks."
+    ],
+    "docs/api/payment.html": [
+      "A bank payment: initiate one, list yours, load one by id, or cancel one in the hosted flow.",
+      "A payment with the specified endToEndId already exists",
+      "Payment associated with the provided state ID and provider ID was not found or cannot be cancelled in its current state",
+      "Provider with the specified ID was not found",
+      "Returns a page of payments",
+      "The payment has been cancelled successfully",
+      "The payment object has been stored successfully",
+      "The payment with the specified ID was not found",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/payment_status.html": [
+      "Returns all payment statuses for the given payment ID",
+      "Returns the latest payment status for the given payment ID",
+      "The payment status with the specified payment ID was not found",
+      "The request is not formatted correctly",
+      "The status of a payment: its full history, or the latest.",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/provider.html": [
+      "A bank or payment provider, with its supported payment schemes and required fields.",
+      "The list of providers has been retrieved successfully",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/psu_provided_data.html": [
+      "Data the payer provides in the hosted payment flow.",
+      "The payment object has been updated successfully"
+    ],
+    "docs/api/report.html": [
+      "A reporting summary of one payment: amount, status, provider, sender, recipient and remittance information.",
+      "The payment with the specified ID was not found",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/sca_data.html": [
+      "Returns the SCA data for the selected SCA method",
+      "Sca data for the selected SCA method has been updated successfully",
+      "The strong customer authentication data of a decoupled payment."
+    ],
+    "docs/api/sca_method.html": [
+      "Returns the available SCA methods for the payment",
+      "Sca method for the payment has been selected successfully",
+      "The strong customer authentication methods of a decoupled payment, and the one chosen."
+    ],
+    "docs/api/sender_account.html": [
+      "Returns the sender accounts",
+      "The payment object has been updated successfully",
+      "The sender accounts offered in the hosted payment flow, and the one chosen."
+    ],
+    "docs/api/subsidiary.html": [
+      "A regional or subsidiary institution of a provider.",
+      "The list of the provider&#39;s subsidiaries has been retrieved successfully",
+      "The request is not formatted correctly",
+      "You do not have the necessary permissions to perform this action",
+      "Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired"
+    ],
+    "docs/api/token.html": [
+      "A short-lived access token, issued for your client credentials.",
+      "Returns the access token",
+      "The OAuth service is currently unavailable",
+      "The request is not formatted correctly"
+    ],
+    "docs/index.html": [
       "gatekeeper API"
     ]
   }

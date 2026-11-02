@@ -84,6 +84,79 @@ func TestPaymentStatusDirect(t *testing.T) {
 		}
 	})
 
+	t.Run("direct-load-payment_status", func(t *testing.T) {
+		setup := payment_statusDirectSetup(map[string]any{"id": "direct01"})
+		_mode := "unit"
+		if setup.live {
+			_mode = "live"
+		}
+		if _shouldSkip, _reason := isControlSkipped("direct", "direct-load-payment_status", _mode); _shouldSkip {
+			if _reason == "" {
+				_reason = "skipped via sdk-test-control.json"
+			}
+			t.Skip(_reason)
+			return
+		}
+		client := setup.client
+
+		params := map[string]any{}
+		query := map[string]any{}
+		if setup.live {
+			query["paymentId"] = "123e4567-e89b-12d3-a456-426614174000"
+		}
+
+		result, err := client.Direct(map[string]any{
+			"path":   "api/v1/archive/payment-statuses/latest",
+			"method": "GET",
+			"params": params,
+			"query":  query,
+		})
+		if setup.live {
+			if err != nil {
+				liveMiss(t, payment_statusDirectLiveStrict, "Live load failed: %v", err)
+			}
+			if status := core.ToInt(result["status"]); result["ok"] != true || status < 200 || status >= 300 {
+				liveMiss(t, payment_statusDirectLiveStrict, "Live load failed: %s", liveDescribe(result))
+			}
+			if result["data"] == nil {
+				liveMiss(t, payment_statusDirectLiveStrict, "Live load returned no data: %s", liveDescribe(result))
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("direct failed: %v", err)
+			}
+			if result["ok"] != true {
+				t.Fatalf("expected ok to be true, got %v", result["ok"])
+			}
+			if core.ToInt(result["status"]) != 200 {
+				t.Fatalf("expected status 200, got %v", result["status"])
+			}
+			if result["data"] == nil {
+				t.Fatal("expected data to be non-nil")
+			}
+		}
+
+		if !setup.live {
+			if dataMap, ok := result["data"].(map[string]any); ok {
+				if dataMap["id"] != "direct01" {
+					t.Fatalf("expected data.id to be direct01, got %v", dataMap["id"])
+				}
+			}
+
+			if len(*setup.calls) != 1 {
+				t.Fatalf("expected 1 call, got %d", len(*setup.calls))
+			}
+			call := (*setup.calls)[0]
+			if initMap, ok := call["init"].(map[string]any); ok {
+				if initMap["method"] != "GET" {
+					t.Fatalf("expected method GET, got %v", initMap["method"])
+				}
+			}
+			if _, ok := call["url"].(string); ok {
+			}
+		}
+	})
+
 }
 
 type payment_statusDirectSetupResult struct {
@@ -102,7 +175,6 @@ func payment_statusDirectSetup(mockres any) *payment_statusDirectSetupResult {
 		"KASHIMI_TEST_PAYMENT_STATUS_ENTID": map[string]any{},
 		"KASHIMI_TEST_LIVE":    "FALSE",
 		"KASHIMI_APIKEY":       "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	live := env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -116,9 +188,6 @@ func payment_statusDirectSetup(mockres any) *payment_statusDirectSetupResult {
 		}
 		for k, v := range map[string]any{
 			"apikey": env["KASHIMI_APIKEY"],
-		"server": map[string]any{
-			"base": env["KASHIMI_SERVER_BASE"],
-		},
 		} {
 			mergedOpts[k] = v
 		}

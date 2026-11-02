@@ -357,6 +357,36 @@ class PaymentEntity
 
 
     
+    /**
+     * Create a new Payment.
+     *
+     * @param PaymentCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed PaymentCreateData names the shape.
+     * @param mixed $ctrl Optional per-call control overrides.
+     * @return PaymentEntity The created Payment entity, whose data_get() reads
+     *   its record; throws KashimiError on failure (item-5 convention).
+     */
+    public function create(?array $reqdata = null, $ctrl = null): mixed
+    {
+        $utility = $this->_utility;
+        $ctx = ($utility->make_context)([
+            "opname" => "create",
+            "ctrl" => $ctrl,
+            "match" => $this->_match,
+            "data" => $this->_data,
+            "reqdata" => $reqdata,
+        ], $this->_entctx);
+
+        return $this->_run_op($ctx, function () use ($ctx) {
+            if ($ctx->result) {
+                if ($ctx->result->resdata) {
+                    $this->_data = KashimiHelpers::to_map(Struct::clone($ctx->result->resdata)) ?? [];
+                }
+            }
+        });
+    }
+
+
 
     
 

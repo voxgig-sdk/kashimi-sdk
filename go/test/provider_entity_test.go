@@ -259,7 +259,6 @@ func providerBasicSetup(extra map[string]any) *entityTestSetup {
 		"KASHIMI_TEST_LIVE":      "FALSE",
 		"KASHIMI_TEST_EXPLAIN":   "FALSE",
 		"KASHIMI_APIKEY":         "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	idmapResolved := core.ToMapAny(env["KASHIMI_TEST_PROVIDER_ENTID"])
@@ -283,9 +282,6 @@ func providerBasicSetup(extra map[string]any) *entityTestSetup {
 			liveClientOptions(),
 			map[string]any{
 				"apikey": env["KASHIMI_APIKEY"],
-				"server": map[string]any{
-					"base": env["KASHIMI_SERVER_BASE"],
-				},
 			},
 			extraOpts,
 		})

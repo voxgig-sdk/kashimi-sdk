@@ -1,0 +1,39 @@
+{
+  "existing": {
+    "followup": {
+      "FOLLOWUP00": {
+        "provider": "s14",
+        "sender": "s15",
+        "payment_id": "PAYMENT01",
+        "id": "FOLLOWUP00"
+      },
+      "FOLLOWUP01": {
+        "provider": "s28",
+        "sender": "s29",
+        "payment_id": "PAYMENT01",
+        "id": "FOLLOWUP01"
+      },
+      "FOLLOWUP02": {
+        "provider": "s3c",
+        "sender": "s3d",
+        "payment_id": "PAYMENT01",
+        "id": "FOLLOWUP02"
+      }
+    }
+  },
+  "new": {
+    "followup": {
+      "followup_ref01": {
+        "provider": "s50",
+        "sender": "s51"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/ob/payments/{paymentId}/followups": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

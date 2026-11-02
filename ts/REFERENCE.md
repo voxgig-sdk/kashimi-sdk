@@ -49,21 +49,9 @@ const client = KashimiSDK.test()
 
 ### Instance Methods
 
-#### `Capability(data?: object)`
+#### `Callback(data?: object)`
 
-Create a new `Capability` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `CapabilityEntity` instance.
-
-#### `ClientHostedUiCustomizationsOutputDto(data?: object)`
-
-Create a new `ClientHostedUiCustomizationsOutputDto` entity instance.
+Create a new `Callback` entity instance.
 
 **Parameters:**
 
@@ -71,23 +59,11 @@ Create a new `ClientHostedUiCustomizationsOutputDto` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `ClientHostedUiCustomizationsOutputDtoEntity` instance.
+**Returns:** `CallbackEntity` instance.
 
-#### `CreatePaymentOutputDto(data?: object)`
+#### `ClientJwk(data?: object)`
 
-Create a new `CreatePaymentOutputDto` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `CreatePaymentOutputDtoEntity` instance.
-
-#### `CreateTokenOutputDto(data?: object)`
-
-Create a new `CreateTokenOutputDto` entity instance.
+Create a new `ClientJwk` entity instance.
 
 **Parameters:**
 
@@ -95,7 +71,55 @@ Create a new `CreateTokenOutputDto` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `CreateTokenOutputDtoEntity` instance.
+**Returns:** `ClientJwkEntity` instance.
+
+#### `ConfirmationData(data?: object)`
+
+Create a new `ConfirmationData` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ConfirmationDataEntity` instance.
+
+#### `ConsentStatus(data?: object)`
+
+Create a new `ConsentStatus` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ConsentStatusEntity` instance.
+
+#### `Country(data?: object)`
+
+Create a new `Country` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `CountryEntity` instance.
+
+#### `Followup(data?: object)`
+
+Create a new `Followup` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `FollowupEntity` instance.
 
 #### `Healthcheck(data?: object)`
 
@@ -109,21 +133,9 @@ Create a new `Healthcheck` entity instance.
 
 **Returns:** `HealthcheckEntity` instance.
 
-#### `Latest(data?: object)`
+#### `HostedUiCustomization(data?: object)`
 
-Create a new `Latest` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `LatestEntity` instance.
-
-#### `Obn(data?: object)`
-
-Create a new `Obn` entity instance.
+Create a new `HostedUiCustomization` entity instance.
 
 **Parameters:**
 
@@ -131,7 +143,7 @@ Create a new `Obn` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `ObnEntity` instance.
+**Returns:** `HostedUiCustomizationEntity` instance.
 
 #### `Payment(data?: object)`
 
@@ -169,9 +181,9 @@ Create a new `Provider` entity instance.
 
 **Returns:** `ProviderEntity` instance.
 
-#### `ProvidersSubsidiaryOutputDto(data?: object)`
+#### `PsuProvidedData(data?: object)`
 
-Create a new `ProvidersSubsidiaryOutputDto` entity instance.
+Create a new `PsuProvidedData` entity instance.
 
 **Parameters:**
 
@@ -179,7 +191,79 @@ Create a new `ProvidersSubsidiaryOutputDto` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `ProvidersSubsidiaryOutputDtoEntity` instance.
+**Returns:** `PsuProvidedDataEntity` instance.
+
+#### `Report(data?: object)`
+
+Create a new `Report` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ReportEntity` instance.
+
+#### `ScaData(data?: object)`
+
+Create a new `ScaData` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ScaDataEntity` instance.
+
+#### `ScaMethod(data?: object)`
+
+Create a new `ScaMethod` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `ScaMethodEntity` instance.
+
+#### `SenderAccount(data?: object)`
+
+Create a new `SenderAccount` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `SenderAccountEntity` instance.
+
+#### `Subsidiary(data?: object)`
+
+Create a new `Subsidiary` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `SubsidiaryEntity` instance.
+
+#### `Token(data?: object)`
+
+Create a new `Token` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `TokenEntity` instance.
 
 #### `options()`
 
@@ -238,61 +322,11 @@ as `callopts.signal`, and ends when it aborts.
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```ts
-const capability = client.Capability()
+const callback = client.Callback()
 ```
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Resolves to an array of entities, one per record.
-
-```ts
-const results = await client.Capability().list()
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `CapabilityEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `KashimiSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## ClientHostedUiCustomizationsOutputDtoEntity
-
-```ts
-const client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `string` | No |  |
 
 ### Actions
 
@@ -302,14 +336,14 @@ remaining keys are sent as that action's payload.
 
 | Action | Route | Call |
 | --- | --- | --- |
-| `hosted-ui-customizations` | `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations` | `client.ClientHostedUiCustomizationsOutputDto().load({ $action: 'hosted-ui-customizations', ... })` |
+| `with-provider-nano-id` | `/api/v1/ob/callbacks/with-provider-nano-id` | `client.Callback().load({ $action: 'with-provider-nano-id', ... })` |
 
 An action returns that action's OWN response, which is not necessarily a
-ClientHostedUiCustomizationsOutputDto record — check the API definition for its shape.
+Callback record — check the API definition for its shape.
 
 ```ts
-const result = await client.ClientHostedUiCustomizationsOutputDto().load({
-  $action: 'hosted-ui-customizations',
+const result = await client.Callback().load({
+  $action: 'with-provider-nano-id',
   /* ...the action's own arguments */
 })
 ```
@@ -321,7 +355,7 @@ const result = await client.ClientHostedUiCustomizationsOutputDto().load({
 Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.ClientHostedUiCustomizationsOutputDto().load({ id: 'client_hosted_ui_customizations_output_dto_id' })
+const result = await client.Callback().load({ provider_id: 'provider_id', state: 'state' })
 ```
 
 ### Common Methods
@@ -338,7 +372,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same client and
+Create a new `CallbackEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -352,38 +386,195 @@ Return a copy of the entity options.
 
 ---
 
-## CreatePaymentOutputDtoEntity
+## ClientJwkEntity
 
 ```ts
-const create_payment_output_dto = client.CreatePaymentOutputDto()
+const client_jwk = client.ClientJwk()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.ClientJwk().load({ client_id: 'client_id', provider_id: 'provider_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ClientJwkEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ConfirmationDataEntity
+
+```ts
+const confirmation_data = client.ConfirmationData()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.ConfirmationData().load()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ConfirmationDataEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ConsentStatusEntity
+
+```ts
+const consent_status = client.ConsentStatus()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.ConsentStatus().load()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ConsentStatusEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## CountryEntity
+
+```ts
+const country = client.Country()
+```
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.Country().list()
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `CountryEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## FollowupEntity
+
+```ts
+const followup = client.Followup()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `number` | Yes | The amount to be transferred. |
-| `currency` | `string` | Yes | The currency of the payment. |
-| `metadata` | `Record<string, any>` | Yes |  |
-| `paymentScheme` | `any` | Yes | Payment scheme. |
 | `provider` | `any` | Yes | The provider information for the followup |
-| `recipient` | `any` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
 | `sender` | `any` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
 #### `create(data: object, ctrl?: object)`
@@ -391,13 +582,9 @@ const create_payment_output_dto = client.CreatePaymentOutputDto()
 Create a new entity with the given data. Resolves to the created entity.
 
 ```ts
-const result = await client.CreatePaymentOutputDto().create({
-  amount: 1,
-  currency: 'example_currency',
-  metadata: {},
-  paymentScheme: 'example_paymentScheme',
-  recipient: 'example_recipient',
-  remittanceInformation: 'example_remittanceInformation',
+const result = await client.Followup().create({
+  payment_id: 'example_payment_id',
+  provider: 'example_provider',
 })
 ```
 
@@ -415,69 +602,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `KashimiSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```ts
-const create_token_output_dto = client.CreateTokenOutputDto()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `string` | Yes | The JWT access token. |
-| `expires_in` | `number` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `string` | Yes | The type of grant being requested. |
-| `scope` | `string` | Yes | Scopes being requested. |
-| `token_type` | `string` | Yes | Token type. |
-
-### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data. Resolves to the created entity.
-
-```ts
-const result = await client.CreateTokenOutputDto().create({
-  access_token: 'example_access_token',
-  expires_in: 1,
-  grant_type: 'example_grant_type',
-  scope: 'example_scope',
-  token_type: 'example_token_type',
-})
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same client and
+Create a new `FollowupEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -544,117 +669,33 @@ Return a copy of the entity options.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```ts
-const latest = client.Latest()
+const hosted_ui_customization = client.HostedUiCustomization()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `string` | Yes | Timestamp of status creation |
-| `detailedStatus` | `string` | Yes | Detailed payment status |
-| `failureReasons` | `any[]` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Yes | Unique payment status identifier |
-| `paymentId` | `string` | Yes | Unique payment identifier |
-| `status` | `string` | Yes | Payment status. |
+| `clientId` | `string` | Yes |  |
+| `faviconUrl` | `string` | Yes |  |
+| `footerText` | `string` | Yes |  |
+| `logoUrl` | `string` | Yes |  |
+| `primaryColor` | `string` | Yes |  |
+| `privacyPolicyUrl` | `string` | Yes |  |
+| `psuPortalBaseUrl` | `string` | Yes |  |
+| `termsUrl` | `string` | Yes |  |
 
 ### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Resolves to an array of entities, one per record.
-
-```ts
-const results = await client.Latest().list({ payment_id: "example" })
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `LatestEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `KashimiSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
-
-
----
-
-## ObnEntity
-
-```ts
-const obn = client.Obn()
-```
-
-### Actions
-
-This entity exposes custom API actions in addition to the standard
-operations. Select one with `$action` in the call's argument; the
-remaining keys are sent as that action's payload.
-
-| Action | Route | Call |
-| --- | --- | --- |
-| `callback` | `/api/v1/ob/callbacks` | `client.Obn().load({ $action: 'callback', ... })` |
-| `client_jwk` | `/api/v1/ob/client-jwks` | `client.Obn().load({ $action: 'client_jwk', ... })` |
-
-An action returns that action's OWN response, which is not necessarily a
-Obn record — check the API definition for its shape.
-
-```ts
-const result = await client.Obn().load({
-  $action: 'callback',
-  /* ...the action's own arguments */
-})
-```
-
-### Operations
-
-#### `create(data: object, ctrl?: object)`
-
-Create a new entity with the given data. Resolves to the created entity.
-
-```ts
-const result = await client.Obn().create({
-  provider_id: 'example_provider_id',
-  state: 'example_state',
-})
-```
 
 #### `load(match: object, ctrl?: object)`
 
 Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
-const result = await client.Obn().load({ provider_id: 'provider_id', state: 'state' })
-```
-
-#### `update(data: object, ctrl?: object)`
-
-Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
-
-```ts
-const result = await client.Obn().update({
-  // Fields to update
-})
+const result = await client.HostedUiCustomization().load({ client_id: 'client_id' })
 ```
 
 ### Common Methods
@@ -671,7 +712,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `ObnEntity` instance with the same client and
+Create a new `HostedUiCustomizationEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -696,38 +737,69 @@ const payment = client.Payment()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `number` | Yes | Payment amount |
-| `clientId` | `string` | Yes | Client identifier |
 | `createdAt` | `string` | Yes |  |
 | `currency` | `string` | Yes | Currency code |
 | `id` | `string` | Yes | Unique payment identifier |
 | `metadata` | `Record<string, any>` | Yes |  |
 | `paymentScheme` | `any` | Yes | Payment scheme used |
 | `provider` | `any` | Yes | Payment provider details. |
-| `recipient` | `Record<string, any>` | Yes |  |
+| `recipient` | `Record<string, any>` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
-| `sender` | `Record<string, any>` | Yes |  |
-| `status` | `string` | Yes | The most recent status of the payment. |
+| `sender` | `Record<string, any>` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
+
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
 | --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| `cancel` | `/api/v1/ob/payments/cancel` | `client.Payment().create({ $action: 'cancel', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+Payment record — check the API definition for its shape.
+
+```ts
+const result = await client.Payment().create({
+  $action: 'cancel',
+  /* ...the action's own arguments */
+})
+```
 
 ### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+```ts
+const result = await client.Payment().create({
+  amount: 1,
+  currency: 'example_currency',
+  metadata: {},
+  paymentScheme: 'example_paymentScheme',
+  recipient: {},
+  remittanceInformation: 'example_remittanceInformation',
+})
+```
 
 #### `list(match: object, ctrl?: object)`
 
@@ -790,6 +862,26 @@ const payment_status = client.PaymentStatus()
 | `paymentId` | `string` | Yes | Unique payment identifier |
 | `status` | `string` | Yes | Payment status. |
 
+### Actions
+
+This entity exposes custom API actions in addition to the standard
+operations. Select one with `$action` in the call's argument; the
+remaining keys are sent as that action's payload.
+
+| Action | Route | Call |
+| --- | --- | --- |
+| `latest` | `/api/v1/archive/payment-statuses/latest` | `client.PaymentStatus().load({ $action: 'latest', ... })` |
+
+An action returns that action's OWN response, which is not necessarily a
+PaymentStatus record — check the API definition for its shape.
+
+```ts
+const result = await client.PaymentStatus().load({
+  $action: 'latest',
+  /* ...the action's own arguments */
+})
+```
+
 ### Operations
 
 #### `list(match: object, ctrl?: object)`
@@ -798,6 +890,14 @@ List entities matching the given criteria. Resolves to an array of entities, one
 
 ```ts
 const results = await client.PaymentStatus().list({ payment_id: "example" })
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.PaymentStatus().load({ payment_id: 'payment_id' })
 ```
 
 ### Common Methods
@@ -886,10 +986,276 @@ Return a copy of the entity options.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```ts
-const providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto()
+const psu_provided_data = client.PsuProvidedData()
+```
+
+### Operations
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
+
+```ts
+const result = await client.PsuProvidedData().update({
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `PsuProvidedDataEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ReportEntity
+
+```ts
+const report = client.Report()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `number` | Yes | Payment amount |
+| `createdAt` | `string` | Yes |  |
+| `currency` | `string` | Yes | Currency code |
+| `id` | `string` | Yes | Unique payment identifier |
+| `provider` | `Record<string, any>` | No | Selected provider details (name, country). |
+| `recipient` | `Record<string, any>` | Yes |  |
+| `remittanceInformation` | `any` | Yes |  |
+| `sender` | `Record<string, any>` | No |  |
+| `status` | `string` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.Report().load({ id: 'report_id' })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ScaDataEntity
+
+```ts
+const sca_data = client.ScaData()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.ScaData().load()
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
+
+```ts
+const result = await client.ScaData().update({
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ScaDataEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## ScaMethodEntity
+
+```ts
+const sca_method = client.ScaMethod()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.ScaMethod().load()
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
+
+```ts
+const result = await client.ScaMethod().update({
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `ScaMethodEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## SenderAccountEntity
+
+```ts
+const sender_account = client.SenderAccount()
+```
+
+### Operations
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
+
+```ts
+const result = await client.SenderAccount().load({ provider_id: 'provider_id', state: 'state' })
+```
+
+#### `update(data: object, ctrl?: object)`
+
+Update an existing entity. The data must include the entity `id`. Resolves to the updated entity.
+
+```ts
+const result = await client.SenderAccount().update({
+  // Fields to update
+})
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `SenderAccountEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## SubsidiaryEntity
+
+```ts
+const subsidiary = client.Subsidiary()
 ```
 
 ### Fields
@@ -913,7 +1279,7 @@ const providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto()
 List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.ProvidersSubsidiaryOutputDto().list({ provider_id: "example" })
+const results = await client.Subsidiary().list({ provider_id: "example" })
 ```
 
 ### Common Methods
@@ -930,7 +1296,69 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same client and
+Create a new `SubsidiaryEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `KashimiSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
+## TokenEntity
+
+```ts
+const token = client.Token()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `string` | Yes | The JWT access token. |
+| `expires_in` | `number` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `string` | Yes | The type of grant being requested. |
+| `scope` | `string` | Yes | Scopes being requested. |
+| `token_type` | `string` | Yes | Token type. |
+
+### Operations
+
+#### `create(data: object, ctrl?: object)`
+
+Create a new entity with the given data. Resolves to the created entity.
+
+```ts
+const result = await client.Token().create({
+  access_token: 'example_access_token',
+  expires_in: 1,
+  grant_type: 'example_grant_type',
+  scope: 'example_scope',
+  token_type: 'example_token_type',
+})
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `TokenEntity` instance with the same client and
 options.
 
 #### `client()`

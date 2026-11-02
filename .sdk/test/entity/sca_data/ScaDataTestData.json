@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "sca_data": {
+      "SCA_DATA00": {
+        "id": "SCA_DATA00"
+      },
+      "SCA_DATA01": {
+        "id": "SCA_DATA01"
+      },
+      "SCA_DATA02": {
+        "id": "SCA_DATA02"
+      }
+    }
+  },
+  "new": {
+    "sca_data": {
+      "sca_data_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/payments/decoupled/sca-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/decoupled/sca-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

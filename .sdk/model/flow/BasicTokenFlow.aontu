@@ -1,0 +1,18 @@
+# BasicTokenFlow
+
+main: kit: flow: BasicTokenFlow:
+{
+  entity: "token",
+  kind: "basic",
+  name: "BasicTokenFlow",
+  step: [
+    {
+      i: {
+        ref: "token_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicTokenFlow"
+}

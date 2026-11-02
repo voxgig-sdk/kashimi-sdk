@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "psu_provided_data": {
+      "PSU_PROVIDED_DATA00": {
+        "id": "PSU_PROVIDED_DATA00"
+      },
+      "PSU_PROVIDED_DATA01": {
+        "id": "PSU_PROVIDED_DATA01"
+      },
+      "PSU_PROVIDED_DATA02": {
+        "id": "PSU_PROVIDED_DATA02"
+      }
+    }
+  },
+  "new": {
+    "psu_provided_data": {
+      "psu_provided_data_ref01": {}
+    }
+  },
+  "requests": {
+    "PATCH /api/v1/ob/payments/psu-provided-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

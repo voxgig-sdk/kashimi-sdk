@@ -1,0 +1,26 @@
+# BasicSubsidiaryFlow
+
+main: kit: flow: BasicSubsidiaryFlow:
+{
+  entity: "subsidiary",
+  kind: "basic",
+  name: "BasicSubsidiaryFlow",
+  step: [
+    {
+      m: {
+        provider_id: "provider01"
+      }
+
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "subsidiary_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSubsidiaryFlow"
+}

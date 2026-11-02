@@ -294,9 +294,43 @@ func (e *PaymentStatusEntity) streamSteps(ctx *core.Context) error {
 	return nil
 }
 
-func (e *PaymentStatusEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("load", e.name)
+
+func (e *PaymentStatusEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+	utility := e.utility
+	ctx := utility.MakeContext(map[string]any{
+		"opname":   "load",
+		"ctrl":     ctrl,
+		"match":    e.match,
+		"data":     e.data,
+		"reqmatch": reqmatch,
+	}, e.entctx)
+
+	return e.runOp(ctx, func() {
+		if ctx.Result != nil {
+			if ctx.Result.Resmatch != nil {
+				e.match = ctx.Result.Resmatch
+			}
+			if ctx.Result.Resdata != nil {
+				e.data = map[string]any{}
+				if data := core.ToMapAny(vs.Clone(ctx.Result.Resdata)); data != nil {
+					e.data = data
+				}
+			}
+		}
+	})
 }
+
+// LoadTyped is the statically-typed variant of Load: it takes an
+// PaymentStatusLoadMatch and returns an PaymentStatus. It delegates to the untyped
+// Load (identical runtime) and converts at the typed boundary.
+func (e *PaymentStatusEntity) LoadTyped(reqmatch PaymentStatusLoadMatch, ctrl map[string]any) (PaymentStatus, error) {
+	res, err := e.Load(asMap(reqmatch), ctrl)
+	if err != nil {
+		return PaymentStatus{}, err
+	}
+	return typedFrom[PaymentStatus](res), nil
+}
+
 
 
 

@@ -42,33 +42,37 @@ client = KashimiSDK.test
 
 ### Instance Methods
 
-#### `Capability(data = nil)`
+#### `Callback(data = nil)`
 
-Create a new `Capability` entity instance. Pass `nil` for no initial data.
+Create a new `Callback` entity instance. Pass `nil` for no initial data.
 
-#### `ClientHostedUiCustomizationsOutputDto(data = nil)`
+#### `ClientJwk(data = nil)`
 
-Create a new `ClientHostedUiCustomizationsOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ClientJwk` entity instance. Pass `nil` for no initial data.
 
-#### `CreatePaymentOutputDto(data = nil)`
+#### `ConfirmationData(data = nil)`
 
-Create a new `CreatePaymentOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConfirmationData` entity instance. Pass `nil` for no initial data.
 
-#### `CreateTokenOutputDto(data = nil)`
+#### `ConsentStatus(data = nil)`
 
-Create a new `CreateTokenOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConsentStatus` entity instance. Pass `nil` for no initial data.
+
+#### `Country(data = nil)`
+
+Create a new `Country` entity instance. Pass `nil` for no initial data.
+
+#### `Followup(data = nil)`
+
+Create a new `Followup` entity instance. Pass `nil` for no initial data.
 
 #### `Healthcheck(data = nil)`
 
 Create a new `Healthcheck` entity instance. Pass `nil` for no initial data.
 
-#### `Latest(data = nil)`
+#### `HostedUiCustomization(data = nil)`
 
-Create a new `Latest` entity instance. Pass `nil` for no initial data.
-
-#### `Obn(data = nil)`
-
-Create a new `Obn` entity instance. Pass `nil` for no initial data.
+Create a new `HostedUiCustomization` entity instance. Pass `nil` for no initial data.
 
 #### `Payment(data = nil)`
 
@@ -82,9 +86,33 @@ Create a new `PaymentStatus` entity instance. Pass `nil` for no initial data.
 
 Create a new `Provider` entity instance. Pass `nil` for no initial data.
 
-#### `ProvidersSubsidiaryOutputDto(data = nil)`
+#### `PsuProvidedData(data = nil)`
 
-Create a new `ProvidersSubsidiaryOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `PsuProvidedData` entity instance. Pass `nil` for no initial data.
+
+#### `Report(data = nil)`
+
+Create a new `Report` entity instance. Pass `nil` for no initial data.
+
+#### `ScaData(data = nil)`
+
+Create a new `ScaData` entity instance. Pass `nil` for no initial data.
+
+#### `ScaMethod(data = nil)`
+
+Create a new `ScaMethod` entity instance. Pass `nil` for no initial data.
+
+#### `SenderAccount(data = nil)`
+
+Create a new `SenderAccount` entity instance. Pass `nil` for no initial data.
+
+#### `Subsidiary(data = nil)`
+
+Create a new `Subsidiary` entity instance. Pass `nil` for no initial data.
+
+#### `Token(data = nil)`
+
+Create a new `Token` entity instance. Pass `nil` for no initial data.
 
 #### `options_map -> Hash`
 
@@ -124,10 +152,194 @@ same parameters as `direct()`. Raises on error.
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```ruby
-capability = client.Capability
+callback = client.Callback
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.Callback.load({ "provider_id" => "provider_id", "state" => "state" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `CallbackEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ClientJwkEntity
+
+```ruby
+client_jwk = client.ClientJwk
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.ClientJwk.load({ "client_id" => "client_id", "provider_id" => "provider_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ClientJwkEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ConfirmationDataEntity
+
+```ruby
+confirmation_data = client.ConfirmationData
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.ConfirmationData.load()
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ConfirmationDataEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ConsentStatusEntity
+
+```ruby
+consent_status = client.ConsentStatus
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.ConsentStatus.load()
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ConsentStatusEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```ruby
+country = client.Country
 ```
 
 ### Operations
@@ -137,7 +349,7 @@ capability = client.Capability
 List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Capability.list
+results = client.Country.list
 results.each { |item| puts item.data_get }
 ```
 
@@ -161,7 +373,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `CapabilityEntity` instance with the same client and
+Create a new `CountryEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -171,90 +383,19 @@ Return the entity name.
 
 ---
 
-## ClientHostedUiCustomizationsOutputDtoEntity
+## FollowupEntity
 
 ```ruby
-client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto
+followup = client.Followup
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `String` | No |  |
-
-### Operations
-
-#### `load(reqmatch, ctrl = nil) -> result`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
-
-```ruby
-result = client.ClientHostedUiCustomizationsOutputDto.load({ "id" => "client_hosted_ui_customizations_output_dto_id" })
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## CreatePaymentOutputDtoEntity
-
-```ruby
-create_payment_output_dto = client.CreatePaymentOutputDto
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `amount` | `Float` | Yes | The amount to be transferred. |
-| `currency` | `String` | Yes | The currency of the payment. |
-| `metadata` | `Hash` | Yes |  |
-| `paymentScheme` | `Object` | Yes | Payment scheme. |
 | `provider` | `Object` | Yes | The provider information for the followup |
-| `recipient` | `Object` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `Object` | Yes | Unstructured or structured remittance information. |
 | `sender` | `Object` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
 #### `create(reqdata, ctrl = nil) -> result`
@@ -262,13 +403,9 @@ create_payment_output_dto = client.CreatePaymentOutputDto
 Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```ruby
-result = client.CreatePaymentOutputDto.create({
-  "amount" => 1, # Float
-  "currency" => "example_currency", # String
-  "metadata" => {}, # Hash
-  "paymentScheme" => "example_paymentScheme", # Object
-  "recipient" => "example_recipient", # Object
-  "remittanceInformation" => "example_remittanceInformation", # Object
+result = client.Followup.create({
+  "payment_id" => "example_payment_id", # String
+  "provider" => "example_provider", # Object
 })
 ```
 
@@ -292,71 +429,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```ruby
-create_token_output_dto = client.CreateTokenOutputDto
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `String` | Yes | The JWT access token. |
-| `expires_in` | `Float` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `String` | Yes | The type of grant being requested. |
-| `scope` | `String` | Yes | Scopes being requested. |
-| `token_type` | `String` | Yes | Token type. |
-
-### Operations
-
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-```ruby
-result = client.CreateTokenOutputDto.create({
-  "access_token" => "example_access_token", # String
-  "expires_in" => 1, # Float
-  "grant_type" => "example_grant_type", # String
-  "scope" => "example_scope", # String
-  "token_type" => "example_token_type", # String
-})
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same client and
+Create a new `FollowupEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -421,99 +494,33 @@ Return the entity name.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```ruby
-latest = client.Latest
+hosted_ui_customization = client.HostedUiCustomization
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `String` | Yes | Timestamp of status creation |
-| `detailedStatus` | `String` | Yes | Detailed payment status |
-| `failureReasons` | `Array` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `String` | Yes | Unique payment status identifier |
-| `paymentId` | `String` | Yes | Unique payment identifier |
-| `status` | `String` | Yes | Payment status. |
+| `clientId` | `String` | Yes |  |
+| `faviconUrl` | `String` | Yes |  |
+| `footerText` | `String` | Yes |  |
+| `logoUrl` | `String` | Yes |  |
+| `primaryColor` | `String` | Yes |  |
+| `privacyPolicyUrl` | `String` | Yes |  |
+| `psuPortalBaseUrl` | `String` | Yes |  |
+| `termsUrl` | `String` | Yes |  |
 
 ### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
-
-```ruby
-results = client.Latest.list({ "payment_id" => "example" })
-results.each { |item| puts item.data_get }
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `LatestEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
-## ObnEntity
-
-```ruby
-obn = client.Obn
-```
-
-### Operations
-
-#### `create(reqdata, ctrl = nil) -> result`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-```ruby
-result = client.Obn.create({
-  "provider_id" => "example_provider_id", # String
-  "state" => "example_state", # String
-})
-```
 
 #### `load(reqmatch, ctrl = nil) -> result`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
-result = client.Obn.load({ "provider_id" => "provider_id", "state" => "state" })
-```
-
-#### `update(reqdata, ctrl = nil) -> result`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
-
-```ruby
-result = client.Obn.update({
-  # Fields to update
-})
+result = client.HostedUiCustomization.load({ "client_id" => "client_id" })
 ```
 
 ### Common Methods
@@ -536,7 +543,7 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `ObnEntity` instance with the same client and
+Create a new `HostedUiCustomizationEntity` instance with the same client and
 options.
 
 #### `get_name -> String`
@@ -557,38 +564,49 @@ payment = client.Payment
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `Float` | Yes | Payment amount |
-| `clientId` | `String` | Yes | Client identifier |
 | `createdAt` | `String` | Yes |  |
 | `currency` | `String` | Yes | Currency code |
 | `id` | `String` | Yes | Unique payment identifier |
 | `metadata` | `Hash` | Yes |  |
 | `paymentScheme` | `Object` | Yes | Payment scheme used |
 | `provider` | `Object` | Yes | Payment provider details. |
-| `recipient` | `Hash` | Yes |  |
+| `recipient` | `Hash` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `Object` | Yes | Unstructured or structured remittance information. |
-| `sender` | `Hash` | Yes |  |
-| `status` | `String` | Yes | The most recent status of the payment. |
+| `sender` | `Hash` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `String` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
-| --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
 
 ### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```ruby
+result = client.Payment.create({
+  "amount" => 1, # Float
+  "currency" => "example_currency", # String
+  "metadata" => {}, # Hash
+  "paymentScheme" => "example_paymentScheme", # Object
+  "recipient" => {}, # Hash
+  "remittanceInformation" => "example_remittanceInformation", # Object
+})
+```
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
@@ -663,6 +681,14 @@ List entities matching the given criteria (call with no argument to list all). R
 ```ruby
 results = client.PaymentStatus.list({ "payment_id" => "example" })
 results.each { |item| puts item.data_get }
+```
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.PaymentStatus.load({ "payment_id" => "payment_id" })
 ```
 
 ### Common Methods
@@ -756,10 +782,286 @@ Return the entity name.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```ruby
-providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto
+psu_provided_data = client.PsuProvidedData
+```
+
+### Operations
+
+#### `update(reqdata, ctrl = nil) -> result`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```ruby
+result = client.PsuProvidedData.update({
+  # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `PsuProvidedDataEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```ruby
+report = client.Report
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `Float` | Yes | Payment amount |
+| `createdAt` | `String` | Yes |  |
+| `currency` | `String` | Yes | Currency code |
+| `id` | `String` | Yes | Unique payment identifier |
+| `provider` | `Hash` | No | Selected provider details (name, country). |
+| `recipient` | `Hash` | Yes |  |
+| `remittanceInformation` | `Object` | Yes |  |
+| `sender` | `Hash` | No |  |
+| `status` | `String` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.Report.load({ "id" => "report_id" })
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ScaDataEntity
+
+```ruby
+sca_data = client.ScaData
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.ScaData.load()
+```
+
+#### `update(reqdata, ctrl = nil) -> result`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```ruby
+result = client.ScaData.update({
+  # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ScaDataEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## ScaMethodEntity
+
+```ruby
+sca_method = client.ScaMethod
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.ScaMethod.load()
+```
+
+#### `update(reqdata, ctrl = nil) -> result`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```ruby
+result = client.ScaMethod.update({
+  # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `ScaMethodEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## SenderAccountEntity
+
+```ruby
+sender_account = client.SenderAccount
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl = nil) -> result`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
+
+```ruby
+result = client.SenderAccount.load({ "provider_id" => "provider_id", "state" => "state" })
+```
+
+#### `update(reqdata, ctrl = nil) -> result`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```ruby
+result = client.SenderAccount.update({
+  # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `SenderAccountEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## SubsidiaryEntity
+
+```ruby
+subsidiary = client.Subsidiary
 ```
 
 ### Fields
@@ -783,7 +1085,7 @@ providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto
 List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.ProvidersSubsidiaryOutputDto.list({ "provider_id" => "example" })
+results = client.Subsidiary.list({ "provider_id" => "example" })
 results.each { |item| puts item.data_get }
 ```
 
@@ -807,7 +1109,71 @@ Set the entity match criteria.
 
 #### `make -> Entity`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same client and
+Create a new `SubsidiaryEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
+## TokenEntity
+
+```ruby
+token = client.Token
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `String` | Yes | The JWT access token. |
+| `expires_in` | `Float` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `String` | Yes | The type of grant being requested. |
+| `scope` | `String` | Yes | Scopes being requested. |
+| `token_type` | `String` | Yes | Token type. |
+
+### Operations
+
+#### `create(reqdata, ctrl = nil) -> result`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```ruby
+result = client.Token.create({
+  "access_token" => "example_access_token", # String
+  "expires_in" => 1, # Float
+  "grant_type" => "example_grant_type", # String
+  "scope" => "example_scope", # String
+  "token_type" => "example_token_type", # String
+})
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `TokenEntity` instance with the same client and
 options.
 
 #### `get_name -> String`

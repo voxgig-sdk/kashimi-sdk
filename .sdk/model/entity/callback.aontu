@@ -1,0 +1,105 @@
+# Entity: callback
+
+main: kit: entity: callback: {
+
+  alias: field: {}
+
+  name: "callback"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/ob/callbacks"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "provider_id"
+                or: "providerId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "state"
+                or: "state"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/ob/callbacks"
+          q: {
+            exist: [
+              "provider_id"
+              "state"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "callbacks"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "GET /api/v1/ob/callbacks/with-provider-nano-id"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/v1/ob/callbacks/with-provider-nano-id"
+          q: {
+            "$action": "with-provider-nano-id"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "callbacks"
+            }
+            {
+              lit: "with-provider-nano-id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

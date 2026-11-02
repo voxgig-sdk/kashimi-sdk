@@ -61,26 +61,29 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
-	core.NewCapabilityEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewCapabilityEntity(client, entopts)
+	core.NewCallbackEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewCallbackEntity(client, entopts)
 	}
-	core.NewClientHostedUiCustomizationsOutputDtoEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewClientHostedUiCustomizationsOutputDtoEntity(client, entopts)
+	core.NewClientJwkEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewClientJwkEntity(client, entopts)
 	}
-	core.NewCreatePaymentOutputDtoEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewCreatePaymentOutputDtoEntity(client, entopts)
+	core.NewConfirmationDataEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewConfirmationDataEntity(client, entopts)
 	}
-	core.NewCreateTokenOutputDtoEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewCreateTokenOutputDtoEntity(client, entopts)
+	core.NewConsentStatusEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewConsentStatusEntity(client, entopts)
+	}
+	core.NewCountryEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewCountryEntity(client, entopts)
+	}
+	core.NewFollowupEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewFollowupEntity(client, entopts)
 	}
 	core.NewHealthcheckEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
 		return entity.NewHealthcheckEntity(client, entopts)
 	}
-	core.NewLatestEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewLatestEntity(client, entopts)
-	}
-	core.NewObnEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewObnEntity(client, entopts)
+	core.NewHostedUiCustomizationEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewHostedUiCustomizationEntity(client, entopts)
 	}
 	core.NewPaymentEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
 		return entity.NewPaymentEntity(client, entopts)
@@ -91,8 +94,26 @@ func init() {
 	core.NewProviderEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
 		return entity.NewProviderEntity(client, entopts)
 	}
-	core.NewProvidersSubsidiaryOutputDtoEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
-		return entity.NewProvidersSubsidiaryOutputDtoEntity(client, entopts)
+	core.NewPsuProvidedDataEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewPsuProvidedDataEntity(client, entopts)
+	}
+	core.NewReportEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewReportEntity(client, entopts)
+	}
+	core.NewScaDataEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewScaDataEntity(client, entopts)
+	}
+	core.NewScaMethodEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewScaMethodEntity(client, entopts)
+	}
+	core.NewSenderAccountEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewSenderAccountEntity(client, entopts)
+	}
+	core.NewSubsidiaryEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewSubsidiaryEntity(client, entopts)
+	}
+	core.NewTokenEntityFunc = func(client *core.KashimiSDK, entopts map[string]any) core.KashimiEntityBase {
+		return entity.NewTokenEntity(client, entopts)
 	}
 }
 

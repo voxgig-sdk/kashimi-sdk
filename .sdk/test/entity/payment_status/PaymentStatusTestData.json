@@ -43,6 +43,11 @@
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"
+    },
+    "GET /api/v1/archive/payment-statuses/latest": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

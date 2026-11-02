@@ -77,7 +77,6 @@ function healthcheck_direct_setup($mockres)
         "KASHIMI_TEST_HEALTHCHECK_ENTID" => [],
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $live = $env["KASHIMI_TEST_LIVE"] === "TRUE";
@@ -87,9 +86,6 @@ function healthcheck_direct_setup($mockres)
         // test.client.options adds to the live client, it does not redirect it.
         $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["KASHIMI_APIKEY"],
-            "server" => [
-                "base" => $env["KASHIMI_SERVER_BASE"],
-            ],
         ]);
         $client = new KashimiSDK($merged_opts);
         $idmap = $env["KASHIMI_TEST_HEALTHCHECK_ENTID"] ?? [];

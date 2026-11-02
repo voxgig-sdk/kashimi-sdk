@@ -423,57 +423,85 @@ end
 
 
 
--- Idiomatic facade: client:Capability():list() / client:Capability():load({ id = ... })
+-- Idiomatic facade: client:Callback():list() / client:Callback():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:Capability(data)
-  local EntityMod = require("entity.capability_entity")
+function KashimiSDK:Callback(data)
+  local EntityMod = require("entity.callback_entity")
   if data == nil then
-    if self._capability == nil then
-      self._capability = EntityMod.new(self, nil)
+    if self._callback == nil then
+      self._callback = EntityMod.new(self, nil)
     end
-    return self._capability
+    return self._callback
   end
   return EntityMod.new(self, data)
 end
 
 
--- Idiomatic facade: client:ClientHostedUiCustomizationsOutputDto():list() / client:ClientHostedUiCustomizationsOutputDto():load({ id = ... })
+-- Idiomatic facade: client:ClientJwk():list() / client:ClientJwk():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:ClientHostedUiCustomizationsOutputDto(data)
-  local EntityMod = require("entity.client_hosted_ui_customizations_output_dto_entity")
+function KashimiSDK:ClientJwk(data)
+  local EntityMod = require("entity.client_jwk_entity")
   if data == nil then
-    if self._client_hosted_ui_customizations_output_dto == nil then
-      self._client_hosted_ui_customizations_output_dto = EntityMod.new(self, nil)
+    if self._client_jwk == nil then
+      self._client_jwk = EntityMod.new(self, nil)
     end
-    return self._client_hosted_ui_customizations_output_dto
+    return self._client_jwk
   end
   return EntityMod.new(self, data)
 end
 
 
--- Idiomatic facade: client:CreatePaymentOutputDto():list() / client:CreatePaymentOutputDto():load({ id = ... })
+-- Idiomatic facade: client:ConfirmationData():list() / client:ConfirmationData():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:CreatePaymentOutputDto(data)
-  local EntityMod = require("entity.create_payment_output_dto_entity")
+function KashimiSDK:ConfirmationData(data)
+  local EntityMod = require("entity.confirmation_data_entity")
   if data == nil then
-    if self._create_payment_output_dto == nil then
-      self._create_payment_output_dto = EntityMod.new(self, nil)
+    if self._confirmation_data == nil then
+      self._confirmation_data = EntityMod.new(self, nil)
     end
-    return self._create_payment_output_dto
+    return self._confirmation_data
   end
   return EntityMod.new(self, data)
 end
 
 
--- Idiomatic facade: client:CreateTokenOutputDto():list() / client:CreateTokenOutputDto():load({ id = ... })
+-- Idiomatic facade: client:ConsentStatus():list() / client:ConsentStatus():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:CreateTokenOutputDto(data)
-  local EntityMod = require("entity.create_token_output_dto_entity")
+function KashimiSDK:ConsentStatus(data)
+  local EntityMod = require("entity.consent_status_entity")
   if data == nil then
-    if self._create_token_output_dto == nil then
-      self._create_token_output_dto = EntityMod.new(self, nil)
+    if self._consent_status == nil then
+      self._consent_status = EntityMod.new(self, nil)
     end
-    return self._create_token_output_dto
+    return self._consent_status
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Country():list() / client:Country():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:Country(data)
+  local EntityMod = require("entity.country_entity")
+  if data == nil then
+    if self._country == nil then
+      self._country = EntityMod.new(self, nil)
+    end
+    return self._country
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Followup():list() / client:Followup():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:Followup(data)
+  local EntityMod = require("entity.followup_entity")
+  if data == nil then
+    if self._followup == nil then
+      self._followup = EntityMod.new(self, nil)
+    end
+    return self._followup
   end
   return EntityMod.new(self, data)
 end
@@ -493,29 +521,15 @@ function KashimiSDK:Healthcheck(data)
 end
 
 
--- Idiomatic facade: client:Latest():list() / client:Latest():load({ id = ... })
+-- Idiomatic facade: client:HostedUiCustomization():list() / client:HostedUiCustomization():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:Latest(data)
-  local EntityMod = require("entity.latest_entity")
+function KashimiSDK:HostedUiCustomization(data)
+  local EntityMod = require("entity.hosted_ui_customization_entity")
   if data == nil then
-    if self._latest == nil then
-      self._latest = EntityMod.new(self, nil)
+    if self._hosted_ui_customization == nil then
+      self._hosted_ui_customization = EntityMod.new(self, nil)
     end
-    return self._latest
-  end
-  return EntityMod.new(self, data)
-end
-
-
--- Idiomatic facade: client:Obn():list() / client:Obn():load({ id = ... })
--- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:Obn(data)
-  local EntityMod = require("entity.obn_entity")
-  if data == nil then
-    if self._obn == nil then
-      self._obn = EntityMod.new(self, nil)
-    end
-    return self._obn
+    return self._hosted_ui_customization
   end
   return EntityMod.new(self, data)
 end
@@ -563,15 +577,99 @@ function KashimiSDK:Provider(data)
 end
 
 
--- Idiomatic facade: client:ProvidersSubsidiaryOutputDto():list() / client:ProvidersSubsidiaryOutputDto():load({ id = ... })
+-- Idiomatic facade: client:PsuProvidedData():list() / client:PsuProvidedData():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function KashimiSDK:ProvidersSubsidiaryOutputDto(data)
-  local EntityMod = require("entity.providers_subsidiary_output_dto_entity")
+function KashimiSDK:PsuProvidedData(data)
+  local EntityMod = require("entity.psu_provided_data_entity")
   if data == nil then
-    if self._providers_subsidiary_output_dto == nil then
-      self._providers_subsidiary_output_dto = EntityMod.new(self, nil)
+    if self._psu_provided_data == nil then
+      self._psu_provided_data = EntityMod.new(self, nil)
     end
-    return self._providers_subsidiary_output_dto
+    return self._psu_provided_data
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Report():list() / client:Report():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:Report(data)
+  local EntityMod = require("entity.report_entity")
+  if data == nil then
+    if self._report == nil then
+      self._report = EntityMod.new(self, nil)
+    end
+    return self._report
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:ScaData():list() / client:ScaData():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:ScaData(data)
+  local EntityMod = require("entity.sca_data_entity")
+  if data == nil then
+    if self._sca_data == nil then
+      self._sca_data = EntityMod.new(self, nil)
+    end
+    return self._sca_data
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:ScaMethod():list() / client:ScaMethod():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:ScaMethod(data)
+  local EntityMod = require("entity.sca_method_entity")
+  if data == nil then
+    if self._sca_method == nil then
+      self._sca_method = EntityMod.new(self, nil)
+    end
+    return self._sca_method
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:SenderAccount():list() / client:SenderAccount():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:SenderAccount(data)
+  local EntityMod = require("entity.sender_account_entity")
+  if data == nil then
+    if self._sender_account == nil then
+      self._sender_account = EntityMod.new(self, nil)
+    end
+    return self._sender_account
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Subsidiary():list() / client:Subsidiary():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:Subsidiary(data)
+  local EntityMod = require("entity.subsidiary_entity")
+  if data == nil then
+    if self._subsidiary == nil then
+      self._subsidiary = EntityMod.new(self, nil)
+    end
+    return self._subsidiary
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Token():list() / client:Token():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function KashimiSDK:Token(data)
+  local EntityMod = require("entity.token_entity")
+  if data == nil then
+    if self._token == nil then
+      self._token = EntityMod.new(self, nil)
+    end
+    return self._token
   end
   return EntityMod.new(self, data)
 end

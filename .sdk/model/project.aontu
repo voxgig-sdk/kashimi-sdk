@@ -23,9 +23,6 @@
 # A published package name that does not follow the derivation:
 #
 #   main: kit: target: ts: publish: registry: package: '@scope/name'
-# --- cedar: secrets active (written by cedar-regen.sh, do not hand-edit)
-main: kit: feature: secrets: active: true
-# --- end cedar: secrets active
 
 # outreach1 standard (2026-11-02): std8 targets, the standard features
 # (including secrets) and a branded GitHub Pages documentation site.
@@ -53,3 +50,6 @@ main: kit: target: py: publish: registry: package: 'voxgig-sdk-kashimi-sdk'
 main: kit: target: lua: publish: registry: package: 'voxgig-sdk-kashimi-sdk'
 main: kit: target: php: publish: registry: package: 'voxgig-sdk/kashimi-sdk'
 main: kit: target: rb: publish: registry: package: 'voxgig-sdk-kashimi-sdk'
+# --- cedar: secrets active (written by cedar-regen.sh, do not hand-edit)
+main: kit: feature: secrets: active: true
+# --- end cedar: secrets active

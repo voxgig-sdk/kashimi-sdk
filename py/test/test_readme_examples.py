@@ -76,17 +76,24 @@ _CLIENT_VARS = ("client", "sdk")
 
 # The API's capitalised semantic entities -> lowercase fixture key.
 _ENTITIES = {
-    "Capability": "capability",
-    "ClientHostedUiCustomizationsOutputDto": "client_hosted_ui_customizations_output_dto",
-    "CreatePaymentOutputDto": "create_payment_output_dto",
-    "CreateTokenOutputDto": "create_token_output_dto",
+    "Callback": "callback",
+    "ClientJwk": "client_jwk",
+    "ConfirmationData": "confirmation_data",
+    "ConsentStatus": "consent_status",
+    "Country": "country",
+    "Followup": "followup",
     "Healthcheck": "healthcheck",
-    "Latest": "latest",
-    "Obn": "obn",
+    "HostedUiCustomization": "hosted_ui_customization",
     "Payment": "payment",
     "PaymentStatus": "payment_status",
     "Provider": "provider",
-    "ProvidersSubsidiaryOutputDto": "providers_subsidiary_output_dto",
+    "PsuProvidedData": "psu_provided_data",
+    "Report": "report",
+    "ScaData": "sca_data",
+    "ScaMethod": "sca_method",
+    "SenderAccount": "sender_account",
+    "Subsidiary": "subsidiary",
+    "Token": "token",
 }
 
 # The three documents held to the gate, tagged by human label.

@@ -1,0 +1,32 @@
+# BasicHostedUiCustomizationFlow
+
+main: kit: flow: BasicHostedUiCustomizationFlow:
+{
+  entity: "hosted_ui_customization",
+  kind: "basic",
+  name: "BasicHostedUiCustomizationFlow",
+  step: [
+    {
+      i: {
+        ref: "hosted_ui_customization_ref01",
+        srcdatavar: "hosted_ui_customization_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "hosted_ui_customization01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-hosted_ui_customization_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicHostedUiCustomizationFlow"
+}

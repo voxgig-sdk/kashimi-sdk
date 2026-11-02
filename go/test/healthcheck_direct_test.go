@@ -102,7 +102,6 @@ func healthcheckDirectSetup(mockres any) *healthcheckDirectSetupResult {
 		"KASHIMI_TEST_HEALTHCHECK_ENTID": map[string]any{},
 		"KASHIMI_TEST_LIVE":    "FALSE",
 		"KASHIMI_APIKEY":       "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	live := env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -116,9 +115,6 @@ func healthcheckDirectSetup(mockres any) *healthcheckDirectSetupResult {
 		}
 		for k, v := range map[string]any{
 			"apikey": env["KASHIMI_APIKEY"],
-		"server": map[string]any{
-			"base": env["KASHIMI_SERVER_BASE"],
-		},
 		} {
 			mergedOpts[k] = v
 		}

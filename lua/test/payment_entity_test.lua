@@ -147,13 +147,15 @@ describe("PaymentEntity", function()
     local setup = payment_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"list", "load"}) do
+    for _, _op in ipairs({"create", "list", "load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "payment." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
         return
       end
     end
+    if setup.live and os.getenv("VOXGIG_GETONLY_GUARD") == "TRUE" then
+      print("LIVE STEP {\"id\":\"payment.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /api/v1/ob/payments/cancel\"}")
     local client = setup.client
     if setup.live then
       runner.live_existing(pending, setup, LIVE_STRICT, "payment", function()
@@ -176,6 +178,44 @@ describe("PaymentEntity", function()
     local payment_ref01_list_result, err = payment_ref01_ent:list(payment_ref01_match, nil)
     assert.is_nil(err)
     assert.is_table(payment_ref01_list_result)
+
+    -- LOAD
+    local payment_ref01_match_dt0 = {
+      id = payment_ref01_data["id"],
+    }
+    local payment_ref01_data_dt0_loaded, err = payment_ref01_ent:load(payment_ref01_match_dt0, nil)
+    assert.is_nil(err)
+    local payment_ref01_data_dt0_load_result = helpers.to_map(type(payment_ref01_data_dt0_loaded) == 'table' and payment_ref01_data_dt0_loaded.data_get and payment_ref01_data_dt0_loaded:data_get() or payment_ref01_data_dt0_loaded)
+    assert.is_not_nil(payment_ref01_data_dt0_load_result)
+    assert.are.equal(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"])
+
+      return
+    end
+
+    local client = setup.client
+
+    -- CREATE
+    local payment_ref01_ent = client:Payment(nil)
+    local payment_ref01_data = helpers.to_map(vs.getprop(
+      vs.getpath(setup.data, "new.payment"), "payment_ref01"))
+
+    local payment_ref01_data_result, err = payment_ref01_ent:create(payment_ref01_data, nil)
+    assert.is_nil(err)
+    payment_ref01_data = helpers.to_map(type(payment_ref01_data_result) == 'table' and payment_ref01_data_result.data_get and payment_ref01_data_result:data_get() or payment_ref01_data_result)
+    assert.is_not_nil(payment_ref01_data)
+    assert.is_not_nil(payment_ref01_data["id"])
+
+    -- LIST
+    local payment_ref01_match = {}
+
+    local payment_ref01_list_result, err = payment_ref01_ent:list(payment_ref01_match, nil)
+    assert.is_nil(err)
+    assert.is_table(payment_ref01_list_result)
+
+    local found_item = vs.select(
+      runner.entity_list_to_data(payment_ref01_list_result),
+      { id = payment_ref01_data["id"] })
+    assert.is_false(vs.isempty(found_item))
 
     -- LOAD
     local payment_ref01_match_dt0 = {
@@ -229,7 +269,6 @@ function payment_basic_setup(extra)
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_TEST_EXPLAIN"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -245,9 +284,6 @@ function payment_basic_setup(extra)
       runner.live_client_options(),
       {
         apikey = env["KASHIMI_APIKEY"],
-        server = {
-          ["base"] = env["KASHIMI_SERVER_BASE"],
-        },
       },
       extra or {},
     })

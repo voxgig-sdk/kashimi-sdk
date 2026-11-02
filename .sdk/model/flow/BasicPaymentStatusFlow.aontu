@@ -17,6 +17,24 @@ main: kit: flow: BasicPaymentStatusFlow:
         }
       ]
     }
+
+    {
+      i: {
+        ref: "payment_status_ref01",
+        srcdatavar: "payment_status_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-payment_status_ref01"
+          }
+        }
+      ]
+    }
   ],
   "key$": "BasicPaymentStatusFlow"
 }

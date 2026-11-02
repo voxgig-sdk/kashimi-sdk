@@ -41,33 +41,37 @@ local client = sdk.test()
 
 ### Instance Methods
 
-#### `Capability(data)`
+#### `Callback(data)`
 
-Create a new `Capability` entity instance. Pass `nil` for no initial data.
+Create a new `Callback` entity instance. Pass `nil` for no initial data.
 
-#### `ClientHostedUiCustomizationsOutputDto(data)`
+#### `ClientJwk(data)`
 
-Create a new `ClientHostedUiCustomizationsOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ClientJwk` entity instance. Pass `nil` for no initial data.
 
-#### `CreatePaymentOutputDto(data)`
+#### `ConfirmationData(data)`
 
-Create a new `CreatePaymentOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConfirmationData` entity instance. Pass `nil` for no initial data.
 
-#### `CreateTokenOutputDto(data)`
+#### `ConsentStatus(data)`
 
-Create a new `CreateTokenOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConsentStatus` entity instance. Pass `nil` for no initial data.
+
+#### `Country(data)`
+
+Create a new `Country` entity instance. Pass `nil` for no initial data.
+
+#### `Followup(data)`
+
+Create a new `Followup` entity instance. Pass `nil` for no initial data.
 
 #### `Healthcheck(data)`
 
 Create a new `Healthcheck` entity instance. Pass `nil` for no initial data.
 
-#### `Latest(data)`
+#### `HostedUiCustomization(data)`
 
-Create a new `Latest` entity instance. Pass `nil` for no initial data.
-
-#### `Obn(data)`
-
-Create a new `Obn` entity instance. Pass `nil` for no initial data.
+Create a new `HostedUiCustomization` entity instance. Pass `nil` for no initial data.
 
 #### `Payment(data)`
 
@@ -81,9 +85,33 @@ Create a new `PaymentStatus` entity instance. Pass `nil` for no initial data.
 
 Create a new `Provider` entity instance. Pass `nil` for no initial data.
 
-#### `ProvidersSubsidiaryOutputDto(data)`
+#### `PsuProvidedData(data)`
 
-Create a new `ProvidersSubsidiaryOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `PsuProvidedData` entity instance. Pass `nil` for no initial data.
+
+#### `Report(data)`
+
+Create a new `Report` entity instance. Pass `nil` for no initial data.
+
+#### `ScaData(data)`
+
+Create a new `ScaData` entity instance. Pass `nil` for no initial data.
+
+#### `ScaMethod(data)`
+
+Create a new `ScaMethod` entity instance. Pass `nil` for no initial data.
+
+#### `SenderAccount(data)`
+
+Create a new `SenderAccount` entity instance. Pass `nil` for no initial data.
+
+#### `Subsidiary(data)`
+
+Create a new `Subsidiary` entity instance. Pass `nil` for no initial data.
+
+#### `Token(data)`
+
+Create a new `Token` entity instance. Pass `nil` for no initial data.
 
 #### `options_map() -> table`
 
@@ -121,10 +149,194 @@ same parameters as `direct()`.
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```lua
-local capability = client:Capability(nil)
+local callback = client:Callback(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Callback():load({ provider_id = "provider_id", state = "state" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CallbackEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ClientJwkEntity
+
+```lua
+local client_jwk = client:ClientJwk(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ClientJwk():load({ client_id = "client_id", provider_id = "provider_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ClientJwkEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ConfirmationDataEntity
+
+```lua
+local confirmation_data = client:ConfirmationData(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ConfirmationData():load()
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ConfirmationDataEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ConsentStatusEntity
+
+```lua
+local consent_status = client:ConsentStatus(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ConsentStatus():load()
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ConsentStatusEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```lua
+local country = client:Country(nil)
 ```
 
 ### Operations
@@ -134,7 +346,7 @@ local capability = client:Capability(nil)
 List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:Capability():list()
+local results, err = client:Country():list()
 ```
 
 ### Common Methods
@@ -157,7 +369,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `CapabilityEntity` instance with the same client and
+Create a new `CountryEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -167,90 +379,19 @@ Return the entity name.
 
 ---
 
-## ClientHostedUiCustomizationsOutputDtoEntity
+## FollowupEntity
 
 ```lua
-local client_hosted_ui_customizations_output_dto = client:ClientHostedUiCustomizationsOutputDto(nil)
+local followup = client:Followup(nil)
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
-
-### Operations
-
-#### `load(reqmatch, ctrl) -> any, err`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
-
-```lua
-local result, err = client:ClientHostedUiCustomizationsOutputDto():load({ id = "client_hosted_ui_customizations_output_dto_id" })
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## CreatePaymentOutputDtoEntity
-
-```lua
-local create_payment_output_dto = client:CreatePaymentOutputDto(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `amount` | `number` | Yes | The amount to be transferred. |
-| `currency` | `string` | Yes | The currency of the payment. |
-| `metadata` | `table` | Yes |  |
-| `paymentScheme` | `any` | Yes | Payment scheme. |
 | `provider` | `any` | Yes | The provider information for the followup |
-| `recipient` | `any` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
 | `sender` | `any` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
 #### `create(reqdata, ctrl) -> any, err`
@@ -258,13 +399,9 @@ local create_payment_output_dto = client:CreatePaymentOutputDto(nil)
 Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:CreatePaymentOutputDto():create({
-  amount = --[[ number ]],
-  currency = --[[ string ]],
-  metadata = --[[ table ]],
-  paymentScheme = --[[ any ]],
-  recipient = --[[ any ]],
-  remittanceInformation = --[[ any ]],
+local result, err = client:Followup():create({
+  payment_id = --[[ string ]],
+  provider = --[[ any ]],
 })
 ```
 
@@ -288,71 +425,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```lua
-local create_token_output_dto = client:CreateTokenOutputDto(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `string` | Yes | The JWT access token. |
-| `expires_in` | `number` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `string` | Yes | The type of grant being requested. |
-| `scope` | `string` | Yes | Scopes being requested. |
-| `token_type` | `string` | Yes | Token type. |
-
-### Operations
-
-#### `create(reqdata, ctrl) -> any, err`
-
-Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
-
-```lua
-local result, err = client:CreateTokenOutputDto():create({
-  access_token = --[[ string ]],
-  expires_in = --[[ number ]],
-  grant_type = --[[ string ]],
-  scope = --[[ string ]],
-  token_type = --[[ string ]],
-})
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same client and
+Create a new `FollowupEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -417,98 +490,33 @@ Return the entity name.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```lua
-local latest = client:Latest(nil)
+local hosted_ui_customization = client:HostedUiCustomization(nil)
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `string` | Yes | Timestamp of status creation |
-| `detailedStatus` | `string` | Yes | Detailed payment status |
-| `failureReasons` | `table` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Yes | Unique payment status identifier |
-| `paymentId` | `string` | Yes | Unique payment identifier |
-| `status` | `string` | Yes | Payment status. |
+| `clientId` | `string` | Yes |  |
+| `faviconUrl` | `string` | Yes |  |
+| `footerText` | `string` | Yes |  |
+| `logoUrl` | `string` | Yes |  |
+| `primaryColor` | `string` | Yes |  |
+| `privacyPolicyUrl` | `string` | Yes |  |
+| `psuPortalBaseUrl` | `string` | Yes |  |
+| `termsUrl` | `string` | Yes |  |
 
 ### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
-
-```lua
-local results, err = client:Latest():list({ payment_id = "example" })
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LatestEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
-## ObnEntity
-
-```lua
-local obn = client:Obn(nil)
-```
-
-### Operations
-
-#### `create(reqdata, ctrl) -> any, err`
-
-Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
-
-```lua
-local result, err = client:Obn():create({
-  provider_id = --[[ string ]],
-  state = --[[ string ]],
-})
-```
 
 #### `load(reqmatch, ctrl) -> any, err`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
-local result, err = client:Obn():load({ provider_id = "provider_id", state = "state" })
-```
-
-#### `update(reqdata, ctrl) -> any, err`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
-
-```lua
-local result, err = client:Obn():update({
-  -- Fields to update
-})
+local result, err = client:HostedUiCustomization():load({ client_id = "client_id" })
 ```
 
 ### Common Methods
@@ -531,7 +539,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `ObnEntity` instance with the same client and
+Create a new `HostedUiCustomizationEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -552,38 +560,49 @@ local payment = client:Payment(nil)
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `number` | Yes | Payment amount |
-| `clientId` | `string` | Yes | Client identifier |
 | `createdAt` | `string` | Yes |  |
 | `currency` | `string` | Yes | Currency code |
 | `id` | `string` | Yes | Unique payment identifier |
 | `metadata` | `table` | Yes |  |
 | `paymentScheme` | `any` | Yes | Payment scheme used |
 | `provider` | `any` | Yes | Payment provider details. |
-| `recipient` | `table` | Yes |  |
+| `recipient` | `table` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
-| `sender` | `table` | Yes |  |
-| `status` | `string` | Yes | The most recent status of the payment. |
+| `sender` | `table` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
-| --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
 
 ### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Payment():create({
+  amount = --[[ number ]],
+  currency = --[[ string ]],
+  metadata = --[[ table ]],
+  paymentScheme = --[[ any ]],
+  recipient = --[[ table ]],
+  remittanceInformation = --[[ any ]],
+})
+```
 
 #### `list(reqmatch, ctrl) -> any, err`
 
@@ -656,6 +675,14 @@ List entities matching the given criteria. Returns an array of entities, one per
 
 ```lua
 local results, err = client:PaymentStatus():list({ payment_id = "example" })
+```
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:PaymentStatus():load({ payment_id = "payment_id" })
 ```
 
 ### Common Methods
@@ -748,10 +775,286 @@ Return the entity name.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```lua
-local providers_subsidiary_output_dto = client:ProvidersSubsidiaryOutputDto(nil)
+local psu_provided_data = client:PsuProvidedData(nil)
+```
+
+### Operations
+
+#### `update(reqdata, ctrl) -> any, err`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:PsuProvidedData():update({
+  -- Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `PsuProvidedDataEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```lua
+local report = client:Report(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `number` | Yes | Payment amount |
+| `createdAt` | `string` | Yes |  |
+| `currency` | `string` | Yes | Currency code |
+| `id` | `string` | Yes | Unique payment identifier |
+| `provider` | `table` | No | Selected provider details (name, country). |
+| `recipient` | `table` | Yes |  |
+| `remittanceInformation` | `any` | Yes |  |
+| `sender` | `table` | No |  |
+| `status` | `string` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Report():load({ id = "report_id" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ScaDataEntity
+
+```lua
+local sca_data = client:ScaData(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ScaData():load()
+```
+
+#### `update(reqdata, ctrl) -> any, err`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ScaData():update({
+  -- Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ScaDataEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## ScaMethodEntity
+
+```lua
+local sca_method = client:ScaMethod(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ScaMethod():load()
+```
+
+#### `update(reqdata, ctrl) -> any, err`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:ScaMethod():update({
+  -- Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ScaMethodEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## SenderAccountEntity
+
+```lua
+local sender_account = client:SenderAccount(nil)
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
+
+```lua
+local result, err = client:SenderAccount():load({ provider_id = "provider_id", state = "state" })
+```
+
+#### `update(reqdata, ctrl) -> any, err`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:SenderAccount():update({
+  -- Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `SenderAccountEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## SubsidiaryEntity
+
+```lua
+local subsidiary = client:Subsidiary(nil)
 ```
 
 ### Fields
@@ -775,7 +1078,7 @@ local providers_subsidiary_output_dto = client:ProvidersSubsidiaryOutputDto(nil)
 List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:ProvidersSubsidiaryOutputDto():list({ provider_id = "example" })
+local results, err = client:Subsidiary():list({ provider_id = "example" })
 ```
 
 ### Common Methods
@@ -798,7 +1101,71 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same client and
+Create a new `SubsidiaryEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
+## TokenEntity
+
+```lua
+local token = client:Token(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `string` | Yes | The JWT access token. |
+| `expires_in` | `number` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `string` | Yes | The type of grant being requested. |
+| `scope` | `string` | Yes | Scopes being requested. |
+| `token_type` | `string` | Yes | Token type. |
+
+### Operations
+
+#### `create(reqdata, ctrl) -> any, err`
+
+Create a new entity with the given data. Returns the created entity, or `nil` and an error on failure.
+
+```lua
+local result, err = client:Token():create({
+  access_token = --[[ string ]],
+  expires_in = --[[ number ]],
+  grant_type = --[[ string ]],
+  scope = --[[ string ]],
+  token_type = --[[ string ]],
+})
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `TokenEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`

@@ -4,7 +4,7 @@
 
 The Golang SDK for the Kashimi API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client.Capability(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.Callback(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Also generated from this model: `go-cli`, `go-mcp`, `lua`, `php`, `py`, `rb`, `ts` — see
 > the [top-level README](../README.md).
@@ -52,19 +52,14 @@ import (
 func main() {
     client := sdk.NewKashimiSDK(map[string]any{
         "apikey": os.Getenv("KASHIMI_APIKEY"),
-    "server": map[string]any{
-        "base": "<base>",
-    },
     })
 
-    // List capability records — the value is a []any of entities, one per record.
-    capabilitys, err := client.Capability(nil).List(nil, nil)
+    // Load a single callback — the value is the entity; Data() reads its record.
+    callback, err := client.Callback(nil).Load(map[string]any{"provider_id": "example_provider_id", "state": "example_state"}, nil)
     if err != nil {
         panic(err)
     }
-    for _, item := range capabilitys.([]any) {
-        fmt.Println(item.(sdk.Entity).Data())
-    }
+    fmt.Println(callback.(sdk.Entity).Data())
 }
 ```
 
@@ -75,12 +70,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-latests, err := client.Latest(nil).List(map[string]any{"payment_id": "example"}, nil)
+clientjwk, err := client.ClientJwk(nil).Load(map[string]any{"client_id": "example", "provider_id": "example"}, nil)
 if err != nil {
     // handle err
     return
 }
-_ = latests
+_ = clientjwk
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -144,16 +139,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-latests, err := client.Latest(nil).List(
-    map[string]any{"payment_id": "example"}, nil,
+clientJwk, err := client.ClientJwk(nil).Load(
+    map[string]any{"client_id": "example", "provider_id": "example"}, nil,
 )
 if err != nil {
     panic(err)
 }
-// A []any of entities, one per mock record.
-for _, item := range latests.([]any) {
-    fmt.Println(item.(sdk.Entity).Data())
-}
+fmt.Println(clientJwk.(sdk.Entity).Data()) // the entity's mock record
 ```
 
 ### Use a custom fetch function
@@ -232,17 +224,24 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
-| `Capability` | `(data map[string]any) KashimiEntityBase` | Create a Capability entity instance. |
-| `ClientHostedUiCustomizationsOutputDto` | `(data map[string]any) KashimiEntityBase` | Create a ClientHostedUiCustomizationsOutputDto entity instance. |
-| `CreatePaymentOutputDto` | `(data map[string]any) KashimiEntityBase` | Create a CreatePaymentOutputDto entity instance. |
-| `CreateTokenOutputDto` | `(data map[string]any) KashimiEntityBase` | Create a CreateTokenOutputDto entity instance. |
+| `Callback` | `(data map[string]any) KashimiEntityBase` | Create a Callback entity instance. |
+| `ClientJwk` | `(data map[string]any) KashimiEntityBase` | Create a ClientJwk entity instance. |
+| `ConfirmationData` | `(data map[string]any) KashimiEntityBase` | Create a ConfirmationData entity instance. |
+| `ConsentStatus` | `(data map[string]any) KashimiEntityBase` | Create a ConsentStatus entity instance. |
+| `Country` | `(data map[string]any) KashimiEntityBase` | Create a Country entity instance. |
+| `Followup` | `(data map[string]any) KashimiEntityBase` | Create a Followup entity instance. |
 | `Healthcheck` | `(data map[string]any) KashimiEntityBase` | Create a Healthcheck entity instance. |
-| `Latest` | `(data map[string]any) KashimiEntityBase` | Create a Latest entity instance. |
-| `Obn` | `(data map[string]any) KashimiEntityBase` | Create an Obn entity instance. |
+| `HostedUiCustomization` | `(data map[string]any) KashimiEntityBase` | Create a HostedUiCustomization entity instance. |
 | `Payment` | `(data map[string]any) KashimiEntityBase` | Create a Payment entity instance. |
 | `PaymentStatus` | `(data map[string]any) KashimiEntityBase` | Create a PaymentStatus entity instance. |
 | `Provider` | `(data map[string]any) KashimiEntityBase` | Create a Provider entity instance. |
-| `ProvidersSubsidiaryOutputDto` | `(data map[string]any) KashimiEntityBase` | Create a ProvidersSubsidiaryOutputDto entity instance. |
+| `PsuProvidedData` | `(data map[string]any) KashimiEntityBase` | Create a PsuProvidedData entity instance. |
+| `Report` | `(data map[string]any) KashimiEntityBase` | Create a Report entity instance. |
+| `ScaData` | `(data map[string]any) KashimiEntityBase` | Create a ScaData entity instance. |
+| `ScaMethod` | `(data map[string]any) KashimiEntityBase` | Create a ScaMethod entity instance. |
+| `SenderAccount` | `(data map[string]any) KashimiEntityBase` | Create a SenderAccount entity instance. |
+| `Subsidiary` | `(data map[string]any) KashimiEntityBase` | Create a Subsidiary entity instance. |
+| `Token` | `(data map[string]any) KashimiEntityBase` | Create a Token entity instance. |
 
 ### Entity interface (KashimiEntityBase)
 
@@ -273,16 +272,52 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    capability, err := client.Capability(nil).List(nil, nil)
+    callback, err := client.Callback(nil).Load(map[string]any{"provider_id": "example", "state": "example"}, nil)
     if err != nil { /* handle */ }
-    // capability is a []any of entities, one per record
+    // callback is the entity; callback.(sdk.Entity).Data() reads its record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
 
 ### Entities
 
-#### Capability
+#### Callback
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/callbacks`
+
+#### ClientJwk
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/client-jwks`
+
+#### ConfirmationData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/confirmation-data`
+
+#### ConsentStatus
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/consent-status`
+
+#### Country
 
 | Field | Description |
 | --- | --- |
@@ -291,46 +326,16 @@ Operations: List.
 
 API path: `/api/v1/capabilities/providers/countries`
 
-#### ClientHostedUiCustomizationsOutputDto
+#### Followup
 
 | Field | Description |
 | --- | --- |
-| `"id"` |  |
-
-Operations: Load.
-
-API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
-
-#### CreatePaymentOutputDto
-
-| Field | Description |
-| --- | --- |
-| `"amount"` | The amount to be transferred. |
-| `"currency"` | The currency of the payment. |
-| `"metadata"` |  |
-| `"paymentScheme"` | Payment scheme. |
 | `"provider"` | The provider information for the followup |
-| `"recipient"` | Data about the party receiving the payment. |
-| `"remittanceInformation"` | Unstructured or structured remittance information. |
 | `"sender"` | The sender information to be used with the payment |
 
 Operations: Create.
 
 API path: `/api/v1/ob/payments/{paymentId}/followups`
-
-#### CreateTokenOutputDto
-
-| Field | Description |
-| --- | --- |
-| `"access_token"` | The JWT access token. |
-| `"expires_in"` | Expiration time of the token in seconds. |
-| `"grant_type"` | The type of grant being requested. |
-| `"scope"` | Scopes being requested. |
-| `"token_type"` | Token type. |
-
-Operations: Create.
-
-API path: `/api/v1/auth/token`
 
 #### Healthcheck
 
@@ -345,51 +350,42 @@ Operations: Load.
 
 API path: `/api/status`
 
-#### Latest
+#### HostedUiCustomization
 
 | Field | Description |
 | --- | --- |
-| `"createdAt"` | Timestamp of status creation |
-| `"detailedStatus"` | Detailed payment status |
-| `"failureReasons"` | Failure reasons (for `status: FAILED` only) |
-| `"id"` | Unique payment status identifier |
-| `"paymentId"` | Unique payment identifier |
-| `"status"` | Payment status. |
+| `"clientId"` |  |
+| `"faviconUrl"` |  |
+| `"footerText"` |  |
+| `"logoUrl"` |  |
+| `"primaryColor"` |  |
+| `"privacyPolicyUrl"` |  |
+| `"psuPortalBaseUrl"` |  |
+| `"termsUrl"` |  |
 
-Operations: List.
+Operations: Load.
 
-API path: `/api/v1/archive/payment-statuses/latest`
-
-#### Obn
-
-| Field | Description |
-| --- | --- |
-
-Operations: Create, Load, Update.
-
-API path: `/api/v1/ob/payments/cancel`
+API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
 
 #### Payment
 
 | Field | Description |
 | --- | --- |
 | `"amount"` | Payment amount |
-| `"clientId"` | Client identifier |
 | `"createdAt"` |  |
 | `"currency"` | Currency code |
 | `"id"` | Unique payment identifier |
 | `"metadata"` |  |
 | `"paymentScheme"` | Payment scheme used |
 | `"provider"` | Payment provider details. |
-| `"recipient"` |  |
+| `"recipient"` | Data about the party receiving the payment. |
 | `"remittanceInformation"` | Unstructured or structured remittance information. |
-| `"sender"` |  |
-| `"status"` | The most recent status of the payment. |
+| `"sender"` | Data about the party sending the payment. |
 | `"updatedAt"` |  |
 
-Operations: List, Load.
+Operations: Create, List, Load.
 
-API path: `/api/v1/archive/payments`
+API path: `/api/v1/ob/payments/cancel`
 
 #### PaymentStatus
 
@@ -402,7 +398,7 @@ API path: `/api/v1/archive/payments`
 | `"paymentId"` | Unique payment identifier |
 | `"status"` | Payment status. |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/v1/archive/payment-statuses`
 
@@ -422,9 +418,63 @@ API path: `/api/v1/archive/payment-statuses`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers`
+API path: `/api/v1/capabilities/providers`
 
-#### ProvidersSubsidiaryOutputDto
+#### PsuProvidedData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Update.
+
+API path: `/api/v1/ob/payments/psu-provided-data`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `"amount"` | Payment amount |
+| `"createdAt"` |  |
+| `"currency"` | Currency code |
+| `"id"` | Unique payment identifier |
+| `"provider"` | Selected provider details (name, country). |
+| `"recipient"` |  |
+| `"remittanceInformation"` |  |
+| `"sender"` |  |
+| `"status"` | The most recent status of the payment. |
+
+Operations: Load.
+
+API path: `/api/v1/reports/payments/{id}`
+
+#### ScaData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-data`
+
+#### ScaMethod
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-methods`
+
+#### SenderAccount
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/sender-accounts`
+
+#### Subsidiary
 
 | Field | Description |
 | --- | --- |
@@ -440,16 +490,114 @@ API path: `/api/v1/capabilities/internal/providers`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers/{id}/subsidiaries`
+API path: `/api/v1/capabilities/providers/{id}/subsidiaries`
+
+#### Token
+
+| Field | Description |
+| --- | --- |
+| `"access_token"` | The JWT access token. |
+| `"expires_in"` | Expiration time of the token in seconds. |
+| `"grant_type"` | The type of grant being requested. |
+| `"scope"` | Scopes being requested. |
+| `"token_type"` | Token type. |
+
+Operations: Create.
+
+API path: `/api/v1/auth/token`
 
 
 
 ## Entities
 
 
-### Capability
+### Callback
 
-Create an instance: `capability := client.Capability(nil)`
+Create an instance: `callback := client.Callback(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```go
+callback, err := client.Callback(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(callback.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### ClientJwk
+
+Create an instance: `clientJwk := client.ClientJwk(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```go
+clientJwk, err := client.ClientJwk(nil).Load(map[string]any{"client_id": "client_id", "provider_id": "provider_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(clientJwk.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### ConfirmationData
+
+Create an instance: `confirmationData := client.ConfirmationData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```go
+confirmationData, err := client.ConfirmationData(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(confirmationData.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### ConsentStatus
+
+Create an instance: `consentStatus := client.ConsentStatus(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```go
+consentStatus, err := client.ConsentStatus(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(consentStatus.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### Country
+
+Create an instance: `country := client.Country(nil)`
 
 #### Operations
 
@@ -460,47 +608,20 @@ Create an instance: `capability := client.Capability(nil)`
 #### Example: List
 
 ```go
-capabilitys, err := client.Capability(nil).List(nil, nil)
+countrys, err := client.Country(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
 // A []any of entities, one per record.
-for _, item := range capabilitys.([]any) {
+for _, item := range countrys.([]any) {
     fmt.Println(item.(sdk.Entity).Data())
 }
 ```
 
 
-### ClientHostedUiCustomizationsOutputDto
+### Followup
 
-Create an instance: `clientHostedUiCustomizationsOutputDto := client.ClientHostedUiCustomizationsOutputDto(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `Load(match, ctrl)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `id` | `string` |  |
-
-#### Example: Load
-
-```go
-clientHostedUiCustomizationsOutputDto, err := client.ClientHostedUiCustomizationsOutputDto(nil).Load(map[string]any{"id": "client_hosted_ui_customizations_output_dto_id"}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(clientHostedUiCustomizationsOutputDto.(sdk.Entity).Data()) // the loaded entity's record
-```
-
-
-### CreatePaymentOutputDto
-
-Create an instance: `createPaymentOutputDto := client.CreatePaymentOutputDto(nil)`
+Create an instance: `followup := client.Followup(nil)`
 
 #### Operations
 
@@ -512,62 +633,15 @@ Create an instance: `createPaymentOutputDto := client.CreatePaymentOutputDto(nil
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `float64` | The amount to be transferred. |
-| `currency` | `string` | The currency of the payment. |
-| `metadata` | `map[string]any` |  |
-| `paymentScheme` | `any` | Payment scheme. |
 | `provider` | `any` | The provider information for the followup |
-| `recipient` | `any` | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Unstructured or structured remittance information. |
 | `sender` | `any` | The sender information to be used with the payment |
 
 #### Example: Create
 
 ```go
-result, err := client.CreatePaymentOutputDto(nil).Create(map[string]any{
-    "amount": 1,
-    "currency": "example_currency",
-    "metadata": map[string]any{},
-    "paymentScheme": "example_paymentScheme",
-    "recipient": "example_recipient",
-    "remittanceInformation": "example_remittanceInformation",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
-```
-
-
-### CreateTokenOutputDto
-
-Create an instance: `createTokenOutputDto := client.CreateTokenOutputDto(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `access_token` | `string` | The JWT access token. |
-| `expires_in` | `float64` | Expiration time of the token in seconds. |
-| `grant_type` | `string` | The type of grant being requested. |
-| `scope` | `string` | Scopes being requested. |
-| `token_type` | `string` | Token type. |
-
-#### Example: Create
-
-```go
-result, err := client.CreateTokenOutputDto(nil).Create(map[string]any{
-    "access_token": "example_access_token",
-    "expires_in": 1,
-    "grant_type": "example_grant_type",
-    "scope": "example_scope",
-    "token_type": "example_token_type",
+result, err := client.Followup(nil).Create(map[string]any{
+    "payment_id": "example_payment_id",
+    "provider": "example_provider",
 }, nil)
 if err != nil {
     panic(err)
@@ -606,74 +680,37 @@ fmt.Println(healthcheck.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
-### Latest
+### HostedUiCustomization
 
-Create an instance: `latest := client.Latest(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `List(match, ctrl)` | List entities matching the criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `createdAt` | `string` | Timestamp of status creation |
-| `detailedStatus` | `string` | Detailed payment status |
-| `failureReasons` | `[]any` | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Unique payment status identifier |
-| `paymentId` | `string` | Unique payment identifier |
-| `status` | `string` | Payment status. |
-
-#### Example: List
-
-```go
-latests, err := client.Latest(nil).List(map[string]any{"payment_id": "example"}, nil)
-if err != nil {
-    panic(err)
-}
-// A []any of entities, one per record.
-for _, item := range latests.([]any) {
-    fmt.Println(item.(sdk.Entity).Data())
-}
-```
-
-
-### Obn
-
-Create an instance: `obn := client.Obn(nil)`
+Create an instance: `hostedUiCustomization := client.HostedUiCustomization(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
-| `Create(data, ctrl)` | Create a new entity with the given data. |
-| `Update(data, ctrl)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `clientId` | `string` |  |
+| `faviconUrl` | `string` |  |
+| `footerText` | `string` |  |
+| `logoUrl` | `string` |  |
+| `primaryColor` | `string` |  |
+| `privacyPolicyUrl` | `string` |  |
+| `psuPortalBaseUrl` | `string` |  |
+| `termsUrl` | `string` |  |
 
 #### Example: Load
 
 ```go
-obn, err := client.Obn(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
+hostedUiCustomization, err := client.HostedUiCustomization(nil).Load(map[string]any{"client_id": "client_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(obn.(sdk.Entity).Data()) // the loaded entity's record
-```
-
-#### Example: Create
-
-```go
-result, err := client.Obn(nil).Create(map[string]any{
-    "provider_id": "example_provider_id",
-    "state": "example_state",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
+fmt.Println(hostedUiCustomization.(sdk.Entity).Data()) // the loaded entity's record
 ```
 
 
@@ -687,23 +724,22 @@ Create an instance: `payment := client.Payment(nil)`
 | --- | --- |
 | `List(match, ctrl)` | List entities matching the criteria. |
 | `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
 | `amount` | `float64` | Payment amount |
-| `clientId` | `string` | Client identifier |
 | `createdAt` | `string` |  |
 | `currency` | `string` | Currency code |
 | `id` | `string` | Unique payment identifier |
 | `metadata` | `map[string]any` |  |
 | `paymentScheme` | `any` | Payment scheme used |
 | `provider` | `any` | Payment provider details. |
-| `recipient` | `map[string]any` |  |
+| `recipient` | `map[string]any` | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Unstructured or structured remittance information. |
-| `sender` | `map[string]any` |  |
-| `status` | `string` | The most recent status of the payment. |
+| `sender` | `map[string]any` | Data about the party sending the payment. |
 | `updatedAt` | `string` |  |
 
 #### Example: Load
@@ -729,6 +765,23 @@ for _, item := range payments.([]any) {
 }
 ```
 
+#### Example: Create
+
+```go
+result, err := client.Payment(nil).Create(map[string]any{
+    "amount": 1,
+    "currency": "example_currency",
+    "metadata": map[string]any{},
+    "paymentScheme": "example_paymentScheme",
+    "recipient": map[string]any{},
+    "remittanceInformation": "example_remittanceInformation",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
+```
+
 
 ### PaymentStatus
 
@@ -739,6 +792,7 @@ Create an instance: `paymentStatus := client.PaymentStatus(nil)`
 | Method | Description |
 | --- | --- |
 | `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -750,6 +804,16 @@ Create an instance: `paymentStatus := client.PaymentStatus(nil)`
 | `id` | `string` | Unique payment status identifier |
 | `paymentId` | `string` | Unique payment identifier |
 | `status` | `string` | Payment status. |
+
+#### Example: Load
+
+```go
+paymentStatus, err := client.PaymentStatus(nil).Load(map[string]any{"payment_id": "payment_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(paymentStatus.(sdk.Entity).Data()) // the loaded entity's record
+```
 
 #### Example: List
 
@@ -803,9 +867,121 @@ for _, item := range providers.([]any) {
 ```
 
 
-### ProvidersSubsidiaryOutputDto
+### PsuProvidedData
 
-Create an instance: `providersSubsidiaryOutputDto := client.ProvidersSubsidiaryOutputDto(nil)`
+Create an instance: `psuProvidedData := client.PsuProvidedData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Update(data, ctrl)` | Update an existing entity. |
+
+
+### Report
+
+Create an instance: `report := client.Report(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `float64` | Payment amount |
+| `createdAt` | `string` |  |
+| `currency` | `string` | Currency code |
+| `id` | `string` | Unique payment identifier |
+| `provider` | `map[string]any` | Selected provider details (name, country). |
+| `recipient` | `map[string]any` |  |
+| `remittanceInformation` | `any` |  |
+| `sender` | `map[string]any` |  |
+| `status` | `string` | The most recent status of the payment. |
+
+#### Example: Load
+
+```go
+report, err := client.Report(nil).Load(map[string]any{"id": "report_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(report.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### ScaData
+
+Create an instance: `scaData := client.ScaData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Update(data, ctrl)` | Update an existing entity. |
+
+#### Example: Load
+
+```go
+scaData, err := client.ScaData(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(scaData.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### ScaMethod
+
+Create an instance: `scaMethod := client.ScaMethod(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Update(data, ctrl)` | Update an existing entity. |
+
+#### Example: Load
+
+```go
+scaMethod, err := client.ScaMethod(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(scaMethod.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### SenderAccount
+
+Create an instance: `senderAccount := client.SenderAccount(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Update(data, ctrl)` | Update an existing entity. |
+
+#### Example: Load
+
+```go
+senderAccount, err := client.SenderAccount(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(senderAccount.(sdk.Entity).Data()) // the loaded entity's record
+```
+
+
+### Subsidiary
+
+Create an instance: `subsidiary := client.Subsidiary(nil)`
 
 #### Operations
 
@@ -830,14 +1006,51 @@ Create an instance: `providersSubsidiaryOutputDto := client.ProvidersSubsidiaryO
 #### Example: List
 
 ```go
-providersSubsidiaryOutputDtos, err := client.ProvidersSubsidiaryOutputDto(nil).List(map[string]any{"provider_id": "example"}, nil)
+subsidiarys, err := client.Subsidiary(nil).List(map[string]any{"provider_id": "example"}, nil)
 if err != nil {
     panic(err)
 }
 // A []any of entities, one per record.
-for _, item := range providersSubsidiaryOutputDtos.([]any) {
+for _, item := range subsidiarys.([]any) {
     fmt.Println(item.(sdk.Entity).Data())
 }
+```
+
+
+### Token
+
+Create an instance: `token := client.Token(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `access_token` | `string` | The JWT access token. |
+| `expires_in` | `float64` | Expiration time of the token in seconds. |
+| `grant_type` | `string` | The type of grant being requested. |
+| `scope` | `string` | Scopes being requested. |
+| `token_type` | `string` | Token type. |
+
+#### Example: Create
+
+```go
+result, err := client.Token(nil).Create(map[string]any{
+    "access_token": "example_access_token",
+    "expires_in": 1,
+    "grant_type": "example_grant_type",
+    "scope": "example_scope",
+    "token_type": "example_token_type",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data()) // the created entity's record
 ```
 
 ## Features
@@ -1075,15 +1288,15 @@ like `core.ToMapAny`.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `List`, the entity
+Entity instances are stateful. After a successful `Load`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-latest := client.Latest(nil)
-latest.List(map[string]any{"payment_id": "example"}, nil)
+clientjwk := client.ClientJwk(nil)
+clientjwk.Load(map[string]any{"client_id": "example", "provider_id": "example"}, nil)
 
-// latest.Data() now returns the latest data from the last list
-// latest.Match() returns the last match criteria
+// clientjwk.Data() now returns the clientjwk data from the last load
+// clientjwk.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

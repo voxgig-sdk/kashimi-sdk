@@ -59,6 +59,48 @@ class PaymentStatusDirectTest < Minitest::Test
     end
   end
 
+  def test_direct_load_payment_status
+    setup = payment_status_direct_setup({ "id" => "direct01" })
+    _should_skip, _reason = Runner.is_control_skipped("direct", "direct-load-payment_status", setup[:live] ? "live" : "unit")
+    if _should_skip
+      skip(_reason || "skipped via sdk-test-control.json")
+      return
+    end
+    client = setup[:client]
+
+    params = {}
+    query = {}
+    if setup[:live]
+      query["paymentId"] = "123e4567-e89b-12d3-a456-426614174000"
+    else
+    end
+
+    result = client.direct({
+      "path" => "api/v1/archive/payment-statuses/latest",
+      "method" => "GET",
+      "params" => params,
+      "query" => query,
+    })
+    if setup[:live]
+      unless live_ok(result)
+        Runner.live_miss(LIVE_STRICT, "Live load failed: " + Runner.live_describe(result))
+      end
+      if result["data"].nil?
+        Runner.live_miss(LIVE_STRICT, "Live load returned no data: " + Runner.live_describe(result))
+      end
+      assert !result["data"].nil?
+    else
+      assert_nil result["err"]
+      assert result["ok"]
+      assert_equal 200, Helpers.to_int(result["status"])
+      assert !result["data"].nil?
+      if result["data"].is_a?(Hash)
+        assert_equal "direct01", result["data"]["id"]
+      end
+      assert_equal 1, setup[:calls].length
+    end
+  end
+
 end
 
 
@@ -71,7 +113,6 @@ def payment_status_direct_setup(mockres)
     "KASHIMI_TEST_PAYMENT_STATUS_ENTID" => {},
     "KASHIMI_TEST_LIVE" => "FALSE",
     "KASHIMI_APIKEY" => "",
-    "KASHIMI_SERVER_BASE" => "",
   })
 
   live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -81,9 +122,6 @@ def payment_status_direct_setup(mockres)
     # test.client.options adds to the live client, it does not redirect it.
     merged_opts = Runner.live_client_options.merge({
       "apikey" => env["KASHIMI_APIKEY"],
-      "server" => {
-        "base" => env["KASHIMI_SERVER_BASE"],
-      },
     })
     client = KashimiSDK.new(merged_opts)
     idmap = env["KASHIMI_TEST_PAYMENT_STATUS_ENTID"]

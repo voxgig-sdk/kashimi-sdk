@@ -31,10 +31,10 @@ Tool-call arguments (what an agent sends):
 
 ```jsonc
 // kashimi_list: first page of records
-{ "entity": "capability" }
+{ "entity": "country" }
 
 // kashimi_load: one record
-{ "entity": "client_hosted_ui_customizations_output_dto", "query": { "id": "example_id" } }
+{ "entity": "callback", "query": { "provider_id": "example", "state": "example" } }
 ```
 
 > The rest of this guide follows the [Diátaxis](https://diataxis.fr) framework:
@@ -63,8 +63,8 @@ Tool-call arguments (what an agent sends):
    ```
 
 4. **Restart Claude Code.** The `kashimi_list` and `kashimi_load` tools now appear in new
-   sessions. Ask the agent to *"list capability using kashimi"*
-   and it calls `kashimi_list` with `{"entity":"capability"}`.
+   sessions. Ask the agent to *"list country using kashimi"*
+   and it calls `kashimi_list` with `{"entity":"country"}`.
 
 ## How-to guides
 
@@ -95,7 +95,7 @@ Args: `entity` (required), `query` (optional: optional filter map; omit it for t
 Returns the first page of records as JSON:
 
 ```jsonc
-{ "entity": "capability" }
+{ "entity": "country" }
 ```
 
 ### Call the `kashimi_load` tool
@@ -104,7 +104,7 @@ Args: `entity` (required), `query` (required: match map naming the record, such 
 Returns the record as JSON:
 
 ```jsonc
-{ "entity": "client_hosted_ui_customizations_output_dto", "query": { "id": "example_id" } }
+{ "entity": "callback", "query": { "provider_id": "example", "state": "example" } }
 ```
 
 ### Turn on the write tools
@@ -137,12 +137,12 @@ failure message (e.g. unknown entity, or an API error).
 ### Entities
 
 Each tool takes as its `entity` argument one of the entities that has its
-operation, of the 11 the SDK has:
+operation, of the 18 the SDK has:
 
 | Tool | Entities |
 |------|----------|
-| `kashimi_list` | capability, latest, payment, payment_status, provider, providers_subsidiary_output_dto |
-| `kashimi_load` | client_hosted_ui_customizations_output_dto, healthcheck, obn, payment |
+| `kashimi_list` | country, payment, payment_status, provider, subsidiary |
+| `kashimi_load` | callback, client_jwk, confirmation_data, consent_status, healthcheck, hosted_ui_customization, payment, payment_status, report, sca_data, sca_method, sender_account |
 
 JSON schemas are emitted by the SDK from each tool's argument struct's
 `json` / `jsonschema` tags — no schema is hand-written. Each tool's
@@ -181,7 +181,7 @@ curl -sN -X POST http://localhost:18080 \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json, text/event-stream' \
   -H "Mcp-Session-Id: $SESSION" \
-  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"kashimi_list","arguments":{"entity":"capability"}}}'
+  -d '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"kashimi_list","arguments":{"entity":"country"}}}'
 ```
 
 ## Explanation

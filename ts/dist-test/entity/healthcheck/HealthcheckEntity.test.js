@@ -70,7 +70,7 @@ const utility_1 = require("../../utility");
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "details": { "a": true, "h": "Details", "n": "details", "r": false, "t": "`$OBJECT`", "key$": "details", "index$": 0 }, "error": { "a": true, "h": "Error", "n": "error", "r": false, "t": "`$OBJECT`", "key$": "error", "index$": 1 }, "info": { "a": true, "h": "Info", "n": "info", "r": false, "t": "`$OBJECT`", "key$": "info", "index$": 2 }, "status": { "a": true, "h": "Status", "n": "status", "r": false, "t": "`$STRING`", "key$": "status", "index$": 3 } }, "name": "healthcheck", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /api/status", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/api/status", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "status" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "healthcheck", "name__orig": "healthcheck", "Name": "Healthcheck", "name_": "healthcheck", "name-": "healthcheck", "NAME": "HEALTHCHECK", "index$": 4 }, { "active": true, "entity": "healthcheck", "key$": "BasicHealthcheckFlow", "kind": "basic", "name": "BasicHealthcheckFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "healthcheck_ref01", "srcdatavar": "healthcheck_ref01_data", "suffix": "_dt0" }, "m": {}, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-healthcheck_ref01" } }], "index$": 0 }] }, 'Healthcheck', { "GET /api/status": { "protocol": "http", "parameters": [] } }, { strict: LIVE_STRICT, t });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "details": { "a": true, "h": "Details", "n": "details", "r": false, "t": "`$OBJECT`", "key$": "details", "index$": 0 }, "error": { "a": true, "h": "Error", "n": "error", "r": false, "t": "`$OBJECT`", "key$": "error", "index$": 1 }, "info": { "a": true, "h": "Info", "n": "info", "r": false, "t": "`$OBJECT`", "key$": "info", "index$": 2 }, "status": { "a": true, "h": "Status", "n": "status", "r": false, "t": "`$STRING`", "key$": "status", "index$": 3 } }, "name": "healthcheck", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /api/status", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/api/status", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "api" }, { "lit": "status" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "healthcheck", "name__orig": "healthcheck", "Name": "Healthcheck", "name_": "healthcheck", "name-": "healthcheck", "NAME": "HEALTHCHECK", "index$": 6 }, { "active": true, "entity": "healthcheck", "key$": "BasicHealthcheckFlow", "kind": "basic", "name": "BasicHealthcheckFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "healthcheck_ref01", "srcdatavar": "healthcheck_ref01_data", "suffix": "_dt0" }, "m": {}, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-healthcheck_ref01" } }], "index$": 0 }] }, 'Healthcheck', { "GET /api/status": { "protocol": "http", "parameters": [] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
@@ -114,7 +114,6 @@ function basicSetup(extra) {
         'KASHIMI_TEST_LIVE': 'FALSE',
         'KASHIMI_TEST_EXPLAIN': 'FALSE',
         'KASHIMI_APIKEY': '',
-        'KASHIMI_SERVER_BASE': "",
     });
     idmap = env['KASHIMI_TEST_HEALTHCHECK_ENTID'];
     const live = 'TRUE' === env.KASHIMI_TEST_LIVE;
@@ -131,9 +130,6 @@ function basicSetup(extra) {
             (0, utility_1.liveClientOptions)(),
             {
                 apikey: env.KASHIMI_APIKEY,
-                server: {
-                    base: env.KASHIMI_SERVER_BASE,
-                },
             },
             // 'extra || {}', not a bare 'extra': struct.merge returns UNDEFINED when the
             // last entry is undefined, and basicSetup is normally called with no

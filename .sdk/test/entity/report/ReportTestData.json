@@ -1,0 +1,60 @@
+{
+  "existing": {
+    "report": {
+      "REPORT00": {
+        "amount": 90,
+        "createdAt": "s5b",
+        "currency": "s5c",
+        "id": "REPORT00",
+        "provider": {},
+        "recipient": {},
+        "remittanceInformation": "s60",
+        "sender": {},
+        "status": "s62"
+      },
+      "REPORT01": {
+        "amount": 180,
+        "createdAt": "sb5",
+        "currency": "sb6",
+        "id": "REPORT01",
+        "provider": {},
+        "recipient": {},
+        "remittanceInformation": "sba",
+        "sender": {},
+        "status": "sbc"
+      },
+      "REPORT02": {
+        "amount": 270,
+        "createdAt": "s10f",
+        "currency": "s110",
+        "id": "REPORT02",
+        "provider": {},
+        "recipient": {},
+        "remittanceInformation": "s114",
+        "sender": {},
+        "status": "s116"
+      }
+    }
+  },
+  "new": {
+    "report": {
+      "report_ref01": {
+        "amount": 360,
+        "createdAt": "s169",
+        "currency": "s16a",
+        "provider": {},
+        "recipient": {},
+        "remittanceInformation": "s16e",
+        "sender": {},
+        "status": "s170"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/reports/payments/{id}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

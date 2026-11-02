@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "consent_status": {
+      "CONSENT_STATUS00": {
+        "id": "CONSENT_STATUS00"
+      },
+      "CONSENT_STATUS01": {
+        "id": "CONSENT_STATUS01"
+      },
+      "CONSENT_STATUS02": {
+        "id": "CONSENT_STATUS02"
+      }
+    }
+  },
+  "new": {
+    "consent_status": {
+      "consent_status_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/payments/decoupled/consent-status": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

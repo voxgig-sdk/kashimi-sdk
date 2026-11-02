@@ -77,28 +77,42 @@ func runOp(client *sdk.KashimiSDK, op string, query *eng.Value, entityAtom eng.V
 // emits one `case "<name>":` per entity defined in the SDK model.
 func entityFor(client *sdk.KashimiSDK, name string) (sdk.KashimiEntityBase, error) {
 	switch strings.ToLower(name) {
-	case "capability":
-		return client.Capability(nil), nil
-	case "client_hosted_ui_customizations_output_dto":
-		return client.ClientHostedUiCustomizationsOutputDto(nil), nil
-	case "create_payment_output_dto":
-		return client.CreatePaymentOutputDto(nil), nil
-	case "create_token_output_dto":
-		return client.CreateTokenOutputDto(nil), nil
+	case "callback":
+		return client.Callback(nil), nil
+	case "client_jwk":
+		return client.ClientJwk(nil), nil
+	case "confirmation_data":
+		return client.ConfirmationData(nil), nil
+	case "consent_status":
+		return client.ConsentStatus(nil), nil
+	case "country":
+		return client.Country(nil), nil
+	case "followup":
+		return client.Followup(nil), nil
 	case "healthcheck":
 		return client.Healthcheck(nil), nil
-	case "latest":
-		return client.Latest(nil), nil
-	case "obn":
-		return client.Obn(nil), nil
+	case "hosted_ui_customization":
+		return client.HostedUiCustomization(nil), nil
 	case "payment":
 		return client.Payment(nil), nil
 	case "payment_status":
 		return client.PaymentStatus(nil), nil
 	case "provider":
 		return client.Provider(nil), nil
-	case "providers_subsidiary_output_dto":
-		return client.ProvidersSubsidiaryOutputDto(nil), nil
+	case "psu_provided_data":
+		return client.PsuProvidedData(nil), nil
+	case "report":
+		return client.Report(nil), nil
+	case "sca_data":
+		return client.ScaData(nil), nil
+	case "sca_method":
+		return client.ScaMethod(nil), nil
+	case "sender_account":
+		return client.SenderAccount(nil), nil
+	case "subsidiary":
+		return client.Subsidiary(nil), nil
+	case "token":
+		return client.Token(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

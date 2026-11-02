@@ -1,0 +1,93 @@
+# Entity: sca_method
+
+main: kit: entity: sca_method: {
+
+  alias: field: {}
+
+  name: "sca_method"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/ob/payments/decoupled/sca-methods"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/v1/ob/payments/decoupled/sca-methods"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "decoupled"
+            }
+            {
+              lit: "sca-methods"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: false
+          co: {
+            id: "PATCH /api/v1/ob/payments/decoupled/selected-sca-method"
+            source: "openapi3"
+            version: 2
+          }
+          m: "PATCH"
+          o: "/api/v1/ob/payments/decoupled/selected-sca-method"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "decoupled"
+            }
+            {
+              lit: "selected-sca-method"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

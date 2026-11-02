@@ -61,8 +61,9 @@ guide: entity: providers_subsidiary_output_dto: active: false
 guide: entity: country: path: "/api/v1/capabilities/providers/countries": op: list: method: GET
 guide: entity: capability: active: false
 
+# The client id is the record's key, so it keeps apidef's rename to `id`.
 guide: entity: hosted_ui_customization: path: "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations": {
-  rename: param: clientId: client_id
+  rename: param: clientId: id
   op: load: method: GET
 }
 guide: entity: client_hosted_ui_customizations_output_dto: active: false

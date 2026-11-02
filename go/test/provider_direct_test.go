@@ -37,7 +37,7 @@ func TestProviderDirect(t *testing.T) {
 
 
 		result, err := client.Direct(map[string]any{
-			"path":   "api/v1/capabilities/internal/providers",
+			"path":   "api/v1/capabilities/providers",
 			"method": "GET",
 			"params": map[string]any{},
 		})
@@ -96,7 +96,6 @@ func providerDirectSetup(mockres any) *providerDirectSetupResult {
 		"KASHIMI_TEST_PROVIDER_ENTID": map[string]any{},
 		"KASHIMI_TEST_LIVE":    "FALSE",
 		"KASHIMI_APIKEY":       "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	live := env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -110,9 +109,6 @@ func providerDirectSetup(mockres any) *providerDirectSetupResult {
 		}
 		for k, v := range map[string]any{
 			"apikey": env["KASHIMI_APIKEY"],
-		"server": map[string]any{
-			"base": env["KASHIMI_SERVER_BASE"],
-		},
 		} {
 			mergedOpts[k] = v
 		}

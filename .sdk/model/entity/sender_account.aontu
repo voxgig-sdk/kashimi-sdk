@@ -1,0 +1,111 @@
+# Entity: sender_account
+
+main: kit: entity: sender_account: {
+
+  alias: field: {}
+
+  name: "sender_account"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/ob/payments/sender-accounts"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "provider_id"
+                or: "providerId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "state"
+                or: "state"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/ob/payments/sender-accounts"
+          q: {
+            exist: [
+              "provider_id"
+              "state"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "sender-accounts"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: false
+          co: {
+            id: "PATCH /api/v1/ob/payments/sender-accounts"
+            source: "openapi3"
+            version: 2
+          }
+          m: "PATCH"
+          o: "/api/v1/ob/payments/sender-accounts"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "sender-accounts"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

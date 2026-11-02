@@ -1,0 +1,93 @@
+# Entity: sca_data
+
+main: kit: entity: sca_data: {
+
+  alias: field: {}
+
+  name: "sca_data"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/ob/payments/decoupled/sca-data"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/v1/ob/payments/decoupled/sca-data"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "decoupled"
+            }
+            {
+              lit: "sca-data"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          bf: false
+          co: {
+            id: "PATCH /api/v1/ob/payments/decoupled/sca-data"
+            source: "openapi3"
+            version: 2
+          }
+          m: "PATCH"
+          o: "/api/v1/ob/payments/decoupled/sca-data"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "decoupled"
+            }
+            {
+              lit: "sca-data"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

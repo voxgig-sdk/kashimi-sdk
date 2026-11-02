@@ -129,12 +129,15 @@ class TestPaymentStatusEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["list"]:
+        for _op in ["list", "load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "payment_status." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         client = setup["client"]
+        if setup["live"]:
+            runner.live_existing(setup, LIVE_STRICT, "payment_status",
+                                 lambda: client.PaymentStatus(None).list({"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, None))
 
         # Bootstrap entity data from existing test data.
         payment_status_ref01_data_raw = vs.items(helpers.to_map(
@@ -151,6 +154,15 @@ class TestPaymentStatusEntity:
 
         payment_status_ref01_list_result = payment_status_ref01_ent.list(payment_status_ref01_match, None)
         assert isinstance(payment_status_ref01_list_result, list)
+
+        # LOAD
+        payment_status_ref01_match_dt0 = {
+            "id": payment_status_ref01_data["id"],
+        }
+        payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, None)
+        payment_status_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(payment_status_ref01_data_dt0_loaded))
+        assert payment_status_ref01_data_dt0_load_result is not None
+        assert payment_status_ref01_data_dt0_load_result["id"] == payment_status_ref01_data["id"]
 
 
 
@@ -190,7 +202,6 @@ def _payment_status_basic_setup(extra):
         "KASHIMI_TEST_LIVE": "FALSE",
         "KASHIMI_TEST_EXPLAIN": "FALSE",
         "KASHIMI_APIKEY": "",
-        "KASHIMI_SERVER_BASE": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -206,9 +217,6 @@ def _payment_status_basic_setup(extra):
             runner.live_client_options(),
             {
                 "apikey": env.get("KASHIMI_APIKEY"),
-                "server": {
-                    "base": env.get("KASHIMI_SERVER_BASE"),
-                },
             },
             extra or {},
         ])

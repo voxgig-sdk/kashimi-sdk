@@ -1,0 +1,28 @@
+# BasicPsuProvidedDataFlow
+
+main: kit: flow: BasicPsuProvidedDataFlow:
+{
+  entity: "psu_provided_data",
+  kind: "basic",
+  name: "BasicPsuProvidedDataFlow",
+  step: [
+    {
+      i: {
+        ref: "psu_provided_data_ref01",
+        srcdatavar: "psu_provided_data_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-psu_provided_data_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicPsuProvidedDataFlow"
+}

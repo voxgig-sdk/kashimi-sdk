@@ -150,7 +150,7 @@ class PaymentStatusEntityTest < Minitest::Test
     setup = payment_status_basic_setup(nil)
     # Per-op sdk-test-control.json skip.
     _live = setup[:live] || false
-    ["list"].each do |_op|
+    ["list", "load"].each do |_op|
       _should_skip, _reason = Runner.is_control_skipped("entityOp", "payment_status." + _op, _live ? "live" : "unit")
       if _should_skip
         skip(_reason || "skipped via sdk-test-control.json")
@@ -158,6 +158,11 @@ class PaymentStatusEntityTest < Minitest::Test
       end
     end
     client = setup[:client]
+    if setup[:live]
+      Runner.live_existing(setup, LIVE_STRICT, "payment_status") do
+        client.PaymentStatus(nil).list({"payment_id" => "123e4567-e89b-12d3-a456-426614174000"}, nil)
+      end
+    end
 
     # Bootstrap entity data from existing test data.
     payment_status_ref01_data_raw = Vs.items(Helpers.to_map(
@@ -176,6 +181,15 @@ class PaymentStatusEntityTest < Minitest::Test
 
     payment_status_ref01_list_result = payment_status_ref01_ent.list(payment_status_ref01_match, nil)
     assert payment_status_ref01_list_result.is_a?(Array)
+
+    # LOAD
+    payment_status_ref01_match_dt0 = {
+      "id" => payment_status_ref01_data["id"],
+    }
+    payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, nil)
+    payment_status_ref01_data_dt0_load_result = Helpers.to_map(payment_status_ref01_data_dt0_loaded.respond_to?(:data_get) ? payment_status_ref01_data_dt0_loaded.data_get : payment_status_ref01_data_dt0_loaded)
+    assert !payment_status_ref01_data_dt0_load_result.nil?
+    assert_equal payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"]
 
   end
 end
@@ -213,7 +227,6 @@ def payment_status_basic_setup(extra)
     "KASHIMI_TEST_LIVE" => "FALSE",
     "KASHIMI_TEST_EXPLAIN" => "FALSE",
     "KASHIMI_APIKEY" => "",
-    "KASHIMI_SERVER_BASE" => "",
   })
 
   idmap_resolved = Helpers.to_map(
@@ -229,9 +242,6 @@ def payment_status_basic_setup(extra)
       Runner.live_client_options,
       {
         "apikey" => env["KASHIMI_APIKEY"],
-        "server" => {
-          "base" => env["KASHIMI_SERVER_BASE"],
-        },
       },
       extra || {},
     ])

@@ -39,7 +39,7 @@ class ProviderDirectTest extends TestCase
         $query = [];
 
         $result = $client->direct([
-            "path" => "api/v1/capabilities/internal/providers",
+            "path" => "api/v1/capabilities/providers",
             "method" => "GET",
             "params" => $params,
             "query" => $query,
@@ -75,7 +75,6 @@ function provider_direct_setup($mockres)
         "KASHIMI_TEST_PROVIDER_ENTID" => [],
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $live = $env["KASHIMI_TEST_LIVE"] === "TRUE";
@@ -85,9 +84,6 @@ function provider_direct_setup($mockres)
         // test.client.options adds to the live client, it does not redirect it.
         $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["KASHIMI_APIKEY"],
-            "server" => [
-                "base" => $env["KASHIMI_SERVER_BASE"],
-            ],
         ]);
         $client = new KashimiSDK($merged_opts);
         $idmap = $env["KASHIMI_TEST_PROVIDER_ENTID"] ?? [];

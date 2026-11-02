@@ -8,153 +8,95 @@
 # @voxgig/apidef VALID_CANON). Ruby types are unenforced; these YARD
 # annotations document the shapes. Do not edit by hand.
 
-# Capability entity data model.
-class Capability
+# Callback entity data model.
+class Callback
 end
 
-# Request payload for Capability#list.
-class CapabilityListMatch
-end
-
-# ClientHostedUiCustomizationsOutputDto entity data model.
+# Request payload for Callback#load.
 #
-# @!attribute [rw] id
-#   @return [String, nil]
-ClientHostedUiCustomizationsOutputDto = Struct.new(
-  :id,
+# @!attribute [rw] provider_id
+#   @return [String]
+#
+# @!attribute [rw] state
+#   @return [String]
+CallbackLoadMatch = Struct.new(
+  :provider_id,
+  :state,
   keyword_init: true
 )
 
-# Request payload for ClientHostedUiCustomizationsOutputDto#load.
+# ClientJwk entity data model.
+class ClientJwk
+end
+
+# Request payload for ClientJwk#load.
 #
-# @!attribute [rw] id
+# @!attribute [rw] client_id
 #   @return [String]
-ClientHostedUiCustomizationsOutputDtoLoadMatch = Struct.new(
-  :id,
+#
+# @!attribute [rw] provider_id
+#   @return [String]
+#
+# @!attribute [rw] revoked
+#   @return [Boolean, nil]
+ClientJwkLoadMatch = Struct.new(
+  :client_id,
+  :provider_id,
+  :revoked,
   keyword_init: true
 )
 
-# CreatePaymentOutputDto entity data model.
-#
-# @!attribute [rw] amount
-#   @return [Float]
-#
-# @!attribute [rw] currency
-#   @return [String]
-#
-# @!attribute [rw] metadata
-#   @return [Hash]
-#
-# @!attribute [rw] paymentScheme
-#   @return [Object]
+# ConfirmationData entity data model.
+class ConfirmationData
+end
+
+# Request payload for ConfirmationData#load.
+class ConfirmationDataLoadMatch
+end
+
+# ConsentStatus entity data model.
+class ConsentStatus
+end
+
+# Request payload for ConsentStatus#load.
+class ConsentStatusLoadMatch
+end
+
+# Country entity data model.
+class Country
+end
+
+# Request payload for Country#list.
+class CountryListMatch
+end
+
+# Followup entity data model.
 #
 # @!attribute [rw] provider
 #   @return [Object]
 #
-# @!attribute [rw] recipient
-#   @return [Object]
-#
-# @!attribute [rw] remittanceInformation
-#   @return [Object]
-#
 # @!attribute [rw] sender
 #   @return [Object, nil]
-CreatePaymentOutputDto = Struct.new(
-  :amount,
-  :currency,
-  :metadata,
-  :paymentScheme,
+Followup = Struct.new(
   :provider,
-  :recipient,
-  :remittanceInformation,
   :sender,
   keyword_init: true
 )
 
-# Request payload for CreatePaymentOutputDto#create.
+# Request payload for Followup#create.
 #
-# @!attribute [rw] amount
-#   @return [Float]
-#
-# @!attribute [rw] currency
+# @!attribute [rw] payment_id
 #   @return [String]
-#
-# @!attribute [rw] metadata
-#   @return [Hash]
-#
-# @!attribute [rw] paymentScheme
-#   @return [Object]
 #
 # @!attribute [rw] provider
-#   @return [Object, nil]
-#
-# @!attribute [rw] recipient
-#   @return [Object]
-#
-# @!attribute [rw] remittanceInformation
 #   @return [Object]
 #
 # @!attribute [rw] sender
 #   @return [Object, nil]
-CreatePaymentOutputDtoCreateData = Struct.new(
-  :amount,
-  :currency,
-  :metadata,
-  :paymentScheme,
+FollowupCreateData = Struct.new(
+  :payment_id,
   :provider,
-  :recipient,
-  :remittanceInformation,
   :sender,
-  keyword_init: true
-)
-
-# CreateTokenOutputDto entity data model.
-#
-# @!attribute [rw] access_token
-#   @return [String]
-#
-# @!attribute [rw] expires_in
-#   @return [Float]
-#
-# @!attribute [rw] grant_type
-#   @return [String]
-#
-# @!attribute [rw] scope
-#   @return [String]
-#
-# @!attribute [rw] token_type
-#   @return [String]
-CreateTokenOutputDto = Struct.new(
-  :access_token,
-  :expires_in,
-  :grant_type,
-  :scope,
-  :token_type,
-  keyword_init: true
-)
-
-# Request payload for CreateTokenOutputDto#create.
-#
-# @!attribute [rw] access_token
-#   @return [String]
-#
-# @!attribute [rw] expires_in
-#   @return [Float]
-#
-# @!attribute [rw] grant_type
-#   @return [String]
-#
-# @!attribute [rw] scope
-#   @return [String]
-#
-# @!attribute [rw] token_type
-#   @return [String]
-CreateTokenOutputDtoCreateData = Struct.new(
-  :access_token,
-  :expires_in,
-  :grant_type,
-  :scope,
-  :token_type,
   keyword_init: true
 )
 
@@ -200,85 +142,56 @@ HealthcheckLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Latest entity data model.
+# HostedUiCustomization entity data model.
 #
-# @!attribute [rw] createdAt
+# @!attribute [rw] clientId
 #   @return [String]
 #
-# @!attribute [rw] detailedStatus
+# @!attribute [rw] faviconUrl
 #   @return [String]
 #
-# @!attribute [rw] failureReasons
-#   @return [Array]
-#
-# @!attribute [rw] id
+# @!attribute [rw] footerText
 #   @return [String]
 #
-# @!attribute [rw] paymentId
+# @!attribute [rw] logoUrl
 #   @return [String]
 #
-# @!attribute [rw] status
+# @!attribute [rw] primaryColor
 #   @return [String]
-Latest = Struct.new(
-  :createdAt,
-  :detailedStatus,
-  :failureReasons,
-  :id,
-  :paymentId,
-  :status,
+#
+# @!attribute [rw] privacyPolicyUrl
+#   @return [String]
+#
+# @!attribute [rw] psuPortalBaseUrl
+#   @return [String]
+#
+# @!attribute [rw] termsUrl
+#   @return [String]
+HostedUiCustomization = Struct.new(
+  :clientId,
+  :faviconUrl,
+  :footerText,
+  :logoUrl,
+  :primaryColor,
+  :privacyPolicyUrl,
+  :psuPortalBaseUrl,
+  :termsUrl,
   keyword_init: true
 )
 
-# Request payload for Latest#list.
+# Request payload for HostedUiCustomization#load.
 #
-# @!attribute [rw] payment_id
+# @!attribute [rw] client_id
 #   @return [String]
-LatestListMatch = Struct.new(
-  :payment_id,
+HostedUiCustomizationLoadMatch = Struct.new(
+  :client_id,
   keyword_init: true
 )
-
-# Obn entity data model.
-class Obn
-end
-
-# Request payload for Obn#load.
-#
-# @!attribute [rw] provider_id
-#   @return [String]
-#
-# @!attribute [rw] state
-#   @return [String]
-ObnLoadMatch = Struct.new(
-  :provider_id,
-  :state,
-  keyword_init: true
-)
-
-# Request payload for Obn#create.
-#
-# @!attribute [rw] provider_id
-#   @return [String]
-#
-# @!attribute [rw] state
-#   @return [String]
-ObnCreateData = Struct.new(
-  :provider_id,
-  :state,
-  keyword_init: true
-)
-
-# Request payload for Obn#update.
-class ObnUpdateData
-end
 
 # Payment entity data model.
 #
 # @!attribute [rw] amount
 #   @return [Float]
-#
-# @!attribute [rw] clientId
-#   @return [String]
 #
 # @!attribute [rw] createdAt
 #   @return [String]
@@ -307,14 +220,10 @@ end
 # @!attribute [rw] sender
 #   @return [Hash]
 #
-# @!attribute [rw] status
-#   @return [String]
-#
 # @!attribute [rw] updatedAt
 #   @return [String]
 Payment = Struct.new(
   :amount,
-  :clientId,
   :createdAt,
   :currency,
   :id,
@@ -324,7 +233,6 @@ Payment = Struct.new(
   :recipient,
   :remittanceInformation,
   :sender,
-  :status,
   :updatedAt,
   keyword_init: true
 )
@@ -359,6 +267,43 @@ PaymentListMatch = Struct.new(
   keyword_init: true
 )
 
+# Request payload for Payment#create.
+#
+# @!attribute [rw] amount
+#   @return [Float]
+#
+# @!attribute [rw] currency
+#   @return [String]
+#
+# @!attribute [rw] metadata
+#   @return [Hash]
+#
+# @!attribute [rw] paymentScheme
+#   @return [Object]
+#
+# @!attribute [rw] provider
+#   @return [Object, nil]
+#
+# @!attribute [rw] recipient
+#   @return [Hash]
+#
+# @!attribute [rw] remittanceInformation
+#   @return [Object]
+#
+# @!attribute [rw] sender
+#   @return [Hash, nil]
+PaymentCreateData = Struct.new(
+  :amount,
+  :currency,
+  :metadata,
+  :paymentScheme,
+  :provider,
+  :recipient,
+  :remittanceInformation,
+  :sender,
+  keyword_init: true
+)
+
 # PaymentStatus entity data model.
 #
 # @!attribute [rw] createdAt
@@ -385,6 +330,15 @@ PaymentStatus = Struct.new(
   :id,
   :paymentId,
   :status,
+  keyword_init: true
+)
+
+# Request payload for PaymentStatus#load.
+#
+# @!attribute [rw] payment_id
+#   @return [String]
+PaymentStatusLoadMatch = Struct.new(
+  :payment_id,
   keyword_init: true
 )
 
@@ -451,7 +405,110 @@ ProviderListMatch = Struct.new(
   keyword_init: true
 )
 
-# ProvidersSubsidiaryOutputDto entity data model.
+# PsuProvidedData entity data model.
+class PsuProvidedData
+end
+
+# Request payload for PsuProvidedData#update.
+class PsuProvidedDataUpdateData
+end
+
+# Report entity data model.
+#
+# @!attribute [rw] amount
+#   @return [Float]
+#
+# @!attribute [rw] createdAt
+#   @return [String]
+#
+# @!attribute [rw] currency
+#   @return [String]
+#
+# @!attribute [rw] id
+#   @return [String]
+#
+# @!attribute [rw] provider
+#   @return [Hash, nil]
+#
+# @!attribute [rw] recipient
+#   @return [Hash]
+#
+# @!attribute [rw] remittanceInformation
+#   @return [Object]
+#
+# @!attribute [rw] sender
+#   @return [Hash, nil]
+#
+# @!attribute [rw] status
+#   @return [String]
+Report = Struct.new(
+  :amount,
+  :createdAt,
+  :currency,
+  :id,
+  :provider,
+  :recipient,
+  :remittanceInformation,
+  :sender,
+  :status,
+  keyword_init: true
+)
+
+# Request payload for Report#load.
+#
+# @!attribute [rw] id
+#   @return [String]
+ReportLoadMatch = Struct.new(
+  :id,
+  keyword_init: true
+)
+
+# ScaData entity data model.
+class ScaData
+end
+
+# Request payload for ScaData#load.
+class ScaDataLoadMatch
+end
+
+# Request payload for ScaData#update.
+class ScaDataUpdateData
+end
+
+# ScaMethod entity data model.
+class ScaMethod
+end
+
+# Request payload for ScaMethod#load.
+class ScaMethodLoadMatch
+end
+
+# Request payload for ScaMethod#update.
+class ScaMethodUpdateData
+end
+
+# SenderAccount entity data model.
+class SenderAccount
+end
+
+# Request payload for SenderAccount#load.
+#
+# @!attribute [rw] provider_id
+#   @return [String]
+#
+# @!attribute [rw] state
+#   @return [String]
+SenderAccountLoadMatch = Struct.new(
+  :provider_id,
+  :state,
+  keyword_init: true
+)
+
+# Request payload for SenderAccount#update.
+class SenderAccountUpdateData
+end
+
+# Subsidiary entity data model.
 #
 # @!attribute [rw] bic
 #   @return [String]
@@ -479,7 +536,7 @@ ProviderListMatch = Struct.new(
 #
 # @!attribute [rw] requiredPaymentFields
 #   @return [Array]
-ProvidersSubsidiaryOutputDto = Struct.new(
+Subsidiary = Struct.new(
   :bic,
   :countryCode,
   :hasSubsidiaries,
@@ -492,7 +549,7 @@ ProvidersSubsidiaryOutputDto = Struct.new(
   keyword_init: true
 )
 
-# Request payload for ProvidersSubsidiaryOutputDto#list.
+# Request payload for Subsidiary#list.
 #
 # @!attribute [rw] provider_id
 #   @return [String]
@@ -502,10 +559,60 @@ ProvidersSubsidiaryOutputDto = Struct.new(
 #
 # @!attribute [rw] filter
 #   @return [Hash, nil]
-ProvidersSubsidiaryOutputDtoListMatch = Struct.new(
+SubsidiaryListMatch = Struct.new(
   :provider_id,
   :cursor,
   :filter,
+  keyword_init: true
+)
+
+# Token entity data model.
+#
+# @!attribute [rw] access_token
+#   @return [String]
+#
+# @!attribute [rw] expires_in
+#   @return [Float]
+#
+# @!attribute [rw] grant_type
+#   @return [String]
+#
+# @!attribute [rw] scope
+#   @return [String]
+#
+# @!attribute [rw] token_type
+#   @return [String]
+Token = Struct.new(
+  :access_token,
+  :expires_in,
+  :grant_type,
+  :scope,
+  :token_type,
+  keyword_init: true
+)
+
+# Request payload for Token#create.
+#
+# @!attribute [rw] access_token
+#   @return [String]
+#
+# @!attribute [rw] expires_in
+#   @return [Float]
+#
+# @!attribute [rw] grant_type
+#   @return [String]
+#
+# @!attribute [rw] scope
+#   @return [String]
+#
+# @!attribute [rw] token_type
+#   @return [String]
+TokenCreateData = Struct.new(
+  :access_token,
+  :expires_in,
+  :grant_type,
+  :scope,
+  :token_type,
   keyword_init: true
 )
 

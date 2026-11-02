@@ -21,6 +21,65 @@ const utility_1 = require("../../utility");
         (0, node_assert_1.default)('function' === typeof sdk.direct);
         (0, node_assert_1.default)('function' === typeof sdk.prepare);
     });
+    (0, node_test_1.test)('direct-load-payment_status', async (t) => {
+        if (liveScenariosActive()) {
+            t.skip('Covered by live operation scenarios');
+            return;
+        }
+        const setup = directSetup({ id: 'direct01' });
+        if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-payment_status', setup.live))
+            return;
+        const { client, calls } = setup;
+        const params = {};
+        const query = {};
+        if (setup.live) {
+            query.paymentId = "123e4567-e89b-12d3-a456-426614174000";
+            const listResult = await client.direct({
+                path: 'api/v1/archive/payment-statuses',
+                method: 'GET',
+                params: {},
+            });
+            if (!listResult.ok || listResult.status < 200 || listResult.status >= 300) {
+                return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live list discovery failed: ' + (0, utility_1.describeLive)(listResult));
+            }
+            const listArr = unwrapListData(listResult.data);
+            if (null == listArr) {
+                return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live list discovery returned no list: ' + (0, utility_1.describeLive)(listResult));
+            }
+            if (0 === listArr.length) {
+                return void (0, utility_1.liveEmpty)(t, 'The account has no payment_status record to load');
+            }
+            const candidateId = listArr[0]?.id ?? listArr[0]?.id;
+            if (null == candidateId) {
+                return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity');
+            }
+            params.id = candidateId;
+        }
+        else {
+        }
+        const result = await client.direct({
+            path: 'api/v1/archive/payment-statuses/latest',
+            method: 'GET',
+            params,
+            query,
+        });
+        if (setup.live) {
+            if (!result.ok || result.status < 200 || result.status >= 300) {
+                return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live load failed: ' + (0, utility_1.describeLive)(result));
+            }
+            if (!(null != result.data)) {
+                return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live load returned no data: ' + (0, utility_1.describeLive)(result));
+            }
+        }
+        else {
+            (0, node_assert_1.default)(result.ok === true);
+            (0, node_assert_1.default)(result.status === 200);
+            (0, node_assert_1.default)(null != result.data);
+            (0, node_assert_1.default)(result.data.id === 'direct01');
+            (0, node_assert_1.default)(calls.length === 1);
+            (0, node_assert_1.default)(calls[0].init.method === 'GET');
+        }
+    });
     (0, node_test_1.test)('direct-list-payment_status', async (t) => {
         if (liveScenariosActive()) {
             t.skip('Covered by live operation scenarios');
@@ -73,7 +132,6 @@ function directSetup(mockres) {
         'KASHIMI_TEST_PAYMENT_STATUS_ENTID': {},
         'KASHIMI_TEST_LIVE': 'FALSE',
         'KASHIMI_APIKEY': '',
-        'KASHIMI_SERVER_BASE': "",
     });
     const live = 'TRUE' === env.KASHIMI_TEST_LIVE;
     if (live) {
@@ -82,9 +140,6 @@ function directSetup(mockres) {
         // test.client.options adds to the live client, it does not redirect it.
         const client = new __1.KashimiSDK(Object.assign({}, (0, utility_1.liveClientOptions)(), { system: { fetch: transport.fetch },
             apikey: env.KASHIMI_APIKEY,
-            server: {
-                base: env.KASHIMI_SERVER_BASE,
-            },
         }));
         let idmap = env['KASHIMI_TEST_PAYMENT_STATUS_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {

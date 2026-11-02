@@ -1,0 +1,116 @@
+# Entity: token
+
+main: kit: entity: token: {
+
+  alias: field: {}
+
+  fields: {
+    access_token: {
+      h: "Access Token"
+      n: "access_token"
+      r: true
+      sh: "The JWT access token."
+      t: "`$STRING`"
+    }
+    expires_in: {
+      h: "Expires In"
+      n: "expires_in"
+      r: true
+      sh: "Expiration time of the token in seconds."
+      t: "`$NUMBER`"
+    }
+    grant_type: {
+      h: "Grant Type"
+      n: "grant_type"
+      r: true
+      sh: "The type of grant being requested."
+      t: "`$STRING`"
+    }
+    scope: {
+      h: "Scope"
+      n: "scope"
+      r: true
+      sh: "Scopes being requested."
+      t: "`$STRING`"
+    }
+    token_type: {
+      h: "Token Type"
+      n: "token_type"
+      r: true
+      sh: "Token type."
+      t: "`$STRING`"
+    }
+  }
+
+  name: "token"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/v1/auth/token"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/auth/token"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          rb: {
+            fields: [
+              {
+                name: "grant_type"
+              }
+              {
+                name: "scope"
+              }
+            ]
+            kind: "form"
+            media: "application/x-www-form-urlencoded"
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "auth"
+            }
+            {
+              lit: "token"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

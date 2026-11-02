@@ -190,7 +190,7 @@ func TestPaymentStatusEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"list"} {
+		for _, _op := range []string{"list", "load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "payment_status." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -201,6 +201,11 @@ func TestPaymentStatusEntity(t *testing.T) {
 		}
 		client := setup.client
 		_ = client
+		if setup.live {
+			liveExisting(t, payment_statusEntityLiveStrict, setup.data, "payment_status", func() (any, error) {
+				return client.PaymentStatus(nil).List(map[string]any{"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, nil)
+			})
+		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		paymentStatusRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.payment_status")))
@@ -226,6 +231,22 @@ func TestPaymentStatusEntity(t *testing.T) {
 		_, paymentStatusRef01ListOk := paymentStatusRef01ListResult.([]any)
 		if !paymentStatusRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", paymentStatusRef01ListResult)
+		}
+
+		// LOAD
+		paymentStatusRef01MatchDt0 := map[string]any{
+			"id": paymentStatusRef01Data["id"],
+		}
+		paymentStatusRef01DataDt0Loaded, err := paymentStatusRef01Ent.Load(paymentStatusRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		paymentStatusRef01DataDt0LoadResult := core.ToMapAny(entityData(paymentStatusRef01DataDt0Loaded))
+		if paymentStatusRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if paymentStatusRef01DataDt0LoadResult["id"] != paymentStatusRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})
@@ -275,7 +296,6 @@ func payment_statusBasicSetup(extra map[string]any) *entityTestSetup {
 		"KASHIMI_TEST_LIVE":      "FALSE",
 		"KASHIMI_TEST_EXPLAIN":   "FALSE",
 		"KASHIMI_APIKEY":         "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	idmapResolved := core.ToMapAny(env["KASHIMI_TEST_PAYMENT_STATUS_ENTID"])
@@ -299,9 +319,6 @@ func payment_statusBasicSetup(extra map[string]any) *entityTestSetup {
 			liveClientOptions(),
 			map[string]any{
 				"apikey": env["KASHIMI_APIKEY"],
-				"server": map[string]any{
-					"base": env["KASHIMI_SERVER_BASE"],
-				},
 			},
 			extraOpts,
 		})

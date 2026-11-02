@@ -1,0 +1,28 @@
+# BasicConsentStatusFlow
+
+main: kit: flow: BasicConsentStatusFlow:
+{
+  entity: "consent_status",
+  kind: "basic",
+  name: "BasicConsentStatusFlow",
+  step: [
+    {
+      i: {
+        ref: "consent_status_ref01",
+        srcdatavar: "consent_status_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-consent_status_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicConsentStatusFlow"
+}

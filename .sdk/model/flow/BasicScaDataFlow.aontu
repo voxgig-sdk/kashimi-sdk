@@ -1,0 +1,46 @@
+# BasicScaDataFlow
+
+main: kit: flow: BasicScaDataFlow:
+{
+  entity: "sca_data",
+  kind: "basic",
+  name: "BasicScaDataFlow",
+  step: [
+    {
+      i: {
+        ref: "sca_data_ref01",
+        srcdatavar: "sca_data_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sca_data_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "sca_data_ref01",
+        srcdatavar: "sca_data_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sca_data_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicScaDataFlow"
+}

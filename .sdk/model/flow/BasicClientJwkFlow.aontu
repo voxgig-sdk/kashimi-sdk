@@ -1,0 +1,28 @@
+# BasicClientJwkFlow
+
+main: kit: flow: BasicClientJwkFlow:
+{
+  entity: "client_jwk",
+  kind: "basic",
+  name: "BasicClientJwkFlow",
+  step: [
+    {
+      i: {
+        ref: "client_jwk_ref01",
+        srcdatavar: "client_jwk_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-client_jwk_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicClientJwkFlow"
+}

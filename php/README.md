@@ -4,7 +4,7 @@
 
 The PHP SDK for the Kashimi API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Capability()` — with named operations (`list`/`load`/`create`/`update`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Callback()` — with named operations (`list`/`load`/`create`/`update`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -38,16 +38,13 @@ $client = new KashimiSDK([
 ]);
 ```
 
-### 2. List capability records
+### 3. Load a callback
 
 ```php
 try {
-    // list() returns entity instances; data_get() reads each record.
-    $capabilitys = $client->Capability()->list();
-    foreach ($capabilitys as $record) {
-        $item = $record->data_get();
-        echo json_encode($item) . "\n";
-    }
+    // load() returns the ENTITY — call data_get() for the Callback record (throws on error).
+    $callback = $client->Callback()->load(["provider_id" => "example_provider_id", "state" => "example_state"]);
+    print_r($callback->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -61,7 +58,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $latests = $client->Latest()->list(["payment_id" => "example"]);
+    $clientjwk = $client->ClientJwk()->load(["client_id" => "example", "provider_id" => "example"]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -133,13 +130,13 @@ data via the `entity` option so offline calls resolve without a live server:
 
 ```php
 $client = KashimiSDK::test([
-    "entity" => ["client_hosted_ui_customizations_output_dto" => ["test01" => ["id" => "test01"]]],
+    "entity" => ["payment" => ["test01" => ["id" => "test01"]]],
 ]);
 
-// Entity ops return the ENTITY (throws on error);
+// list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$clienthosteduicustomizationsoutputdto = $client->ClientHostedUiCustomizationsOutputDto()->load(["id" => "test01"]);
-print_r($clienthosteduicustomizationsoutputdto->data_get());
+$payment = $client->Payment()->list();
+print_r(array_map(fn($item) => $item->data_get(), $payment));
 ```
 
 ### Use a custom fetch function
@@ -220,17 +217,24 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `Capability` | `($data): CapabilityEntity` | Create a Capability entity instance. |
-| `ClientHostedUiCustomizationsOutputDto` | `($data): ClientHostedUiCustomizationsOutputDtoEntity` | Create a ClientHostedUiCustomizationsOutputDto entity instance. |
-| `CreatePaymentOutputDto` | `($data): CreatePaymentOutputDtoEntity` | Create a CreatePaymentOutputDto entity instance. |
-| `CreateTokenOutputDto` | `($data): CreateTokenOutputDtoEntity` | Create a CreateTokenOutputDto entity instance. |
+| `Callback` | `($data): CallbackEntity` | Create a Callback entity instance. |
+| `ClientJwk` | `($data): ClientJwkEntity` | Create a ClientJwk entity instance. |
+| `ConfirmationData` | `($data): ConfirmationDataEntity` | Create a ConfirmationData entity instance. |
+| `ConsentStatus` | `($data): ConsentStatusEntity` | Create a ConsentStatus entity instance. |
+| `Country` | `($data): CountryEntity` | Create a Country entity instance. |
+| `Followup` | `($data): FollowupEntity` | Create a Followup entity instance. |
 | `Healthcheck` | `($data): HealthcheckEntity` | Create a Healthcheck entity instance. |
-| `Latest` | `($data): LatestEntity` | Create a Latest entity instance. |
-| `Obn` | `($data): ObnEntity` | Create an Obn entity instance. |
+| `HostedUiCustomization` | `($data): HostedUiCustomizationEntity` | Create a HostedUiCustomization entity instance. |
 | `Payment` | `($data): PaymentEntity` | Create a Payment entity instance. |
 | `PaymentStatus` | `($data): PaymentStatusEntity` | Create a PaymentStatus entity instance. |
 | `Provider` | `($data): ProviderEntity` | Create a Provider entity instance. |
-| `ProvidersSubsidiaryOutputDto` | `($data): ProvidersSubsidiaryOutputDtoEntity` | Create a ProvidersSubsidiaryOutputDto entity instance. |
+| `PsuProvidedData` | `($data): PsuProvidedDataEntity` | Create a PsuProvidedData entity instance. |
+| `Report` | `($data): ReportEntity` | Create a Report entity instance. |
+| `ScaData` | `($data): ScaDataEntity` | Create a ScaData entity instance. |
+| `ScaMethod` | `($data): ScaMethodEntity` | Create a ScaMethod entity instance. |
+| `SenderAccount` | `($data): SenderAccountEntity` | Create a SenderAccount entity instance. |
+| `Subsidiary` | `($data): SubsidiaryEntity` | Create a Subsidiary entity instance. |
+| `Token` | `($data): TokenEntity` | Create a Token entity instance. |
 
 ### Entity interface
 
@@ -269,7 +273,43 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 ### Entities
 
-#### Capability
+#### Callback
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/callbacks`
+
+#### ClientJwk
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/client-jwks`
+
+#### ConfirmationData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/confirmation-data`
+
+#### ConsentStatus
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/consent-status`
+
+#### Country
 
 | Field | Description |
 | --- | --- |
@@ -278,46 +318,16 @@ Operations: List.
 
 API path: `/api/v1/capabilities/providers/countries`
 
-#### ClientHostedUiCustomizationsOutputDto
+#### Followup
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-
-Operations: Load.
-
-API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
-
-#### CreatePaymentOutputDto
-
-| Field | Description |
-| --- | --- |
-| `amount` | The amount to be transferred. |
-| `currency` | The currency of the payment. |
-| `metadata` |  |
-| `paymentScheme` | Payment scheme. |
 | `provider` | The provider information for the followup |
-| `recipient` | Data about the party receiving the payment. |
-| `remittanceInformation` | Unstructured or structured remittance information. |
 | `sender` | The sender information to be used with the payment |
 
 Operations: Create.
 
 API path: `/api/v1/ob/payments/{paymentId}/followups`
-
-#### CreateTokenOutputDto
-
-| Field | Description |
-| --- | --- |
-| `access_token` | The JWT access token. |
-| `expires_in` | Expiration time of the token in seconds. |
-| `grant_type` | The type of grant being requested. |
-| `scope` | Scopes being requested. |
-| `token_type` | Token type. |
-
-Operations: Create.
-
-API path: `/api/v1/auth/token`
 
 #### Healthcheck
 
@@ -332,51 +342,42 @@ Operations: Load.
 
 API path: `/api/status`
 
-#### Latest
+#### HostedUiCustomization
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | Timestamp of status creation |
-| `detailedStatus` | Detailed payment status |
-| `failureReasons` | Failure reasons (for `status: FAILED` only) |
-| `id` | Unique payment status identifier |
-| `paymentId` | Unique payment identifier |
-| `status` | Payment status. |
+| `clientId` |  |
+| `faviconUrl` |  |
+| `footerText` |  |
+| `logoUrl` |  |
+| `primaryColor` |  |
+| `privacyPolicyUrl` |  |
+| `psuPortalBaseUrl` |  |
+| `termsUrl` |  |
 
-Operations: List.
+Operations: Load.
 
-API path: `/api/v1/archive/payment-statuses/latest`
-
-#### Obn
-
-| Field | Description |
-| --- | --- |
-
-Operations: Create, Load, Update.
-
-API path: `/api/v1/ob/payments/cancel`
+API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
 
 #### Payment
 
 | Field | Description |
 | --- | --- |
 | `amount` | Payment amount |
-| `clientId` | Client identifier |
 | `createdAt` |  |
 | `currency` | Currency code |
 | `id` | Unique payment identifier |
 | `metadata` |  |
 | `paymentScheme` | Payment scheme used |
 | `provider` | Payment provider details. |
-| `recipient` |  |
+| `recipient` | Data about the party receiving the payment. |
 | `remittanceInformation` | Unstructured or structured remittance information. |
-| `sender` |  |
-| `status` | The most recent status of the payment. |
+| `sender` | Data about the party sending the payment. |
 | `updatedAt` |  |
 
-Operations: List, Load.
+Operations: Create, List, Load.
 
-API path: `/api/v1/archive/payments`
+API path: `/api/v1/ob/payments/cancel`
 
 #### PaymentStatus
 
@@ -389,7 +390,7 @@ API path: `/api/v1/archive/payments`
 | `paymentId` | Unique payment identifier |
 | `status` | Payment status. |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/v1/archive/payment-statuses`
 
@@ -409,9 +410,63 @@ API path: `/api/v1/archive/payment-statuses`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers`
+API path: `/api/v1/capabilities/providers`
 
-#### ProvidersSubsidiaryOutputDto
+#### PsuProvidedData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Update.
+
+API path: `/api/v1/ob/payments/psu-provided-data`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `amount` | Payment amount |
+| `createdAt` |  |
+| `currency` | Currency code |
+| `id` | Unique payment identifier |
+| `provider` | Selected provider details (name, country). |
+| `recipient` |  |
+| `remittanceInformation` |  |
+| `sender` |  |
+| `status` | The most recent status of the payment. |
+
+Operations: Load.
+
+API path: `/api/v1/reports/payments/{id}`
+
+#### ScaData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-data`
+
+#### ScaMethod
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-methods`
+
+#### SenderAccount
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/sender-accounts`
+
+#### Subsidiary
 
 | Field | Description |
 | --- | --- |
@@ -427,16 +482,102 @@ API path: `/api/v1/capabilities/internal/providers`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers/{id}/subsidiaries`
+API path: `/api/v1/capabilities/providers/{id}/subsidiaries`
+
+#### Token
+
+| Field | Description |
+| --- | --- |
+| `access_token` | The JWT access token. |
+| `expires_in` | Expiration time of the token in seconds. |
+| `grant_type` | The type of grant being requested. |
+| `scope` | Scopes being requested. |
+| `token_type` | Token type. |
+
+Operations: Create.
+
+API path: `/api/v1/auth/token`
 
 
 
 ## Entities
 
 
-### Capability
+### Callback
 
-Create an instance: `$capability = $client->Capability();`
+Create an instance: `$callback = $client->Callback();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Callback record (throws on error).
+$callback = $client->Callback()->load(["provider_id" => "provider_id", "state" => "state"]);
+```
+
+
+### ClientJwk
+
+Create an instance: `$client_jwk = $client->ClientJwk();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ClientJwk record (throws on error).
+$client_jwk = $client->ClientJwk()->load(["client_id" => "client_id", "provider_id" => "provider_id"]);
+```
+
+
+### ConfirmationData
+
+Create an instance: `$confirmation_data = $client->ConfirmationData();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ConfirmationData record (throws on error).
+$confirmation_data = $client->ConfirmationData()->load();
+```
+
+
+### ConsentStatus
+
+Create an instance: `$consent_status = $client->ConsentStatus();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ConsentStatus record (throws on error).
+$consent_status = $client->ConsentStatus()->load();
+```
+
+
+### Country
+
+Create an instance: `$country = $client->Country();`
 
 #### Operations
 
@@ -447,38 +588,14 @@ Create an instance: `$capability = $client->Capability();`
 #### Example: List
 
 ```php
-// list() returns an array of Capability entities, one per record (throws on error).
-$capabilitys = $client->Capability()->list();
+// list() returns an array of Country entities, one per record (throws on error).
+$countrys = $client->Country()->list();
 ```
 
 
-### ClientHostedUiCustomizationsOutputDto
+### Followup
 
-Create an instance: `$client_hosted_ui_customizations_output_dto = $client->ClientHostedUiCustomizationsOutputDto();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `id` | `string` |  |
-
-#### Example: Load
-
-```php
-// load() returns the ENTITY — call data_get() for the ClientHostedUiCustomizationsOutputDto record (throws on error).
-$client_hosted_ui_customizations_output_dto = $client->ClientHostedUiCustomizationsOutputDto()->load(["id" => "client_hosted_ui_customizations_output_dto_id"]);
-```
-
-
-### CreatePaymentOutputDto
-
-Create an instance: `$create_payment_output_dto = $client->CreatePaymentOutputDto();`
+Create an instance: `$followup = $client->Followup();`
 
 #### Operations
 
@@ -490,58 +607,15 @@ Create an instance: `$create_payment_output_dto = $client->CreatePaymentOutputDt
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `float` | The amount to be transferred. |
-| `currency` | `string` | The currency of the payment. |
-| `metadata` | `array` |  |
-| `paymentScheme` | `mixed` | Payment scheme. |
 | `provider` | `mixed` | The provider information for the followup |
-| `recipient` | `mixed` | Data about the party receiving the payment. |
-| `remittanceInformation` | `mixed` | Unstructured or structured remittance information. |
 | `sender` | `mixed` | The sender information to be used with the payment |
 
 #### Example: Create
 
 ```php
-$create_payment_output_dto = $client->CreatePaymentOutputDto()->create([
-    "amount" => null, // float
-    "currency" => null, // string
-    "metadata" => null, // array
-    "paymentScheme" => null, // mixed
-    "recipient" => null, // mixed
-    "remittanceInformation" => null, // mixed
-]);
-```
-
-
-### CreateTokenOutputDto
-
-Create an instance: `$create_token_output_dto = $client->CreateTokenOutputDto();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `access_token` | `string` | The JWT access token. |
-| `expires_in` | `float` | Expiration time of the token in seconds. |
-| `grant_type` | `string` | The type of grant being requested. |
-| `scope` | `string` | Scopes being requested. |
-| `token_type` | `string` | Token type. |
-
-#### Example: Create
-
-```php
-$create_token_output_dto = $client->CreateTokenOutputDto()->create([
-    "access_token" => null, // string
-    "expires_in" => null, // float
-    "grant_type" => null, // string
-    "scope" => null, // string
-    "token_type" => null, // string
+$followup = $client->Followup()->create([
+    "payment_id" => null, // string
+    "provider" => null, // mixed
 ]);
 ```
 
@@ -573,61 +647,34 @@ $healthcheck = $client->Healthcheck()->load();
 ```
 
 
-### Latest
+### HostedUiCustomization
 
-Create an instance: `$latest = $client->Latest();`
+Create an instance: `$hosted_ui_customization = $client->HostedUiCustomization();`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `string` | Timestamp of status creation |
-| `detailedStatus` | `string` | Detailed payment status |
-| `failureReasons` | `array` | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Unique payment status identifier |
-| `paymentId` | `string` | Unique payment identifier |
-| `status` | `string` | Payment status. |
-
-#### Example: List
-
-```php
-// list() returns an array of Latest entities, one per record (throws on error).
-$latests = $client->Latest()->list(["payment_id" => "example"]);
-```
-
-
-### Obn
-
-Create an instance: `$obn = $client->Obn();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
+| `clientId` | `string` |  |
+| `faviconUrl` | `string` |  |
+| `footerText` | `string` |  |
+| `logoUrl` | `string` |  |
+| `primaryColor` | `string` |  |
+| `privacyPolicyUrl` | `string` |  |
+| `psuPortalBaseUrl` | `string` |  |
+| `termsUrl` | `string` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the ENTITY — call data_get() for the Obn record (throws on error).
-$obn = $client->Obn()->load(["provider_id" => "provider_id", "state" => "state"]);
-```
-
-#### Example: Create
-
-```php
-$obn = $client->Obn()->create([
-    "provider_id" => null, // string
-    "state" => null, // string
-]);
+// load() returns the ENTITY — call data_get() for the HostedUiCustomization record (throws on error).
+$hosted_ui_customization = $client->HostedUiCustomization()->load(["client_id" => "client_id"]);
 ```
 
 
@@ -639,6 +686,7 @@ Create an instance: `$payment = $client->Payment();`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
@@ -647,17 +695,15 @@ Create an instance: `$payment = $client->Payment();`
 | Field | Type | Description |
 | --- | --- | --- |
 | `amount` | `float` | Payment amount |
-| `clientId` | `string` | Client identifier |
 | `createdAt` | `string` |  |
 | `currency` | `string` | Currency code |
 | `id` | `string` | Unique payment identifier |
 | `metadata` | `array` |  |
 | `paymentScheme` | `mixed` | Payment scheme used |
 | `provider` | `mixed` | Payment provider details. |
-| `recipient` | `array` |  |
+| `recipient` | `array` | Data about the party receiving the payment. |
 | `remittanceInformation` | `mixed` | Unstructured or structured remittance information. |
-| `sender` | `array` |  |
-| `status` | `string` | The most recent status of the payment. |
+| `sender` | `array` | Data about the party sending the payment. |
 | `updatedAt` | `string` |  |
 
 #### Example: Load
@@ -674,6 +720,19 @@ $payment = $client->Payment()->load(["id" => "payment_id"]);
 $payments = $client->Payment()->list();
 ```
 
+#### Example: Create
+
+```php
+$payment = $client->Payment()->create([
+    "amount" => null, // float
+    "currency" => null, // string
+    "metadata" => null, // array
+    "paymentScheme" => null, // mixed
+    "recipient" => null, // array
+    "remittanceInformation" => null, // mixed
+]);
+```
+
 
 ### PaymentStatus
 
@@ -684,6 +743,7 @@ Create an instance: `$payment_status = $client->PaymentStatus();`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -695,6 +755,13 @@ Create an instance: `$payment_status = $client->PaymentStatus();`
 | `id` | `string` | Unique payment status identifier |
 | `paymentId` | `string` | Unique payment identifier |
 | `status` | `string` | Payment status. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the PaymentStatus record (throws on error).
+$payment_status = $client->PaymentStatus()->load(["payment_id" => "payment_id"]);
+```
 
 #### Example: List
 
@@ -736,9 +803,109 @@ $providers = $client->Provider()->list();
 ```
 
 
-### ProvidersSubsidiaryOutputDto
+### PsuProvidedData
 
-Create an instance: `$providers_subsidiary_output_dto = $client->ProvidersSubsidiaryOutputDto();`
+Create an instance: `$psu_provided_data = $client->PsuProvidedData();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `update(data)` | Update an existing entity. |
+
+
+### Report
+
+Create an instance: `$report = $client->Report();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `float` | Payment amount |
+| `createdAt` | `string` |  |
+| `currency` | `string` | Currency code |
+| `id` | `string` | Unique payment identifier |
+| `provider` | `array` | Selected provider details (name, country). |
+| `recipient` | `array` |  |
+| `remittanceInformation` | `mixed` |  |
+| `sender` | `array` |  |
+| `status` | `string` | The most recent status of the payment. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Report record (throws on error).
+$report = $client->Report()->load(["id" => "report_id"]);
+```
+
+
+### ScaData
+
+Create an instance: `$sca_data = $client->ScaData();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ScaData record (throws on error).
+$sca_data = $client->ScaData()->load();
+```
+
+
+### ScaMethod
+
+Create an instance: `$sca_method = $client->ScaMethod();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the ScaMethod record (throws on error).
+$sca_method = $client->ScaMethod()->load();
+```
+
+
+### SenderAccount
+
+Create an instance: `$sender_account = $client->SenderAccount();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the SenderAccount record (throws on error).
+$sender_account = $client->SenderAccount()->load(["provider_id" => "provider_id", "state" => "state"]);
+```
+
+
+### Subsidiary
+
+Create an instance: `$subsidiary = $client->Subsidiary();`
 
 #### Operations
 
@@ -763,8 +930,41 @@ Create an instance: `$providers_subsidiary_output_dto = $client->ProvidersSubsid
 #### Example: List
 
 ```php
-// list() returns an array of ProvidersSubsidiaryOutputDto entities, one per record (throws on error).
-$providers_subsidiary_output_dtos = $client->ProvidersSubsidiaryOutputDto()->list(["provider_id" => "example"]);
+// list() returns an array of Subsidiary entities, one per record (throws on error).
+$subsidiarys = $client->Subsidiary()->list(["provider_id" => "example"]);
+```
+
+
+### Token
+
+Create an instance: `$token = $client->Token();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `access_token` | `string` | The JWT access token. |
+| `expires_in` | `float` | Expiration time of the token in seconds. |
+| `grant_type` | `string` | The type of grant being requested. |
+| `scope` | `string` | Scopes being requested. |
+| `token_type` | `string` | Token type. |
+
+#### Example: Create
+
+```php
+$token = $client->Token()->create([
+    "access_token" => null, // string
+    "expires_in" => null, // float
+    "grant_type" => null, // string
+    "scope" => null, // string
+    "token_type" => null, // string
+]);
 ```
 
 ## Features
@@ -1004,15 +1204,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$latest = $client->Latest();
-$latest->list(["payment_id" => "example"]);
+$clientjwk = $client->ClientJwk();
+$clientjwk->load(["client_id" => "example", "provider_id" => "example"]);
 
-// $latest->data_get() now returns the latest data from the last list
-// $latest->match_get() returns the last match criteria
+// $clientjwk->data_get() now returns the clientjwk data from the last load
+// $clientjwk->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

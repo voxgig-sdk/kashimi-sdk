@@ -120,6 +120,73 @@ main: kit: entity: payment_status: {
         }
       ]
     }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/archive/payment-statuses/latest"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: "123e4567-e89b-12d3-a456-426614174000"
+                k: "query"
+                n: "payment_id"
+                or: "paymentId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/archive/payment-statuses/latest"
+          q: {
+            "$action": "latest"
+            exist: [
+              "authorization"
+              "payment_id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "archive"
+            }
+            {
+              lit: "payment-statuses"
+            }
+            {
+              lit: "latest"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
   }
 
 

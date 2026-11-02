@@ -31,7 +31,7 @@ Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`
 package (other languages). Each target's guide documents its features.
 
-**Entities** (11): `Capability`, `ClientHostedUiCustomizationsOutputDto`, `CreatePaymentOutputDto`, `CreateTokenOutputDto`, `Healthcheck`, `Latest`, `Obn`, `Payment`, `PaymentStatus`, `Provider`, `ProvidersSubsidiaryOutputDto`.
+**Entities** (18): `Callback`, `ClientJwk`, `ConfirmationData`, `ConsentStatus`, `Country`, `Followup`, `Healthcheck`, `HostedUiCustomization`, `Payment`, `PaymentStatus`, `Provider`, `PsuProvidedData`, `Report`, `ScaData`, `ScaMethod`, `SenderAccount`, `Subsidiary`, `Token`.
 
 ## Generating and updating the SDK
 

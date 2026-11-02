@@ -314,31 +314,45 @@ class KashimiSDK
   end
 
 
-  # Canonical facade: client.Capability.list / client.Capability.load({ "id" => ... })
-  def Capability(data = nil)
-    require_relative 'entity/capability_entity'
-    CapabilityEntity.new(self, data)
+  # Canonical facade: client.Callback.list / client.Callback.load({ "id" => ... })
+  def Callback(data = nil)
+    require_relative 'entity/callback_entity'
+    CallbackEntity.new(self, data)
   end
 
 
-  # Canonical facade: client.ClientHostedUiCustomizationsOutputDto.list / client.ClientHostedUiCustomizationsOutputDto.load({ "id" => ... })
-  def ClientHostedUiCustomizationsOutputDto(data = nil)
-    require_relative 'entity/client_hosted_ui_customizations_output_dto_entity'
-    ClientHostedUiCustomizationsOutputDtoEntity.new(self, data)
+  # Canonical facade: client.ClientJwk.list / client.ClientJwk.load({ "id" => ... })
+  def ClientJwk(data = nil)
+    require_relative 'entity/client_jwk_entity'
+    ClientJwkEntity.new(self, data)
   end
 
 
-  # Canonical facade: client.CreatePaymentOutputDto.list / client.CreatePaymentOutputDto.load({ "id" => ... })
-  def CreatePaymentOutputDto(data = nil)
-    require_relative 'entity/create_payment_output_dto_entity'
-    CreatePaymentOutputDtoEntity.new(self, data)
+  # Canonical facade: client.ConfirmationData.list / client.ConfirmationData.load({ "id" => ... })
+  def ConfirmationData(data = nil)
+    require_relative 'entity/confirmation_data_entity'
+    ConfirmationDataEntity.new(self, data)
   end
 
 
-  # Canonical facade: client.CreateTokenOutputDto.list / client.CreateTokenOutputDto.load({ "id" => ... })
-  def CreateTokenOutputDto(data = nil)
-    require_relative 'entity/create_token_output_dto_entity'
-    CreateTokenOutputDtoEntity.new(self, data)
+  # Canonical facade: client.ConsentStatus.list / client.ConsentStatus.load({ "id" => ... })
+  def ConsentStatus(data = nil)
+    require_relative 'entity/consent_status_entity'
+    ConsentStatusEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.Country.list / client.Country.load({ "id" => ... })
+  def Country(data = nil)
+    require_relative 'entity/country_entity'
+    CountryEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.Followup.list / client.Followup.load({ "id" => ... })
+  def Followup(data = nil)
+    require_relative 'entity/followup_entity'
+    FollowupEntity.new(self, data)
   end
 
 
@@ -349,17 +363,10 @@ class KashimiSDK
   end
 
 
-  # Canonical facade: client.Latest.list / client.Latest.load({ "id" => ... })
-  def Latest(data = nil)
-    require_relative 'entity/latest_entity'
-    LatestEntity.new(self, data)
-  end
-
-
-  # Canonical facade: client.Obn.list / client.Obn.load({ "id" => ... })
-  def Obn(data = nil)
-    require_relative 'entity/obn_entity'
-    ObnEntity.new(self, data)
+  # Canonical facade: client.HostedUiCustomization.list / client.HostedUiCustomization.load({ "id" => ... })
+  def HostedUiCustomization(data = nil)
+    require_relative 'entity/hosted_ui_customization_entity'
+    HostedUiCustomizationEntity.new(self, data)
   end
 
 
@@ -384,10 +391,52 @@ class KashimiSDK
   end
 
 
-  # Canonical facade: client.ProvidersSubsidiaryOutputDto.list / client.ProvidersSubsidiaryOutputDto.load({ "id" => ... })
-  def ProvidersSubsidiaryOutputDto(data = nil)
-    require_relative 'entity/providers_subsidiary_output_dto_entity'
-    ProvidersSubsidiaryOutputDtoEntity.new(self, data)
+  # Canonical facade: client.PsuProvidedData.list / client.PsuProvidedData.load({ "id" => ... })
+  def PsuProvidedData(data = nil)
+    require_relative 'entity/psu_provided_data_entity'
+    PsuProvidedDataEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.Report.list / client.Report.load({ "id" => ... })
+  def Report(data = nil)
+    require_relative 'entity/report_entity'
+    ReportEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.ScaData.list / client.ScaData.load({ "id" => ... })
+  def ScaData(data = nil)
+    require_relative 'entity/sca_data_entity'
+    ScaDataEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.ScaMethod.list / client.ScaMethod.load({ "id" => ... })
+  def ScaMethod(data = nil)
+    require_relative 'entity/sca_method_entity'
+    ScaMethodEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.SenderAccount.list / client.SenderAccount.load({ "id" => ... })
+  def SenderAccount(data = nil)
+    require_relative 'entity/sender_account_entity'
+    SenderAccountEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.Subsidiary.list / client.Subsidiary.load({ "id" => ... })
+  def Subsidiary(data = nil)
+    require_relative 'entity/subsidiary_entity'
+    SubsidiaryEntity.new(self, data)
+  end
+
+
+  # Canonical facade: client.Token.list / client.Token.load({ "id" => ... })
+  def Token(data = nil)
+    require_relative 'entity/token_entity'
+    TokenEntity.new(self, data)
   end
 
 

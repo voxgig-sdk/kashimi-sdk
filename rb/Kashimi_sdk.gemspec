@@ -2,8 +2,8 @@ Gem::Specification.new do |spec|
   spec.name          = "voxgig-sdk-kashimi-sdk"
   spec.version       = "0.0.1"
   spec.authors       = ["Voxgig"]
-  spec.summary       = "Unofficial generated Ruby SDK for the Gatekeeper docs public API. Not affiliated with or endorsed by the upstream API provider."
-  spec.description   = "Unofficial generated Ruby SDK for the Gatekeeper docs public API. Not affiliated with or endorsed by the upstream API provider."
+  spec.summary       = "Unofficial generated Ruby SDK for the Kashimi public API. Not affiliated with or endorsed by the upstream API provider."
+  spec.description   = "Unofficial generated Ruby SDK for the Kashimi public API. Not affiliated with or endorsed by the upstream API provider."
   spec.license       = "MIT"
   spec.homepage      = "https://github.com/voxgig-sdk/kashimi-sdk"
   spec.metadata      = {

@@ -33,7 +33,7 @@ class ProviderDirectTest < Minitest::Test
     query = {}
 
     result = client.direct({
-      "path" => "api/v1/capabilities/internal/providers",
+      "path" => "api/v1/capabilities/providers",
       "method" => "GET",
       "params" => params,
       "query" => query,
@@ -68,7 +68,6 @@ def provider_direct_setup(mockres)
     "KASHIMI_TEST_PROVIDER_ENTID" => {},
     "KASHIMI_TEST_LIVE" => "FALSE",
     "KASHIMI_APIKEY" => "",
-    "KASHIMI_SERVER_BASE" => "",
   })
 
   live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -78,9 +77,6 @@ def provider_direct_setup(mockres)
     # test.client.options adds to the live client, it does not redirect it.
     merged_opts = Runner.live_client_options.merge({
       "apikey" => env["KASHIMI_APIKEY"],
-      "server" => {
-        "base" => env["KASHIMI_SERVER_BASE"],
-      },
     })
     client = KashimiSDK.new(merged_opts)
     idmap = env["KASHIMI_TEST_PROVIDER_ENTID"]

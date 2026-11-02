@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "callback": {
+      "CALLBACK00": {
+        "id": "CALLBACK00"
+      },
+      "CALLBACK01": {
+        "id": "CALLBACK01"
+      },
+      "CALLBACK02": {
+        "id": "CALLBACK02"
+      }
+    }
+  },
+  "new": {
+    "callback": {
+      "callback_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/callbacks": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /api/v1/ob/callbacks/with-provider-nano-id": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -63,6 +63,48 @@ describe("PaymentStatusDirect", function()
     end
   end)
 
+  it("should direct-load-payment_status", function()
+    local setup = payment_status_direct_setup({ id = "direct01" })
+    local _should_skip, _reason = runner.is_control_skipped("direct", "direct-load-payment_status", setup.live and "live" or "unit")
+    if _should_skip then
+      pending(_reason or "skipped via sdk-test-control.json")
+      return
+    end
+    local client = setup.client
+
+    local params = {}
+    local query = {}
+    if setup.live then
+      query["paymentId"] = "123e4567-e89b-12d3-a456-426614174000"
+    else
+    end
+
+    local result, err = client:direct({
+      path = "api/v1/archive/payment-statuses/latest",
+      method = "GET",
+      params = params,
+      query = query,
+    })
+    if setup.live then
+      if not live_ok(result, err) then
+        runner.live_miss(pending, LIVE_STRICT, "Live load failed: " .. runner.live_describe(result, err))
+      end
+      if result["data"] == nil then
+        runner.live_miss(pending, LIVE_STRICT, "Live load returned no data: " .. runner.live_describe(result, err))
+      end
+      assert.is_not_nil(result["data"])
+    else
+      assert.is_nil(err)
+      assert.is_true(result["ok"])
+      assert.are.equal(200, helpers.to_int(result["status"]))
+      assert.is_not_nil(result["data"])
+      if type(result["data"]) == "table" then
+        assert.are.equal("direct01", result["data"]["id"])
+      end
+      assert.are.equal(1, #setup.calls)
+    end
+  end)
+
 end)
 
 
@@ -75,7 +117,6 @@ function payment_status_direct_setup(mockres)
     ["KASHIMI_TEST_PAYMENT_STATUS_ENTID"] = {},
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -83,9 +124,6 @@ function payment_status_direct_setup(mockres)
   if live then
     local merged_opts = {
       apikey = env["KASHIMI_APIKEY"],
-      server = {
-        ["base"] = env["KASHIMI_SERVER_BASE"],
-      },
     }
     -- sdk-test-control.json's test.client.options goes UNDER the generated
     -- fields: it adds to the live client, it does not redirect it.

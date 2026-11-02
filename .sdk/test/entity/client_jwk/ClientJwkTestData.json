@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "client_jwk": {
+      "CLIENT_JWK00": {
+        "id": "CLIENT_JWK00"
+      },
+      "CLIENT_JWK01": {
+        "id": "CLIENT_JWK01"
+      },
+      "CLIENT_JWK02": {
+        "id": "CLIENT_JWK02"
+      }
+    }
+  },
+  "new": {
+    "client_jwk": {
+      "client_jwk_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/client-jwks": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -1,48 +1,38 @@
-export interface Capability {
+export interface Callback {
 }
-export interface CapabilityListMatch {
-}
-export interface ClientHostedUiCustomizationsOutputDto {
-    id?: string;
-}
-export interface ClientHostedUiCustomizationsOutputDtoLoadMatch {
-    id: string;
+export interface CallbackLoadMatch {
+    provider_id: string;
+    state: string;
     $action?: string;
     [action: string]: any;
 }
-export interface CreatePaymentOutputDto {
-    amount: number;
-    currency: string;
-    metadata: Record<string, any>;
-    paymentScheme: any;
+export interface ClientJwk {
+}
+export interface ClientJwkLoadMatch {
+    client_id: string;
+    provider_id: string;
+    revoked?: boolean;
+}
+export interface ConfirmationData {
+}
+export interface ConfirmationDataLoadMatch {
+}
+export interface ConsentStatus {
+}
+export interface ConsentStatusLoadMatch {
+}
+export interface Country {
+}
+export interface CountryListMatch {
+}
+export interface Followup {
     provider: any;
-    recipient: any;
-    remittanceInformation: any;
     sender?: any;
 }
-export interface CreatePaymentOutputDtoCreateData {
-    amount: number;
-    currency: string;
-    metadata: Record<string, any>;
-    paymentScheme: any;
-    provider?: any;
-    recipient: any;
-    remittanceInformation: any;
+export interface FollowupCreateData {
+    payment_id: string;
+    provider: any;
     sender?: any;
-}
-export interface CreateTokenOutputDto {
-    access_token: string;
-    expires_in: number;
-    grant_type: string;
-    scope: string;
-    token_type: string;
-}
-export interface CreateTokenOutputDtoCreateData {
-    access_token: string;
-    expires_in: number;
-    grant_type: string;
-    scope: string;
-    token_type: string;
 }
 export interface Healthcheck {
     details?: Record<string, any>;
@@ -56,34 +46,21 @@ export interface HealthcheckLoadMatch {
     info?: Record<string, any>;
     status?: string;
 }
-export interface Latest {
-    createdAt: string;
-    detailedStatus: string;
-    failureReasons: any[];
-    id: string;
-    paymentId: string;
-    status: string;
+export interface HostedUiCustomization {
+    clientId: string;
+    faviconUrl: string;
+    footerText: string;
+    logoUrl: string;
+    primaryColor: string;
+    privacyPolicyUrl: string;
+    psuPortalBaseUrl: string;
+    termsUrl: string;
 }
-export interface LatestListMatch {
-    payment_id: string;
-}
-export interface Obn {
-}
-export interface ObnLoadMatch {
-    provider_id: string;
-    state: string;
-    $action?: string;
-    [action: string]: any;
-}
-export interface ObnCreateData {
-    provider_id: string;
-    state: string;
-}
-export interface ObnUpdateData {
+export interface HostedUiCustomizationLoadMatch {
+    client_id: string;
 }
 export interface Payment {
     amount: number;
-    clientId: string;
     createdAt: string;
     currency: string;
     id: string;
@@ -93,7 +70,6 @@ export interface Payment {
     recipient: Record<string, any>;
     remittanceInformation: any;
     sender: Record<string, any>;
-    status: string;
     updatedAt: string;
 }
 export interface PaymentLoadMatch {
@@ -105,6 +81,18 @@ export interface PaymentListMatch {
     filters_created_at_to?: string;
     filters_metadata_end_to_end_id?: string;
 }
+export interface PaymentCreateData {
+    amount: number;
+    currency: string;
+    metadata: Record<string, any>;
+    paymentScheme: any;
+    provider?: any;
+    recipient: Record<string, any>;
+    remittanceInformation: any;
+    sender?: Record<string, any>;
+    $action?: string;
+    [action: string]: any;
+}
 export interface PaymentStatus {
     createdAt: string;
     detailedStatus: string;
@@ -112,6 +100,11 @@ export interface PaymentStatus {
     id: string;
     paymentId: string;
     status: string;
+}
+export interface PaymentStatusLoadMatch {
+    payment_id: string;
+    $action?: string;
+    [action: string]: any;
 }
 export interface PaymentStatusListMatch {
     payment_id: string;
@@ -131,7 +124,45 @@ export interface ProviderListMatch {
     cursor?: Record<string, any>;
     filter?: Record<string, any>;
 }
-export interface ProvidersSubsidiaryOutputDto {
+export interface PsuProvidedData {
+}
+export interface PsuProvidedDataUpdateData {
+}
+export interface Report {
+    amount: number;
+    createdAt: string;
+    currency: string;
+    id: string;
+    provider?: Record<string, any>;
+    recipient: Record<string, any>;
+    remittanceInformation: any;
+    sender?: Record<string, any>;
+    status: string;
+}
+export interface ReportLoadMatch {
+    id: string;
+}
+export interface ScaData {
+}
+export interface ScaDataLoadMatch {
+}
+export interface ScaDataUpdateData {
+}
+export interface ScaMethod {
+}
+export interface ScaMethodLoadMatch {
+}
+export interface ScaMethodUpdateData {
+}
+export interface SenderAccount {
+}
+export interface SenderAccountLoadMatch {
+    provider_id: string;
+    state: string;
+}
+export interface SenderAccountUpdateData {
+}
+export interface Subsidiary {
     bic: string;
     countryCode: string;
     hasSubsidiaries: boolean;
@@ -142,8 +173,22 @@ export interface ProvidersSubsidiaryOutputDto {
     paymentSchemes: any[];
     requiredPaymentFields: any[];
 }
-export interface ProvidersSubsidiaryOutputDtoListMatch {
+export interface SubsidiaryListMatch {
     provider_id: string;
     cursor?: Record<string, any>;
     filter?: Record<string, any>;
+}
+export interface Token {
+    access_token: string;
+    expires_in: number;
+    grant_type: string;
+    scope: string;
+    token_type: string;
+}
+export interface TokenCreateData {
+    access_token: string;
+    expires_in: number;
+    grant_type: string;
+    scope: string;
+    token_type: string;
 }

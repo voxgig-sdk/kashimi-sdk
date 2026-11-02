@@ -1,0 +1,22 @@
+# BasicFollowupFlow
+
+main: kit: flow: BasicFollowupFlow:
+{
+  entity: "followup",
+  kind: "basic",
+  name: "BasicFollowupFlow",
+  step: [
+    {
+      i: {
+        ref: "followup_ref01"
+      }
+
+      m: {
+        payment_id: "payment01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicFollowupFlow"
+}

@@ -5,7 +5,7 @@
 The TypeScript SDK for the Kashimi API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Capability()` — each with a small set of operations (`list`, `load`, `create`, `update`)
+`client.Callback()` — each with a small set of operations (`list`, `load`, `create`, `update`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -36,24 +36,19 @@ import { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'
 
 const client = new KashimiSDK({
   apikey: process.env.KASHIMI_APIKEY,
-  // Required: this API's server URL is templated on these.
-  server: {
-    base: '<base>',
-  },
 })
 ```
 
-### 2. List capability records
+### 3. Load a callback
 
-`list()` resolves to an array of Capability ENTITIES — every operation
-resolves to entities, not raw records. Iterate them directly, and call
-`.data()` on one for the record it holds:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
-const capabilitys = await client.Capability().list()
-
-for (const capability of capabilitys) {
-  console.log(capability.data())
+try {
+  const callback = await client.Callback().load({ provider_id: 'example_provider_id', state: 'example_state' })
+  console.log(callback.data())
+} catch (err) {
+  console.error('load failed:', err)
 }
 ```
 
@@ -64,10 +59,10 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const latests = await client.Latest().list({ payment_id: "example" })
-  console.log(latests.map((item) => item.data()))
+  const clientjwk = await client.ClientJwk().load({ client_id: "example", provider_id: "example" })
+  console.log(clientjwk.data())
 } catch (err) {
-  console.error('list failed:', err)
+  console.error('load failed:', err)
 }
 ```
 
@@ -129,9 +124,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = KashimiSDK.test()
 
-const latests = await client.Latest().list({ payment_id: 'example_payment_id' })
-// latests is an array of Latest entities, one per mock record
-console.log(latests.map((latest) => latest.data()))
+const clientjwk = await client.ClientJwk().load({ client_id: 'example_client_id', provider_id: 'example_provider_id' })
+// clientjwk is the ClientJwk entity; .data() reads its mock record
+console.log(clientjwk.data())
 ```
 
 You can also use the instance method:
@@ -146,14 +141,14 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Latest()
+const entity = client.ClientJwk()
 
 // First call runs the operation and stores its result
-await entity.list({ payment_id: 'example_payment_id' })
+await entity.load({ client_id: 'example_client_id', provider_id: 'example_provider_id' })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
-console.log(data.id)
+console.log(data)
 ```
 
 ### Add custom middleware
@@ -208,7 +203,6 @@ API operations the generated scenarios cover.
 ```ts
 new KashimiSDK(options?: {
   apikey?: string
-  server?: { base: string }
   base?: string
   prefix?: string
   suffix?: string
@@ -219,7 +213,6 @@ new KashimiSDK(options?: {
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `server` | `object` | **Required.** Values for the server-URL variables: `base`. The API base URL is a template over them. |
 | `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
@@ -235,17 +228,24 @@ new KashimiSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
-| `Capability(data?)` | `CapabilityEntity` | Create a Capability entity instance. |
-| `ClientHostedUiCustomizationsOutputDto(data?)` | `ClientHostedUiCustomizationsOutputDtoEntity` | Create a ClientHostedUiCustomizationsOutputDto entity instance. |
-| `CreatePaymentOutputDto(data?)` | `CreatePaymentOutputDtoEntity` | Create a CreatePaymentOutputDto entity instance. |
-| `CreateTokenOutputDto(data?)` | `CreateTokenOutputDtoEntity` | Create a CreateTokenOutputDto entity instance. |
+| `Callback(data?)` | `CallbackEntity` | Create a Callback entity instance. |
+| `ClientJwk(data?)` | `ClientJwkEntity` | Create a ClientJwk entity instance. |
+| `ConfirmationData(data?)` | `ConfirmationDataEntity` | Create a ConfirmationData entity instance. |
+| `ConsentStatus(data?)` | `ConsentStatusEntity` | Create a ConsentStatus entity instance. |
+| `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
+| `Followup(data?)` | `FollowupEntity` | Create a Followup entity instance. |
 | `Healthcheck(data?)` | `HealthcheckEntity` | Create a Healthcheck entity instance. |
-| `Latest(data?)` | `LatestEntity` | Create a Latest entity instance. |
-| `Obn(data?)` | `ObnEntity` | Create an Obn entity instance. |
+| `HostedUiCustomization(data?)` | `HostedUiCustomizationEntity` | Create a HostedUiCustomization entity instance. |
 | `Payment(data?)` | `PaymentEntity` | Create a Payment entity instance. |
 | `PaymentStatus(data?)` | `PaymentStatusEntity` | Create a PaymentStatus entity instance. |
 | `Provider(data?)` | `ProviderEntity` | Create a Provider entity instance. |
-| `ProvidersSubsidiaryOutputDto(data?)` | `ProvidersSubsidiaryOutputDtoEntity` | Create a ProvidersSubsidiaryOutputDto entity instance. |
+| `PsuProvidedData(data?)` | `PsuProvidedDataEntity` | Create a PsuProvidedData entity instance. |
+| `Report(data?)` | `ReportEntity` | Create a Report entity instance. |
+| `ScaData(data?)` | `ScaDataEntity` | Create a ScaData entity instance. |
+| `ScaMethod(data?)` | `ScaMethodEntity` | Create a ScaMethod entity instance. |
+| `SenderAccount(data?)` | `SenderAccountEntity` | Create a SenderAccount entity instance. |
+| `Subsidiary(data?)` | `SubsidiaryEntity` | Create a Subsidiary entity instance. |
+| `Token(data?)` | `TokenEntity` | Create a Token entity instance. |
 | `tester(testopts?, sdkopts?)` | `KashimiSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -315,7 +315,43 @@ The `prepare()` method returns:
 
 ### Entities
 
-#### Capability
+#### Callback
+
+| Field | Description |
+| --- | --- |
+
+Operations: load.
+
+API path: `/api/v1/ob/callbacks`
+
+#### ClientJwk
+
+| Field | Description |
+| --- | --- |
+
+Operations: load.
+
+API path: `/api/v1/ob/client-jwks`
+
+#### ConfirmationData
+
+| Field | Description |
+| --- | --- |
+
+Operations: load.
+
+API path: `/api/v1/ob/payments/decoupled/confirmation-data`
+
+#### ConsentStatus
+
+| Field | Description |
+| --- | --- |
+
+Operations: load.
+
+API path: `/api/v1/ob/payments/decoupled/consent-status`
+
+#### Country
 
 | Field | Description |
 | --- | --- |
@@ -324,46 +360,16 @@ Operations: list.
 
 API path: `/api/v1/capabilities/providers/countries`
 
-#### ClientHostedUiCustomizationsOutputDto
+#### Followup
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-
-Operations: load.
-
-API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
-
-#### CreatePaymentOutputDto
-
-| Field | Description |
-| --- | --- |
-| `amount` | The amount to be transferred. |
-| `currency` | The currency of the payment. |
-| `metadata` |  |
-| `paymentScheme` | Payment scheme. |
 | `provider` | The provider information for the followup |
-| `recipient` | Data about the party receiving the payment. |
-| `remittanceInformation` | Unstructured or structured remittance information. |
 | `sender` | The sender information to be used with the payment |
 
 Operations: create.
 
 API path: `/api/v1/ob/payments/{paymentId}/followups`
-
-#### CreateTokenOutputDto
-
-| Field | Description |
-| --- | --- |
-| `access_token` | The JWT access token. |
-| `expires_in` | Expiration time of the token in seconds. |
-| `grant_type` | The type of grant being requested. |
-| `scope` | Scopes being requested. |
-| `token_type` | Token type. |
-
-Operations: create.
-
-API path: `/api/v1/auth/token`
 
 #### Healthcheck
 
@@ -378,51 +384,42 @@ Operations: load.
 
 API path: `/api/status`
 
-#### Latest
+#### HostedUiCustomization
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | Timestamp of status creation |
-| `detailedStatus` | Detailed payment status |
-| `failureReasons` | Failure reasons (for `status: FAILED` only) |
-| `id` | Unique payment status identifier |
-| `paymentId` | Unique payment identifier |
-| `status` | Payment status. |
+| `clientId` |  |
+| `faviconUrl` |  |
+| `footerText` |  |
+| `logoUrl` |  |
+| `primaryColor` |  |
+| `privacyPolicyUrl` |  |
+| `psuPortalBaseUrl` |  |
+| `termsUrl` |  |
 
-Operations: list.
+Operations: load.
 
-API path: `/api/v1/archive/payment-statuses/latest`
-
-#### Obn
-
-| Field | Description |
-| --- | --- |
-
-Operations: create, load, update.
-
-API path: `/api/v1/ob/payments/cancel`
+API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
 
 #### Payment
 
 | Field | Description |
 | --- | --- |
 | `amount` | Payment amount |
-| `clientId` | Client identifier |
 | `createdAt` |  |
 | `currency` | Currency code |
 | `id` | Unique payment identifier |
 | `metadata` |  |
 | `paymentScheme` | Payment scheme used |
 | `provider` | Payment provider details. |
-| `recipient` |  |
+| `recipient` | Data about the party receiving the payment. |
 | `remittanceInformation` | Unstructured or structured remittance information. |
-| `sender` |  |
-| `status` | The most recent status of the payment. |
+| `sender` | Data about the party sending the payment. |
 | `updatedAt` |  |
 
-Operations: list, load.
+Operations: create, list, load.
 
-API path: `/api/v1/archive/payments`
+API path: `/api/v1/ob/payments/cancel`
 
 #### PaymentStatus
 
@@ -435,7 +432,7 @@ API path: `/api/v1/archive/payments`
 | `paymentId` | Unique payment identifier |
 | `status` | Payment status. |
 
-Operations: list.
+Operations: list, load.
 
 API path: `/api/v1/archive/payment-statuses`
 
@@ -455,9 +452,63 @@ API path: `/api/v1/archive/payment-statuses`
 
 Operations: list.
 
-API path: `/api/v1/capabilities/internal/providers`
+API path: `/api/v1/capabilities/providers`
 
-#### ProvidersSubsidiaryOutputDto
+#### PsuProvidedData
+
+| Field | Description |
+| --- | --- |
+
+Operations: update.
+
+API path: `/api/v1/ob/payments/psu-provided-data`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `amount` | Payment amount |
+| `createdAt` |  |
+| `currency` | Currency code |
+| `id` | Unique payment identifier |
+| `provider` | Selected provider details (name, country). |
+| `recipient` |  |
+| `remittanceInformation` |  |
+| `sender` |  |
+| `status` | The most recent status of the payment. |
+
+Operations: load.
+
+API path: `/api/v1/reports/payments/{id}`
+
+#### ScaData
+
+| Field | Description |
+| --- | --- |
+
+Operations: load, update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-data`
+
+#### ScaMethod
+
+| Field | Description |
+| --- | --- |
+
+Operations: load, update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-methods`
+
+#### SenderAccount
+
+| Field | Description |
+| --- | --- |
+
+Operations: load, update.
+
+API path: `/api/v1/ob/payments/sender-accounts`
+
+#### Subsidiary
 
 | Field | Description |
 | --- | --- |
@@ -473,16 +524,98 @@ API path: `/api/v1/capabilities/internal/providers`
 
 Operations: list.
 
-API path: `/api/v1/capabilities/internal/providers/{id}/subsidiaries`
+API path: `/api/v1/capabilities/providers/{id}/subsidiaries`
+
+#### Token
+
+| Field | Description |
+| --- | --- |
+| `access_token` | The JWT access token. |
+| `expires_in` | Expiration time of the token in seconds. |
+| `grant_type` | The type of grant being requested. |
+| `scope` | Scopes being requested. |
+| `token_type` | Token type. |
+
+Operations: create.
+
+API path: `/api/v1/auth/token`
 
 
 
 ## Entities
 
 
-### Capability
+### Callback
 
-Create an instance: `const capability = client.Capability()`
+Create an instance: `const callback = client.Callback()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ts
+const callback = await client.Callback().load({ provider_id: 'provider_id', state: 'state' })
+```
+
+
+### ClientJwk
+
+Create an instance: `const client_jwk = client.ClientJwk()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ts
+const client_jwk = await client.ClientJwk().load({ client_id: 'client_id', provider_id: 'provider_id' })
+```
+
+
+### ConfirmationData
+
+Create an instance: `const confirmation_data = client.ConfirmationData()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ts
+const confirmation_data = await client.ConfirmationData().load()
+```
+
+
+### ConsentStatus
+
+Create an instance: `const consent_status = client.ConsentStatus()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ts
+const consent_status = await client.ConsentStatus().load()
+```
+
+
+### Country
+
+Create an instance: `const country = client.Country()`
 
 #### Operations
 
@@ -493,36 +626,13 @@ Create an instance: `const capability = client.Capability()`
 #### Example: List
 
 ```ts
-const capabilitys = await client.Capability().list()
+const countrys = await client.Country().list()
 ```
 
 
-### ClientHostedUiCustomizationsOutputDto
+### Followup
 
-Create an instance: `const client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `id` | `string` |  |
-
-#### Example: Load
-
-```ts
-const client_hosted_ui_customizations_output_dto = await client.ClientHostedUiCustomizationsOutputDto().load({ id: 'client_hosted_ui_customizations_output_dto_id' })
-```
-
-
-### CreatePaymentOutputDto
-
-Create an instance: `const create_payment_output_dto = client.CreatePaymentOutputDto()`
+Create an instance: `const followup = client.Followup()`
 
 #### Operations
 
@@ -534,58 +644,15 @@ Create an instance: `const create_payment_output_dto = client.CreatePaymentOutpu
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `number` | The amount to be transferred. |
-| `currency` | `string` | The currency of the payment. |
-| `metadata` | `Record<string, any>` |  |
-| `paymentScheme` | `any` | Payment scheme. |
 | `provider` | `any` | The provider information for the followup |
-| `recipient` | `any` | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Unstructured or structured remittance information. |
 | `sender` | `any` | The sender information to be used with the payment |
 
 #### Example: Create
 
 ```ts
-const create_payment_output_dto = await client.CreatePaymentOutputDto().create({
-  amount: 1,
-  currency: 'example_currency',
-  metadata: {},
-  paymentScheme: 'example_paymentScheme',
-  recipient: 'example_recipient',
-  remittanceInformation: 'example_remittanceInformation',
-})
-```
-
-
-### CreateTokenOutputDto
-
-Create an instance: `const create_token_output_dto = client.CreateTokenOutputDto()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `access_token` | `string` | The JWT access token. |
-| `expires_in` | `number` | Expiration time of the token in seconds. |
-| `grant_type` | `string` | The type of grant being requested. |
-| `scope` | `string` | Scopes being requested. |
-| `token_type` | `string` | Token type. |
-
-#### Example: Create
-
-```ts
-const create_token_output_dto = await client.CreateTokenOutputDto().create({
-  access_token: 'example_access_token',
-  expires_in: 1,
-  grant_type: 'example_grant_type',
-  scope: 'example_scope',
-  token_type: 'example_token_type',
+const followup = await client.Followup().create({
+  payment_id: 'example_payment_id',
+  provider: 'example_provider',
 })
 ```
 
@@ -616,59 +683,33 @@ const healthcheck = await client.Healthcheck().load()
 ```
 
 
-### Latest
+### HostedUiCustomization
 
-Create an instance: `const latest = client.Latest()`
+Create an instance: `const hosted_ui_customization = client.HostedUiCustomization()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `string` | Timestamp of status creation |
-| `detailedStatus` | `string` | Detailed payment status |
-| `failureReasons` | `any[]` | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Unique payment status identifier |
-| `paymentId` | `string` | Unique payment identifier |
-| `status` | `string` | Payment status. |
-
-#### Example: List
-
-```ts
-const latests = await client.Latest().list({ payment_id: "example" })
-```
-
-
-### Obn
-
-Create an instance: `const obn = client.Obn()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
+| `clientId` | `string` |  |
+| `faviconUrl` | `string` |  |
+| `footerText` | `string` |  |
+| `logoUrl` | `string` |  |
+| `primaryColor` | `string` |  |
+| `privacyPolicyUrl` | `string` |  |
+| `psuPortalBaseUrl` | `string` |  |
+| `termsUrl` | `string` |  |
 
 #### Example: Load
 
 ```ts
-const obn = await client.Obn().load({ provider_id: 'provider_id', state: 'state' })
-```
-
-#### Example: Create
-
-```ts
-const obn = await client.Obn().create({
-  provider_id: 'example_provider_id',
-  state: 'example_state',
-})
+const hosted_ui_customization = await client.HostedUiCustomization().load({ client_id: 'client_id' })
 ```
 
 
@@ -680,6 +721,7 @@ Create an instance: `const payment = client.Payment()`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
@@ -688,17 +730,15 @@ Create an instance: `const payment = client.Payment()`
 | Field | Type | Description |
 | --- | --- | --- |
 | `amount` | `number` | Payment amount |
-| `clientId` | `string` | Client identifier |
 | `createdAt` | `string` |  |
 | `currency` | `string` | Currency code |
 | `id` | `string` | Unique payment identifier |
 | `metadata` | `Record<string, any>` |  |
 | `paymentScheme` | `any` | Payment scheme used |
 | `provider` | `any` | Payment provider details. |
-| `recipient` | `Record<string, any>` |  |
+| `recipient` | `Record<string, any>` | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Unstructured or structured remittance information. |
-| `sender` | `Record<string, any>` |  |
-| `status` | `string` | The most recent status of the payment. |
+| `sender` | `Record<string, any>` | Data about the party sending the payment. |
 | `updatedAt` | `string` |  |
 
 #### Example: Load
@@ -713,6 +753,19 @@ const payment = await client.Payment().load({ id: 'payment_id' })
 const payments = await client.Payment().list()
 ```
 
+#### Example: Create
+
+```ts
+const payment = await client.Payment().create({
+  amount: 1,
+  currency: 'example_currency',
+  metadata: {},
+  paymentScheme: 'example_paymentScheme',
+  recipient: {},
+  remittanceInformation: 'example_remittanceInformation',
+})
+```
+
 
 ### PaymentStatus
 
@@ -723,6 +776,7 @@ Create an instance: `const payment_status = client.PaymentStatus()`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -734,6 +788,12 @@ Create an instance: `const payment_status = client.PaymentStatus()`
 | `id` | `string` | Unique payment status identifier |
 | `paymentId` | `string` | Unique payment identifier |
 | `status` | `string` | Payment status. |
+
+#### Example: Load
+
+```ts
+const payment_status = await client.PaymentStatus().load({ payment_id: 'payment_id' })
+```
 
 #### Example: List
 
@@ -773,9 +833,105 @@ const providers = await client.Provider().list()
 ```
 
 
-### ProvidersSubsidiaryOutputDto
+### PsuProvidedData
 
-Create an instance: `const providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto()`
+Create an instance: `const psu_provided_data = client.PsuProvidedData()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `update(data)` | Update an existing entity. |
+
+
+### Report
+
+Create an instance: `const report = client.Report()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `number` | Payment amount |
+| `createdAt` | `string` |  |
+| `currency` | `string` | Currency code |
+| `id` | `string` | Unique payment identifier |
+| `provider` | `Record<string, any>` | Selected provider details (name, country). |
+| `recipient` | `Record<string, any>` |  |
+| `remittanceInformation` | `any` |  |
+| `sender` | `Record<string, any>` |  |
+| `status` | `string` | The most recent status of the payment. |
+
+#### Example: Load
+
+```ts
+const report = await client.Report().load({ id: 'report_id' })
+```
+
+
+### ScaData
+
+Create an instance: `const sca_data = client.ScaData()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ts
+const sca_data = await client.ScaData().load()
+```
+
+
+### ScaMethod
+
+Create an instance: `const sca_method = client.ScaMethod()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ts
+const sca_method = await client.ScaMethod().load()
+```
+
+
+### SenderAccount
+
+Create an instance: `const sender_account = client.SenderAccount()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ts
+const sender_account = await client.SenderAccount().load({ provider_id: 'provider_id', state: 'state' })
+```
+
+
+### Subsidiary
+
+Create an instance: `const subsidiary = client.Subsidiary()`
 
 #### Operations
 
@@ -800,7 +956,40 @@ Create an instance: `const providers_subsidiary_output_dto = client.ProvidersSub
 #### Example: List
 
 ```ts
-const providers_subsidiary_output_dtos = await client.ProvidersSubsidiaryOutputDto().list({ provider_id: "example" })
+const subsidiarys = await client.Subsidiary().list({ provider_id: "example" })
+```
+
+
+### Token
+
+Create an instance: `const token = client.Token()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `access_token` | `string` | The JWT access token. |
+| `expires_in` | `number` | Expiration time of the token in seconds. |
+| `grant_type` | `string` | The type of grant being requested. |
+| `scope` | `string` | Scopes being requested. |
+| `token_type` | `string` | Token type. |
+
+#### Example: Create
+
+```ts
+const token = await client.Token().create({
+  access_token: 'example_access_token',
+  expires_in: 1,
+  grant_type: 'example_grant_type',
+  scope: 'example_scope',
+  token_type: 'example_token_type',
+})
 ```
 
 ## Features
@@ -1031,16 +1220,16 @@ import { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const latest = client.Latest()
-await latest.list({ payment_id: "example" })
+const clientjwk = client.ClientJwk()
+await clientjwk.load({ client_id: "example", provider_id: "example" })
 
-// latest.data() now returns the latest data from the last `list`
-// latest.match() returns the last match criteria
+// clientjwk.data() now returns the clientjwk data from the last `load`
+// clientjwk.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -16,64 +16,67 @@ from __future__ import annotations
 from typing import TypedDict, Any
 
 
-class Capability(TypedDict):
+class Callback(TypedDict):
     pass
 
 
-class CapabilityListMatch(TypedDict):
+class CallbackLoadMatch(TypedDict):
+    provider_id: str
+    state: str
+
+
+class ClientJwk(TypedDict):
     pass
 
 
-class ClientHostedUiCustomizationsOutputDto(TypedDict, total=False):
-    id: str
+class ClientJwkLoadMatchRequired(TypedDict):
+    client_id: str
+    provider_id: str
 
 
-class ClientHostedUiCustomizationsOutputDtoLoadMatch(TypedDict):
-    id: str
+class ClientJwkLoadMatch(ClientJwkLoadMatchRequired, total=False):
+    revoked: bool
 
 
-class CreatePaymentOutputDtoRequired(TypedDict):
-    amount: float
-    currency: str
-    metadata: dict
-    paymentScheme: Any
+class ConfirmationData(TypedDict):
+    pass
+
+
+class ConfirmationDataLoadMatch(TypedDict):
+    pass
+
+
+class ConsentStatus(TypedDict):
+    pass
+
+
+class ConsentStatusLoadMatch(TypedDict):
+    pass
+
+
+class Country(TypedDict):
+    pass
+
+
+class CountryListMatch(TypedDict):
+    pass
+
+
+class FollowupRequired(TypedDict):
     provider: Any
-    recipient: Any
-    remittanceInformation: Any
 
 
-class CreatePaymentOutputDto(CreatePaymentOutputDtoRequired, total=False):
+class Followup(FollowupRequired, total=False):
     sender: Any
 
 
-class CreatePaymentOutputDtoCreateDataRequired(TypedDict):
-    amount: float
-    currency: str
-    metadata: dict
-    paymentScheme: Any
-    recipient: Any
-    remittanceInformation: Any
-
-
-class CreatePaymentOutputDtoCreateData(CreatePaymentOutputDtoCreateDataRequired, total=False):
+class FollowupCreateDataRequired(TypedDict):
+    payment_id: str
     provider: Any
+
+
+class FollowupCreateData(FollowupCreateDataRequired, total=False):
     sender: Any
-
-
-class CreateTokenOutputDto(TypedDict):
-    access_token: str
-    expires_in: float
-    grant_type: str
-    scope: str
-    token_type: str
-
-
-class CreateTokenOutputDtoCreateData(TypedDict):
-    access_token: str
-    expires_in: float
-    grant_type: str
-    scope: str
-    token_type: str
 
 
 class Healthcheck(TypedDict, total=False):
@@ -90,40 +93,23 @@ class HealthcheckLoadMatch(TypedDict, total=False):
     status: str
 
 
-class Latest(TypedDict):
-    createdAt: str
-    detailedStatus: str
-    failureReasons: list
-    id: str
-    paymentId: str
-    status: str
+class HostedUiCustomization(TypedDict):
+    clientId: str
+    faviconUrl: str
+    footerText: str
+    logoUrl: str
+    primaryColor: str
+    privacyPolicyUrl: str
+    psuPortalBaseUrl: str
+    termsUrl: str
 
 
-class LatestListMatch(TypedDict):
-    payment_id: str
-
-
-class Obn(TypedDict):
-    pass
-
-
-class ObnLoadMatch(TypedDict):
-    provider_id: str
-    state: str
-
-
-class ObnCreateData(TypedDict):
-    provider_id: str
-    state: str
-
-
-class ObnUpdateData(TypedDict):
-    pass
+class HostedUiCustomizationLoadMatch(TypedDict):
+    client_id: str
 
 
 class Payment(TypedDict):
     amount: float
-    clientId: str
     createdAt: str
     currency: str
     id: str
@@ -133,7 +119,6 @@ class Payment(TypedDict):
     recipient: dict
     remittanceInformation: Any
     sender: dict
-    status: str
     updatedAt: str
 
 
@@ -148,6 +133,20 @@ class PaymentListMatch(TypedDict, total=False):
     filters_metadata_end_to_end_id: str
 
 
+class PaymentCreateDataRequired(TypedDict):
+    amount: float
+    currency: str
+    metadata: dict
+    paymentScheme: Any
+    recipient: dict
+    remittanceInformation: Any
+
+
+class PaymentCreateData(PaymentCreateDataRequired, total=False):
+    provider: Any
+    sender: dict
+
+
 class PaymentStatus(TypedDict):
     createdAt: str
     detailedStatus: str
@@ -155,6 +154,10 @@ class PaymentStatus(TypedDict):
     id: str
     paymentId: str
     status: str
+
+
+class PaymentStatusLoadMatch(TypedDict):
+    payment_id: str
 
 
 class PaymentStatusListMatch(TypedDict):
@@ -178,7 +181,71 @@ class ProviderListMatch(TypedDict, total=False):
     filter: dict
 
 
-class ProvidersSubsidiaryOutputDto(TypedDict):
+class PsuProvidedData(TypedDict):
+    pass
+
+
+class PsuProvidedDataUpdateData(TypedDict):
+    pass
+
+
+class ReportRequired(TypedDict):
+    amount: float
+    createdAt: str
+    currency: str
+    id: str
+    recipient: dict
+    remittanceInformation: Any
+    status: str
+
+
+class Report(ReportRequired, total=False):
+    provider: dict
+    sender: dict
+
+
+class ReportLoadMatch(TypedDict):
+    id: str
+
+
+class ScaData(TypedDict):
+    pass
+
+
+class ScaDataLoadMatch(TypedDict):
+    pass
+
+
+class ScaDataUpdateData(TypedDict):
+    pass
+
+
+class ScaMethod(TypedDict):
+    pass
+
+
+class ScaMethodLoadMatch(TypedDict):
+    pass
+
+
+class ScaMethodUpdateData(TypedDict):
+    pass
+
+
+class SenderAccount(TypedDict):
+    pass
+
+
+class SenderAccountLoadMatch(TypedDict):
+    provider_id: str
+    state: str
+
+
+class SenderAccountUpdateData(TypedDict):
+    pass
+
+
+class Subsidiary(TypedDict):
     bic: str
     countryCode: str
     hasSubsidiaries: bool
@@ -190,10 +257,26 @@ class ProvidersSubsidiaryOutputDto(TypedDict):
     requiredPaymentFields: list
 
 
-class ProvidersSubsidiaryOutputDtoListMatchRequired(TypedDict):
+class SubsidiaryListMatchRequired(TypedDict):
     provider_id: str
 
 
-class ProvidersSubsidiaryOutputDtoListMatch(ProvidersSubsidiaryOutputDtoListMatchRequired, total=False):
+class SubsidiaryListMatch(SubsidiaryListMatchRequired, total=False):
     cursor: dict
     filter: dict
+
+
+class Token(TypedDict):
+    access_token: str
+    expires_in: float
+    grant_type: str
+    scope: str
+    token_type: str
+
+
+class TokenCreateData(TypedDict):
+    access_token: str
+    expires_in: float
+    grant_type: str
+    scope: str
+    token_type: str

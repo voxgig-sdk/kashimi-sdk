@@ -9,8 +9,130 @@ const utility_1 = require("./utility");
 // scheme names, and the definition's own response example.
 const PLAN = [
     {
-        "entity": "capability",
-        "accessor": "Capability",
+        "entity": "callback",
+        "accessor": "Callback",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/callbacks",
+        "args": [],
+        "select": {
+            "provider_id": "v1",
+            "state": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "query": [
+            "state",
+            "providerId"
+        ],
+        "queryArgs": [
+            {
+                "name": "provider_id",
+                "wire": "providerId"
+            },
+            {
+                "name": "state",
+                "wire": "state"
+            }
+        ],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "callback",
+        "accessor": "Callback",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/callbacks/with-provider-nano-id",
+        "action": "with-provider-nano-id",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "client_jwk",
+        "accessor": "ClientJwk",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/client-jwks",
+        "args": [],
+        "select": {
+            "client_id": "v1",
+            "provider_id": "v1",
+            "revoked": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "query": [
+            "providerId",
+            "clientId",
+            "revoked"
+        ],
+        "queryArgs": [
+            {
+                "name": "client_id",
+                "wire": "clientId"
+            },
+            {
+                "name": "provider_id",
+                "wire": "providerId"
+            },
+            {
+                "name": "revoked",
+                "wire": "revoked"
+            }
+        ],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "confirmation_data",
+        "accessor": "ConfirmationData",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/payments/decoupled/confirmation-data",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "consent_status",
+        "accessor": "ConsentStatus",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/payments/decoupled/consent-status",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "country",
+        "accessor": "Country",
         "op": "list",
         "method": "GET",
         "path": "/api/v1/capabilities/providers/countries",
@@ -35,46 +157,8 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "client_hosted_ui_customizations_output_dto",
-        "accessor": "ClientHostedUiCustomizationsOutputDto",
-        "op": "load",
-        "method": "GET",
-        "path": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
-        "action": "hosted-ui-customizations",
-        "args": [
-            {
-                "name": "id",
-                "wire": "clientId",
-                "value": "p1"
-            }
-        ],
-        "select": {
-            "authorization": "v1"
-        },
-        "headers": [],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [],
-        "queryArgs": [],
-        "auth": null,
-        "status": 200,
-        "sample": {
-            "clientId": "123e4567-e89b-12d3-a456-426614174000",
-            "primaryColor": "#000000",
-            "faviconUrl": "https://example.com/favicon.ico",
-            "logoUrl": "https://example.com/logo.png",
-            "termsUrl": "https://example.com/terms",
-            "privacyPolicyUrl": "https://example.com/privacy",
-            "footerText": "© 2023 Example Company. All rights reserved.",
-            "psuPortalBaseUrl": "https://psu.example.com"
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "create_payment_output_dto",
-        "accessor": "CreatePaymentOutputDto",
+        "entity": "followup",
+        "accessor": "Followup",
         "op": "create",
         "method": "POST",
         "path": "/api/v1/ob/payments/{paymentId}/followups",
@@ -103,67 +187,6 @@ const PLAN = [
             "createdAt": "2023-04-05T17:02:11.954Z",
             "updatedAt": "2023-04-05T17:02:11.954Z",
             "status": "PENDING"
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "create_payment_output_dto",
-        "accessor": "CreatePaymentOutputDto",
-        "op": "create",
-        "method": "POST",
-        "path": "/api/v1/ob/payments",
-        "args": [],
-        "select": {
-            "authorization": "v1"
-        },
-        "headers": [
-            {
-                "name": "accept_language",
-                "wire": "Accept-Language",
-                "value": "en"
-            }
-        ],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [],
-        "queryArgs": [],
-        "auth": null,
-        "status": 201,
-        "sample": {
-            "paymentId": "56caec01-85cc-4fc6-8080-cc0f7ed03a7e",
-            "providerPaymentId": "123456789",
-            "redirectUrl": "https://example.com/provider/specific/redirect/url",
-            "createdAt": "2023-04-05T17:02:11.954Z",
-            "updatedAt": "2023-04-05T17:02:11.954Z",
-            "status": "PENDING"
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "create_token_output_dto",
-        "accessor": "CreateTokenOutputDto",
-        "op": "create",
-        "method": "POST",
-        "path": "/api/v1/auth/token",
-        "args": [],
-        "select": {
-            "authorization": "v1"
-        },
-        "headers": [],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [],
-        "queryArgs": [],
-        "auth": [],
-        "status": 200,
-        "sample": {
-            "access_token": "YOUR_ACCESS_TOKEN",
-            "token_type": "Bearer",
-            "expires_in": 1800
         },
         "idField": "id"
     },
@@ -201,50 +224,49 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "latest",
-        "accessor": "Latest",
-        "op": "list",
+        "entity": "hosted_ui_customization",
+        "accessor": "HostedUiCustomization",
+        "op": "load",
         "method": "GET",
-        "path": "/api/v1/archive/payment-statuses/latest",
-        "args": [],
+        "path": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
+        "args": [
+            {
+                "name": "client_id",
+                "wire": "clientId",
+                "value": "p1"
+            }
+        ],
         "select": {
-            "authorization": "v1",
-            "payment_id": "v1"
+            "authorization": "v1"
         },
         "headers": [],
         "cookies": [],
         "responseMedia": [
             "application/json"
         ],
-        "query": [
-            "paymentId"
-        ],
-        "queryArgs": [
-            {
-                "name": "payment_id",
-                "wire": "paymentId"
-            }
-        ],
+        "query": [],
+        "queryArgs": [],
         "auth": null,
         "status": 200,
         "sample": {
-            "id": "e68eee70-bfe9-4885-8650-46ec7d017458",
-            "paymentId": "123e4567-e89b-12d3-a456-426614174000",
-            "status": "PENDING",
-            "detailedStatus": "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING",
-            "failureReasons": [
-                "AMOUNT_EXCEEDS_AVAILABLE_FUNDS"
-            ],
-            "createdAt": "2023-10-01T12:00:00Z"
+            "clientId": "123e4567-e89b-12d3-a456-426614174000",
+            "primaryColor": "#000000",
+            "faviconUrl": "https://example.com/favicon.ico",
+            "logoUrl": "https://example.com/logo.png",
+            "termsUrl": "https://example.com/terms",
+            "privacyPolicyUrl": "https://example.com/privacy",
+            "footerText": "© 2023 Example Company. All rights reserved.",
+            "psuPortalBaseUrl": "https://psu.example.com"
         },
         "idField": "id"
     },
     {
-        "entity": "obn",
-        "accessor": "Obn",
+        "entity": "payment",
+        "accessor": "Payment",
         "op": "create",
         "method": "POST",
         "path": "/api/v1/ob/payments/cancel",
+        "action": "cancel",
         "args": [],
         "select": {
             "provider_id": "v1",
@@ -263,107 +285,38 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "obn",
-        "accessor": "Obn",
-        "op": "load",
-        "method": "GET",
-        "path": "/api/v1/ob/callbacks",
-        "action": "callback",
+        "entity": "payment",
+        "accessor": "Payment",
+        "op": "create",
+        "method": "POST",
+        "path": "/api/v1/ob/payments",
         "args": [],
         "select": {
-            "provider_id": "v1",
-            "state": "v1"
+            "authorization": "v1"
         },
-        "headers": [],
-        "cookies": [],
-        "query": [
-            "state",
-            "providerId"
-        ],
-        "queryArgs": [
+        "headers": [
             {
-                "name": "provider_id",
-                "wire": "providerId"
-            },
-            {
-                "name": "state",
-                "wire": "state"
+                "name": "accept_language",
+                "wire": "Accept-Language",
+                "value": "en"
             }
         ],
-        "auth": [],
-        "status": 200,
-        "sample": null,
-        "idField": "id"
-    },
-    {
-        "entity": "obn",
-        "accessor": "Obn",
-        "op": "load",
-        "method": "GET",
-        "path": "/api/v1/ob/client-jwks",
-        "action": "client_jwk",
-        "args": [],
-        "select": {
-            "client_id": "v1",
-            "provider_id": "v1",
-            "revoked": "v1"
-        },
-        "headers": [],
         "cookies": [],
-        "query": [
-            "providerId",
-            "clientId",
-            "revoked"
+        "responseMedia": [
+            "application/json"
         ],
-        "queryArgs": [
-            {
-                "name": "client_id",
-                "wire": "clientId"
-            },
-            {
-                "name": "provider_id",
-                "wire": "providerId"
-            },
-            {
-                "name": "revoked",
-                "wire": "revoked"
-            }
-        ],
-        "auth": [],
-        "status": 200,
-        "sample": null,
-        "idField": "id"
-    },
-    {
-        "entity": "obn",
-        "accessor": "Obn",
-        "op": "load",
-        "method": "GET",
-        "path": "/api/v1/ob/payments/sender-accounts",
-        "args": [],
-        "select": {
-            "provider_id": "v1",
-            "state": "v1"
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 201,
+        "sample": {
+            "paymentId": "56caec01-85cc-4fc6-8080-cc0f7ed03a7e",
+            "providerPaymentId": "123456789",
+            "redirectUrl": "https://example.com/provider/specific/redirect/url",
+            "createdAt": "2023-04-05T17:02:11.954Z",
+            "updatedAt": "2023-04-05T17:02:11.954Z",
+            "status": "PENDING"
         },
-        "headers": [],
-        "cookies": [],
-        "query": [
-            "state",
-            "providerId"
-        ],
-        "queryArgs": [
-            {
-                "name": "provider_id",
-                "wire": "providerId"
-            },
-            {
-                "name": "state",
-                "wire": "state"
-            }
-        ],
-        "auth": [],
-        "status": 200,
-        "sample": null,
         "idField": "id"
     },
     {
@@ -474,6 +427,95 @@ const PLAN = [
         "idField": "id"
     },
     {
+        "entity": "payment",
+        "accessor": "Payment",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/archive/payments/{id}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "id",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "authorization": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "id": "5fad63ad-f79d-4505-b068-88450100750d",
+            "createdAt": "2023-04-05T17:02:11.954Z",
+            "updatedAt": "2023-04-05T17:02:11.954Z",
+            "provider": {
+                "id": "a5613c23-0317-4c51-a6fe-6723993e43e9",
+                "preferences": {
+                    "countryCodes": {}
+                }
+            },
+            "paymentScheme": {
+                "name": "SEPA",
+                "preferences": {
+                    "mode": "INSTANT",
+                    "feePaidBy": "SENDER"
+                }
+            },
+            "sender": {
+                "account": {
+                    "number": {
+                        "type": "IBAN",
+                        "value": "DE89370400440532013000"
+                    },
+                    "currency": "x"
+                },
+                "address": {
+                    "country": "AF",
+                    "city": "Amsterdam",
+                    "streetName": "Damstraat",
+                    "buildingNumber": "1A",
+                    "postCode": "1012AB"
+                },
+                "credentials": {}
+            },
+            "recipient": {
+                "account": {
+                    "number": {
+                        "type": "IBAN",
+                        "value": "DE89370400440532013000"
+                    }
+                },
+                "name": "x",
+                "address": {
+                    "country": "AF",
+                    "city": "Amsterdam",
+                    "streetName": "Damstraat",
+                    "buildingNumber": "1A",
+                    "postCode": "1012AB"
+                }
+            },
+            "amount": 100,
+            "currency": "EUR",
+            "remittanceInformation": {},
+            "metadata": {
+                "redirectUri": "https://example.com/redirect",
+                "psuIpAddress": "192.168.1.1",
+                "psuUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+                "endToEndId": "E2E123456789",
+                "webhookUrl": "https://example.com/webhook",
+                "note": "Invoice #12345"
+            }
+        },
+        "idField": "id"
+    },
+    {
         "entity": "payment_status",
         "accessor": "PaymentStatus",
         "op": "list",
@@ -521,16 +563,16 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "provider",
-        "accessor": "Provider",
-        "op": "list",
+        "entity": "payment_status",
+        "accessor": "PaymentStatus",
+        "op": "load",
         "method": "GET",
-        "path": "/api/v1/capabilities/internal/providers",
+        "path": "/api/v1/archive/payment-statuses/latest",
+        "action": "latest",
         "args": [],
         "select": {
             "authorization": "v1",
-            "filter": "v1",
-            "cursor": "v1"
+            "payment_id": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -538,44 +580,25 @@ const PLAN = [
             "application/json"
         ],
         "query": [
-            "filters",
-            "cursor"
+            "paymentId"
         ],
         "queryArgs": [
             {
-                "name": "cursor",
-                "wire": "cursor"
-            },
-            {
-                "name": "filter",
-                "wire": "filters"
+                "name": "payment_id",
+                "wire": "paymentId"
             }
         ],
         "auth": null,
         "status": 200,
         "sample": {
-            "items": [
-                {
-                    "id": "3a9f7916-1b45-473c-bf34-3e601b8aae90",
-                    "name": "Swedbank",
-                    "countryCode": "LT",
-                    "bic": "HABALT22",
-                    "logoUrl": "https://kashimi.s3.com/logo.png",
-                    "iconUrl": "https://kashimi.s3.com/icon.png",
-                    "paymentSchemes": [
-                        "SEPA"
-                    ],
-                    "requiredPaymentFields": [
-                        "SENDER_ACCOUNT"
-                    ],
-                    "hasSubsidiaries": false
-                }
+            "id": "e68eee70-bfe9-4885-8650-46ec7d017458",
+            "paymentId": "123e4567-e89b-12d3-a456-426614174000",
+            "status": "PENDING",
+            "detailedStatus": "PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING",
+            "failureReasons": [
+                "AMOUNT_EXCEEDS_AVAILABLE_FUNDS"
             ],
-            "meta": {
-                "cursor": {
-                    "next": {}
-                }
-            }
+            "createdAt": "2023-10-01T12:00:00Z"
         },
         "idField": "id"
     },
@@ -588,68 +611,8 @@ const PLAN = [
         "args": [],
         "select": {
             "authorization": "v1",
-            "cursor": "v1"
-        },
-        "headers": [],
-        "cookies": [],
-        "responseMedia": [
-            "application/json"
-        ],
-        "query": [
-            "filters",
-            "cursor"
-        ],
-        "queryArgs": [
-            {
-                "name": "cursor",
-                "wire": "cursor"
-            }
-        ],
-        "auth": null,
-        "status": 200,
-        "sample": {
-            "items": [
-                {
-                    "id": "3a9f7916-1b45-473c-bf34-3e601b8aae90",
-                    "name": "Swedbank",
-                    "countryCode": "LT",
-                    "bic": "HABALT22",
-                    "logoUrl": "https://kashimi.s3.com/logo.png",
-                    "iconUrl": "https://kashimi.s3.com/icon.png",
-                    "paymentSchemes": [
-                        "SEPA"
-                    ],
-                    "requiredPaymentFields": [
-                        "SENDER_ACCOUNT"
-                    ],
-                    "hasSubsidiaries": false
-                }
-            ],
-            "meta": {
-                "cursor": {
-                    "next": {}
-                }
-            }
-        },
-        "idField": "id"
-    },
-    {
-        "entity": "providers_subsidiary_output_dto",
-        "accessor": "ProvidersSubsidiaryOutputDto",
-        "op": "list",
-        "method": "GET",
-        "path": "/api/v1/capabilities/internal/providers/{id}/subsidiaries",
-        "args": [
-            {
-                "name": "provider_id",
-                "wire": "id",
-                "value": "p1"
-            }
-        ],
-        "select": {
-            "authorization": "v1",
-            "filter": "v1",
-            "cursor": "v1"
+            "cursor": "v1",
+            "filter": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -699,8 +662,203 @@ const PLAN = [
         "idField": "id"
     },
     {
-        "entity": "providers_subsidiary_output_dto",
-        "accessor": "ProvidersSubsidiaryOutputDto",
+        "entity": "psu_provided_data",
+        "accessor": "PsuProvidedData",
+        "op": "update",
+        "method": "PATCH",
+        "path": "/api/v1/ob/payments/psu-provided-data",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "report",
+        "accessor": "Report",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/reports/payments/{id}",
+        "args": [
+            {
+                "name": "id",
+                "wire": "id",
+                "value": "p1"
+            }
+        ],
+        "select": {
+            "authorization": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": null,
+        "status": 200,
+        "sample": {
+            "id": "5fad63ad-f79d-4505-b068-88450100750d",
+            "createdAt": "2023-04-05T17:02:11.954Z",
+            "amount": 100,
+            "currency": "EUR",
+            "provider": {
+                "id": "4c3cead2-9719-4abc-9372-9371c8652676",
+                "name": "Swedbank",
+                "countryCode": "LT"
+            },
+            "sender": {
+                "name": "John Doe",
+                "account": {
+                    "number": {
+                        "type": "IBAN",
+                        "value": "DE89370400440532013000"
+                    }
+                }
+            },
+            "recipient": {
+                "account": {
+                    "number": {
+                        "type": "IBAN",
+                        "value": "DE89370400440532013000"
+                    }
+                },
+                "name": "Jane Doe"
+            },
+            "status": "PENDING",
+            "remittanceInformation": {
+                "type": "UNSTRUCTURED",
+                "value": "Invoice 12345"
+            }
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "sca_data",
+        "accessor": "ScaData",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/payments/decoupled/sca-data",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "sca_data",
+        "accessor": "ScaData",
+        "op": "update",
+        "method": "PATCH",
+        "path": "/api/v1/ob/payments/decoupled/sca-data",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "sca_method",
+        "accessor": "ScaMethod",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/payments/decoupled/sca-methods",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "sca_method",
+        "accessor": "ScaMethod",
+        "op": "update",
+        "method": "PATCH",
+        "path": "/api/v1/ob/payments/decoupled/selected-sca-method",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "sender_account",
+        "accessor": "SenderAccount",
+        "op": "load",
+        "method": "GET",
+        "path": "/api/v1/ob/payments/sender-accounts",
+        "args": [],
+        "select": {
+            "provider_id": "v1",
+            "state": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "query": [
+            "state",
+            "providerId"
+        ],
+        "queryArgs": [
+            {
+                "name": "provider_id",
+                "wire": "providerId"
+            },
+            {
+                "name": "state",
+                "wire": "state"
+            }
+        ],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "sender_account",
+        "accessor": "SenderAccount",
+        "op": "update",
+        "method": "PATCH",
+        "path": "/api/v1/ob/payments/sender-accounts",
+        "args": [],
+        "select": {},
+        "headers": [],
+        "cookies": [],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": null,
+        "idField": "id"
+    },
+    {
+        "entity": "subsidiary",
+        "accessor": "Subsidiary",
         "op": "list",
         "method": "GET",
         "path": "/api/v1/capabilities/providers/{id}/subsidiaries",
@@ -713,7 +871,8 @@ const PLAN = [
         ],
         "select": {
             "authorization": "v1",
-            "cursor": "v1"
+            "cursor": "v1",
+            "filter": "v1"
         },
         "headers": [],
         "cookies": [],
@@ -728,6 +887,10 @@ const PLAN = [
             {
                 "name": "cursor",
                 "wire": "cursor"
+            },
+            {
+                "name": "filter",
+                "wire": "filters"
             }
         ],
         "auth": null,
@@ -755,6 +918,32 @@ const PLAN = [
                     "next": {}
                 }
             }
+        },
+        "idField": "id"
+    },
+    {
+        "entity": "token",
+        "accessor": "Token",
+        "op": "create",
+        "method": "POST",
+        "path": "/api/v1/auth/token",
+        "args": [],
+        "select": {
+            "authorization": "v1"
+        },
+        "headers": [],
+        "cookies": [],
+        "responseMedia": [
+            "application/json"
+        ],
+        "query": [],
+        "queryArgs": [],
+        "auth": [],
+        "status": 200,
+        "sample": {
+            "access_token": "YOUR_ACCESS_TOKEN",
+            "token_type": "Bearer",
+            "expires_in": 1800
         },
         "idField": "id"
     }

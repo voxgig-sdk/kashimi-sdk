@@ -68,7 +68,6 @@ function directSetup(mockres) {
         'KASHIMI_TEST_HEALTHCHECK_ENTID': {},
         'KASHIMI_TEST_LIVE': 'FALSE',
         'KASHIMI_APIKEY': '',
-        'KASHIMI_SERVER_BASE': "",
     });
     const live = 'TRUE' === env.KASHIMI_TEST_LIVE;
     if (live) {
@@ -77,9 +76,6 @@ function directSetup(mockres) {
         // test.client.options adds to the live client, it does not redirect it.
         const client = new __1.KashimiSDK(Object.assign({}, (0, utility_1.liveClientOptions)(), { system: { fetch: transport.fetch },
             apikey: env.KASHIMI_APIKEY,
-            server: {
-                base: env.KASHIMI_SERVER_BASE,
-            },
         }));
         let idmap = env['KASHIMI_TEST_HEALTHCHECK_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {

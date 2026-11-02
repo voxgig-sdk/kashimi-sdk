@@ -12,50 +12,60 @@ import (
 	"github.com/voxgig-sdk/kashimi-sdk/go/core"
 )
 
-// Capability is the typed data model for the capability entity.
-type Capability struct {
+// Callback is the typed data model for the callback entity.
+type Callback struct {
 }
 
-// CapabilityListMatch is the typed request payload for Capability.ListTyped.
-type CapabilityListMatch struct {
+// CallbackLoadMatch is the typed request payload for Callback.LoadTyped.
+type CallbackLoadMatch struct {
+	ProviderId string `json:"provider_id"`
+	State string `json:"state"`
 }
 
-// ClientHostedUiCustomizationsOutputDto is the typed data model for the client_hosted_ui_customizations_output_dto entity.
-type ClientHostedUiCustomizationsOutputDto struct {
+// ClientJwk is the typed data model for the client_jwk entity.
+type ClientJwk struct {
 }
 
-// ClientHostedUiCustomizationsOutputDtoLoadMatch is the typed request payload for ClientHostedUiCustomizationsOutputDto.LoadTyped.
-type ClientHostedUiCustomizationsOutputDtoLoadMatch struct {
-	Id string `json:"id"`
+// ClientJwkLoadMatch is the typed request payload for ClientJwk.LoadTyped.
+type ClientJwkLoadMatch struct {
+	ClientId string `json:"client_id"`
+	ProviderId string `json:"provider_id"`
+	Revoked *bool `json:"revoked,omitempty"`
 }
 
-// CreatePaymentOutputDto is the typed data model for the create_payment_output_dto entity.
-type CreatePaymentOutputDto struct {
+// ConfirmationData is the typed data model for the confirmation_data entity.
+type ConfirmationData struct {
 }
 
-// CreatePaymentOutputDtoCreateData is the typed request payload for CreatePaymentOutputDto.CreateTyped.
-type CreatePaymentOutputDtoCreateData struct {
-	Amount float64 `json:"amount"`
-	Currency string `json:"currency"`
-	Metadata map[string]any `json:"metadata"`
-	PaymentScheme any `json:"paymentScheme"`
-	Provider *any `json:"provider,omitempty"`
-	Recipient any `json:"recipient"`
-	RemittanceInformation any `json:"remittanceInformation"`
+// ConfirmationDataLoadMatch is the typed request payload for ConfirmationData.LoadTyped.
+type ConfirmationDataLoadMatch struct {
+}
+
+// ConsentStatus is the typed data model for the consent_status entity.
+type ConsentStatus struct {
+}
+
+// ConsentStatusLoadMatch is the typed request payload for ConsentStatus.LoadTyped.
+type ConsentStatusLoadMatch struct {
+}
+
+// Country is the typed data model for the country entity.
+type Country struct {
+}
+
+// CountryListMatch is the typed request payload for Country.ListTyped.
+type CountryListMatch struct {
+}
+
+// Followup is the typed data model for the followup entity.
+type Followup struct {
+}
+
+// FollowupCreateData is the typed request payload for Followup.CreateTyped.
+type FollowupCreateData struct {
+	PaymentId string `json:"payment_id"`
+	Provider any `json:"provider"`
 	Sender *any `json:"sender,omitempty"`
-}
-
-// CreateTokenOutputDto is the typed data model for the create_token_output_dto entity.
-type CreateTokenOutputDto struct {
-}
-
-// CreateTokenOutputDtoCreateData is the typed request payload for CreateTokenOutputDto.CreateTyped.
-type CreateTokenOutputDtoCreateData struct {
-	AccessToken string `json:"access_token"`
-	ExpiresIn float64 `json:"expires_in"`
-	GrantType string `json:"grant_type"`
-	Scope string `json:"scope"`
-	TokenType string `json:"token_type"`
 }
 
 // Healthcheck is the typed data model for the healthcheck entity.
@@ -70,33 +80,13 @@ type HealthcheckLoadMatch struct {
 	Status *string `json:"status,omitempty"`
 }
 
-// Latest is the typed data model for the latest entity.
-type Latest struct {
+// HostedUiCustomization is the typed data model for the hosted_ui_customization entity.
+type HostedUiCustomization struct {
 }
 
-// LatestListMatch is the typed request payload for Latest.ListTyped.
-type LatestListMatch struct {
-	PaymentId string `json:"payment_id"`
-}
-
-// Obn is the typed data model for the obn entity.
-type Obn struct {
-}
-
-// ObnLoadMatch is the typed request payload for Obn.LoadTyped.
-type ObnLoadMatch struct {
-	ProviderId string `json:"provider_id"`
-	State string `json:"state"`
-}
-
-// ObnCreateData is the typed request payload for Obn.CreateTyped.
-type ObnCreateData struct {
-	ProviderId string `json:"provider_id"`
-	State string `json:"state"`
-}
-
-// ObnUpdateData is the typed request payload for Obn.UpdateTyped.
-type ObnUpdateData struct {
+// HostedUiCustomizationLoadMatch is the typed request payload for HostedUiCustomization.LoadTyped.
+type HostedUiCustomizationLoadMatch struct {
+	ClientId string `json:"client_id"`
 }
 
 // Payment is the typed data model for the payment entity.
@@ -116,8 +106,25 @@ type PaymentListMatch struct {
 	FiltersMetadataEndToEndId *string `json:"filters_metadata_end_to_end_id,omitempty"`
 }
 
+// PaymentCreateData is the typed request payload for Payment.CreateTyped.
+type PaymentCreateData struct {
+	Amount float64 `json:"amount"`
+	Currency string `json:"currency"`
+	Metadata map[string]any `json:"metadata"`
+	PaymentScheme any `json:"paymentScheme"`
+	Provider *any `json:"provider,omitempty"`
+	Recipient map[string]any `json:"recipient"`
+	RemittanceInformation any `json:"remittanceInformation"`
+	Sender *map[string]any `json:"sender,omitempty"`
+}
+
 // PaymentStatus is the typed data model for the payment_status entity.
 type PaymentStatus struct {
+}
+
+// PaymentStatusLoadMatch is the typed request payload for PaymentStatus.LoadTyped.
+type PaymentStatusLoadMatch struct {
+	PaymentId string `json:"payment_id"`
 }
 
 // PaymentStatusListMatch is the typed request payload for PaymentStatus.ListTyped.
@@ -135,15 +142,83 @@ type ProviderListMatch struct {
 	Filter *map[string]any `json:"filter,omitempty"`
 }
 
-// ProvidersSubsidiaryOutputDto is the typed data model for the providers_subsidiary_output_dto entity.
-type ProvidersSubsidiaryOutputDto struct {
+// PsuProvidedData is the typed data model for the psu_provided_data entity.
+type PsuProvidedData struct {
 }
 
-// ProvidersSubsidiaryOutputDtoListMatch is the typed request payload for ProvidersSubsidiaryOutputDto.ListTyped.
-type ProvidersSubsidiaryOutputDtoListMatch struct {
+// PsuProvidedDataUpdateData is the typed request payload for PsuProvidedData.UpdateTyped.
+type PsuProvidedDataUpdateData struct {
+}
+
+// Report is the typed data model for the report entity.
+type Report struct {
+}
+
+// ReportLoadMatch is the typed request payload for Report.LoadTyped.
+type ReportLoadMatch struct {
+	Id string `json:"id"`
+}
+
+// ScaData is the typed data model for the sca_data entity.
+type ScaData struct {
+}
+
+// ScaDataLoadMatch is the typed request payload for ScaData.LoadTyped.
+type ScaDataLoadMatch struct {
+}
+
+// ScaDataUpdateData is the typed request payload for ScaData.UpdateTyped.
+type ScaDataUpdateData struct {
+}
+
+// ScaMethod is the typed data model for the sca_method entity.
+type ScaMethod struct {
+}
+
+// ScaMethodLoadMatch is the typed request payload for ScaMethod.LoadTyped.
+type ScaMethodLoadMatch struct {
+}
+
+// ScaMethodUpdateData is the typed request payload for ScaMethod.UpdateTyped.
+type ScaMethodUpdateData struct {
+}
+
+// SenderAccount is the typed data model for the sender_account entity.
+type SenderAccount struct {
+}
+
+// SenderAccountLoadMatch is the typed request payload for SenderAccount.LoadTyped.
+type SenderAccountLoadMatch struct {
+	ProviderId string `json:"provider_id"`
+	State string `json:"state"`
+}
+
+// SenderAccountUpdateData is the typed request payload for SenderAccount.UpdateTyped.
+type SenderAccountUpdateData struct {
+}
+
+// Subsidiary is the typed data model for the subsidiary entity.
+type Subsidiary struct {
+}
+
+// SubsidiaryListMatch is the typed request payload for Subsidiary.ListTyped.
+type SubsidiaryListMatch struct {
 	ProviderId string `json:"provider_id"`
 	Cursor *map[string]any `json:"cursor,omitempty"`
 	Filter *map[string]any `json:"filter,omitempty"`
+}
+
+// Token is the typed data model for the token entity.
+type Token struct {
+}
+
+// TokenCreateData is the typed request payload for Token.CreateTyped.
+type TokenCreateData struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn float64 `json:"expires_in"`
+	GrantType string `json:"grant_type"`
+	Scope string `json:"scope"`
+	TokenType string `json:"token_type"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

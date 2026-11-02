@@ -74,7 +74,6 @@ function healthcheck_direct_setup(mockres)
     ["KASHIMI_TEST_HEALTHCHECK_ENTID"] = {},
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -82,9 +81,6 @@ function healthcheck_direct_setup(mockres)
   if live then
     local merged_opts = {
       apikey = env["KASHIMI_APIKEY"],
-      server = {
-        ["base"] = env["KASHIMI_SERVER_BASE"],
-      },
     }
     -- sdk-test-control.json's test.client.options goes UNDER the generated
     -- fields: it adds to the live client, it does not redirect it.

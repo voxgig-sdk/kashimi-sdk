@@ -1,0 +1,54 @@
+# Entity: consent_status
+
+main: kit: entity: consent_status: {
+
+  alias: field: {}
+
+  name: "consent_status"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/ob/payments/decoupled/consent-status"
+            source: "openapi3"
+            version: 2
+          }
+          m: "GET"
+          o: "/api/v1/ob/payments/decoupled/consent-status"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "decoupled"
+            }
+            {
+              lit: "consent-status"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

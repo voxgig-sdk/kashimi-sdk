@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "voxgig-sdk-kashimi-sdk"
 version = "0.0.1"
-description = "Unofficial generated Python SDK for the Gatekeeper docs public API. Not affiliated with or endorsed by the upstream API provider."
+description = "Unofficial generated Python SDK for the Kashimi public API. Not affiliated with or endorsed by the upstream API provider."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.8"

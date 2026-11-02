@@ -1,0 +1,110 @@
+# Entity: followup
+
+main: kit: entity: followup: {
+
+  alias: field: {}
+
+  fields: {
+    provider: {
+      h: "Provider"
+      n: "provider"
+      r: true
+      sh: "The provider information for the followup"
+      t: "`$ANY`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: false
+      sh: "The sender information to be used with the payment"
+      t: "`$ANY`"
+    }
+  }
+
+  name: "followup"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          bf: [
+            "provider"
+            "sender"
+          ]
+          co: {
+            id: "POST /api/v1/ob/payments/{paymentId}/followups"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "payment_id"
+                or: "paymentId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/ob/payments/{paymentId}/followups"
+          q: {
+            exist: [
+              "authorization"
+              "payment_id"
+            ]
+          }
+          r: {
+            param: {
+              paymentId: "payment_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "payment_id"
+            }
+            {
+              lit: "followups"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+  relations: ancestors: [
+    [path("$.main.kit.entity.payment")]
+  ]
+
+}

@@ -20,7 +20,7 @@ import (
 const prompt = "kashimi"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "capability client_hosted_ui_customizations_output_dto create_payment_output_dto create_token_output_dto healthcheck latest obn payment payment_status provider providers_subsidiary_output_dto"
+const entitiesHelp = "callback client_jwk confirmation_data consent_status country followup healthcheck hosted_ui_customization payment payment_status provider psu_provided_data report sca_data sca_method sender_account subsidiary token"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

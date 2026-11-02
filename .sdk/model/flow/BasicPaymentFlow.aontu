@@ -7,6 +7,14 @@ main: kit: flow: BasicPaymentFlow:
   name: "BasicPaymentFlow",
   step: [
     {
+      i: {
+        ref: "payment_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
       o: "list",
       v: [
         {

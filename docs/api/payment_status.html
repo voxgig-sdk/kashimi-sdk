@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PaymentStatus | Kashimi API</title><link rel="stylesheet" href="../assets/style.css"></head>
+<body><a class="skip" href="#content">Skip to content</a>
+<header class="site-header"><a class="site-title" href="../index.html">Kashimi API<span>SDK documentation</span></a><div class="site-links"><a class="repo-link" href="https://github.com/voxgig-sdk/kashimi-sdk">voxgig-sdk/kashimi-sdk</a></div></header>
+<div class="site-notice" role="note"></div>
+<div class="shell"><nav class="site-nav" aria-label="Documentation"><div class="search"><label for="search">Search documentation</label><input id="search" type="search" data-base="../" placeholder="Find a guide or reference"><div id="results" aria-live="polite"></div></div><details><summary>Overview</summary><a href="../index.html">Kashimi API</a></details>
+<details open><summary>API</summary><a href="../api/index.html">API overview</a>
+<a href="../api/callback.html">Callback</a>
+<a href="../api/client_jwk.html">ClientJwk</a>
+<a href="../api/confirmation_data.html">ConfirmationData</a>
+<a href="../api/consent_status.html">ConsentStatus</a>
+<a href="../api/country.html">Country</a>
+<a href="../api/followup.html">Followup</a>
+<a href="../api/healthcheck.html">Healthcheck</a>
+<a href="../api/hosted_ui_customization.html">HostedUiCustomization</a>
+<a href="../api/payment.html">Payment</a>
+<a aria-current="page" href="../api/payment_status.html">PaymentStatus</a><div class="nav-sections"><a class="nav-section" href="#get-apiv1archivepayment-statuses">GET /api/v1/archive/payment-statuses</a>
+<a class="nav-section" href="#get-apiv1archivepayment-statuseslatest">GET /api/v1/archive/payment-statuses/latest</a></div>
+<a href="../api/provider.html">Provider</a>
+<a href="../api/psu_provided_data.html">PsuProvidedData</a>
+<a href="../api/report.html">Report</a>
+<a href="../api/sca_data.html">ScaData</a>
+<a href="../api/sca_method.html">ScaMethod</a>
+<a href="../api/sender_account.html">SenderAccount</a>
+<a href="../api/subsidiary.html">Subsidiary</a>
+<a href="../api/token.html">Token</a></details>
+<details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
+<a href="../guides/first-call.html">Make your first API call</a>
+<a href="../guides/errors.html">Handle errors</a>
+<a href="../guides/concepts.html">Entities, SDKs, and tools</a></details>
+<details><summary>SDKs</summary><a href="../sdks/go.html">Golang</a>
+<a href="../sdks/lua.html">Lua</a>
+<a href="../sdks/php.html">PHP</a>
+<a href="../sdks/py.html">Python</a>
+<a href="../sdks/rb.html">Ruby</a>
+<a href="../sdks/ts.html">TypeScript</a></details>
+<details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
+<a href="../tools/go-mcp.html">Go MCP server</a></details>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/secrets.html">Secrets</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="paymentstatus">PaymentStatus</h1>
+<p>The status of a payment: its full history, or the latest.</p>
+<h2 id="operations">Operations</h2>
+<p>Every route this entity exposes. Each route links to its own reference on this page.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Route</th>
+<th>SDK operation</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-apiv1archivepayment-statuses"><code>/api/v1/archive/payment-statuses</code></a></td>
+<td><code>list</code></td>
+<td>Returns all payment statuses for the given payment ID</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><a href="#get-apiv1archivepayment-statuseslatest"><code>/api/v1/archive/payment-statuses/latest</code></a></td>
+<td><code>load</code></td>
+<td>Returns the latest payment status for the given payment ID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">payment_statuss, err := client.PaymentStatus(nil).List(map[string]any{&quot;payment_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(payment_statuss)
+payment_status, err := client.PaymentStatus(nil).Load(map[string]any{&quot;payment_id&quot;: &quot;example&quot;}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(payment_status)
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local payment_statuss, err = client:PaymentStatus():list({ payment_id = &quot;example&quot; })
+local payment_status, err = client:PaymentStatus():load({ payment_id = &quot;example&quot; })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$payment_statuss = $client-&gt;PaymentStatus()-&gt;list([&quot;payment_id&quot; =&gt; &quot;example&quot;]);
+$payment_status = $client-&gt;PaymentStatus()-&gt;load([&quot;payment_id&quot; =&gt; &quot;example&quot;]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">payment_statuss = client.PaymentStatus().list({&quot;payment_id&quot;: &quot;example&quot;})
+payment_status = client.PaymentStatus().load({&quot;payment_id&quot;: &quot;example&quot;})
+</code></pre>
+<h3 id="ruby">Ruby</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/rb.html#set-up-the-client">Ruby setup</a>, then call the operations:</p>
+<pre><code class="language-rb">payment_statuss = client.PaymentStatus.list({ &quot;payment_id&quot; =&gt; &quot;example&quot; })
+payment_status = client.PaymentStatus.load({ &quot;payment_id&quot; =&gt; &quot;example&quot; })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const payment_statuss = await client.PaymentStatus().list({ payment_id: &quot;example&quot; })
+const payment_status = await client.PaymentStatus().load({ payment_id: &quot;example&quot; })
+</code></pre>
+<h2 id="fields">Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Timestamp of status creation</td>
+</tr>
+<tr>
+<td><code>detailedStatus</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Detailed payment status</td>
+</tr>
+<tr>
+<td><code>failureReasons</code></td>
+<td><code>array</code></td>
+<td>Yes</td>
+<td>Failure reasons (for <code>status: FAILED</code> only)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment status identifier</td>
+</tr>
+<tr>
+<td><code>paymentId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment identifier</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Payment status.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list">list</h2>
+<h3 id="get-apiv1archivepayment-statuses" class="operation" data-method="get"><code>GET</code> /api/v1/archive/payment-statuses</h3>
+<p>Operation ID: <code>PaymentStatusesController_getStatusesByPaymentId_v1</code>.</p>
+<p>Authentication: credential (<code>bearer</code>).</p>
+<h4 id="parameters">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>paymentId</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Kashimi payment ID</td>
+</tr>
+<tr>
+<td><code>Authorization</code></td>
+<td><code>header</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Bearer token for authentication</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses">Responses</h4>
+<h5 id="200-returns-all-payment-statuses-for-the-given-payment-id" class="status" data-status="2xx">200: Returns all payment statuses for the given payment ID</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[].createdAt</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Timestamp of status creation</td>
+</tr>
+<tr>
+<td><code>[].detailedStatus</code></td>
+<td><code>enum: PROVIDER_SELECTION_REDIRECT_PENDING, PROVIDER_SELECTION_CALLBACK_PROCESSING_PENDING, FOLLOWUP_DATA_COLLECTION_REQUIRED_CHECK_PENDING, FOLLOWUP_DATA_COLLECTION_REDIRECT_PENDING, FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_PENDING, FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_FAILED, ...</code></td>
+<td>Yes</td>
+<td>Detailed payment status</td>
+</tr>
+<tr>
+<td><code>[].failureReasons</code></td>
+<td><code>array of enum: UNKNOWN_ERROR, INTERNAL_TECHNICAL_ERROR, PAYMENT_EXPIRED, SENDER_CREDENTIALS_INVALID, REMITTANCE_INFORMATION_INVALID, SENDER_ACCOUNT_INVALID, ...</code></td>
+<td>Yes</td>
+<td>Failure reasons (for <code>status: FAILED</code> only)</td>
+</tr>
+<tr>
+<td><code>[].id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment status identifier</td>
+</tr>
+<tr>
+<td><code>[].paymentId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment identifier</td>
+</tr>
+<tr>
+<td><code>[].status</code></td>
+<td><code>enum: PENDING, COMPLETED, FAILED, UNKNOWN</code></td>
+<td>Yes</td>
+<td>Payment status. There are 3 main values: <code>PENDING</code>, <code>COMPLETED</code>, <code>FAILED</code>. In very rare cases, caused by internal system issues, the status might resolve to <code>UNKNOWN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">[
+  {
+    &quot;createdAt&quot;: &quot;2023-10-01T12:00:00Z&quot;,
+    &quot;detailedStatus&quot;: &quot;PAYMENT_CONSENT_CALLBACK_PROCESSING_PENDING&quot;,
+    &quot;failureReasons&quot;: [],
+    &quot;id&quot;: &quot;e68eee70-bfe9-4885-8650-46ec7d017458&quot;,
+    &quot;paymentId&quot;: &quot;123e4567-e89b-12d3-a456-426614174000&quot;,
+    &quot;status&quot;: &quot;PENDING&quot;
+  },
+  {
+    &quot;createdAt&quot;: &quot;2023-10-01T12:05:00Z&quot;,
+    &quot;detailedStatus&quot;: &quot;PAYMENT_EXECUTION_COMPLETED&quot;,
+    &quot;failureReasons&quot;: [],
+    &quot;id&quot;: &quot;f79fff81-cff0-5996-9761-57fd8e128569&quot;,
+    &quot;paymentId&quot;: &quot;123e4567-e89b-12d3-a456-426614174000&quot;,
+    &quot;status&quot;: &quot;COMPLETED&quot;
+  }
+]
+</code></pre>
+<h5 id="400-the-request-is-not-formatted-correctly" class="status" data-status="4xx">400: The request is not formatted correctly</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Invalid UUID format&quot;,
+  &quot;statusCode&quot;: 400,
+  &quot;title&quot;: &quot;Bad Request&quot;
+}
+</code></pre>
+<h5 id="401-your-access-token-was-either-not-passed-with-the-request-or-it-is-invalid-for-example-expired-or-malformed-make-sure-to-pass-the-token-in-the-authorization-header-and-obtain-a-new-one-if-it-has-expired" class="status" data-status="4xx">401: Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Unauthorized&quot;,
+  &quot;statusCode&quot;: 401,
+  &quot;title&quot;: &quot;Unauthorized&quot;
+}
+</code></pre>
+<h5 id="403-you-do-not-have-the-necessary-permissions-to-perform-this-action" class="status" data-status="4xx">403: You do not have the necessary permissions to perform this action</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Access denied&quot;,
+  &quot;statusCode&quot;: 403,
+  &quot;title&quot;: &quot;Forbidden&quot;
+}
+</code></pre>
+<h2 id="load">load</h2>
+<h3 id="get-apiv1archivepayment-statuseslatest" class="operation" data-method="get"><code>GET</code> /api/v1/archive/payment-statuses/latest</h3>
+<p>Operation ID: <code>PaymentStatusesController_getLatestByPaymentId_v1</code>.</p>
+<p>Authentication: credential (<code>bearer</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>In</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>paymentId</code></td>
+<td><code>query</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Kashimi payment ID</td>
+</tr>
+<tr>
+<td><code>Authorization</code></td>
+<td><code>header</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Bearer token for authentication</td>
+</tr>
+</tbody>
+</table>
+<h4 id="responses-1">Responses</h4>
+<h5 id="200-returns-the-latest-payment-status-for-the-given-payment-id" class="status" data-status="2xx">200: Returns the latest payment status for the given payment ID</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createdAt</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td>Timestamp of status creation</td>
+</tr>
+<tr>
+<td><code>detailedStatus</code></td>
+<td><code>enum: PROVIDER_SELECTION_REDIRECT_PENDING, PROVIDER_SELECTION_CALLBACK_PROCESSING_PENDING, FOLLOWUP_DATA_COLLECTION_REQUIRED_CHECK_PENDING, FOLLOWUP_DATA_COLLECTION_REDIRECT_PENDING, FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_PENDING, FOLLOWUP_DATA_COLLECTION_CALLBACK_PROCESSING_FAILED, ...</code></td>
+<td>Yes</td>
+<td>Detailed payment status</td>
+</tr>
+<tr>
+<td><code>failureReasons</code></td>
+<td><code>array of enum: UNKNOWN_ERROR, INTERNAL_TECHNICAL_ERROR, PAYMENT_EXPIRED, SENDER_CREDENTIALS_INVALID, REMITTANCE_INFORMATION_INVALID, SENDER_ACCOUNT_INVALID, ...</code></td>
+<td>Yes</td>
+<td>Failure reasons (for <code>status: FAILED</code> only)</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment status identifier</td>
+</tr>
+<tr>
+<td><code>paymentId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Unique payment identifier</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>enum: PENDING, COMPLETED, FAILED, UNKNOWN</code></td>
+<td>Yes</td>
+<td>Payment status. There are 3 main values: <code>PENDING</code>, <code>COMPLETED</code>, <code>FAILED</code>. In very rare cases, caused by internal system issues, the status might resolve to <code>UNKNOWN</code></td>
+</tr>
+</tbody>
+</table>
+<h5 id="400-the-request-is-not-formatted-correctly-1" class="status" data-status="4xx">400: The request is not formatted correctly</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Invalid UUID format&quot;,
+  &quot;statusCode&quot;: 400,
+  &quot;title&quot;: &quot;Bad Request&quot;
+}
+</code></pre>
+<h5 id="401-your-access-token-was-either-not-passed-with-the-request-or-it-is-invalid-for-example-expired-or-malformed-make-sure-to-pass-the-token-in-the-authorization-header-and-obtain-a-new-one-if-it-has-expired-1" class="status" data-status="4xx">401: Your access token was either not passed with the request, or it is invalid (for example expired or malformed). Make sure to pass the token in the Authorization header, and obtain a new one if it has expired</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Unauthorized&quot;,
+  &quot;statusCode&quot;: 401,
+  &quot;title&quot;: &quot;Unauthorized&quot;
+}
+</code></pre>
+<h5 id="403-you-do-not-have-the-necessary-permissions-to-perform-this-action-1" class="status" data-status="4xx">403: You do not have the necessary permissions to perform this action</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Error message</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td><code>number</code></td>
+<td>Yes</td>
+<td>HTTP status code</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td>Name of the error</td>
+</tr>
+</tbody>
+</table>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Access denied&quot;,
+  &quot;statusCode&quot;: 403,
+  &quot;title&quot;: &quot;Forbidden&quot;
+}
+</code></pre>
+<h5 id="404-the-payment-status-with-the-specified-payment-id-was-not-found" class="status" data-status="4xx">404: The payment status with the specified payment ID was not found</h5>
+<p><code>application/json</code></p>
+<p>Example response:</p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;Payment status not found&quot;,
+  &quot;statusCode&quot;: 404,
+  &quot;title&quot;: &quot;Not Found&quot;
+}
+</code></pre>
+</main></div>
+<script src="../assets/search.js" defer></script></body></html>

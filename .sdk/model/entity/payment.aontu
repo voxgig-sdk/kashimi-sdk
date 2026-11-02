@@ -12,13 +12,6 @@ main: kit: entity: payment: {
       sh: "Payment amount"
       t: "`$NUMBER`"
     }
-    clientId: {
-      h: "Client Id"
-      n: "clientId"
-      r: true
-      sh: "Client identifier"
-      t: "`$STRING`"
-    }
     createdAt: {
       h: "Created At"
       n: "createdAt"
@@ -56,9 +49,9 @@ main: kit: entity: payment: {
       h: "Provider"
       n: "provider"
       op: {
-        load: {
+        create: {
           req: false
-          type: "`$OBJECT`"
+          type: "`$ANY`"
         }
       }
       r: true
@@ -69,6 +62,7 @@ main: kit: entity: payment: {
       h: "Recipient"
       n: "recipient"
       r: true
+      sh: "Data about the party receiving the payment."
       t: "`$OBJECT`"
     }
     remittanceInformation: {
@@ -82,20 +76,14 @@ main: kit: entity: payment: {
       h: "Sender"
       n: "sender"
       op: {
-        load: {
+        create: {
           req: false
-          type: "`$OBJECT`"
+          type: "`$ANY`"
         }
       }
       r: true
+      sh: "Data about the party sending the payment."
       t: "`$OBJECT`"
-    }
-    status: {
-      h: "Status"
-      n: "status"
-      r: true
-      sh: "The most recent status of the payment."
-      t: "`$STRING`"
     }
     updatedAt: {
       h: "Updated At"
@@ -112,6 +100,131 @@ main: kit: entity: payment: {
 
   name: "payment"
   op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /api/v1/ob/payments/cancel"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "provider_id"
+                or: "providerId"
+                r: true
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "state"
+                or: "state"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/ob/payments/cancel"
+          q: {
+            "$action": "cancel"
+            exist: [
+              "provider_id"
+              "state"
+            ]
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "cancel"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          bf: [
+            "amount"
+            "currency"
+            "metadata"
+            "paymentScheme"
+            "provider"
+            "recipient"
+            "remittanceInformation"
+            "sender"
+          ]
+          co: {
+            id: "POST /api/v1/ob/payments"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "en"
+                k: "header"
+                n: "accept_language"
+                or: "Accept-Language"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/api/v1/ob/payments"
+          q: {
+            exist: [
+              "authorization"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
     list: {
       name: "list"
       points: [
@@ -202,69 +315,6 @@ main: kit: entity: payment: {
       points: [
         {
           co: {
-            id: "GET /api/v1/archive/internal/payments/{id}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-            params: [
-              {
-                k: "param"
-                n: "id"
-                or: "id"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/api/v1/archive/internal/payments/{id}"
-          q: {
-            exist: [
-              "authorization"
-              "id"
-            ]
-          }
-          rs: {
-            kind: "json"
-            media: "application/json"
-          }
-          s: [
-            {
-              lit: "api"
-            }
-            {
-              lit: "v1"
-            }
-            {
-              lit: "archive"
-            }
-            {
-              lit: "internal"
-            }
-            {
-              lit: "payments"
-            }
-            {
-              var: "id"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
             id: "GET /api/v1/archive/payments/{id}"
             source: "openapi3"
             version: 2
@@ -310,66 +360,6 @@ main: kit: entity: payment: {
             }
             {
               lit: "archive"
-            }
-            {
-              lit: "payments"
-            }
-            {
-              var: "id"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body`"
-          }
-        }
-        {
-          co: {
-            id: "GET /api/v1/reports/payments/{id}"
-            source: "openapi3"
-            version: 2
-          }
-          g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-            params: [
-              {
-                k: "param"
-                n: "id"
-                or: "id"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
-          m: "GET"
-          o: "/api/v1/reports/payments/{id}"
-          q: {
-            exist: [
-              "authorization"
-              "id"
-            ]
-          }
-          rs: {
-            kind: "json"
-            media: "application/json"
-          }
-          s: [
-            {
-              lit: "api"
-            }
-            {
-              lit: "v1"
-            }
-            {
-              lit: "reports"
             }
             {
               lit: "payments"

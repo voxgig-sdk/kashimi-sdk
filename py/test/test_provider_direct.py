@@ -39,7 +39,7 @@ class TestProviderDirect:
         query = {}
 
         result = client.direct({
-            "path": "api/v1/capabilities/internal/providers",
+            "path": "api/v1/capabilities/providers",
             "method": "GET",
             "params": params,
             "query": query,
@@ -67,7 +67,6 @@ def _provider_direct_setup(mockres):
         "KASHIMI_TEST_PROVIDER_ENTID": {},
         "KASHIMI_TEST_LIVE": "FALSE",
         "KASHIMI_APIKEY": "",
-        "KASHIMI_SERVER_BASE": "",
     })
 
     live = env.get("KASHIMI_TEST_LIVE") == "TRUE"
@@ -78,9 +77,6 @@ def _provider_direct_setup(mockres):
         merged_opts = dict(runner.live_client_options())
         merged_opts.update({
             "apikey": env.get("KASHIMI_APIKEY"),
-            "server": {
-                "base": env.get("KASHIMI_SERVER_BASE"),
-            },
         })
         client = KashimiSDK(merged_opts)
         idmap = env.get("KASHIMI_TEST_PROVIDER_ENTID")

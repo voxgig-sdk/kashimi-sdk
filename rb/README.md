@@ -4,7 +4,7 @@
 
 The Ruby SDK for the Kashimi API — an entity-oriented client using idiomatic Ruby conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Capability` — with named operations (`list`/`load`/`create`/`update`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Callback` — with named operations (`list`/`load`/`create`/`update`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -41,18 +41,15 @@ client = KashimiSDK.new({
 })
 ```
 
-### 2. List capability records
+### 3. Load a callback
 
 ```ruby
 begin
-  # list returns an Array of Capability entities, one per record; data_get reads the record.
-  capabilitys = client.Capability.list
-  capabilitys.each do |item|
-    record = item.data_get
-    puts "#{record}"
-  end
+  # load returns the ENTITY — call data_get for the Callback record (raises on error).
+  callback = client.Callback.load({ "provider_id" => "example_provider_id", "state" => "example_state" })
+  puts callback.data_get
 rescue => err
-  warn "list failed: #{err}"
+  warn "load failed: #{err}"
 end
 ```
 
@@ -63,9 +60,9 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  latests = client.Latest.list({ "payment_id" => "example" })
+  clientjwk = client.ClientJwk.load({ "client_id" => "example", "provider_id" => "example" })
 rescue => err
-  warn "list failed: #{err}"
+  warn "load failed: #{err}"
 end
 ```
 
@@ -131,10 +128,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = KashimiSDK.test
 
-# list returns an Array of Latest entities, one per mock record (raises on
-# error); data_get reads each record.
-latests = client.Latest.list({ "payment_id" => "example" })
-latests.each { |item| puts item.data_get }
+# Entity ops return the ENTITY (raises on error);
+# data_get reads its mock record.
+clientjwk = client.ClientJwk.load({ "client_id" => "example", "provider_id" => "example" })
+puts clientjwk.data_get
 ```
 
 ### Use a custom fetch function
@@ -212,17 +209,24 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> Hash` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
-| `Capability` | `(data) -> CapabilityEntity` | Create a Capability entity instance. |
-| `ClientHostedUiCustomizationsOutputDto` | `(data) -> ClientHostedUiCustomizationsOutputDtoEntity` | Create a ClientHostedUiCustomizationsOutputDto entity instance. |
-| `CreatePaymentOutputDto` | `(data) -> CreatePaymentOutputDtoEntity` | Create a CreatePaymentOutputDto entity instance. |
-| `CreateTokenOutputDto` | `(data) -> CreateTokenOutputDtoEntity` | Create a CreateTokenOutputDto entity instance. |
+| `Callback` | `(data) -> CallbackEntity` | Create a Callback entity instance. |
+| `ClientJwk` | `(data) -> ClientJwkEntity` | Create a ClientJwk entity instance. |
+| `ConfirmationData` | `(data) -> ConfirmationDataEntity` | Create a ConfirmationData entity instance. |
+| `ConsentStatus` | `(data) -> ConsentStatusEntity` | Create a ConsentStatus entity instance. |
+| `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `Followup` | `(data) -> FollowupEntity` | Create a Followup entity instance. |
 | `Healthcheck` | `(data) -> HealthcheckEntity` | Create a Healthcheck entity instance. |
-| `Latest` | `(data) -> LatestEntity` | Create a Latest entity instance. |
-| `Obn` | `(data) -> ObnEntity` | Create an Obn entity instance. |
+| `HostedUiCustomization` | `(data) -> HostedUiCustomizationEntity` | Create a HostedUiCustomization entity instance. |
 | `Payment` | `(data) -> PaymentEntity` | Create a Payment entity instance. |
 | `PaymentStatus` | `(data) -> PaymentStatusEntity` | Create a PaymentStatus entity instance. |
 | `Provider` | `(data) -> ProviderEntity` | Create a Provider entity instance. |
-| `ProvidersSubsidiaryOutputDto` | `(data) -> ProvidersSubsidiaryOutputDtoEntity` | Create a ProvidersSubsidiaryOutputDto entity instance. |
+| `PsuProvidedData` | `(data) -> PsuProvidedDataEntity` | Create a PsuProvidedData entity instance. |
+| `Report` | `(data) -> ReportEntity` | Create a Report entity instance. |
+| `ScaData` | `(data) -> ScaDataEntity` | Create a ScaData entity instance. |
+| `ScaMethod` | `(data) -> ScaMethodEntity` | Create a ScaMethod entity instance. |
+| `SenderAccount` | `(data) -> SenderAccountEntity` | Create a SenderAccount entity instance. |
+| `Subsidiary` | `(data) -> SubsidiaryEntity` | Create a Subsidiary entity instance. |
+| `Token` | `(data) -> TokenEntity` | Create a Token entity instance. |
 
 ### Entity interface
 
@@ -261,7 +265,43 @@ returns a result `Hash` with these keys:
 
 ### Entities
 
-#### Capability
+#### Callback
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/callbacks`
+
+#### ClientJwk
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/client-jwks`
+
+#### ConfirmationData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/confirmation-data`
+
+#### ConsentStatus
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/consent-status`
+
+#### Country
 
 | Field | Description |
 | --- | --- |
@@ -270,46 +310,16 @@ Operations: List.
 
 API path: `/api/v1/capabilities/providers/countries`
 
-#### ClientHostedUiCustomizationsOutputDto
+#### Followup
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-
-Operations: Load.
-
-API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
-
-#### CreatePaymentOutputDto
-
-| Field | Description |
-| --- | --- |
-| `amount` | The amount to be transferred. |
-| `currency` | The currency of the payment. |
-| `metadata` |  |
-| `paymentScheme` | Payment scheme. |
 | `provider` | The provider information for the followup |
-| `recipient` | Data about the party receiving the payment. |
-| `remittanceInformation` | Unstructured or structured remittance information. |
 | `sender` | The sender information to be used with the payment |
 
 Operations: Create.
 
 API path: `/api/v1/ob/payments/{paymentId}/followups`
-
-#### CreateTokenOutputDto
-
-| Field | Description |
-| --- | --- |
-| `access_token` | The JWT access token. |
-| `expires_in` | Expiration time of the token in seconds. |
-| `grant_type` | The type of grant being requested. |
-| `scope` | Scopes being requested. |
-| `token_type` | Token type. |
-
-Operations: Create.
-
-API path: `/api/v1/auth/token`
 
 #### Healthcheck
 
@@ -324,51 +334,42 @@ Operations: Load.
 
 API path: `/api/status`
 
-#### Latest
+#### HostedUiCustomization
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | Timestamp of status creation |
-| `detailedStatus` | Detailed payment status |
-| `failureReasons` | Failure reasons (for `status: FAILED` only) |
-| `id` | Unique payment status identifier |
-| `paymentId` | Unique payment identifier |
-| `status` | Payment status. |
+| `clientId` |  |
+| `faviconUrl` |  |
+| `footerText` |  |
+| `logoUrl` |  |
+| `primaryColor` |  |
+| `privacyPolicyUrl` |  |
+| `psuPortalBaseUrl` |  |
+| `termsUrl` |  |
 
-Operations: List.
+Operations: Load.
 
-API path: `/api/v1/archive/payment-statuses/latest`
-
-#### Obn
-
-| Field | Description |
-| --- | --- |
-
-Operations: Create, Load, Update.
-
-API path: `/api/v1/ob/payments/cancel`
+API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
 
 #### Payment
 
 | Field | Description |
 | --- | --- |
 | `amount` | Payment amount |
-| `clientId` | Client identifier |
 | `createdAt` |  |
 | `currency` | Currency code |
 | `id` | Unique payment identifier |
 | `metadata` |  |
 | `paymentScheme` | Payment scheme used |
 | `provider` | Payment provider details. |
-| `recipient` |  |
+| `recipient` | Data about the party receiving the payment. |
 | `remittanceInformation` | Unstructured or structured remittance information. |
-| `sender` |  |
-| `status` | The most recent status of the payment. |
+| `sender` | Data about the party sending the payment. |
 | `updatedAt` |  |
 
-Operations: List, Load.
+Operations: Create, List, Load.
 
-API path: `/api/v1/archive/payments`
+API path: `/api/v1/ob/payments/cancel`
 
 #### PaymentStatus
 
@@ -381,7 +382,7 @@ API path: `/api/v1/archive/payments`
 | `paymentId` | Unique payment identifier |
 | `status` | Payment status. |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/v1/archive/payment-statuses`
 
@@ -401,9 +402,63 @@ API path: `/api/v1/archive/payment-statuses`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers`
+API path: `/api/v1/capabilities/providers`
 
-#### ProvidersSubsidiaryOutputDto
+#### PsuProvidedData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Update.
+
+API path: `/api/v1/ob/payments/psu-provided-data`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `amount` | Payment amount |
+| `createdAt` |  |
+| `currency` | Currency code |
+| `id` | Unique payment identifier |
+| `provider` | Selected provider details (name, country). |
+| `recipient` |  |
+| `remittanceInformation` |  |
+| `sender` |  |
+| `status` | The most recent status of the payment. |
+
+Operations: Load.
+
+API path: `/api/v1/reports/payments/{id}`
+
+#### ScaData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-data`
+
+#### ScaMethod
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-methods`
+
+#### SenderAccount
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/sender-accounts`
+
+#### Subsidiary
 
 | Field | Description |
 | --- | --- |
@@ -419,16 +474,102 @@ API path: `/api/v1/capabilities/internal/providers`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers/{id}/subsidiaries`
+API path: `/api/v1/capabilities/providers/{id}/subsidiaries`
+
+#### Token
+
+| Field | Description |
+| --- | --- |
+| `access_token` | The JWT access token. |
+| `expires_in` | Expiration time of the token in seconds. |
+| `grant_type` | The type of grant being requested. |
+| `scope` | Scopes being requested. |
+| `token_type` | Token type. |
+
+Operations: Create.
+
+API path: `/api/v1/auth/token`
 
 
 
 ## Entities
 
 
-### Capability
+### Callback
 
-Create an instance: `capability = client.Capability`
+Create an instance: `callback = client.Callback`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Callback record (raises on error).
+callback = client.Callback.load({ "provider_id" => "provider_id", "state" => "state" })
+```
+
+
+### ClientJwk
+
+Create an instance: `client_jwk = client.ClientJwk`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the ClientJwk record (raises on error).
+client_jwk = client.ClientJwk.load({ "client_id" => "client_id", "provider_id" => "provider_id" })
+```
+
+
+### ConfirmationData
+
+Create an instance: `confirmation_data = client.ConfirmationData`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the ConfirmationData record (raises on error).
+confirmation_data = client.ConfirmationData.load()
+```
+
+
+### ConsentStatus
+
+Create an instance: `consent_status = client.ConsentStatus`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the ConsentStatus record (raises on error).
+consent_status = client.ConsentStatus.load()
+```
+
+
+### Country
+
+Create an instance: `country = client.Country`
 
 #### Operations
 
@@ -439,39 +580,15 @@ Create an instance: `capability = client.Capability`
 #### Example: List
 
 ```ruby
-# list returns an Array of Capability entities, one per record (raises on error).
-capabilitys = client.Capability.list
-capabilitys.each { |item| puts item.data_get }
+# list returns an Array of Country entities, one per record (raises on error).
+countrys = client.Country.list
+countrys.each { |item| puts item.data_get }
 ```
 
 
-### ClientHostedUiCustomizationsOutputDto
+### Followup
 
-Create an instance: `client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `id` | `String` |  |
-
-#### Example: Load
-
-```ruby
-# load returns the ENTITY — call data_get for the ClientHostedUiCustomizationsOutputDto record (raises on error).
-client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto.load({ "id" => "client_hosted_ui_customizations_output_dto_id" })
-```
-
-
-### CreatePaymentOutputDto
-
-Create an instance: `create_payment_output_dto = client.CreatePaymentOutputDto`
+Create an instance: `followup = client.Followup`
 
 #### Operations
 
@@ -483,58 +600,15 @@ Create an instance: `create_payment_output_dto = client.CreatePaymentOutputDto`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `Float` | The amount to be transferred. |
-| `currency` | `String` | The currency of the payment. |
-| `metadata` | `Hash` |  |
-| `paymentScheme` | `Object` | Payment scheme. |
 | `provider` | `Object` | The provider information for the followup |
-| `recipient` | `Object` | Data about the party receiving the payment. |
-| `remittanceInformation` | `Object` | Unstructured or structured remittance information. |
 | `sender` | `Object` | The sender information to be used with the payment |
 
 #### Example: Create
 
 ```ruby
-create_payment_output_dto = client.CreatePaymentOutputDto.create({
-  "amount" => 1, # Float
-  "currency" => "example_currency", # String
-  "metadata" => {}, # Hash
-  "paymentScheme" => "example_paymentScheme", # Object
-  "recipient" => "example_recipient", # Object
-  "remittanceInformation" => "example_remittanceInformation", # Object
-})
-```
-
-
-### CreateTokenOutputDto
-
-Create an instance: `create_token_output_dto = client.CreateTokenOutputDto`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `access_token` | `String` | The JWT access token. |
-| `expires_in` | `Float` | Expiration time of the token in seconds. |
-| `grant_type` | `String` | The type of grant being requested. |
-| `scope` | `String` | Scopes being requested. |
-| `token_type` | `String` | Token type. |
-
-#### Example: Create
-
-```ruby
-create_token_output_dto = client.CreateTokenOutputDto.create({
-  "access_token" => "example_access_token", # String
-  "expires_in" => 1, # Float
-  "grant_type" => "example_grant_type", # String
-  "scope" => "example_scope", # String
-  "token_type" => "example_token_type", # String
+followup = client.Followup.create({
+  "payment_id" => "example_payment_id", # String
+  "provider" => "example_provider", # Object
 })
 ```
 
@@ -566,62 +640,34 @@ healthcheck = client.Healthcheck.load()
 ```
 
 
-### Latest
+### HostedUiCustomization
 
-Create an instance: `latest = client.Latest`
+Create an instance: `hosted_ui_customization = client.HostedUiCustomization`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `String` | Timestamp of status creation |
-| `detailedStatus` | `String` | Detailed payment status |
-| `failureReasons` | `Array` | Failure reasons (for `status: FAILED` only) |
-| `id` | `String` | Unique payment status identifier |
-| `paymentId` | `String` | Unique payment identifier |
-| `status` | `String` | Payment status. |
-
-#### Example: List
-
-```ruby
-# list returns an Array of Latest entities, one per record (raises on error).
-latests = client.Latest.list({ "payment_id" => "example" })
-latests.each { |item| puts item.data_get }
-```
-
-
-### Obn
-
-Create an instance: `obn = client.Obn`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
+| `clientId` | `String` |  |
+| `faviconUrl` | `String` |  |
+| `footerText` | `String` |  |
+| `logoUrl` | `String` |  |
+| `primaryColor` | `String` |  |
+| `privacyPolicyUrl` | `String` |  |
+| `psuPortalBaseUrl` | `String` |  |
+| `termsUrl` | `String` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the ENTITY — call data_get for the Obn record (raises on error).
-obn = client.Obn.load({ "provider_id" => "provider_id", "state" => "state" })
-```
-
-#### Example: Create
-
-```ruby
-obn = client.Obn.create({
-  "provider_id" => "example_provider_id", # String
-  "state" => "example_state", # String
-})
+# load returns the ENTITY — call data_get for the HostedUiCustomization record (raises on error).
+hosted_ui_customization = client.HostedUiCustomization.load({ "client_id" => "client_id" })
 ```
 
 
@@ -633,6 +679,7 @@ Create an instance: `payment = client.Payment`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
@@ -641,17 +688,15 @@ Create an instance: `payment = client.Payment`
 | Field | Type | Description |
 | --- | --- | --- |
 | `amount` | `Float` | Payment amount |
-| `clientId` | `String` | Client identifier |
 | `createdAt` | `String` |  |
 | `currency` | `String` | Currency code |
 | `id` | `String` | Unique payment identifier |
 | `metadata` | `Hash` |  |
 | `paymentScheme` | `Object` | Payment scheme used |
 | `provider` | `Object` | Payment provider details. |
-| `recipient` | `Hash` |  |
+| `recipient` | `Hash` | Data about the party receiving the payment. |
 | `remittanceInformation` | `Object` | Unstructured or structured remittance information. |
-| `sender` | `Hash` |  |
-| `status` | `String` | The most recent status of the payment. |
+| `sender` | `Hash` | Data about the party sending the payment. |
 | `updatedAt` | `String` |  |
 
 #### Example: Load
@@ -669,6 +714,19 @@ payments = client.Payment.list
 payments.each { |item| puts item.data_get }
 ```
 
+#### Example: Create
+
+```ruby
+payment = client.Payment.create({
+  "amount" => 1, # Float
+  "currency" => "example_currency", # String
+  "metadata" => {}, # Hash
+  "paymentScheme" => "example_paymentScheme", # Object
+  "recipient" => {}, # Hash
+  "remittanceInformation" => "example_remittanceInformation", # Object
+})
+```
+
 
 ### PaymentStatus
 
@@ -679,6 +737,7 @@ Create an instance: `payment_status = client.PaymentStatus`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -690,6 +749,13 @@ Create an instance: `payment_status = client.PaymentStatus`
 | `id` | `String` | Unique payment status identifier |
 | `paymentId` | `String` | Unique payment identifier |
 | `status` | `String` | Payment status. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the PaymentStatus record (raises on error).
+payment_status = client.PaymentStatus.load({ "payment_id" => "payment_id" })
+```
 
 #### Example: List
 
@@ -733,9 +799,109 @@ providers.each { |item| puts item.data_get }
 ```
 
 
-### ProvidersSubsidiaryOutputDto
+### PsuProvidedData
 
-Create an instance: `providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto`
+Create an instance: `psu_provided_data = client.PsuProvidedData`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `update(data)` | Update an existing entity. |
+
+
+### Report
+
+Create an instance: `report = client.Report`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `Float` | Payment amount |
+| `createdAt` | `String` |  |
+| `currency` | `String` | Currency code |
+| `id` | `String` | Unique payment identifier |
+| `provider` | `Hash` | Selected provider details (name, country). |
+| `recipient` | `Hash` |  |
+| `remittanceInformation` | `Object` |  |
+| `sender` | `Hash` |  |
+| `status` | `String` | The most recent status of the payment. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Report record (raises on error).
+report = client.Report.load({ "id" => "report_id" })
+```
+
+
+### ScaData
+
+Create an instance: `sca_data = client.ScaData`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the ScaData record (raises on error).
+sca_data = client.ScaData.load()
+```
+
+
+### ScaMethod
+
+Create an instance: `sca_method = client.ScaMethod`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the ScaMethod record (raises on error).
+sca_method = client.ScaMethod.load()
+```
+
+
+### SenderAccount
+
+Create an instance: `sender_account = client.SenderAccount`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the SenderAccount record (raises on error).
+sender_account = client.SenderAccount.load({ "provider_id" => "provider_id", "state" => "state" })
+```
+
+
+### Subsidiary
+
+Create an instance: `subsidiary = client.Subsidiary`
 
 #### Operations
 
@@ -760,9 +926,42 @@ Create an instance: `providers_subsidiary_output_dto = client.ProvidersSubsidiar
 #### Example: List
 
 ```ruby
-# list returns an Array of ProvidersSubsidiaryOutputDto entities, one per record (raises on error).
-providers_subsidiary_output_dtos = client.ProvidersSubsidiaryOutputDto.list({ "provider_id" => "example" })
-providers_subsidiary_output_dtos.each { |item| puts item.data_get }
+# list returns an Array of Subsidiary entities, one per record (raises on error).
+subsidiarys = client.Subsidiary.list({ "provider_id" => "example" })
+subsidiarys.each { |item| puts item.data_get }
+```
+
+
+### Token
+
+Create an instance: `token = client.Token`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `access_token` | `String` | The JWT access token. |
+| `expires_in` | `Float` | Expiration time of the token in seconds. |
+| `grant_type` | `String` | The type of grant being requested. |
+| `scope` | `String` | Scopes being requested. |
+| `token_type` | `String` | Token type. |
+
+#### Example: Create
+
+```ruby
+token = client.Token.create({
+  "access_token" => "example_access_token", # String
+  "expires_in" => 1, # Float
+  "grant_type" => "example_grant_type", # String
+  "scope" => "example_scope", # String
+  "token_type" => "example_token_type", # String
+})
 ```
 
 ## Features
@@ -1002,15 +1201,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-latest = client.Latest
-latest.list({ "payment_id" => "example" })
+clientjwk = client.ClientJwk
+clientjwk.load({ "client_id" => "example", "provider_id" => "example" })
 
-# latest.data_get now returns the latest data from the last list
-# latest.match_get returns the last match criteria
+# clientjwk.data_get now returns the clientjwk data from the last load
+# clientjwk.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

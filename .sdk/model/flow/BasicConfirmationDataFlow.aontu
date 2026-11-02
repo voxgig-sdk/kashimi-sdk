@@ -1,0 +1,28 @@
+# BasicConfirmationDataFlow
+
+main: kit: flow: BasicConfirmationDataFlow:
+{
+  entity: "confirmation_data",
+  kind: "basic",
+  name: "BasicConfirmationDataFlow",
+  step: [
+    {
+      i: {
+        ref: "confirmation_data_ref01",
+        srcdatavar: "confirmation_data_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-confirmation_data_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicConfirmationDataFlow"
+}

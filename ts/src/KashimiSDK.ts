@@ -1,16 +1,23 @@
 // Kashimi Ts SDK
 
-import { CapabilityEntity } from './entity/CapabilityEntity'
-import { ClientHostedUiCustomizationsOutputDtoEntity } from './entity/ClientHostedUiCustomizationsOutputDtoEntity'
-import { CreatePaymentOutputDtoEntity } from './entity/CreatePaymentOutputDtoEntity'
-import { CreateTokenOutputDtoEntity } from './entity/CreateTokenOutputDtoEntity'
+import { CallbackEntity } from './entity/CallbackEntity'
+import { ClientJwkEntity } from './entity/ClientJwkEntity'
+import { ConfirmationDataEntity } from './entity/ConfirmationDataEntity'
+import { ConsentStatusEntity } from './entity/ConsentStatusEntity'
+import { CountryEntity } from './entity/CountryEntity'
+import { FollowupEntity } from './entity/FollowupEntity'
 import { HealthcheckEntity } from './entity/HealthcheckEntity'
-import { LatestEntity } from './entity/LatestEntity'
-import { ObnEntity } from './entity/ObnEntity'
+import { HostedUiCustomizationEntity } from './entity/HostedUiCustomizationEntity'
 import { PaymentEntity } from './entity/PaymentEntity'
 import { PaymentStatusEntity } from './entity/PaymentStatusEntity'
 import { ProviderEntity } from './entity/ProviderEntity'
-import { ProvidersSubsidiaryOutputDtoEntity } from './entity/ProvidersSubsidiaryOutputDtoEntity'
+import { PsuProvidedDataEntity } from './entity/PsuProvidedDataEntity'
+import { ReportEntity } from './entity/ReportEntity'
+import { ScaDataEntity } from './entity/ScaDataEntity'
+import { ScaMethodEntity } from './entity/ScaMethodEntity'
+import { SenderAccountEntity } from './entity/SenderAccountEntity'
+import { SubsidiaryEntity } from './entity/SubsidiaryEntity'
+import { TokenEntity } from './entity/TokenEntity'
 
 export type * from './KashimiTypes'
 
@@ -344,39 +351,57 @@ if (null != this._secrets) {
 
 
 
-  // Entity access: `client.Capability().list()` / `client.Capability().load({ id })`.
+  // Entity access: `client.Callback().list()` / `client.Callback().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  Capability(entopts?: Record<string, any>) {
+  Callback(entopts?: Record<string, any>) {
     const self = this
-    return new CapabilityEntity(self, entopts)
+    return new CallbackEntity(self, entopts)
   }
 
 
-  // Entity access: `client.ClientHostedUiCustomizationsOutputDto().list()` / `client.ClientHostedUiCustomizationsOutputDto().load({ id })`.
+  // Entity access: `client.ClientJwk().list()` / `client.ClientJwk().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  ClientHostedUiCustomizationsOutputDto(entopts?: Record<string, any>) {
+  ClientJwk(entopts?: Record<string, any>) {
     const self = this
-    return new ClientHostedUiCustomizationsOutputDtoEntity(self, entopts)
+    return new ClientJwkEntity(self, entopts)
   }
 
 
-  // Entity access: `client.CreatePaymentOutputDto().list()` / `client.CreatePaymentOutputDto().load({ id })`.
+  // Entity access: `client.ConfirmationData().list()` / `client.ConfirmationData().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  CreatePaymentOutputDto(entopts?: Record<string, any>) {
+  ConfirmationData(entopts?: Record<string, any>) {
     const self = this
-    return new CreatePaymentOutputDtoEntity(self, entopts)
+    return new ConfirmationDataEntity(self, entopts)
   }
 
 
-  // Entity access: `client.CreateTokenOutputDto().list()` / `client.CreateTokenOutputDto().load({ id })`.
+  // Entity access: `client.ConsentStatus().list()` / `client.ConsentStatus().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  CreateTokenOutputDto(entopts?: Record<string, any>) {
+  ConsentStatus(entopts?: Record<string, any>) {
     const self = this
-    return new CreateTokenOutputDtoEntity(self, entopts)
+    return new ConsentStatusEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Country(entopts?: Record<string, any>) {
+    const self = this
+    return new CountryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Followup().list()` / `client.Followup().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Followup(entopts?: Record<string, any>) {
+    const self = this
+    return new FollowupEntity(self, entopts)
   }
 
 
@@ -389,21 +414,12 @@ if (null != this._secrets) {
   }
 
 
-  // Entity access: `client.Latest().list()` / `client.Latest().load({ id })`.
+  // Entity access: `client.HostedUiCustomization().list()` / `client.HostedUiCustomization().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  Latest(entopts?: Record<string, any>) {
+  HostedUiCustomization(entopts?: Record<string, any>) {
     const self = this
-    return new LatestEntity(self, entopts)
-  }
-
-
-  // Entity access: `client.Obn().list()` / `client.Obn().load({ id })`.
-  // The argument is the entity OPTIONS object (passed to the entity
-  // constructor as entopts), not initial entity data.
-  Obn(entopts?: Record<string, any>) {
-    const self = this
-    return new ObnEntity(self, entopts)
+    return new HostedUiCustomizationEntity(self, entopts)
   }
 
 
@@ -434,12 +450,66 @@ if (null != this._secrets) {
   }
 
 
-  // Entity access: `client.ProvidersSubsidiaryOutputDto().list()` / `client.ProvidersSubsidiaryOutputDto().load({ id })`.
+  // Entity access: `client.PsuProvidedData().list()` / `client.PsuProvidedData().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  ProvidersSubsidiaryOutputDto(entopts?: Record<string, any>) {
+  PsuProvidedData(entopts?: Record<string, any>) {
     const self = this
-    return new ProvidersSubsidiaryOutputDtoEntity(self, entopts)
+    return new PsuProvidedDataEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Report().list()` / `client.Report().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Report(entopts?: Record<string, any>) {
+    const self = this
+    return new ReportEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.ScaData().list()` / `client.ScaData().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  ScaData(entopts?: Record<string, any>) {
+    const self = this
+    return new ScaDataEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.ScaMethod().list()` / `client.ScaMethod().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  ScaMethod(entopts?: Record<string, any>) {
+    const self = this
+    return new ScaMethodEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.SenderAccount().list()` / `client.SenderAccount().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  SenderAccount(entopts?: Record<string, any>) {
+    const self = this
+    return new SenderAccountEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Subsidiary().list()` / `client.Subsidiary().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Subsidiary(entopts?: Record<string, any>) {
+    const self = this
+    return new SubsidiaryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Token().list()` / `client.Token().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Token(entopts?: Record<string, any>) {
+    const self = this
+    return new TokenEntity(self, entopts)
   }
 
 

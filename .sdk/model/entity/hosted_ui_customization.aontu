@@ -1,0 +1,137 @@
+# Entity: hosted_ui_customization
+
+main: kit: entity: hosted_ui_customization: {
+
+  alias: field: {}
+
+  fields: {
+    clientId: {
+      h: "Client Id"
+      n: "clientId"
+      r: true
+      t: "`$STRING`"
+    }
+    faviconUrl: {
+      h: "Favicon Url"
+      n: "faviconUrl"
+      r: true
+      t: "`$STRING`"
+    }
+    footerText: {
+      h: "Footer Text"
+      n: "footerText"
+      r: true
+      t: "`$STRING`"
+    }
+    logoUrl: {
+      h: "Logo Url"
+      n: "logoUrl"
+      r: true
+      t: "`$STRING`"
+    }
+    primaryColor: {
+      h: "Primary Color"
+      n: "primaryColor"
+      r: true
+      t: "`$STRING`"
+    }
+    privacyPolicyUrl: {
+      h: "Privacy Policy Url"
+      n: "privacyPolicyUrl"
+      r: true
+      t: "`$STRING`"
+    }
+    psuPortalBaseUrl: {
+      h: "Psu Portal Base Url"
+      n: "psuPortalBaseUrl"
+      r: true
+      t: "`$STRING`"
+    }
+    termsUrl: {
+      h: "Terms Url"
+      n: "termsUrl"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  name: "hosted_ui_customization"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/capabilities/clients/{clientId}/hosted-ui-customizations"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "client_id"
+                or: "clientId"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations"
+          q: {
+            exist: [
+              "authorization"
+              "client_id"
+            ]
+          }
+          r: {
+            param: {
+              clientId: "client_id"
+            }
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "capabilities"
+            }
+            {
+              lit: "clients"
+            }
+            {
+              var: "client_id"
+            }
+            {
+              lit: "hosted-ui-customizations"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

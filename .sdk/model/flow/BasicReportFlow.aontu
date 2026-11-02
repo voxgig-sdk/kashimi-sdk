@@ -1,0 +1,32 @@
+# BasicReportFlow
+
+main: kit: flow: BasicReportFlow:
+{
+  entity: "report",
+  kind: "basic",
+  name: "BasicReportFlow",
+  step: [
+    {
+      i: {
+        ref: "report_ref01",
+        srcdatavar: "report_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "report01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-report_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicReportFlow"
+}

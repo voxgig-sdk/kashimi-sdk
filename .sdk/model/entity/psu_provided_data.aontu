@@ -1,0 +1,51 @@
+# Entity: psu_provided_data
+
+main: kit: entity: psu_provided_data: {
+
+  alias: field: {}
+
+  name: "psu_provided_data"
+  op: {
+    update: {
+      name: "update"
+      points: [
+        {
+          co: {
+            id: "PATCH /api/v1/ob/payments/psu-provided-data"
+            source: "openapi3"
+            version: 2
+          }
+          m: "PATCH"
+          o: "/api/v1/ob/payments/psu-provided-data"
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "ob"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              lit: "psu-provided-data"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  fields: {
+  }
+
+
+
+}

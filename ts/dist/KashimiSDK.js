@@ -35,17 +35,24 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SDK = exports.KashimiSDK = exports.KashimiEntityBase = exports.BaseFeature = exports.sekreto = exports.config = exports.stdutil = void 0;
-const CapabilityEntity_1 = require("./entity/CapabilityEntity");
-const ClientHostedUiCustomizationsOutputDtoEntity_1 = require("./entity/ClientHostedUiCustomizationsOutputDtoEntity");
-const CreatePaymentOutputDtoEntity_1 = require("./entity/CreatePaymentOutputDtoEntity");
-const CreateTokenOutputDtoEntity_1 = require("./entity/CreateTokenOutputDtoEntity");
+const CallbackEntity_1 = require("./entity/CallbackEntity");
+const ClientJwkEntity_1 = require("./entity/ClientJwkEntity");
+const ConfirmationDataEntity_1 = require("./entity/ConfirmationDataEntity");
+const ConsentStatusEntity_1 = require("./entity/ConsentStatusEntity");
+const CountryEntity_1 = require("./entity/CountryEntity");
+const FollowupEntity_1 = require("./entity/FollowupEntity");
 const HealthcheckEntity_1 = require("./entity/HealthcheckEntity");
-const LatestEntity_1 = require("./entity/LatestEntity");
-const ObnEntity_1 = require("./entity/ObnEntity");
+const HostedUiCustomizationEntity_1 = require("./entity/HostedUiCustomizationEntity");
 const PaymentEntity_1 = require("./entity/PaymentEntity");
 const PaymentStatusEntity_1 = require("./entity/PaymentStatusEntity");
 const ProviderEntity_1 = require("./entity/ProviderEntity");
-const ProvidersSubsidiaryOutputDtoEntity_1 = require("./entity/ProvidersSubsidiaryOutputDtoEntity");
+const PsuProvidedDataEntity_1 = require("./entity/PsuProvidedDataEntity");
+const ReportEntity_1 = require("./entity/ReportEntity");
+const ScaDataEntity_1 = require("./entity/ScaDataEntity");
+const ScaMethodEntity_1 = require("./entity/ScaMethodEntity");
+const SenderAccountEntity_1 = require("./entity/SenderAccountEntity");
+const SubsidiaryEntity_1 = require("./entity/SubsidiaryEntity");
+const TokenEntity_1 = require("./entity/TokenEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
 Object.defineProperty(exports, "config", { enumerable: true, get: function () { return Config_1.config; } });
@@ -295,33 +302,47 @@ class KashimiSDK {
         }
         return res;
     }
-    // Entity access: `client.Capability().list()` / `client.Capability().load({ id })`.
+    // Entity access: `client.Callback().list()` / `client.Callback().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    Capability(entopts) {
+    Callback(entopts) {
         const self = this;
-        return new CapabilityEntity_1.CapabilityEntity(self, entopts);
+        return new CallbackEntity_1.CallbackEntity(self, entopts);
     }
-    // Entity access: `client.ClientHostedUiCustomizationsOutputDto().list()` / `client.ClientHostedUiCustomizationsOutputDto().load({ id })`.
+    // Entity access: `client.ClientJwk().list()` / `client.ClientJwk().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    ClientHostedUiCustomizationsOutputDto(entopts) {
+    ClientJwk(entopts) {
         const self = this;
-        return new ClientHostedUiCustomizationsOutputDtoEntity_1.ClientHostedUiCustomizationsOutputDtoEntity(self, entopts);
+        return new ClientJwkEntity_1.ClientJwkEntity(self, entopts);
     }
-    // Entity access: `client.CreatePaymentOutputDto().list()` / `client.CreatePaymentOutputDto().load({ id })`.
+    // Entity access: `client.ConfirmationData().list()` / `client.ConfirmationData().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    CreatePaymentOutputDto(entopts) {
+    ConfirmationData(entopts) {
         const self = this;
-        return new CreatePaymentOutputDtoEntity_1.CreatePaymentOutputDtoEntity(self, entopts);
+        return new ConfirmationDataEntity_1.ConfirmationDataEntity(self, entopts);
     }
-    // Entity access: `client.CreateTokenOutputDto().list()` / `client.CreateTokenOutputDto().load({ id })`.
+    // Entity access: `client.ConsentStatus().list()` / `client.ConsentStatus().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    CreateTokenOutputDto(entopts) {
+    ConsentStatus(entopts) {
         const self = this;
-        return new CreateTokenOutputDtoEntity_1.CreateTokenOutputDtoEntity(self, entopts);
+        return new ConsentStatusEntity_1.ConsentStatusEntity(self, entopts);
+    }
+    // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Country(entopts) {
+        const self = this;
+        return new CountryEntity_1.CountryEntity(self, entopts);
+    }
+    // Entity access: `client.Followup().list()` / `client.Followup().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Followup(entopts) {
+        const self = this;
+        return new FollowupEntity_1.FollowupEntity(self, entopts);
     }
     // Entity access: `client.Healthcheck().list()` / `client.Healthcheck().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -330,19 +351,12 @@ class KashimiSDK {
         const self = this;
         return new HealthcheckEntity_1.HealthcheckEntity(self, entopts);
     }
-    // Entity access: `client.Latest().list()` / `client.Latest().load({ id })`.
+    // Entity access: `client.HostedUiCustomization().list()` / `client.HostedUiCustomization().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    Latest(entopts) {
+    HostedUiCustomization(entopts) {
         const self = this;
-        return new LatestEntity_1.LatestEntity(self, entopts);
-    }
-    // Entity access: `client.Obn().list()` / `client.Obn().load({ id })`.
-    // The argument is the entity OPTIONS object (passed to the entity
-    // constructor as entopts), not initial entity data.
-    Obn(entopts) {
-        const self = this;
-        return new ObnEntity_1.ObnEntity(self, entopts);
+        return new HostedUiCustomizationEntity_1.HostedUiCustomizationEntity(self, entopts);
     }
     // Entity access: `client.Payment().list()` / `client.Payment().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -365,12 +379,54 @@ class KashimiSDK {
         const self = this;
         return new ProviderEntity_1.ProviderEntity(self, entopts);
     }
-    // Entity access: `client.ProvidersSubsidiaryOutputDto().list()` / `client.ProvidersSubsidiaryOutputDto().load({ id })`.
+    // Entity access: `client.PsuProvidedData().list()` / `client.PsuProvidedData().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    ProvidersSubsidiaryOutputDto(entopts) {
+    PsuProvidedData(entopts) {
         const self = this;
-        return new ProvidersSubsidiaryOutputDtoEntity_1.ProvidersSubsidiaryOutputDtoEntity(self, entopts);
+        return new PsuProvidedDataEntity_1.PsuProvidedDataEntity(self, entopts);
+    }
+    // Entity access: `client.Report().list()` / `client.Report().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Report(entopts) {
+        const self = this;
+        return new ReportEntity_1.ReportEntity(self, entopts);
+    }
+    // Entity access: `client.ScaData().list()` / `client.ScaData().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    ScaData(entopts) {
+        const self = this;
+        return new ScaDataEntity_1.ScaDataEntity(self, entopts);
+    }
+    // Entity access: `client.ScaMethod().list()` / `client.ScaMethod().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    ScaMethod(entopts) {
+        const self = this;
+        return new ScaMethodEntity_1.ScaMethodEntity(self, entopts);
+    }
+    // Entity access: `client.SenderAccount().list()` / `client.SenderAccount().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    SenderAccount(entopts) {
+        const self = this;
+        return new SenderAccountEntity_1.SenderAccountEntity(self, entopts);
+    }
+    // Entity access: `client.Subsidiary().list()` / `client.Subsidiary().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Subsidiary(entopts) {
+        const self = this;
+        return new SubsidiaryEntity_1.SubsidiaryEntity(self, entopts);
+    }
+    // Entity access: `client.Token().list()` / `client.Token().load({ id })`.
+    // The argument is the entity OPTIONS object (passed to the entity
+    // constructor as entopts), not initial entity data.
+    Token(entopts) {
+        const self = this;
+        return new TokenEntity_1.TokenEntity(self, entopts);
     }
     static test(testoptsarg, sdkoptsarg) {
         const struct = stdutil.struct;

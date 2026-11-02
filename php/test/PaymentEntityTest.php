@@ -194,13 +194,15 @@ class PaymentEntityTest extends TestCase
         $setup = payment_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["list", "load"] as $_op) {
+        foreach (["create", "list", "load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "payment." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
                 return;
             }
         }
+        if (!empty($setup["live"]) && getenv('VOXGIG_GETONLY_GUARD') === "TRUE") {
+            fwrite(STDOUT, 'LIVE STEP {"id":"payment.create.0","state":"excluded","attempted":false,"reason":"GET-only live run: needs POST /api/v1/ob/payments/cancel"}' . "\n");
         $client = $setup["client"];
         if (!empty($setup["live"])) {
             Runner::live_existing($setup, self::LIVE_STRICT, "payment",
@@ -221,6 +223,41 @@ class PaymentEntityTest extends TestCase
 
         $payment_ref01_list_result = $payment_ref01_ent->list($payment_ref01_match, null);
         $this->assertIsArray($payment_ref01_list_result);
+
+        // LOAD
+        $payment_ref01_match_dt0 = [
+            "id" => $payment_ref01_data["id"],
+        ];
+        $payment_ref01_data_dt0_loaded = $payment_ref01_ent->load($payment_ref01_match_dt0, null);
+        $payment_ref01_data_dt0_load_result = Helpers::to_map(is_object($payment_ref01_data_dt0_loaded) && method_exists($payment_ref01_data_dt0_loaded, 'data_get') ? $payment_ref01_data_dt0_loaded->data_get() : $payment_ref01_data_dt0_loaded);
+        $this->assertNotNull($payment_ref01_data_dt0_load_result);
+        $this->assertEquals($payment_ref01_data_dt0_load_result["id"], $payment_ref01_data["id"]);
+
+            return;
+        }
+
+        $client = $setup["client"];
+
+        // CREATE
+        $payment_ref01_ent = $client->Payment(null);
+        $payment_ref01_data = Helpers::to_map(Vs::getprop(
+            Vs::getpath($setup["data"], "new.payment"), "payment_ref01"));
+
+        $payment_ref01_data_result = $payment_ref01_ent->create($payment_ref01_data, null);
+        $payment_ref01_data = Helpers::to_map(is_object($payment_ref01_data_result) && method_exists($payment_ref01_data_result, 'data_get') ? $payment_ref01_data_result->data_get() : $payment_ref01_data_result);
+        $this->assertNotNull($payment_ref01_data);
+        $this->assertNotNull($payment_ref01_data["id"]);
+
+        // LIST
+        $payment_ref01_match = [];
+
+        $payment_ref01_list_result = $payment_ref01_ent->list($payment_ref01_match, null);
+        $this->assertIsArray($payment_ref01_list_result);
+
+        $found_item = sdk_select(
+            Runner::entity_list_to_data($payment_ref01_list_result),
+            ["id" => $payment_ref01_data["id"]]);
+        $this->assertNotEmpty($found_item);
 
         // LOAD
         $payment_ref01_match_dt0 = [
@@ -263,7 +300,6 @@ function payment_basic_setup($extra)
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_TEST_EXPLAIN" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -279,9 +315,6 @@ function payment_basic_setup($extra)
             Runner::live_client_options(),
             [
                 "apikey" => $env["KASHIMI_APIKEY"],
-                "server" => [
-                    "base" => $env["KASHIMI_SERVER_BASE"],
-                ],
             ],
             // ismap, not a plain "?? []" default: an empty PHP array is a
             // LIST, and a non-map later entry REPLACES the accumulated map in

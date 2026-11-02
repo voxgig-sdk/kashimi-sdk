@@ -4,7 +4,7 @@
 
 The Lua SDK for the Kashimi API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:Capability()` — each with the same small set of operations (`list`, `load`, `create`, `update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Callback()` — each with the same small set of operations (`list`, `load`, `create`, `update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -35,19 +35,14 @@ local client = sdk.new({
 })
 ```
 
-### 2. List capability records
+### 3. Load a callback
 
-Entity operations return `(value, err)`. For `list`, `value` is an
-array of entities, one per record — iterate it directly (there is no
-wrapper), and read each record with `data_get()`.
+`load` returns the entity; `data_get()` reads its record.
 
 ```lua
-local capabilitys, err = client:Capability():list()
+local callback, err = client:Callback():load({ provider_id = "example_provider_id", state = "example_state" })
 if err then error(err) end
-
-for _, item in ipairs(capabilitys) do
-  for k, val in pairs(item:data_get()) do print(k, val) end
-end
+for k, val in pairs(callback:data_get()) do print(k, val) end
 ```
 
 
@@ -57,7 +52,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local latests, err = client:Latest():list({ payment_id = "example" })
+local clientjwk, err = client:ClientJwk():load({ client_id = "example", provider_id = "example" })
 if err then error(err) end
 ```
 
@@ -115,8 +110,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Latest():list({ payment_id = "example" })
--- result is an array of entities, one per mock record; err is set on failure
+local result, err = client:ClientJwk():load({ client_id = "example", provider_id = "example" })
+-- result is the entity; data_get() reads its mock record; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -196,17 +191,24 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
-| `Capability` | `(data) -> CapabilityEntity` | Create a Capability entity instance. |
-| `ClientHostedUiCustomizationsOutputDto` | `(data) -> ClientHostedUiCustomizationsOutputDtoEntity` | Create a ClientHostedUiCustomizationsOutputDto entity instance. |
-| `CreatePaymentOutputDto` | `(data) -> CreatePaymentOutputDtoEntity` | Create a CreatePaymentOutputDto entity instance. |
-| `CreateTokenOutputDto` | `(data) -> CreateTokenOutputDtoEntity` | Create a CreateTokenOutputDto entity instance. |
+| `Callback` | `(data) -> CallbackEntity` | Create a Callback entity instance. |
+| `ClientJwk` | `(data) -> ClientJwkEntity` | Create a ClientJwk entity instance. |
+| `ConfirmationData` | `(data) -> ConfirmationDataEntity` | Create a ConfirmationData entity instance. |
+| `ConsentStatus` | `(data) -> ConsentStatusEntity` | Create a ConsentStatus entity instance. |
+| `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `Followup` | `(data) -> FollowupEntity` | Create a Followup entity instance. |
 | `Healthcheck` | `(data) -> HealthcheckEntity` | Create a Healthcheck entity instance. |
-| `Latest` | `(data) -> LatestEntity` | Create a Latest entity instance. |
-| `Obn` | `(data) -> ObnEntity` | Create an Obn entity instance. |
+| `HostedUiCustomization` | `(data) -> HostedUiCustomizationEntity` | Create a HostedUiCustomization entity instance. |
 | `Payment` | `(data) -> PaymentEntity` | Create a Payment entity instance. |
 | `PaymentStatus` | `(data) -> PaymentStatusEntity` | Create a PaymentStatus entity instance. |
 | `Provider` | `(data) -> ProviderEntity` | Create a Provider entity instance. |
-| `ProvidersSubsidiaryOutputDto` | `(data) -> ProvidersSubsidiaryOutputDtoEntity` | Create a ProvidersSubsidiaryOutputDto entity instance. |
+| `PsuProvidedData` | `(data) -> PsuProvidedDataEntity` | Create a PsuProvidedData entity instance. |
+| `Report` | `(data) -> ReportEntity` | Create a Report entity instance. |
+| `ScaData` | `(data) -> ScaDataEntity` | Create a ScaData entity instance. |
+| `ScaMethod` | `(data) -> ScaMethodEntity` | Create a ScaMethod entity instance. |
+| `SenderAccount` | `(data) -> SenderAccountEntity` | Create a SenderAccount entity instance. |
+| `Subsidiary` | `(data) -> SubsidiaryEntity` | Create a Subsidiary entity instance. |
+| `Token` | `(data) -> TokenEntity` | Create a Token entity instance. |
 
 ### Entity interface
 
@@ -237,16 +239,52 @@ itself — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local client_hosted_ui_customizations_output_dto, err = client:ClientHostedUiCustomizationsOutputDto():load({ id = "example_id" })
+    local callback, err = client:Callback():load({ provider_id = "example", state = "example" })
     if err then error(err) end
-    -- client_hosted_ui_customizations_output_dto is the loaded entity
+    -- callback is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
 
 ### Entities
 
-#### Capability
+#### Callback
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/callbacks`
+
+#### ClientJwk
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/client-jwks`
+
+#### ConfirmationData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/confirmation-data`
+
+#### ConsentStatus
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load.
+
+API path: `/api/v1/ob/payments/decoupled/consent-status`
+
+#### Country
 
 | Field | Description |
 | --- | --- |
@@ -255,46 +293,16 @@ Operations: List.
 
 API path: `/api/v1/capabilities/providers/countries`
 
-#### ClientHostedUiCustomizationsOutputDto
+#### Followup
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
-
-Operations: Load.
-
-API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
-
-#### CreatePaymentOutputDto
-
-| Field | Description |
-| --- | --- |
-| `amount` | The amount to be transferred. |
-| `currency` | The currency of the payment. |
-| `metadata` |  |
-| `paymentScheme` | Payment scheme. |
 | `provider` | The provider information for the followup |
-| `recipient` | Data about the party receiving the payment. |
-| `remittanceInformation` | Unstructured or structured remittance information. |
 | `sender` | The sender information to be used with the payment |
 
 Operations: Create.
 
 API path: `/api/v1/ob/payments/{paymentId}/followups`
-
-#### CreateTokenOutputDto
-
-| Field | Description |
-| --- | --- |
-| `access_token` | The JWT access token. |
-| `expires_in` | Expiration time of the token in seconds. |
-| `grant_type` | The type of grant being requested. |
-| `scope` | Scopes being requested. |
-| `token_type` | Token type. |
-
-Operations: Create.
-
-API path: `/api/v1/auth/token`
 
 #### Healthcheck
 
@@ -309,51 +317,42 @@ Operations: Load.
 
 API path: `/api/status`
 
-#### Latest
+#### HostedUiCustomization
 
 | Field | Description |
 | --- | --- |
-| `createdAt` | Timestamp of status creation |
-| `detailedStatus` | Detailed payment status |
-| `failureReasons` | Failure reasons (for `status: FAILED` only) |
-| `id` | Unique payment status identifier |
-| `paymentId` | Unique payment identifier |
-| `status` | Payment status. |
+| `clientId` |  |
+| `faviconUrl` |  |
+| `footerText` |  |
+| `logoUrl` |  |
+| `primaryColor` |  |
+| `privacyPolicyUrl` |  |
+| `psuPortalBaseUrl` |  |
+| `termsUrl` |  |
 
-Operations: List.
+Operations: Load.
 
-API path: `/api/v1/archive/payment-statuses/latest`
-
-#### Obn
-
-| Field | Description |
-| --- | --- |
-
-Operations: Create, Load, Update.
-
-API path: `/api/v1/ob/payments/cancel`
+API path: `/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations`
 
 #### Payment
 
 | Field | Description |
 | --- | --- |
 | `amount` | Payment amount |
-| `clientId` | Client identifier |
 | `createdAt` |  |
 | `currency` | Currency code |
 | `id` | Unique payment identifier |
 | `metadata` |  |
 | `paymentScheme` | Payment scheme used |
 | `provider` | Payment provider details. |
-| `recipient` |  |
+| `recipient` | Data about the party receiving the payment. |
 | `remittanceInformation` | Unstructured or structured remittance information. |
-| `sender` |  |
-| `status` | The most recent status of the payment. |
+| `sender` | Data about the party sending the payment. |
 | `updatedAt` |  |
 
-Operations: List, Load.
+Operations: Create, List, Load.
 
-API path: `/api/v1/archive/payments`
+API path: `/api/v1/ob/payments/cancel`
 
 #### PaymentStatus
 
@@ -366,7 +365,7 @@ API path: `/api/v1/archive/payments`
 | `paymentId` | Unique payment identifier |
 | `status` | Payment status. |
 
-Operations: List.
+Operations: List, Load.
 
 API path: `/api/v1/archive/payment-statuses`
 
@@ -386,9 +385,63 @@ API path: `/api/v1/archive/payment-statuses`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers`
+API path: `/api/v1/capabilities/providers`
 
-#### ProvidersSubsidiaryOutputDto
+#### PsuProvidedData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Update.
+
+API path: `/api/v1/ob/payments/psu-provided-data`
+
+#### Report
+
+| Field | Description |
+| --- | --- |
+| `amount` | Payment amount |
+| `createdAt` |  |
+| `currency` | Currency code |
+| `id` | Unique payment identifier |
+| `provider` | Selected provider details (name, country). |
+| `recipient` |  |
+| `remittanceInformation` |  |
+| `sender` |  |
+| `status` | The most recent status of the payment. |
+
+Operations: Load.
+
+API path: `/api/v1/reports/payments/{id}`
+
+#### ScaData
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-data`
+
+#### ScaMethod
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/decoupled/sca-methods`
+
+#### SenderAccount
+
+| Field | Description |
+| --- | --- |
+
+Operations: Load, Update.
+
+API path: `/api/v1/ob/payments/sender-accounts`
+
+#### Subsidiary
 
 | Field | Description |
 | --- | --- |
@@ -404,16 +457,98 @@ API path: `/api/v1/capabilities/internal/providers`
 
 Operations: List.
 
-API path: `/api/v1/capabilities/internal/providers/{id}/subsidiaries`
+API path: `/api/v1/capabilities/providers/{id}/subsidiaries`
+
+#### Token
+
+| Field | Description |
+| --- | --- |
+| `access_token` | The JWT access token. |
+| `expires_in` | Expiration time of the token in seconds. |
+| `grant_type` | The type of grant being requested. |
+| `scope` | Scopes being requested. |
+| `token_type` | Token type. |
+
+Operations: Create.
+
+API path: `/api/v1/auth/token`
 
 
 
 ## Entities
 
 
-### Capability
+### Callback
 
-Create an instance: `local capability = client:Capability(nil)`
+Create an instance: `local callback = client:Callback(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```lua
+local callback, err = client:Callback():load({ provider_id = "provider_id", state = "state" })
+```
+
+
+### ClientJwk
+
+Create an instance: `local client_jwk = client:ClientJwk(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```lua
+local client_jwk, err = client:ClientJwk():load({ client_id = "client_id", provider_id = "provider_id" })
+```
+
+
+### ConfirmationData
+
+Create an instance: `local confirmation_data = client:ConfirmationData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```lua
+local confirmation_data, err = client:ConfirmationData():load()
+```
+
+
+### ConsentStatus
+
+Create an instance: `local consent_status = client:ConsentStatus(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```lua
+local consent_status, err = client:ConsentStatus():load()
+```
+
+
+### Country
+
+Create an instance: `local country = client:Country(nil)`
 
 #### Operations
 
@@ -424,36 +559,13 @@ Create an instance: `local capability = client:Capability(nil)`
 #### Example: List
 
 ```lua
-local capabilitys, err = client:Capability():list()
+local countrys, err = client:Country():list()
 ```
 
 
-### ClientHostedUiCustomizationsOutputDto
+### Followup
 
-Create an instance: `local client_hosted_ui_customizations_output_dto = client:ClientHostedUiCustomizationsOutputDto(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `id` | `string` |  |
-
-#### Example: Load
-
-```lua
-local client_hosted_ui_customizations_output_dto, err = client:ClientHostedUiCustomizationsOutputDto():load({ id = "client_hosted_ui_customizations_output_dto_id" })
-```
-
-
-### CreatePaymentOutputDto
-
-Create an instance: `local create_payment_output_dto = client:CreatePaymentOutputDto(nil)`
+Create an instance: `local followup = client:Followup(nil)`
 
 #### Operations
 
@@ -465,58 +577,15 @@ Create an instance: `local create_payment_output_dto = client:CreatePaymentOutpu
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `number` | The amount to be transferred. |
-| `currency` | `string` | The currency of the payment. |
-| `metadata` | `table` |  |
-| `paymentScheme` | `any` | Payment scheme. |
 | `provider` | `any` | The provider information for the followup |
-| `recipient` | `any` | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Unstructured or structured remittance information. |
 | `sender` | `any` | The sender information to be used with the payment |
 
 #### Example: Create
 
 ```lua
-local create_payment_output_dto, err = client:CreatePaymentOutputDto():create({
-  amount = 1, -- number
-  currency = "example_currency", -- string
-  metadata = {}, -- table
-  paymentScheme = "example_paymentScheme", -- any
-  recipient = "example_recipient", -- any
-  remittanceInformation = "example_remittanceInformation", -- any
-})
-```
-
-
-### CreateTokenOutputDto
-
-Create an instance: `local create_token_output_dto = client:CreateTokenOutputDto(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `access_token` | `string` | The JWT access token. |
-| `expires_in` | `number` | Expiration time of the token in seconds. |
-| `grant_type` | `string` | The type of grant being requested. |
-| `scope` | `string` | Scopes being requested. |
-| `token_type` | `string` | Token type. |
-
-#### Example: Create
-
-```lua
-local create_token_output_dto, err = client:CreateTokenOutputDto():create({
-  access_token = "example_access_token", -- string
-  expires_in = 1, -- number
-  grant_type = "example_grant_type", -- string
-  scope = "example_scope", -- string
-  token_type = "example_token_type", -- string
+local followup, err = client:Followup():create({
+  payment_id = "example_payment_id", -- string
+  provider = "example_provider", -- any
 })
 ```
 
@@ -547,59 +616,33 @@ local healthcheck, err = client:Healthcheck():load()
 ```
 
 
-### Latest
+### HostedUiCustomization
 
-Create an instance: `local latest = client:Latest(nil)`
+Create an instance: `local hosted_ui_customization = client:HostedUiCustomization(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `createdAt` | `string` | Timestamp of status creation |
-| `detailedStatus` | `string` | Detailed payment status |
-| `failureReasons` | `table` | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Unique payment status identifier |
-| `paymentId` | `string` | Unique payment identifier |
-| `status` | `string` | Payment status. |
-
-#### Example: List
-
-```lua
-local latests, err = client:Latest():list({ payment_id = "example" })
-```
-
-
-### Obn
-
-Create an instance: `local obn = client:Obn(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `create(data)` | Create a new entity with the given data. |
-| `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
+| `clientId` | `string` |  |
+| `faviconUrl` | `string` |  |
+| `footerText` | `string` |  |
+| `logoUrl` | `string` |  |
+| `primaryColor` | `string` |  |
+| `privacyPolicyUrl` | `string` |  |
+| `psuPortalBaseUrl` | `string` |  |
+| `termsUrl` | `string` |  |
 
 #### Example: Load
 
 ```lua
-local obn, err = client:Obn():load({ provider_id = "provider_id", state = "state" })
-```
-
-#### Example: Create
-
-```lua
-local obn, err = client:Obn():create({
-  provider_id = "example_provider_id", -- string
-  state = "example_state", -- string
-})
+local hosted_ui_customization, err = client:HostedUiCustomization():load({ client_id = "client_id" })
 ```
 
 
@@ -611,6 +654,7 @@ Create an instance: `local payment = client:Payment(nil)`
 
 | Method | Description |
 | --- | --- |
+| `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
@@ -619,17 +663,15 @@ Create an instance: `local payment = client:Payment(nil)`
 | Field | Type | Description |
 | --- | --- | --- |
 | `amount` | `number` | Payment amount |
-| `clientId` | `string` | Client identifier |
 | `createdAt` | `string` |  |
 | `currency` | `string` | Currency code |
 | `id` | `string` | Unique payment identifier |
 | `metadata` | `table` |  |
 | `paymentScheme` | `any` | Payment scheme used |
 | `provider` | `any` | Payment provider details. |
-| `recipient` | `table` |  |
+| `recipient` | `table` | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Unstructured or structured remittance information. |
-| `sender` | `table` |  |
-| `status` | `string` | The most recent status of the payment. |
+| `sender` | `table` | Data about the party sending the payment. |
 | `updatedAt` | `string` |  |
 
 #### Example: Load
@@ -644,6 +686,19 @@ local payment, err = client:Payment():load({ id = "payment_id" })
 local payments, err = client:Payment():list()
 ```
 
+#### Example: Create
+
+```lua
+local payment, err = client:Payment():create({
+  amount = 1, -- number
+  currency = "example_currency", -- string
+  metadata = {}, -- table
+  paymentScheme = "example_paymentScheme", -- any
+  recipient = {}, -- table
+  remittanceInformation = "example_remittanceInformation", -- any
+})
+```
+
 
 ### PaymentStatus
 
@@ -654,6 +709,7 @@ Create an instance: `local payment_status = client:PaymentStatus(nil)`
 | Method | Description |
 | --- | --- |
 | `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
@@ -665,6 +721,12 @@ Create an instance: `local payment_status = client:PaymentStatus(nil)`
 | `id` | `string` | Unique payment status identifier |
 | `paymentId` | `string` | Unique payment identifier |
 | `status` | `string` | Payment status. |
+
+#### Example: Load
+
+```lua
+local payment_status, err = client:PaymentStatus():load({ payment_id = "payment_id" })
+```
 
 #### Example: List
 
@@ -704,9 +766,105 @@ local providers, err = client:Provider():list()
 ```
 
 
-### ProvidersSubsidiaryOutputDto
+### PsuProvidedData
 
-Create an instance: `local providers_subsidiary_output_dto = client:ProvidersSubsidiaryOutputDto(nil)`
+Create an instance: `local psu_provided_data = client:PsuProvidedData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `update(data)` | Update an existing entity. |
+
+
+### Report
+
+Create an instance: `local report = client:Report(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `number` | Payment amount |
+| `createdAt` | `string` |  |
+| `currency` | `string` | Currency code |
+| `id` | `string` | Unique payment identifier |
+| `provider` | `table` | Selected provider details (name, country). |
+| `recipient` | `table` |  |
+| `remittanceInformation` | `any` |  |
+| `sender` | `table` |  |
+| `status` | `string` | The most recent status of the payment. |
+
+#### Example: Load
+
+```lua
+local report, err = client:Report():load({ id = "report_id" })
+```
+
+
+### ScaData
+
+Create an instance: `local sca_data = client:ScaData(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```lua
+local sca_data, err = client:ScaData():load()
+```
+
+
+### ScaMethod
+
+Create an instance: `local sca_method = client:ScaMethod(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```lua
+local sca_method, err = client:ScaMethod():load()
+```
+
+
+### SenderAccount
+
+Create an instance: `local sender_account = client:SenderAccount(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Example: Load
+
+```lua
+local sender_account, err = client:SenderAccount():load({ provider_id = "provider_id", state = "state" })
+```
+
+
+### Subsidiary
+
+Create an instance: `local subsidiary = client:Subsidiary(nil)`
 
 #### Operations
 
@@ -731,7 +889,40 @@ Create an instance: `local providers_subsidiary_output_dto = client:ProvidersSub
 #### Example: List
 
 ```lua
-local providers_subsidiary_output_dtos, err = client:ProvidersSubsidiaryOutputDto():list({ provider_id = "example" })
+local subsidiarys, err = client:Subsidiary():list({ provider_id = "example" })
+```
+
+
+### Token
+
+Create an instance: `local token = client:Token(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `access_token` | `string` | The JWT access token. |
+| `expires_in` | `number` | Expiration time of the token in seconds. |
+| `grant_type` | `string` | The type of grant being requested. |
+| `scope` | `string` | Scopes being requested. |
+| `token_type` | `string` | Token type. |
+
+#### Example: Create
+
+```lua
+local token, err = client:Token():create({
+  access_token = "example_access_token", -- string
+  expires_in = 1, -- number
+  grant_type = "example_grant_type", -- string
+  scope = "example_scope", -- string
+  token_type = "example_token_type", -- string
+})
 ```
 
 ## Features
@@ -971,15 +1162,15 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `list`, the entity
+Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local latest = client:Latest()
-latest:list({ payment_id = "example" })
+local clientjwk = client:ClientJwk()
+clientjwk:load({ client_id = "example", provider_id = "example" })
 
--- latest:data_get() now returns the latest data from the last list
--- latest:match_get() returns the last match criteria
+-- clientjwk:data_get() now returns the clientjwk data from the last load
+-- clientjwk:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -1,0 +1,27 @@
+{
+  "existing": {
+    "confirmation_data": {
+      "CONFIRMATION_DATA00": {
+        "id": "CONFIRMATION_DATA00"
+      },
+      "CONFIRMATION_DATA01": {
+        "id": "CONFIRMATION_DATA01"
+      },
+      "CONFIRMATION_DATA02": {
+        "id": "CONFIRMATION_DATA02"
+      }
+    }
+  },
+  "new": {
+    "confirmation_data": {
+      "confirmation_data_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/payments/decoupled/confirmation-data": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

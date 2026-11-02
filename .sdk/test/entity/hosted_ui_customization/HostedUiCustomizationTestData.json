@@ -1,0 +1,63 @@
+{
+  "existing": {
+    "hosted_ui_customization": {
+      "HOSTED_UI_CUSTOMIZATION00": {
+        "clientId": "s50",
+        "faviconUrl": "s51",
+        "footerText": "s52",
+        "logoUrl": "s53",
+        "primaryColor": "s54",
+        "privacyPolicyUrl": "s55",
+        "psuPortalBaseUrl": "s56",
+        "termsUrl": "s57",
+        "client_id": "CLIENT01",
+        "id": "HOSTED_UI_CUSTOMIZATION00"
+      },
+      "HOSTED_UI_CUSTOMIZATION01": {
+        "clientId": "sa0",
+        "faviconUrl": "sa1",
+        "footerText": "sa2",
+        "logoUrl": "sa3",
+        "primaryColor": "sa4",
+        "privacyPolicyUrl": "sa5",
+        "psuPortalBaseUrl": "sa6",
+        "termsUrl": "sa7",
+        "client_id": "CLIENT01",
+        "id": "HOSTED_UI_CUSTOMIZATION01"
+      },
+      "HOSTED_UI_CUSTOMIZATION02": {
+        "clientId": "sf0",
+        "faviconUrl": "sf1",
+        "footerText": "sf2",
+        "logoUrl": "sf3",
+        "primaryColor": "sf4",
+        "privacyPolicyUrl": "sf5",
+        "psuPortalBaseUrl": "sf6",
+        "termsUrl": "sf7",
+        "client_id": "CLIENT01",
+        "id": "HOSTED_UI_CUSTOMIZATION02"
+      }
+    }
+  },
+  "new": {
+    "hosted_ui_customization": {
+      "hosted_ui_customization_ref01": {
+        "clientId": "s140",
+        "faviconUrl": "s141",
+        "footerText": "s142",
+        "logoUrl": "s143",
+        "primaryColor": "s144",
+        "privacyPolicyUrl": "s145",
+        "psuPortalBaseUrl": "s146",
+        "termsUrl": "s147"
+      }
+    }
+  },
+  "requests": {
+    "GET /api/v1/capabilities/clients/{clientId}/hosted-ui-customizations": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

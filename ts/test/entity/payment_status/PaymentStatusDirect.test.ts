@@ -39,6 +39,67 @@ describe('PaymentStatusDirect', async () => {
   })
 
 
+  test('direct-load-payment_status', async (t: any) => {
+    if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
+    const setup = directSetup({ id: 'direct01' })
+    if (maybeSkipControl(t, 'direct', 'direct-load-payment_status', setup.live)) return
+    const { client, calls } = setup
+
+    const params: any = {}
+    const query: any = {}
+    if (setup.live) {
+      query.paymentId = "123e4567-e89b-12d3-a456-426614174000"
+      const listResult: any = await client.direct({
+        path: 'api/v1/archive/payment-statuses',
+        method: 'GET',
+        params: {
+
+        },
+      })
+      if (!listResult.ok || listResult.status < 200 || listResult.status >= 300) {
+        return void liveMiss(t, LIVE_STRICT, 'Live list discovery failed: ' + describeLive(listResult))
+      }
+      const listArr = unwrapListData(listResult.data)
+      if (null == listArr) {
+        return void liveMiss(t, LIVE_STRICT, 'Live list discovery returned no list: ' + describeLive(listResult))
+      }
+      if (0 === listArr.length) {
+        return void liveEmpty(t, 'The account has no payment_status record to load')
+      }
+      const candidateId = listArr[0]?.id ?? listArr[0]?.id
+      if (null == candidateId) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity')
+      }
+      params.id = candidateId
+
+    } else {
+
+    }
+
+    const result: any = await client.direct({
+      path: 'api/v1/archive/payment-statuses/latest',
+      method: 'GET',
+      params,
+      query,
+    })
+
+    if (setup.live) {
+      if (!result.ok || result.status < 200 || result.status >= 300) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load failed: ' + describeLive(result))
+      }
+      if (!(null != result.data)) {
+        return void liveMiss(t, LIVE_STRICT, 'Live load returned no data: ' + describeLive(result))
+      }
+    } else {
+      assert(result.ok === true)
+      assert(result.status === 200)
+      assert(null != result.data)
+      assert(result.data.id === 'direct01')
+      assert(calls.length === 1)
+      assert(calls[0].init.method === 'GET')
+    }
+  })
+
   test('direct-list-payment_status', async (t: any) => {
     if (liveScenariosActive()) { t.skip('Covered by live operation scenarios'); return }
     const setup = directSetup([{ id: 'direct01' }, { id: 'direct02' }])
@@ -95,7 +156,6 @@ function directSetup(mockres?: any) {
     'KASHIMI_TEST_PAYMENT_STATUS_ENTID': {},
     'KASHIMI_TEST_LIVE': 'FALSE',
     'KASHIMI_APIKEY': '',
-    'KASHIMI_SERVER_BASE': "",
   })
 
   const live = 'TRUE' === env.KASHIMI_TEST_LIVE
@@ -107,9 +167,6 @@ function directSetup(mockres?: any) {
     const client = new KashimiSDK(
       Object.assign({}, liveClientOptions(), { system: { fetch: transport.fetch },
       apikey: env.KASHIMI_APIKEY,
-      server: {
-        base: env.KASHIMI_SERVER_BASE,
-      },
       }))
 
     let idmap: any = env['KASHIMI_TEST_PAYMENT_STATUS_ENTID']

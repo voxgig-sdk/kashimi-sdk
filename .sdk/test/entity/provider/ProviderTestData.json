@@ -51,11 +51,6 @@
     }
   },
   "requests": {
-    "GET /api/v1/capabilities/internal/providers": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
     "GET /api/v1/capabilities/providers": {
       "provenance": "operation-contract",
       "version": 2,

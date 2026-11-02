@@ -98,7 +98,7 @@ describe("PaymentDirect", function()
     end
 
     local result, err = client:direct({
-      path = "api/v1/archive/internal/payments/{id}",
+      path = "api/v1/archive/payments/{id}",
       method = "GET",
       params = params,
       query = query,
@@ -135,7 +135,6 @@ function payment_direct_setup(mockres)
     ["KASHIMI_TEST_PAYMENT_ENTID"] = {},
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -143,9 +142,6 @@ function payment_direct_setup(mockres)
   if live then
     local merged_opts = {
       apikey = env["KASHIMI_APIKEY"],
-      server = {
-        ["base"] = env["KASHIMI_SERVER_BASE"],
-      },
     }
     -- sdk-test-control.json's test.client.options goes UNDER the generated
     -- fields: it adds to the live client, it does not redirect it.

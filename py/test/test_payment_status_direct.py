@@ -58,6 +58,41 @@ class TestPaymentStatusDirect:
             assert len(result["data"]) == 2
             assert len(setup["calls"]) == 1
 
+    def test_should_direct_load_payment_status(self):
+        setup = _payment_status_direct_setup({"id": "direct01"})
+        _skip, _reason = runner.is_control_skipped("direct", "direct-load-payment_status", "live" if setup["live"] else "unit")
+        if _skip:
+            pytest.skip(_reason or "skipped via sdk-test-control.json")
+            return
+        client = setup["client"]
+
+        params = {}
+        query = {}
+        if setup["live"]:
+            query["paymentId"] = "123e4567-e89b-12d3-a456-426614174000"
+            pass
+        else:
+            pass
+
+        result = client.direct({
+            "path": "api/v1/archive/payment-statuses/latest",
+            "method": "GET",
+            "params": params,
+            "query": query,
+        })
+        if setup["live"]:
+            if not _live_ok(result):
+                runner.live_miss(LIVE_STRICT, "Live load failed: " + runner.live_describe(result))
+            if result.get("data") is None:
+                runner.live_miss(LIVE_STRICT, "Live load returned no data: " + runner.live_describe(result))
+        else:
+            assert result["ok"] is True
+            assert helpers.to_int(result["status"]) == 200
+            assert result["data"] is not None
+            if isinstance(result["data"], dict):
+                assert result["data"]["id"] == "direct01"
+            assert len(setup["calls"]) == 1
+
 
 
 def _payment_status_direct_setup(mockres):
@@ -69,7 +104,6 @@ def _payment_status_direct_setup(mockres):
         "KASHIMI_TEST_PAYMENT_STATUS_ENTID": {},
         "KASHIMI_TEST_LIVE": "FALSE",
         "KASHIMI_APIKEY": "",
-        "KASHIMI_SERVER_BASE": "",
     })
 
     live = env.get("KASHIMI_TEST_LIVE") == "TRUE"
@@ -80,9 +114,6 @@ def _payment_status_direct_setup(mockres):
         merged_opts = dict(runner.live_client_options())
         merged_opts.update({
             "apikey": env.get("KASHIMI_APIKEY"),
-            "server": {
-                "base": env.get("KASHIMI_SERVER_BASE"),
-            },
         })
         client = KashimiSDK(merged_opts)
         idmap = env.get("KASHIMI_TEST_PAYMENT_STATUS_ENTID")

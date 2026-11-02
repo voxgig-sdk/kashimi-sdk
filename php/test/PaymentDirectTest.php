@@ -101,7 +101,7 @@ class PaymentDirectTest extends TestCase
         }
 
         $result = $client->direct([
-            "path" => "api/v1/archive/internal/payments/{id}",
+            "path" => "api/v1/archive/payments/{id}",
             "method" => "GET",
             "params" => $params,
             "query" => $query,
@@ -139,7 +139,6 @@ function payment_direct_setup($mockres)
         "KASHIMI_TEST_PAYMENT_ENTID" => [],
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $live = $env["KASHIMI_TEST_LIVE"] === "TRUE";
@@ -149,9 +148,6 @@ function payment_direct_setup($mockres)
         // test.client.options adds to the live client, it does not redirect it.
         $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["KASHIMI_APIKEY"],
-            "server" => [
-                "base" => $env["KASHIMI_SERVER_BASE"],
-            ],
         ]);
         $client = new KashimiSDK($merged_opts);
         $idmap = $env["KASHIMI_TEST_PAYMENT_ENTID"] ?? [];

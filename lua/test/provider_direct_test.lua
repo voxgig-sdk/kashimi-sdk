@@ -37,7 +37,7 @@ describe("ProviderDirect", function()
     local query = {}
 
     local result, err = client:direct({
-      path = "api/v1/capabilities/internal/providers",
+      path = "api/v1/capabilities/providers",
       method = "GET",
       params = params,
       query = query,
@@ -72,7 +72,6 @@ function provider_direct_setup(mockres)
     ["KASHIMI_TEST_PROVIDER_ENTID"] = {},
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local live = env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -80,9 +79,6 @@ function provider_direct_setup(mockres)
   if live then
     local merged_opts = {
       apikey = env["KASHIMI_APIKEY"],
-      server = {
-        ["base"] = env["KASHIMI_SERVER_BASE"],
-      },
     }
     -- sdk-test-control.json's test.client.options goes UNDER the generated
     -- fields: it adds to the live client, it does not redirect it.

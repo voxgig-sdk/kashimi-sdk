@@ -348,28 +348,40 @@ class KashimiSDK:
         return res
 
 
-    def Capability(self, data=None) -> "CapabilityEntity":
-        """Entity factory: client.Capability().list() / client.Capability().load({"id": ...})."""
-        from kashimi_sdk.entity.capability_entity import CapabilityEntity
-        return CapabilityEntity(self, data)
+    def Callback(self, data=None) -> "CallbackEntity":
+        """Entity factory: client.Callback().list() / client.Callback().load({"id": ...})."""
+        from kashimi_sdk.entity.callback_entity import CallbackEntity
+        return CallbackEntity(self, data)
 
 
-    def ClientHostedUiCustomizationsOutputDto(self, data=None) -> "ClientHostedUiCustomizationsOutputDtoEntity":
-        """Entity factory: client.ClientHostedUiCustomizationsOutputDto().list() / client.ClientHostedUiCustomizationsOutputDto().load({"id": ...})."""
-        from kashimi_sdk.entity.client_hosted_ui_customizations_output_dto_entity import ClientHostedUiCustomizationsOutputDtoEntity
-        return ClientHostedUiCustomizationsOutputDtoEntity(self, data)
+    def ClientJwk(self, data=None) -> "ClientJwkEntity":
+        """Entity factory: client.ClientJwk().list() / client.ClientJwk().load({"id": ...})."""
+        from kashimi_sdk.entity.client_jwk_entity import ClientJwkEntity
+        return ClientJwkEntity(self, data)
 
 
-    def CreatePaymentOutputDto(self, data=None) -> "CreatePaymentOutputDtoEntity":
-        """Entity factory: client.CreatePaymentOutputDto().list() / client.CreatePaymentOutputDto().load({"id": ...})."""
-        from kashimi_sdk.entity.create_payment_output_dto_entity import CreatePaymentOutputDtoEntity
-        return CreatePaymentOutputDtoEntity(self, data)
+    def ConfirmationData(self, data=None) -> "ConfirmationDataEntity":
+        """Entity factory: client.ConfirmationData().list() / client.ConfirmationData().load({"id": ...})."""
+        from kashimi_sdk.entity.confirmation_data_entity import ConfirmationDataEntity
+        return ConfirmationDataEntity(self, data)
 
 
-    def CreateTokenOutputDto(self, data=None) -> "CreateTokenOutputDtoEntity":
-        """Entity factory: client.CreateTokenOutputDto().list() / client.CreateTokenOutputDto().load({"id": ...})."""
-        from kashimi_sdk.entity.create_token_output_dto_entity import CreateTokenOutputDtoEntity
-        return CreateTokenOutputDtoEntity(self, data)
+    def ConsentStatus(self, data=None) -> "ConsentStatusEntity":
+        """Entity factory: client.ConsentStatus().list() / client.ConsentStatus().load({"id": ...})."""
+        from kashimi_sdk.entity.consent_status_entity import ConsentStatusEntity
+        return ConsentStatusEntity(self, data)
+
+
+    def Country(self, data=None) -> "CountryEntity":
+        """Entity factory: client.Country().list() / client.Country().load({"id": ...})."""
+        from kashimi_sdk.entity.country_entity import CountryEntity
+        return CountryEntity(self, data)
+
+
+    def Followup(self, data=None) -> "FollowupEntity":
+        """Entity factory: client.Followup().list() / client.Followup().load({"id": ...})."""
+        from kashimi_sdk.entity.followup_entity import FollowupEntity
+        return FollowupEntity(self, data)
 
 
     def Healthcheck(self, data=None) -> "HealthcheckEntity":
@@ -378,16 +390,10 @@ class KashimiSDK:
         return HealthcheckEntity(self, data)
 
 
-    def Latest(self, data=None) -> "LatestEntity":
-        """Entity factory: client.Latest().list() / client.Latest().load({"id": ...})."""
-        from kashimi_sdk.entity.latest_entity import LatestEntity
-        return LatestEntity(self, data)
-
-
-    def Obn(self, data=None) -> "ObnEntity":
-        """Entity factory: client.Obn().list() / client.Obn().load({"id": ...})."""
-        from kashimi_sdk.entity.obn_entity import ObnEntity
-        return ObnEntity(self, data)
+    def HostedUiCustomization(self, data=None) -> "HostedUiCustomizationEntity":
+        """Entity factory: client.HostedUiCustomization().list() / client.HostedUiCustomization().load({"id": ...})."""
+        from kashimi_sdk.entity.hosted_ui_customization_entity import HostedUiCustomizationEntity
+        return HostedUiCustomizationEntity(self, data)
 
 
     def Payment(self, data=None) -> "PaymentEntity":
@@ -408,10 +414,46 @@ class KashimiSDK:
         return ProviderEntity(self, data)
 
 
-    def ProvidersSubsidiaryOutputDto(self, data=None) -> "ProvidersSubsidiaryOutputDtoEntity":
-        """Entity factory: client.ProvidersSubsidiaryOutputDto().list() / client.ProvidersSubsidiaryOutputDto().load({"id": ...})."""
-        from kashimi_sdk.entity.providers_subsidiary_output_dto_entity import ProvidersSubsidiaryOutputDtoEntity
-        return ProvidersSubsidiaryOutputDtoEntity(self, data)
+    def PsuProvidedData(self, data=None) -> "PsuProvidedDataEntity":
+        """Entity factory: client.PsuProvidedData().list() / client.PsuProvidedData().load({"id": ...})."""
+        from kashimi_sdk.entity.psu_provided_data_entity import PsuProvidedDataEntity
+        return PsuProvidedDataEntity(self, data)
+
+
+    def Report(self, data=None) -> "ReportEntity":
+        """Entity factory: client.Report().list() / client.Report().load({"id": ...})."""
+        from kashimi_sdk.entity.report_entity import ReportEntity
+        return ReportEntity(self, data)
+
+
+    def ScaData(self, data=None) -> "ScaDataEntity":
+        """Entity factory: client.ScaData().list() / client.ScaData().load({"id": ...})."""
+        from kashimi_sdk.entity.sca_data_entity import ScaDataEntity
+        return ScaDataEntity(self, data)
+
+
+    def ScaMethod(self, data=None) -> "ScaMethodEntity":
+        """Entity factory: client.ScaMethod().list() / client.ScaMethod().load({"id": ...})."""
+        from kashimi_sdk.entity.sca_method_entity import ScaMethodEntity
+        return ScaMethodEntity(self, data)
+
+
+    def SenderAccount(self, data=None) -> "SenderAccountEntity":
+        """Entity factory: client.SenderAccount().list() / client.SenderAccount().load({"id": ...})."""
+        from kashimi_sdk.entity.sender_account_entity import SenderAccountEntity
+        return SenderAccountEntity(self, data)
+
+
+    def Subsidiary(self, data=None) -> "SubsidiaryEntity":
+        """Entity factory: client.Subsidiary().list() / client.Subsidiary().load({"id": ...})."""
+        from kashimi_sdk.entity.subsidiary_entity import SubsidiaryEntity
+        return SubsidiaryEntity(self, data)
+
+
+    def Token(self, data=None) -> "TokenEntity":
+        """Entity factory: client.Token().list() / client.Token().load({"id": ...})."""
+        from kashimi_sdk.entity.token_entity import TokenEntity
+        return TokenEntity(self, data)
 
 
 
@@ -441,14 +483,21 @@ class KashimiSDK:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from kashimi_sdk.entity.capability_entity import CapabilityEntity
-    from kashimi_sdk.entity.client_hosted_ui_customizations_output_dto_entity import ClientHostedUiCustomizationsOutputDtoEntity
-    from kashimi_sdk.entity.create_payment_output_dto_entity import CreatePaymentOutputDtoEntity
-    from kashimi_sdk.entity.create_token_output_dto_entity import CreateTokenOutputDtoEntity
+    from kashimi_sdk.entity.callback_entity import CallbackEntity
+    from kashimi_sdk.entity.client_jwk_entity import ClientJwkEntity
+    from kashimi_sdk.entity.confirmation_data_entity import ConfirmationDataEntity
+    from kashimi_sdk.entity.consent_status_entity import ConsentStatusEntity
+    from kashimi_sdk.entity.country_entity import CountryEntity
+    from kashimi_sdk.entity.followup_entity import FollowupEntity
     from kashimi_sdk.entity.healthcheck_entity import HealthcheckEntity
-    from kashimi_sdk.entity.latest_entity import LatestEntity
-    from kashimi_sdk.entity.obn_entity import ObnEntity
+    from kashimi_sdk.entity.hosted_ui_customization_entity import HostedUiCustomizationEntity
     from kashimi_sdk.entity.payment_entity import PaymentEntity
     from kashimi_sdk.entity.payment_status_entity import PaymentStatusEntity
     from kashimi_sdk.entity.provider_entity import ProviderEntity
-    from kashimi_sdk.entity.providers_subsidiary_output_dto_entity import ProvidersSubsidiaryOutputDtoEntity
+    from kashimi_sdk.entity.psu_provided_data_entity import PsuProvidedDataEntity
+    from kashimi_sdk.entity.report_entity import ReportEntity
+    from kashimi_sdk.entity.sca_data_entity import ScaDataEntity
+    from kashimi_sdk.entity.sca_method_entity import ScaMethodEntity
+    from kashimi_sdk.entity.sender_account_entity import SenderAccountEntity
+    from kashimi_sdk.entity.subsidiary_entity import SubsidiaryEntity
+    from kashimi_sdk.entity.token_entity import TokenEntity

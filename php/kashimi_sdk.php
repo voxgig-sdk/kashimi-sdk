@@ -375,75 +375,111 @@ class KashimiSDK implements \JsonSerializable
     }
 
 
-    private $_capability = null;
+    private $_callback = null;
 
-    // Canonical facade: $client->Capability()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->capability()
+    // Canonical facade: $client->Callback()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->callback()
     // resolves here too.
-    public function Capability($data = null)
+    public function Callback($data = null)
     {
-        require_once __DIR__ . '/entity/capability_entity.php';
+        require_once __DIR__ . '/entity/callback_entity.php';
         if ($data === null) {
-            if ($this->_capability === null) {
-                $this->_capability = new CapabilityEntity($this, null);
+            if ($this->_callback === null) {
+                $this->_callback = new CallbackEntity($this, null);
             }
-            return $this->_capability;
+            return $this->_callback;
         }
-        return new CapabilityEntity($this, $data);
+        return new CallbackEntity($this, $data);
     }
 
 
-    private $_client_hosted_ui_customizations_output_dto = null;
+    private $_client_jwk = null;
 
-    // Canonical facade: $client->ClientHostedUiCustomizationsOutputDto()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->client_hosted_ui_customizations_output_dto()
+    // Canonical facade: $client->ClientJwk()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->client_jwk()
     // resolves here too.
-    public function ClientHostedUiCustomizationsOutputDto($data = null)
+    public function ClientJwk($data = null)
     {
-        require_once __DIR__ . '/entity/client_hosted_ui_customizations_output_dto_entity.php';
+        require_once __DIR__ . '/entity/client_jwk_entity.php';
         if ($data === null) {
-            if ($this->_client_hosted_ui_customizations_output_dto === null) {
-                $this->_client_hosted_ui_customizations_output_dto = new ClientHostedUiCustomizationsOutputDtoEntity($this, null);
+            if ($this->_client_jwk === null) {
+                $this->_client_jwk = new ClientJwkEntity($this, null);
             }
-            return $this->_client_hosted_ui_customizations_output_dto;
+            return $this->_client_jwk;
         }
-        return new ClientHostedUiCustomizationsOutputDtoEntity($this, $data);
+        return new ClientJwkEntity($this, $data);
     }
 
 
-    private $_create_payment_output_dto = null;
+    private $_confirmation_data = null;
 
-    // Canonical facade: $client->CreatePaymentOutputDto()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->create_payment_output_dto()
+    // Canonical facade: $client->ConfirmationData()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->confirmation_data()
     // resolves here too.
-    public function CreatePaymentOutputDto($data = null)
+    public function ConfirmationData($data = null)
     {
-        require_once __DIR__ . '/entity/create_payment_output_dto_entity.php';
+        require_once __DIR__ . '/entity/confirmation_data_entity.php';
         if ($data === null) {
-            if ($this->_create_payment_output_dto === null) {
-                $this->_create_payment_output_dto = new CreatePaymentOutputDtoEntity($this, null);
+            if ($this->_confirmation_data === null) {
+                $this->_confirmation_data = new ConfirmationDataEntity($this, null);
             }
-            return $this->_create_payment_output_dto;
+            return $this->_confirmation_data;
         }
-        return new CreatePaymentOutputDtoEntity($this, $data);
+        return new ConfirmationDataEntity($this, $data);
     }
 
 
-    private $_create_token_output_dto = null;
+    private $_consent_status = null;
 
-    // Canonical facade: $client->CreateTokenOutputDto()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->create_token_output_dto()
+    // Canonical facade: $client->ConsentStatus()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->consent_status()
     // resolves here too.
-    public function CreateTokenOutputDto($data = null)
+    public function ConsentStatus($data = null)
     {
-        require_once __DIR__ . '/entity/create_token_output_dto_entity.php';
+        require_once __DIR__ . '/entity/consent_status_entity.php';
         if ($data === null) {
-            if ($this->_create_token_output_dto === null) {
-                $this->_create_token_output_dto = new CreateTokenOutputDtoEntity($this, null);
+            if ($this->_consent_status === null) {
+                $this->_consent_status = new ConsentStatusEntity($this, null);
             }
-            return $this->_create_token_output_dto;
+            return $this->_consent_status;
         }
-        return new CreateTokenOutputDtoEntity($this, $data);
+        return new ConsentStatusEntity($this, $data);
+    }
+
+
+    private $_country = null;
+
+    // Canonical facade: $client->Country()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->country()
+    // resolves here too.
+    public function Country($data = null)
+    {
+        require_once __DIR__ . '/entity/country_entity.php';
+        if ($data === null) {
+            if ($this->_country === null) {
+                $this->_country = new CountryEntity($this, null);
+            }
+            return $this->_country;
+        }
+        return new CountryEntity($this, $data);
+    }
+
+
+    private $_followup = null;
+
+    // Canonical facade: $client->Followup()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->followup()
+    // resolves here too.
+    public function Followup($data = null)
+    {
+        require_once __DIR__ . '/entity/followup_entity.php';
+        if ($data === null) {
+            if ($this->_followup === null) {
+                $this->_followup = new FollowupEntity($this, null);
+            }
+            return $this->_followup;
+        }
+        return new FollowupEntity($this, $data);
     }
 
 
@@ -465,39 +501,21 @@ class KashimiSDK implements \JsonSerializable
     }
 
 
-    private $_latest = null;
+    private $_hosted_ui_customization = null;
 
-    // Canonical facade: $client->Latest()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->latest()
+    // Canonical facade: $client->HostedUiCustomization()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->hosted_ui_customization()
     // resolves here too.
-    public function Latest($data = null)
+    public function HostedUiCustomization($data = null)
     {
-        require_once __DIR__ . '/entity/latest_entity.php';
+        require_once __DIR__ . '/entity/hosted_ui_customization_entity.php';
         if ($data === null) {
-            if ($this->_latest === null) {
-                $this->_latest = new LatestEntity($this, null);
+            if ($this->_hosted_ui_customization === null) {
+                $this->_hosted_ui_customization = new HostedUiCustomizationEntity($this, null);
             }
-            return $this->_latest;
+            return $this->_hosted_ui_customization;
         }
-        return new LatestEntity($this, $data);
-    }
-
-
-    private $_obn = null;
-
-    // Canonical facade: $client->Obn()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->obn()
-    // resolves here too.
-    public function Obn($data = null)
-    {
-        require_once __DIR__ . '/entity/obn_entity.php';
-        if ($data === null) {
-            if ($this->_obn === null) {
-                $this->_obn = new ObnEntity($this, null);
-            }
-            return $this->_obn;
-        }
-        return new ObnEntity($this, $data);
+        return new HostedUiCustomizationEntity($this, $data);
     }
 
 
@@ -555,21 +573,129 @@ class KashimiSDK implements \JsonSerializable
     }
 
 
-    private $_providers_subsidiary_output_dto = null;
+    private $_psu_provided_data = null;
 
-    // Canonical facade: $client->ProvidersSubsidiaryOutputDto()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->providers_subsidiary_output_dto()
+    // Canonical facade: $client->PsuProvidedData()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->psu_provided_data()
     // resolves here too.
-    public function ProvidersSubsidiaryOutputDto($data = null)
+    public function PsuProvidedData($data = null)
     {
-        require_once __DIR__ . '/entity/providers_subsidiary_output_dto_entity.php';
+        require_once __DIR__ . '/entity/psu_provided_data_entity.php';
         if ($data === null) {
-            if ($this->_providers_subsidiary_output_dto === null) {
-                $this->_providers_subsidiary_output_dto = new ProvidersSubsidiaryOutputDtoEntity($this, null);
+            if ($this->_psu_provided_data === null) {
+                $this->_psu_provided_data = new PsuProvidedDataEntity($this, null);
             }
-            return $this->_providers_subsidiary_output_dto;
+            return $this->_psu_provided_data;
         }
-        return new ProvidersSubsidiaryOutputDtoEntity($this, $data);
+        return new PsuProvidedDataEntity($this, $data);
+    }
+
+
+    private $_report = null;
+
+    // Canonical facade: $client->Report()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->report()
+    // resolves here too.
+    public function Report($data = null)
+    {
+        require_once __DIR__ . '/entity/report_entity.php';
+        if ($data === null) {
+            if ($this->_report === null) {
+                $this->_report = new ReportEntity($this, null);
+            }
+            return $this->_report;
+        }
+        return new ReportEntity($this, $data);
+    }
+
+
+    private $_sca_data = null;
+
+    // Canonical facade: $client->ScaData()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->sca_data()
+    // resolves here too.
+    public function ScaData($data = null)
+    {
+        require_once __DIR__ . '/entity/sca_data_entity.php';
+        if ($data === null) {
+            if ($this->_sca_data === null) {
+                $this->_sca_data = new ScaDataEntity($this, null);
+            }
+            return $this->_sca_data;
+        }
+        return new ScaDataEntity($this, $data);
+    }
+
+
+    private $_sca_method = null;
+
+    // Canonical facade: $client->ScaMethod()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->sca_method()
+    // resolves here too.
+    public function ScaMethod($data = null)
+    {
+        require_once __DIR__ . '/entity/sca_method_entity.php';
+        if ($data === null) {
+            if ($this->_sca_method === null) {
+                $this->_sca_method = new ScaMethodEntity($this, null);
+            }
+            return $this->_sca_method;
+        }
+        return new ScaMethodEntity($this, $data);
+    }
+
+
+    private $_sender_account = null;
+
+    // Canonical facade: $client->SenderAccount()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->sender_account()
+    // resolves here too.
+    public function SenderAccount($data = null)
+    {
+        require_once __DIR__ . '/entity/sender_account_entity.php';
+        if ($data === null) {
+            if ($this->_sender_account === null) {
+                $this->_sender_account = new SenderAccountEntity($this, null);
+            }
+            return $this->_sender_account;
+        }
+        return new SenderAccountEntity($this, $data);
+    }
+
+
+    private $_subsidiary = null;
+
+    // Canonical facade: $client->Subsidiary()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->subsidiary()
+    // resolves here too.
+    public function Subsidiary($data = null)
+    {
+        require_once __DIR__ . '/entity/subsidiary_entity.php';
+        if ($data === null) {
+            if ($this->_subsidiary === null) {
+                $this->_subsidiary = new SubsidiaryEntity($this, null);
+            }
+            return $this->_subsidiary;
+        }
+        return new SubsidiaryEntity($this, $data);
+    }
+
+
+    private $_token = null;
+
+    // Canonical facade: $client->Token()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->token()
+    // resolves here too.
+    public function Token($data = null)
+    {
+        require_once __DIR__ . '/entity/token_entity.php';
+        if ($data === null) {
+            if ($this->_token === null) {
+                $this->_token = new TokenEntity($this, null);
+            }
+            return $this->_token;
+        }
+        return new TokenEntity($this, $data);
     }
 
 

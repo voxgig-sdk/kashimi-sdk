@@ -53,7 +53,7 @@
         },
         "edition": {
           "github-pages": {
-            "active": false,
+            "active": true,
             "base": "node_modules/@voxgig/docgen/project/.sdk",
             "brand": {},
             "filter": {
@@ -68,7 +68,7 @@
               "path": "docs"
             },
             "package": "@voxgig/docgen",
-            "published": false,
+            "published": true,
             "site": {
               "active": true
             },
@@ -104,32 +104,343 @@
         },
         "style": {
           "color": {
-            "accent": "#00c6d8",
-            "background": "#f5f5f9",
-            "darkBackground": "#0f1117",
-            "darkText": "#e6edf3",
-            "primary": "#e70042",
-            "text": "#0a0a0a"
+            "accent": "#284c99",
+            "background": "#fdfdfd",
+            "darkBackground": "#181d27",
+            "darkText": "#fdfdfd",
+            "primary": "#437eff",
+            "text": "#181d27"
           },
           "font": "Nunito, system-ui, sans-serif",
           "fontFile": "",
           "headingFont": "Nunito, system-ui, sans-serif",
           "headingFontFile": "",
           "logo": "",
-          "mode": "light",
+          "mode": "auto",
           "mono": "ui-monospace, monospace",
           "monoFile": ""
         },
         "target": {}
       },
       "entity": {
-        "capability": {
+        "callback": {
           "active": true,
           "alias": {
             "field": {}
           },
           "fields": {},
-          "name": "capability",
+          "name": "callback",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/callbacks",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "provider_id",
+                        "or": "providerId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "state",
+                        "or": "state",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/callbacks",
+                  "q": {
+                    "exist": [
+                      "provider_id",
+                      "state"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "callbacks"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/callbacks/with-provider-nano-id",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/callbacks/with-provider-nano-id",
+                  "q": {
+                    "$action": "with-provider-nano-id"
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "callbacks"
+                    },
+                    {
+                      "lit": "with-provider-nano-id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "client_jwk": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "client_jwk",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/client-jwks",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "f2d4a1b7-3c8e-4f9a-b2d1-7e6c5b4a3f2e",
+                        "k": "query",
+                        "n": "client_id",
+                        "or": "clientId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": "b7e1c2a4-8f3b-4e2a-9c5d-2a1b3c4d5e6f",
+                        "k": "query",
+                        "n": "provider_id",
+                        "or": "providerId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "revoked",
+                        "or": "revoked",
+                        "r": false,
+                        "t": "`$BOOLEAN`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/client-jwks",
+                  "q": {
+                    "exist": [
+                      "client_id",
+                      "provider_id"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "client-jwks"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "confirmation_data": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "confirmation_data",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/payments/decoupled/confirmation-data",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/payments/decoupled/confirmation-data",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "confirmation-data"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "consent_status": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "consent_status",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/payments/decoupled/consent-status",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/payments/decoupled/consent-status",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "consent-status"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "country": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "country",
           "op": {
             "list": {
               "input": "data",
@@ -196,175 +507,18 @@
             "ancestors": []
           }
         },
-        "client_hosted_ui_customizations_output_dto": {
+        "followup": {
           "active": true,
           "alias": {
             "field": {}
           },
           "fields": {
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": false,
-              "t": "`$STRING`"
-            }
-          },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "client_hosted_ui_customizations_output_dto",
-          "op": {
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "clientId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
-                  "q": {
-                    "$action": "hosted-ui-customizations",
-                    "exist": [
-                      "authorization",
-                      "id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "clientId": "id"
-                    }
-                  },
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "capabilities"
-                    },
-                    {
-                      "lit": "clients"
-                    },
-                    {
-                      "var": "id"
-                    },
-                    {
-                      "lit": "hosted-ui-customizations"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "create_payment_output_dto": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "amount": {
-              "a": true,
-              "h": "Amount",
-              "n": "amount",
-              "r": true,
-              "sh": "The amount to be transferred.",
-              "t": "`$NUMBER`"
-            },
-            "currency": {
-              "a": true,
-              "h": "Currency",
-              "n": "currency",
-              "r": true,
-              "sh": "The currency of the payment.",
-              "t": "`$STRING`"
-            },
-            "metadata": {
-              "a": true,
-              "h": "Metadata",
-              "n": "metadata",
-              "r": true,
-              "t": "`$OBJECT`"
-            },
-            "paymentScheme": {
-              "a": true,
-              "h": "Payment Scheme",
-              "n": "paymentScheme",
-              "r": true,
-              "sh": "Payment scheme.",
-              "t": "`$ANY`"
-            },
             "provider": {
               "a": true,
               "h": "Provider",
               "n": "provider",
-              "op": {
-                "create": {
-                  "req": false,
-                  "type": "`$ANY`"
-                }
-              },
               "r": true,
               "sh": "The provider information for the followup",
-              "t": "`$ANY`"
-            },
-            "recipient": {
-              "a": true,
-              "h": "Recipient",
-              "n": "recipient",
-              "r": true,
-              "sh": "Data about the party receiving the payment.",
-              "t": "`$ANY`"
-            },
-            "remittanceInformation": {
-              "a": true,
-              "h": "Remittance Information",
-              "n": "remittanceInformation",
-              "r": true,
-              "sh": "Unstructured or structured remittance information.",
               "t": "`$ANY`"
             },
             "sender": {
@@ -376,7 +530,7 @@
               "t": "`$ANY`"
             }
           },
-          "name": "create_payment_output_dto",
+          "name": "followup",
           "op": {
             "create": {
               "input": "data",
@@ -457,76 +611,6 @@
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
-                },
-                {
-                  "a": true,
-                  "bf": [
-                    "amount",
-                    "currency",
-                    "metadata",
-                    "paymentScheme",
-                    "provider",
-                    "recipient",
-                    "remittanceInformation",
-                    "sender"
-                  ],
-                  "co": {
-                    "id": "POST /api/v1/ob/payments",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "ex": "en",
-                        "k": "header",
-                        "n": "accept_language",
-                        "or": "Accept-Language",
-                        "r": false,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/api/v1/ob/payments",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
                 }
               ]
             }
@@ -537,130 +621,6 @@
                 "$.main.kit.entity.payment"
               ]
             ]
-          }
-        },
-        "create_token_output_dto": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "access_token": {
-              "a": true,
-              "h": "Access Token",
-              "n": "access_token",
-              "r": true,
-              "sh": "The JWT access token.",
-              "t": "`$STRING`"
-            },
-            "expires_in": {
-              "a": true,
-              "h": "Expires In",
-              "n": "expires_in",
-              "r": true,
-              "sh": "Expiration time of the token in seconds.",
-              "t": "`$NUMBER`"
-            },
-            "grant_type": {
-              "a": true,
-              "h": "Grant Type",
-              "n": "grant_type",
-              "r": true,
-              "sh": "The type of grant being requested.",
-              "t": "`$STRING`"
-            },
-            "scope": {
-              "a": true,
-              "h": "Scope",
-              "n": "scope",
-              "r": true,
-              "sh": "Scopes being requested.",
-              "t": "`$STRING`"
-            },
-            "token_type": {
-              "a": true,
-              "h": "Token Type",
-              "n": "token_type",
-              "r": true,
-              "sh": "Token type.",
-              "t": "`$STRING`"
-            }
-          },
-          "name": "create_token_output_dto",
-          "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /api/v1/auth/token",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "ex": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/api/v1/auth/token",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
-                  "r": {},
-                  "rb": {
-                    "fields": [
-                      {
-                        "name": "grant_type"
-                      },
-                      {
-                        "name": "scope"
-                      }
-                    ],
-                    "kind": "form",
-                    "media": "application/x-www-form-urlencoded"
-                  },
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "auth"
-                    },
-                    {
-                      "lit": "token"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
           }
         },
         "healthcheck": {
@@ -741,76 +701,79 @@
             "ancestors": []
           }
         },
-        "latest": {
+        "hosted_ui_customization": {
           "active": true,
           "alias": {
             "field": {}
           },
           "fields": {
-            "createdAt": {
+            "clientId": {
               "a": true,
-              "fo": "date-time",
-              "h": "Created At",
-              "n": "createdAt",
+              "h": "Client Id",
+              "n": "clientId",
               "r": true,
-              "sh": "Timestamp of status creation",
               "t": "`$STRING`"
             },
-            "detailedStatus": {
+            "faviconUrl": {
               "a": true,
-              "h": "Detailed Status",
-              "n": "detailedStatus",
+              "h": "Favicon Url",
+              "n": "faviconUrl",
               "r": true,
-              "sh": "Detailed payment status",
               "t": "`$STRING`"
             },
-            "failureReasons": {
+            "footerText": {
               "a": true,
-              "h": "Failure Reasons",
-              "n": "failureReasons",
+              "h": "Footer Text",
+              "n": "footerText",
               "r": true,
-              "sh": "Failure reasons (for `status: FAILED` only)",
-              "t": "`$ARRAY`"
-            },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": true,
-              "sh": "Unique payment status identifier",
               "t": "`$STRING`"
             },
-            "paymentId": {
+            "logoUrl": {
               "a": true,
-              "h": "Payment Id",
-              "n": "paymentId",
+              "h": "Logo Url",
+              "n": "logoUrl",
               "r": true,
-              "sh": "Unique payment identifier",
               "t": "`$STRING`"
             },
-            "status": {
+            "primaryColor": {
               "a": true,
-              "h": "Status",
-              "n": "status",
+              "h": "Primary Color",
+              "n": "primaryColor",
               "r": true,
-              "sh": "Payment status.",
+              "t": "`$STRING`"
+            },
+            "privacyPolicyUrl": {
+              "a": true,
+              "h": "Privacy Policy Url",
+              "n": "privacyPolicyUrl",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "psuPortalBaseUrl": {
+              "a": true,
+              "h": "Psu Portal Base Url",
+              "n": "psuPortalBaseUrl",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "termsUrl": {
+              "a": true,
+              "h": "Terms Url",
+              "n": "termsUrl",
+              "r": true,
               "t": "`$STRING`"
             }
           },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "latest",
+          "name": "hosted_ui_customization",
           "op": {
-            "list": {
+            "load": {
               "input": "data",
-              "name": "list",
+              "name": "load",
               "points": [
                 {
                   "a": true,
                   "co": {
-                    "id": "GET /api/v1/archive/payment-statuses/latest",
+                    "id": "GET /api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
                     "source": "openapi3",
                     "version": 2
                   },
@@ -825,13 +788,12 @@
                         "t": "`$STRING`"
                       }
                     ],
-                    "query": [
+                    "params": [
                       {
                         "a": true,
-                        "ex": "123e4567-e89b-12d3-a456-426614174000",
-                        "k": "query",
-                        "n": "payment_id",
-                        "or": "paymentId",
+                        "k": "param",
+                        "n": "client_id",
+                        "or": "clientId",
                         "r": true,
                         "t": "`$STRING`"
                       }
@@ -839,14 +801,18 @@
                   },
                   "k": "http",
                   "m": "GET",
-                  "o": "/api/v1/archive/payment-statuses/latest",
+                  "o": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
                   "q": {
                     "exist": [
                       "authorization",
-                      "payment_id"
+                      "client_id"
                     ]
                   },
-                  "r": {},
+                  "r": {
+                    "param": {
+                      "clientId": "client_id"
+                    }
+                  },
                   "rs": {
                     "kind": "json",
                     "media": "application/json"
@@ -859,622 +825,16 @@
                       "lit": "v1"
                     },
                     {
-                      "lit": "archive"
+                      "lit": "capabilities"
                     },
                     {
-                      "lit": "payment-statuses"
+                      "lit": "clients"
                     },
                     {
-                      "lit": "latest"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.failureReasons`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "obn": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {},
-          "name": "obn",
-          "op": {
-            "create": {
-              "input": "data",
-              "name": "create",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "POST /api/v1/ob/payments/cancel",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "provider_id",
-                        "or": "providerId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "state",
-                        "or": "state",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "POST",
-                  "o": "/api/v1/ob/payments/cancel",
-                  "q": {
-                    "exist": [
-                      "provider_id",
-                      "state"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
+                      "var": "client_id"
                     },
                     {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "cancel"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            },
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/callbacks",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "provider_id",
-                        "or": "providerId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "state",
-                        "or": "state",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/callbacks",
-                  "q": {
-                    "$action": "callback",
-                    "exist": [
-                      "provider_id",
-                      "state"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "callbacks"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/client-jwks",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "ex": "f2d4a1b7-3c8e-4f9a-b2d1-7e6c5b4a3f2e",
-                        "k": "query",
-                        "n": "client_id",
-                        "or": "clientId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "ex": "b7e1c2a4-8f3b-4e2a-9c5d-2a1b3c4d5e6f",
-                        "k": "query",
-                        "n": "provider_id",
-                        "or": "providerId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "revoked",
-                        "or": "revoked",
-                        "r": false,
-                        "t": "`$BOOLEAN`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/client-jwks",
-                  "q": {
-                    "$action": "client_jwk",
-                    "exist": [
-                      "client_id",
-                      "provider_id"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "client-jwks"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/payments/sender-accounts",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "provider_id",
-                        "or": "providerId",
-                        "r": true,
-                        "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "state",
-                        "or": "state",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/payments/sender-accounts",
-                  "q": {
-                    "exist": [
-                      "provider_id",
-                      "state"
-                    ]
-                  },
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "sender-accounts"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/callbacks/with-provider-nano-id",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/callbacks/with-provider-nano-id",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "callbacks"
-                    },
-                    {
-                      "lit": "with-provider-nano-id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/payments/decoupled/confirmation-data",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/payments/decoupled/confirmation-data",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "confirmation-data"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/payments/decoupled/consent-status",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/payments/decoupled/consent-status",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "consent-status"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/payments/decoupled/sca-data",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/payments/decoupled/sca-data",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "sca-data"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/ob/payments/decoupled/sca-methods",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/ob/payments/decoupled/sca-methods",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "sca-methods"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                }
-              ]
-            },
-            "update": {
-              "input": "data",
-              "name": "update",
-              "points": [
-                {
-                  "a": true,
-                  "bf": false,
-                  "co": {
-                    "id": "PATCH /api/v1/ob/payments/decoupled/sca-data",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "PATCH",
-                  "o": "/api/v1/ob/payments/decoupled/sca-data",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "sca-data"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": false,
-                  "co": {
-                    "id": "PATCH /api/v1/ob/payments/decoupled/selected-sca-method",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "PATCH",
-                  "o": "/api/v1/ob/payments/decoupled/selected-sca-method",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "decoupled"
-                    },
-                    {
-                      "lit": "selected-sca-method"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "PATCH /api/v1/ob/payments/psu-provided-data",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "PATCH",
-                  "o": "/api/v1/ob/payments/psu-provided-data",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "psu-provided-data"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "bf": false,
-                  "co": {
-                    "id": "PATCH /api/v1/ob/payments/sender-accounts",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "PATCH",
-                  "o": "/api/v1/ob/payments/sender-accounts",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "ob"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "lit": "sender-accounts"
+                      "lit": "hosted-ui-customizations"
                     }
                   ],
                   "t": {
@@ -1502,14 +862,6 @@
               "r": true,
               "sh": "Payment amount",
               "t": "`$NUMBER`"
-            },
-            "clientId": {
-              "a": true,
-              "h": "Client Id",
-              "n": "clientId",
-              "r": true,
-              "sh": "Client identifier",
-              "t": "`$STRING`"
             },
             "createdAt": {
               "a": true,
@@ -1554,9 +906,9 @@
               "h": "Provider",
               "n": "provider",
               "op": {
-                "load": {
+                "create": {
                   "req": false,
-                  "type": "`$OBJECT`"
+                  "type": "`$ANY`"
                 }
               },
               "r": true,
@@ -1568,6 +920,7 @@
               "h": "Recipient",
               "n": "recipient",
               "r": true,
+              "sh": "Data about the party receiving the payment.",
               "t": "`$OBJECT`"
             },
             "remittanceInformation": {
@@ -1583,21 +936,14 @@
               "h": "Sender",
               "n": "sender",
               "op": {
-                "load": {
+                "create": {
                   "req": false,
-                  "type": "`$OBJECT`"
+                  "type": "`$ANY`"
                 }
               },
               "r": true,
+              "sh": "Data about the party sending the payment.",
               "t": "`$OBJECT`"
-            },
-            "status": {
-              "a": true,
-              "h": "Status",
-              "n": "status",
-              "r": true,
-              "sh": "The most recent status of the payment.",
-              "t": "`$STRING`"
             },
             "updatedAt": {
               "a": true,
@@ -1613,6 +959,142 @@
           },
           "name": "payment",
           "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /api/v1/ob/payments/cancel",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "provider_id",
+                        "or": "providerId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "state",
+                        "or": "state",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/api/v1/ob/payments/cancel",
+                  "q": {
+                    "$action": "cancel",
+                    "exist": [
+                      "provider_id",
+                      "state"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "cancel"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "a": true,
+                  "bf": [
+                    "amount",
+                    "currency",
+                    "metadata",
+                    "paymentScheme",
+                    "provider",
+                    "recipient",
+                    "remittanceInformation",
+                    "sender"
+                  ],
+                  "co": {
+                    "id": "POST /api/v1/ob/payments",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "ex": "en",
+                        "k": "header",
+                        "n": "accept_language",
+                        "or": "Accept-Language",
+                        "r": false,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "authorization",
+                        "or": "Authorization",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/api/v1/ob/payments",
+                  "q": {
+                    "exist": [
+                      "authorization"
+                    ]
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
             "list": {
               "input": "data",
               "name": "list",
@@ -1714,74 +1196,6 @@
                 {
                   "a": true,
                   "co": {
-                    "id": "GET /api/v1/archive/internal/payments/{id}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/archive/internal/payments/{id}",
-                  "q": {
-                    "exist": [
-                      "authorization",
-                      "id"
-                    ]
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "archive"
-                    },
-                    {
-                      "lit": "internal"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
                     "id": "GET /api/v1/archive/payments/{id}",
                     "source": "openapi3",
                     "version": 2
@@ -1831,71 +1245,6 @@
                     },
                     {
                       "lit": "archive"
-                    },
-                    {
-                      "lit": "payments"
-                    },
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/reports/payments/{id}",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/reports/payments/{id}",
-                  "q": {
-                    "exist": [
-                      "authorization",
-                      "id"
-                    ]
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "reports"
                     },
                     {
                       "lit": "payments"
@@ -2046,6 +1395,79 @@
                   }
                 }
               ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/archive/payment-statuses/latest",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "authorization",
+                        "or": "Authorization",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "a": true,
+                        "ex": "123e4567-e89b-12d3-a456-426614174000",
+                        "k": "query",
+                        "n": "payment_id",
+                        "or": "paymentId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/archive/payment-statuses/latest",
+                  "q": {
+                    "$action": "latest",
+                    "exist": [
+                      "authorization",
+                      "payment_id"
+                    ]
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "archive"
+                    },
+                    {
+                      "lit": "payment-statuses"
+                    },
+                    {
+                      "lit": "latest"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
             }
           },
           "relations": {
@@ -2144,79 +1566,6 @@
                 {
                   "a": true,
                   "co": {
-                    "id": "GET /api/v1/capabilities/internal/providers",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "cursor",
-                        "or": "cursor",
-                        "r": false,
-                        "t": "`$OBJECT`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "filter",
-                        "or": "filters",
-                        "r": true,
-                        "t": "`$OBJECT`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/capabilities/internal/providers",
-                  "q": {
-                    "exist": [
-                      "authorization",
-                      "filter"
-                    ]
-                  },
-                  "r": {},
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "capabilities"
-                    },
-                    {
-                      "lit": "internal"
-                    },
-                    {
-                      "lit": "providers"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.items`"
-                  }
-                },
-                {
-                  "a": true,
-                  "co": {
                     "id": "GET /api/v1/capabilities/providers",
                     "source": "openapi3",
                     "version": 2
@@ -2290,7 +1639,542 @@
             "ancestors": []
           }
         },
-        "providers_subsidiary_output_dto": {
+        "psu_provided_data": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "psu_provided_data",
+          "op": {
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "PATCH /api/v1/ob/payments/psu-provided-data",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "PATCH",
+                  "o": "/api/v1/ob/payments/psu-provided-data",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "psu-provided-data"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "report": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "amount": {
+              "a": true,
+              "h": "Amount",
+              "n": "amount",
+              "r": true,
+              "sh": "Payment amount",
+              "t": "`$NUMBER`"
+            },
+            "createdAt": {
+              "a": true,
+              "h": "Created At",
+              "n": "createdAt",
+              "r": true,
+              "t": "`$STRING`"
+            },
+            "currency": {
+              "a": true,
+              "h": "Currency",
+              "n": "currency",
+              "r": true,
+              "sh": "Currency code",
+              "t": "`$STRING`"
+            },
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": true,
+              "sh": "Unique payment identifier",
+              "t": "`$STRING`"
+            },
+            "provider": {
+              "a": true,
+              "h": "Provider",
+              "n": "provider",
+              "r": false,
+              "sh": "Selected provider details (name, country).",
+              "t": "`$OBJECT`"
+            },
+            "recipient": {
+              "a": true,
+              "h": "Recipient",
+              "n": "recipient",
+              "r": true,
+              "t": "`$OBJECT`"
+            },
+            "remittanceInformation": {
+              "a": true,
+              "h": "Remittance Information",
+              "n": "remittanceInformation",
+              "r": true,
+              "t": "`$ANY`"
+            },
+            "sender": {
+              "a": true,
+              "h": "Sender",
+              "n": "sender",
+              "r": false,
+              "t": "`$OBJECT`"
+            },
+            "status": {
+              "a": true,
+              "h": "Status",
+              "n": "status",
+              "r": true,
+              "sh": "The most recent status of the payment.",
+              "t": "`$STRING`"
+            }
+          },
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "report",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/reports/payments/{id}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "k": "header",
+                        "n": "authorization",
+                        "or": "Authorization",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "a": true,
+                        "k": "param",
+                        "n": "id",
+                        "or": "id",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/reports/payments/{id}",
+                  "q": {
+                    "exist": [
+                      "authorization",
+                      "id"
+                    ]
+                  },
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "reports"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "sca_data": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "sca_data",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/payments/decoupled/sca-data",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/payments/decoupled/sca-data",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "sca-data"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "a": true,
+                  "bf": false,
+                  "co": {
+                    "id": "PATCH /api/v1/ob/payments/decoupled/sca-data",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "PATCH",
+                  "o": "/api/v1/ob/payments/decoupled/sca-data",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "sca-data"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "sca_method": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "sca_method",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/payments/decoupled/sca-methods",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/payments/decoupled/sca-methods",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "sca-methods"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "a": true,
+                  "bf": false,
+                  "co": {
+                    "id": "PATCH /api/v1/ob/payments/decoupled/selected-sca-method",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "PATCH",
+                  "o": "/api/v1/ob/payments/decoupled/selected-sca-method",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "decoupled"
+                    },
+                    {
+                      "lit": "selected-sca-method"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "sender_account": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {},
+          "name": "sender_account",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /api/v1/ob/payments/sender-accounts",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "query": [
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "provider_id",
+                        "or": "providerId",
+                        "r": true,
+                        "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "k": "query",
+                        "n": "state",
+                        "or": "state",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/api/v1/ob/payments/sender-accounts",
+                  "q": {
+                    "exist": [
+                      "provider_id",
+                      "state"
+                    ]
+                  },
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "sender-accounts"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "a": true,
+                  "bf": false,
+                  "co": {
+                    "id": "PATCH /api/v1/ob/payments/sender-accounts",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "PATCH",
+                  "o": "/api/v1/ob/payments/sender-accounts",
+                  "q": {},
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "ob"
+                    },
+                    {
+                      "lit": "payments"
+                    },
+                    {
+                      "lit": "sender-accounts"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "subsidiary": {
           "active": true,
           "alias": {
             "field": {}
@@ -2373,106 +2257,12 @@
             "field": "id",
             "name": "id"
           },
-          "name": "providers_subsidiary_output_dto",
+          "name": "subsidiary",
           "op": {
             "list": {
               "input": "data",
               "name": "list",
               "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /api/v1/capabilities/internal/providers/{id}/subsidiaries",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "params": [
-                      {
-                        "a": true,
-                        "k": "param",
-                        "n": "provider_id",
-                        "or": "id",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
-                    "query": [
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "cursor",
-                        "or": "cursor",
-                        "r": false,
-                        "t": "`$OBJECT`"
-                      },
-                      {
-                        "a": true,
-                        "k": "query",
-                        "n": "filter",
-                        "or": "filters",
-                        "r": true,
-                        "t": "`$OBJECT`"
-                      }
-                    ]
-                  },
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/api/v1/capabilities/internal/providers/{id}/subsidiaries",
-                  "q": {
-                    "exist": [
-                      "authorization",
-                      "filter",
-                      "provider_id"
-                    ]
-                  },
-                  "r": {
-                    "param": {
-                      "id": "provider_id"
-                    }
-                  },
-                  "rs": {
-                    "kind": "json",
-                    "media": "application/json"
-                  },
-                  "s": [
-                    {
-                      "lit": "api"
-                    },
-                    {
-                      "lit": "v1"
-                    },
-                    {
-                      "lit": "capabilities"
-                    },
-                    {
-                      "lit": "internal"
-                    },
-                    {
-                      "lit": "providers"
-                    },
-                    {
-                      "var": "provider_id"
-                    },
-                    {
-                      "lit": "subsidiaries"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.items`"
-                  }
-                },
                 {
                   "a": true,
                   "co": {
@@ -2572,6 +2362,130 @@
                 "$.main.kit.entity.provider"
               ]
             ]
+          }
+        },
+        "token": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "access_token": {
+              "a": true,
+              "h": "Access Token",
+              "n": "access_token",
+              "r": true,
+              "sh": "The JWT access token.",
+              "t": "`$STRING`"
+            },
+            "expires_in": {
+              "a": true,
+              "h": "Expires In",
+              "n": "expires_in",
+              "r": true,
+              "sh": "Expiration time of the token in seconds.",
+              "t": "`$NUMBER`"
+            },
+            "grant_type": {
+              "a": true,
+              "h": "Grant Type",
+              "n": "grant_type",
+              "r": true,
+              "sh": "The type of grant being requested.",
+              "t": "`$STRING`"
+            },
+            "scope": {
+              "a": true,
+              "h": "Scope",
+              "n": "scope",
+              "r": true,
+              "sh": "Scopes being requested.",
+              "t": "`$STRING`"
+            },
+            "token_type": {
+              "a": true,
+              "h": "Token Type",
+              "n": "token_type",
+              "r": true,
+              "sh": "Token type.",
+              "t": "`$STRING`"
+            }
+          },
+          "name": "token",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "POST /api/v1/auth/token",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
+                    "header": [
+                      {
+                        "a": true,
+                        "ex": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                        "k": "header",
+                        "n": "authorization",
+                        "or": "Authorization",
+                        "r": true,
+                        "t": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "k": "http",
+                  "m": "POST",
+                  "o": "/api/v1/auth/token",
+                  "q": {
+                    "exist": [
+                      "authorization"
+                    ]
+                  },
+                  "r": {},
+                  "rb": {
+                    "fields": [
+                      {
+                        "name": "grant_type"
+                      },
+                      {
+                        "name": "scope"
+                      }
+                    ],
+                    "kind": "form",
+                    "media": "application/x-www-form-urlencoded"
+                  },
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "api"
+                    },
+                    {
+                      "lit": "v1"
+                    },
+                    {
+                      "lit": "auth"
+                    },
+                    {
+                      "lit": "token"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
           }
         }
       },
@@ -4404,12 +4318,132 @@
         }
       },
       "flow": {
-        "BasicCapabilityFlow": {
+        "BasicCallbackFlow": {
           "active": true,
-          "entity": "capability",
-          "key$": "BasicCapabilityFlow",
+          "entity": "callback",
+          "key$": "BasicCallbackFlow",
           "kind": "basic",
-          "name": "BasicCapabilityFlow",
+          "name": "BasicCallbackFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "callback_ref01",
+                "srcdatavar": "callback_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-callback_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicClientJwkFlow": {
+          "active": true,
+          "entity": "client_jwk",
+          "key$": "BasicClientJwkFlow",
+          "kind": "basic",
+          "name": "BasicClientJwkFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "client_jwk_ref01",
+                "srcdatavar": "client_jwk_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-client_jwk_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicConfirmationDataFlow": {
+          "active": true,
+          "entity": "confirmation_data",
+          "key$": "BasicConfirmationDataFlow",
+          "kind": "basic",
+          "name": "BasicConfirmationDataFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "confirmation_data_ref01",
+                "srcdatavar": "confirmation_data_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-confirmation_data_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicConsentStatusFlow": {
+          "active": true,
+          "entity": "consent_status",
+          "key$": "BasicConsentStatusFlow",
+          "kind": "basic",
+          "name": "BasicConsentStatusFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "consent_status_ref01",
+                "srcdatavar": "consent_status_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-consent_status_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCountryFlow": {
+          "active": true,
+          "entity": "country",
+          "key$": "BasicCountryFlow",
+          "kind": "basic",
+          "name": "BasicCountryFlow",
           "param": {},
           "step": [
             {
@@ -4423,81 +4457,30 @@
                 {
                   "apply": "ItemExists",
                   "def": {
-                    "ref": "capability_ref01"
+                    "ref": "country_ref01"
                   }
                 }
               ]
             }
           ]
         },
-        "BasicClientHostedUiCustomizationsOutputDtoFlow": {
+        "BasicFollowupFlow": {
           "active": true,
-          "entity": "client_hosted_ui_customizations_output_dto",
-          "key$": "BasicClientHostedUiCustomizationsOutputDtoFlow",
+          "entity": "followup",
+          "key$": "BasicFollowupFlow",
           "kind": "basic",
-          "name": "BasicClientHostedUiCustomizationsOutputDtoFlow",
+          "name": "BasicFollowupFlow",
           "param": {},
           "step": [
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "client_hosted_ui_customizations_output_dto_ref01",
-                "srcdatavar": "client_hosted_ui_customizations_output_dto_ref01_data",
-                "suffix": "_dt0"
+                "ref": "followup_ref01"
               },
               "m": {
-                "id": "client_hosted_ui_customizations_output_dto01"
+                "payment_id": "payment01"
               },
-              "o": "load",
-              "s": [],
-              "v": [
-                {
-                  "apply": "TextFieldMark",
-                  "def": {
-                    "mark": "Mark01-client_hosted_ui_customizations_output_dto_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicCreatePaymentOutputDtoFlow": {
-          "active": true,
-          "entity": "create_payment_output_dto",
-          "key$": "BasicCreatePaymentOutputDtoFlow",
-          "kind": "basic",
-          "name": "BasicCreatePaymentOutputDtoFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "create_payment_output_dto_ref01"
-              },
-              "m": {},
-              "o": "create",
-              "s": [],
-              "v": []
-            }
-          ]
-        },
-        "BasicCreateTokenOutputDtoFlow": {
-          "active": true,
-          "entity": "create_token_output_dto",
-          "key$": "BasicCreateTokenOutputDtoFlow",
-          "kind": "basic",
-          "name": "BasicCreateTokenOutputDtoFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "create_token_output_dto_ref01"
-              },
-              "m": {},
               "o": "create",
               "s": [],
               "v": []
@@ -4534,87 +4517,32 @@
             }
           ]
         },
-        "BasicLatestFlow": {
+        "BasicHostedUiCustomizationFlow": {
           "active": true,
-          "entity": "latest",
-          "key$": "BasicLatestFlow",
+          "entity": "hosted_ui_customization",
+          "key$": "BasicHostedUiCustomizationFlow",
           "kind": "basic",
-          "name": "BasicLatestFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "latest_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "BasicObnFlow": {
-          "active": true,
-          "entity": "obn",
-          "key$": "BasicObnFlow",
-          "kind": "basic",
-          "name": "BasicObnFlow",
+          "name": "BasicHostedUiCustomizationFlow",
           "param": {},
           "step": [
             {
               "a": true,
               "d": {},
               "i": {
-                "ref": "obn_ref01"
-              },
-              "m": {},
-              "o": "create",
-              "s": [],
-              "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "obn_ref01",
-                "srcdatavar": "obn_ref01_data",
-                "suffix": "_up0"
-              },
-              "m": {},
-              "o": "update",
-              "s": [
-                {
-                  "apply": "TextFieldMark",
-                  "def": {
-                    "mark": "Mark01-obn_ref01"
-                  }
-                }
-              ],
-              "v": []
-            },
-            {
-              "a": true,
-              "d": {},
-              "i": {
-                "ref": "obn_ref01",
-                "srcdatavar": "obn_ref01_data",
+                "ref": "hosted_ui_customization_ref01",
+                "srcdatavar": "hosted_ui_customization_ref01_data",
                 "suffix": "_dt0"
               },
-              "m": {},
+              "m": {
+                "id": "hosted_ui_customization01"
+              },
               "o": "load",
               "s": [],
               "v": [
                 {
                   "apply": "TextFieldMark",
                   "def": {
-                    "mark": "Mark01-obn_ref01"
+                    "mark": "Mark01-hosted_ui_customization_ref01"
                   }
                 }
               ]
@@ -4629,6 +4557,17 @@
           "name": "BasicPaymentFlow",
           "param": {},
           "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "payment_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
+            },
             {
               "a": true,
               "d": {},
@@ -4692,6 +4631,26 @@
                   }
                 }
               ]
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "payment_status_ref01",
+                "srcdatavar": "payment_status_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-payment_status_ref01"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -4721,12 +4680,224 @@
             }
           ]
         },
-        "BasicProvidersSubsidiaryOutputDtoFlow": {
+        "BasicPsuProvidedDataFlow": {
           "active": true,
-          "entity": "providers_subsidiary_output_dto",
-          "key$": "BasicProvidersSubsidiaryOutputDtoFlow",
+          "entity": "psu_provided_data",
+          "key$": "BasicPsuProvidedDataFlow",
           "kind": "basic",
-          "name": "BasicProvidersSubsidiaryOutputDtoFlow",
+          "name": "BasicPsuProvidedDataFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "psu_provided_data_ref01",
+                "srcdatavar": "psu_provided_data_ref01_data",
+                "suffix": "_up0"
+              },
+              "m": {},
+              "o": "update",
+              "s": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-psu_provided_data_ref01"
+                  }
+                }
+              ],
+              "v": []
+            }
+          ]
+        },
+        "BasicReportFlow": {
+          "active": true,
+          "entity": "report",
+          "key$": "BasicReportFlow",
+          "kind": "basic",
+          "name": "BasicReportFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "report_ref01",
+                "srcdatavar": "report_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {
+                "id": "report01"
+              },
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-report_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicScaDataFlow": {
+          "active": true,
+          "entity": "sca_data",
+          "key$": "BasicScaDataFlow",
+          "kind": "basic",
+          "name": "BasicScaDataFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sca_data_ref01",
+                "srcdatavar": "sca_data_ref01_data",
+                "suffix": "_up0"
+              },
+              "m": {},
+              "o": "update",
+              "s": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sca_data_ref01"
+                  }
+                }
+              ],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sca_data_ref01",
+                "srcdatavar": "sca_data_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sca_data_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicScaMethodFlow": {
+          "active": true,
+          "entity": "sca_method",
+          "key$": "BasicScaMethodFlow",
+          "kind": "basic",
+          "name": "BasicScaMethodFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sca_method_ref01",
+                "srcdatavar": "sca_method_ref01_data",
+                "suffix": "_up0"
+              },
+              "m": {},
+              "o": "update",
+              "s": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sca_method_ref01"
+                  }
+                }
+              ],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sca_method_ref01",
+                "srcdatavar": "sca_method_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sca_method_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicSenderAccountFlow": {
+          "active": true,
+          "entity": "sender_account",
+          "key$": "BasicSenderAccountFlow",
+          "kind": "basic",
+          "name": "BasicSenderAccountFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sender_account_ref01",
+                "srcdatavar": "sender_account_ref01_data",
+                "suffix": "_up0"
+              },
+              "m": {},
+              "o": "update",
+              "s": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sender_account_ref01"
+                  }
+                }
+              ],
+              "v": []
+            },
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "sender_account_ref01",
+                "srcdatavar": "sender_account_ref01_data",
+                "suffix": "_dt0"
+              },
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-sender_account_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicSubsidiaryFlow": {
+          "active": true,
+          "entity": "subsidiary",
+          "key$": "BasicSubsidiaryFlow",
+          "kind": "basic",
+          "name": "BasicSubsidiaryFlow",
           "param": {},
           "step": [
             {
@@ -4742,10 +4913,31 @@
                 {
                   "apply": "ItemExists",
                   "def": {
-                    "ref": "providers_subsidiary_output_dto_ref01"
+                    "ref": "subsidiary_ref01"
                   }
                 }
               ]
+            }
+          ]
+        },
+        "BasicTokenFlow": {
+          "active": true,
+          "entity": "token",
+          "key$": "BasicTokenFlow",
+          "kind": "basic",
+          "name": "BasicTokenFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {
+                "ref": "token_ref01"
+              },
+              "m": {},
+              "o": "create",
+              "s": [],
+              "v": []
             }
           ]
         }
@@ -4754,17 +4946,13 @@
         "description": "gatekeeper API",
         "servers": [
           {
-            "url": "{base}",
-            "variables": {
-              "base": {
-                "description": "The base URL of the API, which its definition does not name."
-              }
-            }
+            "url": "https://api.kashimi.tech"
           }
         ],
         "summary": "gatekeeper API",
         "title": "Gatekeeper docs",
-        "version": "1.0"
+        "version": "1.0",
+        "website": "https://kashimi.tech"
       },
       "option": {},
       "optspec": {
@@ -5110,7 +5298,7 @@
             "registry": {
               "active": false,
               "name": "luarocks",
-              "package": "",
+              "package": "voxgig-sdk-kashimi-sdk",
               "state": "pending",
               "url": "https://luarocks.org",
               "vault": {
@@ -5177,7 +5365,7 @@
             "registry": {
               "active": false,
               "name": "packagist",
-              "package": "",
+              "package": "voxgig-sdk/kashimi-sdk",
               "state": "pending",
               "url": "https://packagist.org",
               "vault": {
@@ -5250,7 +5438,7 @@
             "registry": {
               "active": false,
               "name": "pypi",
-              "package": "",
+              "package": "voxgig-sdk-kashimi-sdk",
               "state": "pending",
               "url": "https://pypi.org",
               "vault": {
@@ -5323,7 +5511,7 @@
             "registry": {
               "active": false,
               "name": "rubygems",
-              "package": "",
+              "package": "voxgig-sdk-kashimi-sdk",
               "state": "pending",
               "url": "https://rubygems.org",
               "vault": {
@@ -5401,7 +5589,7 @@
             "registry": {
               "active": false,
               "name": "npm",
-              "package": "",
+              "package": "@voxgig-sdk/kashimi-sdk",
               "state": "pending",
               "url": "https://registry.npmjs.org",
               "vault": {
@@ -5440,15 +5628,34 @@
         }
       },
       "text": {
-        "about_md": "",
+        "about_md": "**Credentials.** Kashimi uses OAuth 2.0 client credentials. Exchange your client ID\nand secret for a short-lived access token at `POST /api/v1/auth/token` (HTTP Basic auth,\nform-encoded `grant_type=client_credentials`), then pass the token as the `apikey` option.\nThe SDK sends it as `Authorization: Bearer <token>`.\n\n**Environments.** The SDK calls Production, `https://api.kashimi.tech`. For the Sandbox,\npass `base: 'https://api-sandbox.kashimi.tech'`.\n\n**Scope.** Every operation in Kashimi's published definition is here except the three it\ntags \"Internal Endpoints\". The `callback`, `client_jwk`, `sender_account`,\n`psu_provided_data`, `sca_method`, `sca_data`, `confirmation_data` and\n`consent_status` entities are the routes of Kashimi's hosted payment flow.",
         "docs_url": "",
-        "entity_desc": {},
+        "entity_desc": {
+          "callback": "The bank redirect back into the hosted payment flow.",
+          "client_jwk": "The JSON Web Key Set of a client at a provider.",
+          "confirmation_data": "The confirmation data of a decoupled payment.",
+          "consent_status": "The consent status of a decoupled payment.",
+          "country": "A country where Kashimi supports payment providers.",
+          "followup": "A follow-up for a payment, created at its provider.",
+          "healthcheck": "The status of the API.",
+          "hosted_ui_customization": "The customizations of the hosted payment UI for a client.",
+          "payment": "A bank payment: initiate one, list yours, load one by id, or cancel one in the hosted flow.",
+          "payment_status": "The status of a payment: its full history, or the latest.",
+          "provider": "A bank or payment provider, with its supported payment schemes and required fields.",
+          "psu_provided_data": "Data the payer provides in the hosted payment flow.",
+          "report": "A reporting summary of one payment: amount, status, provider, sender, recipient and remittance information.",
+          "sca_data": "The strong customer authentication data of a decoupled payment.",
+          "sca_method": "The strong customer authentication methods of a decoupled payment, and the one chosen.",
+          "sender_account": "The sender accounts offered in the hosted payment flow, and the one chosen.",
+          "subsidiary": "A regional or subsidiary institution of a provider.",
+          "token": "A short-lived access token, issued for your client credentials."
+        },
         "homepage": "",
         "meta_source": "",
-        "summary": "",
+        "summary": "Kashimi is an open-banking API for account-to-account payments: one API to hundreds of banks.",
         "tagline": "",
-        "title": "",
-        "website": ""
+        "title": "Kashimi API",
+        "website": "https://www.kashimi.tech"
       }
     }
   },

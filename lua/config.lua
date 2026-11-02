@@ -168,10 +168,7 @@ local function make_config()
       },
     },
     options = {
-      base = "{base}",
-      server = {
-        ["base"] = "",
-      },
+      base = "https://api.kashimi.tech",
       auth = {
         prefix = "Bearer",
       },
@@ -179,23 +176,324 @@ local function make_config()
         ["content-type"] = "application/json",
       },
       entity = {
-        ["capability"] = {},
-        ["client_hosted_ui_customizations_output_dto"] = {},
-        ["create_payment_output_dto"] = {},
-        ["create_token_output_dto"] = {},
+        ["callback"] = {},
+        ["client_jwk"] = {},
+        ["confirmation_data"] = {},
+        ["consent_status"] = {},
+        ["country"] = {},
+        ["followup"] = {},
         ["healthcheck"] = {},
-        ["latest"] = {},
-        ["obn"] = {},
+        ["hosted_ui_customization"] = {},
         ["payment"] = {},
         ["payment_status"] = {},
         ["provider"] = {},
-        ["providers_subsidiary_output_dto"] = {},
+        ["psu_provided_data"] = {},
+        ["report"] = {},
+        ["sca_data"] = {},
+        ["sca_method"] = {},
+        ["sender_account"] = {},
+        ["subsidiary"] = {},
+        ["token"] = {},
       },
     },
     entity = {
-      ["capability"] = {
+      ["callback"] = {
         ["fields"] = {},
-        ["name"] = "capability",
+        ["name"] = "callback",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/callbacks",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "callbacks",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "callbacks",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "provider_id",
+                      ["orig"] = "providerId",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "state",
+                      ["orig"] = "state",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "provider_id",
+                    "state",
+                  },
+                },
+              },
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/callbacks/with-provider-nano-id",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "callbacks",
+                  },
+                  {
+                    ["lit"] = "with-provider-nano-id",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "callbacks",
+                  "with-provider-nano-id",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {
+                  ["$action"] = "with-provider-nano-id",
+                },
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["client_jwk"] = {
+        ["fields"] = {},
+        ["name"] = "client_jwk",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/client-jwks",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "client-jwks",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "client-jwks",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "client_id",
+                      ["orig"] = "clientId",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                      ["example"] = "f2d4a1b7-3c8e-4f9a-b2d1-7e6c5b4a3f2e",
+                    },
+                    {
+                      ["name"] = "provider_id",
+                      ["orig"] = "providerId",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                      ["example"] = "b7e1c2a4-8f3b-4e2a-9c5d-2a1b3c4d5e6f",
+                    },
+                    {
+                      ["name"] = "revoked",
+                      ["orig"] = "revoked",
+                      ["type"] = "`$BOOLEAN`",
+                      ["kind"] = "query",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "client_id",
+                    "provider_id",
+                  },
+                },
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["confirmation_data"] = {
+        ["fields"] = {},
+        ["name"] = "confirmation_data",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/payments/decoupled/confirmation-data",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "confirmation-data",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "confirmation-data",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["consent_status"] = {
+        ["fields"] = {},
+        ["name"] = "consent_status",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/payments/decoupled/consent-status",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "consent-status",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "consent-status",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["country"] = {
+        ["fields"] = {},
+        ["name"] = "country",
         ["op"] = {
           ["list"] = {
             ["input"] = "data",
@@ -262,158 +560,14 @@ local function make_config()
           ["ancestors"] = {},
         },
       },
-      ["client_hosted_ui_customizations_output_dto"] = {
+      ["followup"] = {
         ["fields"] = {
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$STRING`",
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "client_hosted_ui_customizations_output_dto",
-        ["op"] = {
-          ["load"] = {
-            ["input"] = "data",
-            ["name"] = "load",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "capabilities",
-                  },
-                  {
-                    ["lit"] = "clients",
-                  },
-                  {
-                    ["var"] = "id",
-                  },
-                  {
-                    ["lit"] = "hosted-ui-customizations",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "capabilities",
-                  "clients",
-                  "{id}",
-                  "hosted-ui-customizations",
-                },
-                ["rename"] = {
-                  ["param"] = {
-                    ["clientId"] = "id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["name"] = "id",
-                      ["orig"] = "clientId",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["$action"] = "hosted-ui-customizations",
-                  ["exist"] = {
-                    "authorization",
-                    "id",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
-        },
-      },
-      ["create_payment_output_dto"] = {
-        ["fields"] = {
-          {
-            ["name"] = "amount",
-            ["title"] = "Amount",
-            ["type"] = "`$NUMBER`",
-            ["req"] = true,
-            ["short"] = "The amount to be transferred.",
-          },
-          {
-            ["name"] = "currency",
-            ["title"] = "Currency",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "The currency of the payment.",
-          },
-          {
-            ["name"] = "metadata",
-            ["title"] = "Metadata",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "paymentScheme",
-            ["title"] = "Payment Scheme",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["short"] = "Payment scheme.",
-          },
           {
             ["name"] = "provider",
             ["title"] = "Provider",
             ["type"] = "`$ANY`",
             ["req"] = true,
-            ["op"] = {
-              ["create"] = {
-                ["type"] = "`$ANY`",
-              },
-            },
             ["short"] = "The provider information for the followup",
-          },
-          {
-            ["name"] = "recipient",
-            ["title"] = "Recipient",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["short"] = "Data about the party receiving the payment.",
-          },
-          {
-            ["name"] = "remittanceInformation",
-            ["title"] = "Remittance Information",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["short"] = "Unstructured or structured remittance information.",
           },
           {
             ["name"] = "sender",
@@ -422,7 +576,7 @@ local function make_config()
             ["short"] = "The sender information to be used with the payment",
           },
         },
-        ["name"] = "create_payment_output_dto",
+        ["name"] = "followup",
         ["op"] = {
           ["create"] = {
             ["input"] = "data",
@@ -500,63 +654,6 @@ local function make_config()
                   ["media"] = "application/json",
                 },
               },
-              {
-                ["kind"] = "http",
-                ["method"] = "POST",
-                ["orig"] = "/api/v1/ob/payments",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "accept_language",
-                      ["orig"] = "Accept-Language",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["example"] = "en",
-                    },
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
             },
           },
         },
@@ -566,120 +663,6 @@ local function make_config()
               "$.main.kit.entity.payment",
             },
           },
-        },
-      },
-      ["create_token_output_dto"] = {
-        ["fields"] = {
-          {
-            ["name"] = "access_token",
-            ["title"] = "Access Token",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "The JWT access token.",
-          },
-          {
-            ["name"] = "expires_in",
-            ["title"] = "Expires In",
-            ["type"] = "`$NUMBER`",
-            ["req"] = true,
-            ["short"] = "Expiration time of the token in seconds.",
-          },
-          {
-            ["name"] = "grant_type",
-            ["title"] = "Grant Type",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "The type of grant being requested.",
-          },
-          {
-            ["name"] = "scope",
-            ["title"] = "Scope",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "Scopes being requested.",
-          },
-          {
-            ["name"] = "token_type",
-            ["title"] = "Token Type",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "Token type.",
-          },
-        },
-        ["name"] = "create_token_output_dto",
-        ["op"] = {
-          ["create"] = {
-            ["input"] = "data",
-            ["name"] = "create",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "POST",
-                ["orig"] = "/api/v1/auth/token",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "auth",
-                  },
-                  {
-                    ["lit"] = "token",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "auth",
-                  "token",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                      ["example"] = "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
-                ["body"] = {
-                  ["fields"] = {
-                    {
-                      ["name"] = "grant_type",
-                    },
-                    {
-                      ["name"] = "scope",
-                    },
-                  },
-                  ["kind"] = "form",
-                  ["media"] = "application/x-www-form-urlencoded",
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
         },
       },
       ["healthcheck"] = {
@@ -746,66 +729,67 @@ local function make_config()
           ["ancestors"] = {},
         },
       },
-      ["latest"] = {
+      ["hosted_ui_customization"] = {
         ["fields"] = {
           {
-            ["name"] = "createdAt",
-            ["title"] = "Created At",
+            ["name"] = "clientId",
+            ["title"] = "Client Id",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Timestamp of status creation",
-            ["format"] = "date-time",
           },
           {
-            ["name"] = "detailedStatus",
-            ["title"] = "Detailed Status",
+            ["name"] = "faviconUrl",
+            ["title"] = "Favicon Url",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Detailed payment status",
           },
           {
-            ["name"] = "failureReasons",
-            ["title"] = "Failure Reasons",
-            ["type"] = "`$ARRAY`",
-            ["req"] = true,
-            ["short"] = "Failure reasons (for `status: FAILED` only)",
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
+            ["name"] = "footerText",
+            ["title"] = "Footer Text",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Unique payment status identifier",
           },
           {
-            ["name"] = "paymentId",
-            ["title"] = "Payment Id",
+            ["name"] = "logoUrl",
+            ["title"] = "Logo Url",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Unique payment identifier",
           },
           {
-            ["name"] = "status",
-            ["title"] = "Status",
+            ["name"] = "primaryColor",
+            ["title"] = "Primary Color",
             ["type"] = "`$STRING`",
             ["req"] = true,
-            ["short"] = "Payment status.",
+          },
+          {
+            ["name"] = "privacyPolicyUrl",
+            ["title"] = "Privacy Policy Url",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "psuPortalBaseUrl",
+            ["title"] = "Psu Portal Base Url",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "termsUrl",
+            ["title"] = "Terms Url",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
           },
         },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "latest",
+        ["name"] = "hosted_ui_customization",
         ["op"] = {
-          ["list"] = {
+          ["load"] = {
             ["input"] = "data",
-            ["name"] = "list",
+            ["name"] = "load",
             ["points"] = {
               {
                 ["kind"] = "http",
                 ["method"] = "GET",
-                ["orig"] = "/api/v1/archive/payment-statuses/latest",
+                ["orig"] = "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -814,26 +798,34 @@ local function make_config()
                     ["lit"] = "v1",
                   },
                   {
-                    ["lit"] = "archive",
+                    ["lit"] = "capabilities",
                   },
                   {
-                    ["lit"] = "payment-statuses",
+                    ["lit"] = "clients",
                   },
                   {
-                    ["lit"] = "latest",
+                    ["var"] = "client_id",
+                  },
+                  {
+                    ["lit"] = "hosted-ui-customizations",
                   },
                 },
                 ["parts"] = {
                   "api",
                   "v1",
-                  "archive",
-                  "payment-statuses",
-                  "latest",
+                  "capabilities",
+                  "clients",
+                  "{client_id}",
+                  "hosted-ui-customizations",
                 },
-                ["rename"] = {},
+                ["rename"] = {
+                  ["param"] = {
+                    ["clientId"] = "client_id",
+                  },
+                },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body.failureReasons`",
+                  ["res"] = "`body`",
                 },
                 ["args"] = {
                   ["header"] = {
@@ -845,21 +837,20 @@ local function make_config()
                       ["reqd"] = true,
                     },
                   },
-                  ["query"] = {
+                  ["params"] = {
                     {
-                      ["name"] = "payment_id",
-                      ["orig"] = "paymentId",
+                      ["name"] = "client_id",
+                      ["orig"] = "clientId",
                       ["type"] = "`$STRING`",
-                      ["kind"] = "query",
+                      ["kind"] = "param",
                       ["reqd"] = true,
-                      ["example"] = "123e4567-e89b-12d3-a456-426614174000",
                     },
                   },
                 },
                 ["select"] = {
                   ["exist"] = {
                     "authorization",
-                    "payment_id",
+                    "client_id",
                   },
                 },
                 ["response"] = {
@@ -874,9 +865,98 @@ local function make_config()
           ["ancestors"] = {},
         },
       },
-      ["obn"] = {
-        ["fields"] = {},
-        ["name"] = "obn",
+      ["payment"] = {
+        ["fields"] = {
+          {
+            ["name"] = "amount",
+            ["title"] = "Amount",
+            ["type"] = "`$NUMBER`",
+            ["req"] = true,
+            ["short"] = "Payment amount",
+          },
+          {
+            ["name"] = "createdAt",
+            ["title"] = "Created At",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "currency",
+            ["title"] = "Currency",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Currency code",
+          },
+          {
+            ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Unique payment identifier",
+          },
+          {
+            ["name"] = "metadata",
+            ["title"] = "Metadata",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "paymentScheme",
+            ["title"] = "Payment Scheme",
+            ["type"] = "`$ANY`",
+            ["req"] = true,
+            ["short"] = "Payment scheme used",
+          },
+          {
+            ["name"] = "provider",
+            ["title"] = "Provider",
+            ["type"] = "`$ANY`",
+            ["req"] = true,
+            ["op"] = {
+              ["create"] = {
+                ["type"] = "`$ANY`",
+              },
+            },
+            ["short"] = "Payment provider details.",
+          },
+          {
+            ["name"] = "recipient",
+            ["title"] = "Recipient",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
+            ["short"] = "Data about the party receiving the payment.",
+          },
+          {
+            ["name"] = "remittanceInformation",
+            ["title"] = "Remittance Information",
+            ["type"] = "`$ANY`",
+            ["req"] = true,
+            ["short"] = "Unstructured or structured remittance information.",
+          },
+          {
+            ["name"] = "sender",
+            ["title"] = "Sender",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
+            ["op"] = {
+              ["create"] = {
+                ["type"] = "`$ANY`",
+              },
+            },
+            ["short"] = "Data about the party sending the payment.",
+          },
+          {
+            ["name"] = "updatedAt",
+            ["title"] = "Updated At",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
+        ["name"] = "payment",
         ["op"] = {
           ["create"] = {
             ["input"] = "data",
@@ -934,67 +1014,7 @@ local function make_config()
                   },
                 },
                 ["select"] = {
-                  ["exist"] = {
-                    "provider_id",
-                    "state",
-                  },
-                },
-              },
-            },
-          },
-          ["load"] = {
-            ["input"] = "data",
-            ["name"] = "load",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/callbacks",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "callbacks",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "callbacks",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "provider_id",
-                      ["orig"] = "providerId",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                    },
-                    {
-                      ["name"] = "state",
-                      ["orig"] = "state",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["$action"] = "callback",
+                  ["$action"] = "cancel",
                   ["exist"] = {
                     "provider_id",
                     "state",
@@ -1003,8 +1023,8 @@ local function make_config()
               },
               {
                 ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/client-jwks",
+                ["method"] = "POST",
+                ["orig"] = "/api/v1/ob/payments",
                 ["segments"] = {
                   {
                     ["lit"] = "api",
@@ -1016,14 +1036,14 @@ local function make_config()
                     ["lit"] = "ob",
                   },
                   {
-                    ["lit"] = "client-jwks",
+                    ["lit"] = "payments",
                   },
                 },
                 ["parts"] = {
                   "api",
                   "v1",
                   "ob",
-                  "client-jwks",
+                  "payments",
                 },
                 ["rename"] = {},
                 ["transform"] = {
@@ -1031,563 +1051,35 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["query"] = {
+                  ["header"] = {
                     {
-                      ["name"] = "client_id",
-                      ["orig"] = "clientId",
+                      ["name"] = "accept_language",
+                      ["orig"] = "Accept-Language",
                       ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                      ["example"] = "f2d4a1b7-3c8e-4f9a-b2d1-7e6c5b4a3f2e",
+                      ["kind"] = "header",
+                      ["example"] = "en",
                     },
                     {
-                      ["name"] = "provider_id",
-                      ["orig"] = "providerId",
+                      ["name"] = "authorization",
+                      ["orig"] = "Authorization",
                       ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                      ["example"] = "b7e1c2a4-8f3b-4e2a-9c5d-2a1b3c4d5e6f",
-                    },
-                    {
-                      ["name"] = "revoked",
-                      ["orig"] = "revoked",
-                      ["type"] = "`$BOOLEAN`",
-                      ["kind"] = "query",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["$action"] = "client_jwk",
-                  ["exist"] = {
-                    "client_id",
-                    "provider_id",
-                  },
-                },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/payments/sender-accounts",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "sender-accounts",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "sender-accounts",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["query"] = {
-                    {
-                      ["name"] = "provider_id",
-                      ["orig"] = "providerId",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                    },
-                    {
-                      ["name"] = "state",
-                      ["orig"] = "state",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "query",
+                      ["kind"] = "header",
                       ["reqd"] = true,
                     },
                   },
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "provider_id",
-                    "state",
+                    "authorization",
                   },
                 },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/callbacks/with-provider-nano-id",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "callbacks",
-                  },
-                  {
-                    ["lit"] = "with-provider-nano-id",
-                  },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
                 },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "callbacks",
-                  "with-provider-nano-id",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/payments/decoupled/confirmation-data",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "confirmation-data",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "confirmation-data",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/payments/decoupled/consent-status",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "consent-status",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "consent-status",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/payments/decoupled/sca-data",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "sca-data",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "sca-data",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/ob/payments/decoupled/sca-methods",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "sca-methods",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "sca-methods",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
               },
             },
           },
-          ["update"] = {
-            ["input"] = "data",
-            ["name"] = "update",
-            ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "PATCH",
-                ["orig"] = "/api/v1/ob/payments/decoupled/sca-data",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "sca-data",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "sca-data",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "PATCH",
-                ["orig"] = "/api/v1/ob/payments/decoupled/selected-sca-method",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "decoupled",
-                  },
-                  {
-                    ["lit"] = "selected-sca-method",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "decoupled",
-                  "selected-sca-method",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "PATCH",
-                ["orig"] = "/api/v1/ob/payments/psu-provided-data",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "psu-provided-data",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "psu-provided-data",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "PATCH",
-                ["orig"] = "/api/v1/ob/payments/sender-accounts",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "ob",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["lit"] = "sender-accounts",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "ob",
-                  "payments",
-                  "sender-accounts",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {},
-                ["select"] = {},
-              },
-            },
-          },
-        },
-        ["relations"] = {
-          ["ancestors"] = {},
-        },
-      },
-      ["payment"] = {
-        ["fields"] = {
-          {
-            ["name"] = "amount",
-            ["title"] = "Amount",
-            ["type"] = "`$NUMBER`",
-            ["req"] = true,
-            ["short"] = "Payment amount",
-          },
-          {
-            ["name"] = "clientId",
-            ["title"] = "Client Id",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "Client identifier",
-          },
-          {
-            ["name"] = "createdAt",
-            ["title"] = "Created At",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "currency",
-            ["title"] = "Currency",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "Currency code",
-          },
-          {
-            ["name"] = "id",
-            ["title"] = "Id",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "Unique payment identifier",
-          },
-          {
-            ["name"] = "metadata",
-            ["title"] = "Metadata",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "paymentScheme",
-            ["title"] = "Payment Scheme",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["short"] = "Payment scheme used",
-          },
-          {
-            ["name"] = "provider",
-            ["title"] = "Provider",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["op"] = {
-              ["load"] = {
-                ["type"] = "`$OBJECT`",
-              },
-            },
-            ["short"] = "Payment provider details.",
-          },
-          {
-            ["name"] = "recipient",
-            ["title"] = "Recipient",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-          },
-          {
-            ["name"] = "remittanceInformation",
-            ["title"] = "Remittance Information",
-            ["type"] = "`$ANY`",
-            ["req"] = true,
-            ["short"] = "Unstructured or structured remittance information.",
-          },
-          {
-            ["name"] = "sender",
-            ["title"] = "Sender",
-            ["type"] = "`$OBJECT`",
-            ["req"] = true,
-            ["op"] = {
-              ["load"] = {
-                ["type"] = "`$OBJECT`",
-              },
-            },
-          },
-          {
-            ["name"] = "status",
-            ["title"] = "Status",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-            ["short"] = "The most recent status of the payment.",
-          },
-          {
-            ["name"] = "updatedAt",
-            ["title"] = "Updated At",
-            ["type"] = "`$STRING`",
-            ["req"] = true,
-          },
-        },
-        ["id"] = {
-          ["field"] = "id",
-          ["name"] = "id",
-        },
-        ["name"] = "payment",
-        ["op"] = {
           ["list"] = {
             ["input"] = "data",
             ["name"] = "list",
@@ -1680,74 +1172,6 @@ local function make_config()
               {
                 ["kind"] = "http",
                 ["method"] = "GET",
-                ["orig"] = "/api/v1/archive/internal/payments/{id}",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "archive",
-                  },
-                  {
-                    ["lit"] = "internal",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["var"] = "id",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "archive",
-                  "internal",
-                  "payments",
-                  "{id}",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                    "id",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
                 ["orig"] = "/api/v1/archive/payments/{id}",
                 ["segments"] = {
                   {
@@ -1770,70 +1194,6 @@ local function make_config()
                   "api",
                   "v1",
                   "archive",
-                  "payments",
-                  "{id}",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["name"] = "id",
-                      ["orig"] = "id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                    "id",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/reports/payments/{id}",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "reports",
-                  },
-                  {
-                    ["lit"] = "payments",
-                  },
-                  {
-                    ["var"] = "id",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "reports",
                   "payments",
                   "{id}",
                 },
@@ -1999,6 +1359,78 @@ local function make_config()
               },
             },
           },
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/archive/payment-statuses/latest",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "archive",
+                  },
+                  {
+                    ["lit"] = "payment-statuses",
+                  },
+                  {
+                    ["lit"] = "latest",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "archive",
+                  "payment-statuses",
+                  "latest",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "authorization",
+                      ["orig"] = "Authorization",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["query"] = {
+                    {
+                      ["name"] = "payment_id",
+                      ["orig"] = "paymentId",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                      ["example"] = "123e4567-e89b-12d3-a456-426614174000",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["$action"] = "latest",
+                  ["exist"] = {
+                    "authorization",
+                    "payment_id",
+                  },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+            },
+          },
         },
         ["relations"] = {
           ["ancestors"] = {},
@@ -2083,76 +1515,6 @@ local function make_config()
               {
                 ["kind"] = "http",
                 ["method"] = "GET",
-                ["orig"] = "/api/v1/capabilities/internal/providers",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "capabilities",
-                  },
-                  {
-                    ["lit"] = "internal",
-                  },
-                  {
-                    ["lit"] = "providers",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "capabilities",
-                  "internal",
-                  "providers",
-                },
-                ["rename"] = {},
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.items`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["name"] = "cursor",
-                      ["orig"] = "cursor",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "filter",
-                      ["orig"] = "filters",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                    "filter",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
                 ["orig"] = "/api/v1/capabilities/providers",
                 ["segments"] = {
                   {
@@ -2221,7 +1583,516 @@ local function make_config()
           ["ancestors"] = {},
         },
       },
-      ["providers_subsidiary_output_dto"] = {
+      ["psu_provided_data"] = {
+        ["fields"] = {},
+        ["name"] = "psu_provided_data",
+        ["op"] = {
+          ["update"] = {
+            ["input"] = "data",
+            ["name"] = "update",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "PATCH",
+                ["orig"] = "/api/v1/ob/payments/psu-provided-data",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "psu-provided-data",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "psu-provided-data",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["report"] = {
+        ["fields"] = {
+          {
+            ["name"] = "amount",
+            ["title"] = "Amount",
+            ["type"] = "`$NUMBER`",
+            ["req"] = true,
+            ["short"] = "Payment amount",
+          },
+          {
+            ["name"] = "createdAt",
+            ["title"] = "Created At",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "currency",
+            ["title"] = "Currency",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Currency code",
+          },
+          {
+            ["name"] = "id",
+            ["title"] = "Id",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Unique payment identifier",
+          },
+          {
+            ["name"] = "provider",
+            ["title"] = "Provider",
+            ["type"] = "`$OBJECT`",
+            ["short"] = "Selected provider details (name, country).",
+          },
+          {
+            ["name"] = "recipient",
+            ["title"] = "Recipient",
+            ["type"] = "`$OBJECT`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "remittanceInformation",
+            ["title"] = "Remittance Information",
+            ["type"] = "`$ANY`",
+            ["req"] = true,
+          },
+          {
+            ["name"] = "sender",
+            ["title"] = "Sender",
+            ["type"] = "`$OBJECT`",
+          },
+          {
+            ["name"] = "status",
+            ["title"] = "Status",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "The most recent status of the payment.",
+          },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
+        },
+        ["name"] = "report",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/reports/payments/{id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "reports",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["var"] = "id",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "reports",
+                  "payments",
+                  "{id}",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "authorization",
+                      ["orig"] = "Authorization",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                      ["reqd"] = true,
+                    },
+                  },
+                  ["params"] = {
+                    {
+                      ["name"] = "id",
+                      ["orig"] = "id",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "param",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "authorization",
+                    "id",
+                  },
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["sca_data"] = {
+        ["fields"] = {},
+        ["name"] = "sca_data",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/payments/decoupled/sca-data",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "sca-data",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "sca-data",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+          ["update"] = {
+            ["input"] = "data",
+            ["name"] = "update",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "PATCH",
+                ["orig"] = "/api/v1/ob/payments/decoupled/sca-data",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "sca-data",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "sca-data",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["sca_method"] = {
+        ["fields"] = {},
+        ["name"] = "sca_method",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/payments/decoupled/sca-methods",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "sca-methods",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "sca-methods",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+          ["update"] = {
+            ["input"] = "data",
+            ["name"] = "update",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "PATCH",
+                ["orig"] = "/api/v1/ob/payments/decoupled/selected-sca-method",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "decoupled",
+                  },
+                  {
+                    ["lit"] = "selected-sca-method",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "decoupled",
+                  "selected-sca-method",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["sender_account"] = {
+        ["fields"] = {},
+        ["name"] = "sender_account",
+        ["op"] = {
+          ["load"] = {
+            ["input"] = "data",
+            ["name"] = "load",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "GET",
+                ["orig"] = "/api/v1/ob/payments/sender-accounts",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "sender-accounts",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "sender-accounts",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["query"] = {
+                    {
+                      ["name"] = "provider_id",
+                      ["orig"] = "providerId",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                    },
+                    {
+                      ["name"] = "state",
+                      ["orig"] = "state",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "query",
+                      ["reqd"] = true,
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "provider_id",
+                    "state",
+                  },
+                },
+              },
+            },
+          },
+          ["update"] = {
+            ["input"] = "data",
+            ["name"] = "update",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "PATCH",
+                ["orig"] = "/api/v1/ob/payments/sender-accounts",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "ob",
+                  },
+                  {
+                    ["lit"] = "payments",
+                  },
+                  {
+                    ["lit"] = "sender-accounts",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "ob",
+                  "payments",
+                  "sender-accounts",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {},
+                ["select"] = {},
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
+        },
+      },
+      ["subsidiary"] = {
         ["fields"] = {
           {
             ["name"] = "bic",
@@ -2291,104 +2162,12 @@ local function make_config()
           ["field"] = "id",
           ["name"] = "id",
         },
-        ["name"] = "providers_subsidiary_output_dto",
+        ["name"] = "subsidiary",
         ["op"] = {
           ["list"] = {
             ["input"] = "data",
             ["name"] = "list",
             ["points"] = {
-              {
-                ["kind"] = "http",
-                ["method"] = "GET",
-                ["orig"] = "/api/v1/capabilities/internal/providers/{id}/subsidiaries",
-                ["segments"] = {
-                  {
-                    ["lit"] = "api",
-                  },
-                  {
-                    ["lit"] = "v1",
-                  },
-                  {
-                    ["lit"] = "capabilities",
-                  },
-                  {
-                    ["lit"] = "internal",
-                  },
-                  {
-                    ["lit"] = "providers",
-                  },
-                  {
-                    ["var"] = "provider_id",
-                  },
-                  {
-                    ["lit"] = "subsidiaries",
-                  },
-                },
-                ["parts"] = {
-                  "api",
-                  "v1",
-                  "capabilities",
-                  "internal",
-                  "providers",
-                  "{provider_id}",
-                  "subsidiaries",
-                },
-                ["rename"] = {
-                  ["param"] = {
-                    ["id"] = "provider_id",
-                  },
-                },
-                ["transform"] = {
-                  ["req"] = "`reqdata`",
-                  ["res"] = "`body.items`",
-                },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["params"] = {
-                    {
-                      ["name"] = "provider_id",
-                      ["orig"] = "id",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "param",
-                      ["reqd"] = true,
-                    },
-                  },
-                  ["query"] = {
-                    {
-                      ["name"] = "cursor",
-                      ["orig"] = "cursor",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                    },
-                    {
-                      ["name"] = "filter",
-                      ["orig"] = "filters",
-                      ["type"] = "`$OBJECT`",
-                      ["kind"] = "query",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                    "filter",
-                    "provider_id",
-                  },
-                },
-                ["response"] = {
-                  ["kind"] = "json",
-                  ["media"] = "application/json",
-                },
-              },
               {
                 ["kind"] = "http",
                 ["method"] = "GET",
@@ -2484,6 +2263,120 @@ local function make_config()
               "$.main.kit.entity.provider",
             },
           },
+        },
+      },
+      ["token"] = {
+        ["fields"] = {
+          {
+            ["name"] = "access_token",
+            ["title"] = "Access Token",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "The JWT access token.",
+          },
+          {
+            ["name"] = "expires_in",
+            ["title"] = "Expires In",
+            ["type"] = "`$NUMBER`",
+            ["req"] = true,
+            ["short"] = "Expiration time of the token in seconds.",
+          },
+          {
+            ["name"] = "grant_type",
+            ["title"] = "Grant Type",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "The type of grant being requested.",
+          },
+          {
+            ["name"] = "scope",
+            ["title"] = "Scope",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Scopes being requested.",
+          },
+          {
+            ["name"] = "token_type",
+            ["title"] = "Token Type",
+            ["type"] = "`$STRING`",
+            ["req"] = true,
+            ["short"] = "Token type.",
+          },
+        },
+        ["name"] = "token",
+        ["op"] = {
+          ["create"] = {
+            ["input"] = "data",
+            ["name"] = "create",
+            ["points"] = {
+              {
+                ["kind"] = "http",
+                ["method"] = "POST",
+                ["orig"] = "/api/v1/auth/token",
+                ["segments"] = {
+                  {
+                    ["lit"] = "api",
+                  },
+                  {
+                    ["lit"] = "v1",
+                  },
+                  {
+                    ["lit"] = "auth",
+                  },
+                  {
+                    ["lit"] = "token",
+                  },
+                },
+                ["parts"] = {
+                  "api",
+                  "v1",
+                  "auth",
+                  "token",
+                },
+                ["rename"] = {},
+                ["transform"] = {
+                  ["req"] = "`reqdata`",
+                  ["res"] = "`body`",
+                },
+                ["args"] = {
+                  ["header"] = {
+                    {
+                      ["name"] = "authorization",
+                      ["orig"] = "Authorization",
+                      ["type"] = "`$STRING`",
+                      ["kind"] = "header",
+                      ["reqd"] = true,
+                      ["example"] = "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
+                    },
+                  },
+                },
+                ["select"] = {
+                  ["exist"] = {
+                    "authorization",
+                  },
+                },
+                ["body"] = {
+                  ["fields"] = {
+                    {
+                      ["name"] = "grant_type",
+                    },
+                    {
+                      ["name"] = "scope",
+                    },
+                  },
+                  ["kind"] = "form",
+                  ["media"] = "application/x-www-form-urlencoded",
+                },
+                ["response"] = {
+                  ["kind"] = "json",
+                  ["media"] = "application/json",
+                },
+              },
+            },
+          },
+        },
+        ["relations"] = {
+          ["ancestors"] = {},
         },
       },
     },

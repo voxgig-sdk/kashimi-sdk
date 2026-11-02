@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "sca_method": {
+      "SCA_METHOD00": {
+        "id": "SCA_METHOD00"
+      },
+      "SCA_METHOD01": {
+        "id": "SCA_METHOD01"
+      },
+      "SCA_METHOD02": {
+        "id": "SCA_METHOD02"
+      }
+    }
+  },
+  "new": {
+    "sca_method": {
+      "sca_method_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/payments/decoupled/sca-methods": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/decoupled/selected-sca-method": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

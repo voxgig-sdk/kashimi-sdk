@@ -125,7 +125,7 @@ func TestPaymentDirect(t *testing.T) {
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "api/v1/archive/internal/payments/{id}",
+			"path":   "api/v1/archive/payments/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,
@@ -197,7 +197,6 @@ func paymentDirectSetup(mockres any) *paymentDirectSetupResult {
 		"KASHIMI_TEST_PAYMENT_ENTID": map[string]any{},
 		"KASHIMI_TEST_LIVE":    "FALSE",
 		"KASHIMI_APIKEY":       "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	live := env["KASHIMI_TEST_LIVE"] == "TRUE"
@@ -211,9 +210,6 @@ func paymentDirectSetup(mockres any) *paymentDirectSetupResult {
 		}
 		for k, v := range map[string]any{
 			"apikey": env["KASHIMI_APIKEY"],
-		"server": map[string]any{
-			"base": env["KASHIMI_SERVER_BASE"],
-		},
 		} {
 			mergedOpts[k] = v
 		}

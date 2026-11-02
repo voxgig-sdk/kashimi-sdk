@@ -1,0 +1,48 @@
+{
+  "existing": {
+    "token": {
+      "TOKEN00": {
+        "access_token": "s32",
+        "expires_in": 51,
+        "grant_type": "s34",
+        "scope": "s35",
+        "token_type": "s36",
+        "id": "TOKEN00"
+      },
+      "TOKEN01": {
+        "access_token": "s64",
+        "expires_in": 101,
+        "grant_type": "s66",
+        "scope": "s67",
+        "token_type": "s68",
+        "id": "TOKEN01"
+      },
+      "TOKEN02": {
+        "access_token": "s96",
+        "expires_in": 151,
+        "grant_type": "s98",
+        "scope": "s99",
+        "token_type": "s9a",
+        "id": "TOKEN02"
+      }
+    }
+  },
+  "new": {
+    "token": {
+      "token_ref01": {
+        "access_token": "sc8",
+        "expires_in": 201,
+        "grant_type": "sca",
+        "scope": "scb",
+        "token_type": "scc"
+      }
+    }
+  },
+  "requests": {
+    "POST /api/v1/auth/token": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

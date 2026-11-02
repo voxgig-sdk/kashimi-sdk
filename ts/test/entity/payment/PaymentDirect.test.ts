@@ -76,7 +76,7 @@ describe('PaymentDirect', async () => {
     }
 
     const result: any = await client.direct({
-      path: 'api/v1/archive/internal/payments/{id}',
+      path: 'api/v1/archive/payments/{id}',
       method: 'GET',
       params,
       query,
@@ -153,7 +153,6 @@ function directSetup(mockres?: any) {
     'KASHIMI_TEST_PAYMENT_ENTID': {},
     'KASHIMI_TEST_LIVE': 'FALSE',
     'KASHIMI_APIKEY': '',
-    'KASHIMI_SERVER_BASE': "",
   })
 
   const live = 'TRUE' === env.KASHIMI_TEST_LIVE
@@ -165,9 +164,6 @@ function directSetup(mockres?: any) {
     const client = new KashimiSDK(
       Object.assign({}, liveClientOptions(), { system: { fetch: transport.fetch },
       apikey: env.KASHIMI_APIKEY,
-      server: {
-        base: env.KASHIMI_SERVER_BASE,
-      },
       }))
 
     let idmap: any = env['KASHIMI_TEST_PAYMENT_ENTID']

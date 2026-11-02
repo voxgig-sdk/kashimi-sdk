@@ -1,0 +1,32 @@
+{
+  "existing": {
+    "sender_account": {
+      "SENDER_ACCOUNT00": {
+        "id": "SENDER_ACCOUNT00"
+      },
+      "SENDER_ACCOUNT01": {
+        "id": "SENDER_ACCOUNT01"
+      },
+      "SENDER_ACCOUNT02": {
+        "id": "SENDER_ACCOUNT02"
+      }
+    }
+  },
+  "new": {
+    "sender_account": {
+      "sender_account_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/ob/payments/sender-accounts": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "PATCH /api/v1/ob/payments/sender-accounts": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

@@ -100,7 +100,6 @@ function healthcheck_basic_setup($extra)
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_TEST_EXPLAIN" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -116,9 +115,6 @@ function healthcheck_basic_setup($extra)
             Runner::live_client_options(),
             [
                 "apikey" => $env["KASHIMI_APIKEY"],
-                "server" => [
-                    "base" => $env["KASHIMI_SERVER_BASE"],
-                ],
             ],
             // ismap, not a plain "?? []" default: an empty PHP array is a
             // LIST, and a non-map later entry REPLACES the accumulated map in

@@ -1,0 +1,21 @@
+{
+  "existing": {
+    "country": {
+      "COUNTRY00": {},
+      "COUNTRY01": {},
+      "COUNTRY02": {}
+    }
+  },
+  "new": {
+    "country": {
+      "country_ref01": {}
+    }
+  },
+  "requests": {
+    "GET /api/v1/capabilities/providers/countries": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    }
+  }
+}

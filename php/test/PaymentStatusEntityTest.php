@@ -194,7 +194,7 @@ class PaymentStatusEntityTest extends TestCase
         $setup = payment_status_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["list"] as $_op) {
+        foreach (["list", "load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "payment_status." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -202,6 +202,10 @@ class PaymentStatusEntityTest extends TestCase
             }
         }
         $client = $setup["client"];
+        if (!empty($setup["live"])) {
+            Runner::live_existing($setup, self::LIVE_STRICT, "payment_status",
+                fn() => $client->PaymentStatus(null)->list(["payment_id" => '123e4567-e89b-12d3-a456-426614174000'], null));
+        }
 
         // Bootstrap entity data from existing test data.
         $payment_status_ref01_data_raw = Vs::items(Helpers::to_map(
@@ -220,6 +224,15 @@ class PaymentStatusEntityTest extends TestCase
 
         $payment_status_ref01_list_result = $payment_status_ref01_ent->list($payment_status_ref01_match, null);
         $this->assertIsArray($payment_status_ref01_list_result);
+
+        // LOAD
+        $payment_status_ref01_match_dt0 = [
+            "id" => $payment_status_ref01_data["id"],
+        ];
+        $payment_status_ref01_data_dt0_loaded = $payment_status_ref01_ent->load($payment_status_ref01_match_dt0, null);
+        $payment_status_ref01_data_dt0_load_result = Helpers::to_map(is_object($payment_status_ref01_data_dt0_loaded) && method_exists($payment_status_ref01_data_dt0_loaded, 'data_get') ? $payment_status_ref01_data_dt0_loaded->data_get() : $payment_status_ref01_data_dt0_loaded);
+        $this->assertNotNull($payment_status_ref01_data_dt0_load_result);
+        $this->assertEquals($payment_status_ref01_data_dt0_load_result["id"], $payment_status_ref01_data["id"]);
 
     }
 }
@@ -253,7 +266,6 @@ function payment_status_basic_setup($extra)
         "KASHIMI_TEST_LIVE" => "FALSE",
         "KASHIMI_TEST_EXPLAIN" => "FALSE",
         "KASHIMI_APIKEY" => "",
-        "KASHIMI_SERVER_BASE" => '',
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -269,9 +281,6 @@ function payment_status_basic_setup($extra)
             Runner::live_client_options(),
             [
                 "apikey" => $env["KASHIMI_APIKEY"],
-                "server" => [
-                    "base" => $env["KASHIMI_SERVER_BASE"],
-                ],
             ],
             // ismap, not a plain "?? []" default: an empty PHP array is a
             // LIST, and a non-map later entry REPLACES the accumulated map in

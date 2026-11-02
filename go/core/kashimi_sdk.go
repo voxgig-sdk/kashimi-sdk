@@ -372,35 +372,51 @@ func (sdk *KashimiSDK) Graphql(
 }
 
 
-// Capability returns a Capability entity bound to this client.
-// Idiomatic usage: client.Capability(nil).List(nil, nil) or
-// client.Capability(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) Capability(data map[string]any) KashimiEntityBase {
-	return NewCapabilityEntityFunc(sdk, data)
+// Callback returns a Callback entity bound to this client.
+// Idiomatic usage: client.Callback(nil).List(nil, nil) or
+// client.Callback(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Callback(data map[string]any) KashimiEntityBase {
+	return NewCallbackEntityFunc(sdk, data)
 }
 
 
-// ClientHostedUiCustomizationsOutputDto returns a ClientHostedUiCustomizationsOutputDto entity bound to this client.
-// Idiomatic usage: client.ClientHostedUiCustomizationsOutputDto(nil).List(nil, nil) or
-// client.ClientHostedUiCustomizationsOutputDto(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) ClientHostedUiCustomizationsOutputDto(data map[string]any) KashimiEntityBase {
-	return NewClientHostedUiCustomizationsOutputDtoEntityFunc(sdk, data)
+// ClientJwk returns a ClientJwk entity bound to this client.
+// Idiomatic usage: client.ClientJwk(nil).List(nil, nil) or
+// client.ClientJwk(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) ClientJwk(data map[string]any) KashimiEntityBase {
+	return NewClientJwkEntityFunc(sdk, data)
 }
 
 
-// CreatePaymentOutputDto returns a CreatePaymentOutputDto entity bound to this client.
-// Idiomatic usage: client.CreatePaymentOutputDto(nil).List(nil, nil) or
-// client.CreatePaymentOutputDto(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) CreatePaymentOutputDto(data map[string]any) KashimiEntityBase {
-	return NewCreatePaymentOutputDtoEntityFunc(sdk, data)
+// ConfirmationData returns a ConfirmationData entity bound to this client.
+// Idiomatic usage: client.ConfirmationData(nil).List(nil, nil) or
+// client.ConfirmationData(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) ConfirmationData(data map[string]any) KashimiEntityBase {
+	return NewConfirmationDataEntityFunc(sdk, data)
 }
 
 
-// CreateTokenOutputDto returns a CreateTokenOutputDto entity bound to this client.
-// Idiomatic usage: client.CreateTokenOutputDto(nil).List(nil, nil) or
-// client.CreateTokenOutputDto(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) CreateTokenOutputDto(data map[string]any) KashimiEntityBase {
-	return NewCreateTokenOutputDtoEntityFunc(sdk, data)
+// ConsentStatus returns a ConsentStatus entity bound to this client.
+// Idiomatic usage: client.ConsentStatus(nil).List(nil, nil) or
+// client.ConsentStatus(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) ConsentStatus(data map[string]any) KashimiEntityBase {
+	return NewConsentStatusEntityFunc(sdk, data)
+}
+
+
+// Country returns a Country entity bound to this client.
+// Idiomatic usage: client.Country(nil).List(nil, nil) or
+// client.Country(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Country(data map[string]any) KashimiEntityBase {
+	return NewCountryEntityFunc(sdk, data)
+}
+
+
+// Followup returns a Followup entity bound to this client.
+// Idiomatic usage: client.Followup(nil).List(nil, nil) or
+// client.Followup(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Followup(data map[string]any) KashimiEntityBase {
+	return NewFollowupEntityFunc(sdk, data)
 }
 
 
@@ -412,19 +428,11 @@ func (sdk *KashimiSDK) Healthcheck(data map[string]any) KashimiEntityBase {
 }
 
 
-// Latest returns a Latest entity bound to this client.
-// Idiomatic usage: client.Latest(nil).List(nil, nil) or
-// client.Latest(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) Latest(data map[string]any) KashimiEntityBase {
-	return NewLatestEntityFunc(sdk, data)
-}
-
-
-// Obn returns a Obn entity bound to this client.
-// Idiomatic usage: client.Obn(nil).List(nil, nil) or
-// client.Obn(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) Obn(data map[string]any) KashimiEntityBase {
-	return NewObnEntityFunc(sdk, data)
+// HostedUiCustomization returns a HostedUiCustomization entity bound to this client.
+// Idiomatic usage: client.HostedUiCustomization(nil).List(nil, nil) or
+// client.HostedUiCustomization(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) HostedUiCustomization(data map[string]any) KashimiEntityBase {
+	return NewHostedUiCustomizationEntityFunc(sdk, data)
 }
 
 
@@ -452,11 +460,59 @@ func (sdk *KashimiSDK) Provider(data map[string]any) KashimiEntityBase {
 }
 
 
-// ProvidersSubsidiaryOutputDto returns a ProvidersSubsidiaryOutputDto entity bound to this client.
-// Idiomatic usage: client.ProvidersSubsidiaryOutputDto(nil).List(nil, nil) or
-// client.ProvidersSubsidiaryOutputDto(nil).Load(map[string]any{"id": ...}, nil).
-func (sdk *KashimiSDK) ProvidersSubsidiaryOutputDto(data map[string]any) KashimiEntityBase {
-	return NewProvidersSubsidiaryOutputDtoEntityFunc(sdk, data)
+// PsuProvidedData returns a PsuProvidedData entity bound to this client.
+// Idiomatic usage: client.PsuProvidedData(nil).List(nil, nil) or
+// client.PsuProvidedData(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) PsuProvidedData(data map[string]any) KashimiEntityBase {
+	return NewPsuProvidedDataEntityFunc(sdk, data)
+}
+
+
+// Report returns a Report entity bound to this client.
+// Idiomatic usage: client.Report(nil).List(nil, nil) or
+// client.Report(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Report(data map[string]any) KashimiEntityBase {
+	return NewReportEntityFunc(sdk, data)
+}
+
+
+// ScaData returns a ScaData entity bound to this client.
+// Idiomatic usage: client.ScaData(nil).List(nil, nil) or
+// client.ScaData(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) ScaData(data map[string]any) KashimiEntityBase {
+	return NewScaDataEntityFunc(sdk, data)
+}
+
+
+// ScaMethod returns a ScaMethod entity bound to this client.
+// Idiomatic usage: client.ScaMethod(nil).List(nil, nil) or
+// client.ScaMethod(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) ScaMethod(data map[string]any) KashimiEntityBase {
+	return NewScaMethodEntityFunc(sdk, data)
+}
+
+
+// SenderAccount returns a SenderAccount entity bound to this client.
+// Idiomatic usage: client.SenderAccount(nil).List(nil, nil) or
+// client.SenderAccount(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) SenderAccount(data map[string]any) KashimiEntityBase {
+	return NewSenderAccountEntityFunc(sdk, data)
+}
+
+
+// Subsidiary returns a Subsidiary entity bound to this client.
+// Idiomatic usage: client.Subsidiary(nil).List(nil, nil) or
+// client.Subsidiary(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Subsidiary(data map[string]any) KashimiEntityBase {
+	return NewSubsidiaryEntityFunc(sdk, data)
+}
+
+
+// Token returns a Token entity bound to this client.
+// Idiomatic usage: client.Token(nil).List(nil, nil) or
+// client.Token(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *KashimiSDK) Token(data map[string]any) KashimiEntityBase {
+	return NewTokenEntityFunc(sdk, data)
 }
 
 

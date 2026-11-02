@@ -19,15 +19,16 @@ make build
 export KASHIMI_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./kashimi-cli list capability
-./kashimi-cli list latest
+./kashimi-cli load 1 callback            # {id:1} shorthand
+./kashimi-cli load '{id:1}' callback       # explicit match map
+./kashimi-cli list country
 
 # 5. Override the API base URL for a single call
-KASHIMI_BASE=https://api.example.com ./kashimi-cli list capability
+KASHIMI_BASE=https://api.example.com ./kashimi-cli load 1 callback
 
 # 6. No arguments -> interactive REPL
 ./kashimi-cli
-kashimi> list capability
+kashimi> load 1 callback
 kashimi> /quit
 ```
 
@@ -53,7 +54,7 @@ kashimi> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/kashimi-cli list capability
+   ./dist/*/kashimi-cli load 1 callback
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -63,14 +64,15 @@ That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
 
-### List the records of an entity
+### Load a single record
 
 ```sh
-./kashimi-cli list capability
+./kashimi-cli load 1 callback          # scalar shorthand for {id:1}
+./kashimi-cli load '{id:1}' callback     # explicit match map
 ```
 
-`list <entity>` returns the first page of records. `<entity>` is a bareword —
-it is auto-quoted as an boru atom, so no quotes are needed.
+The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
+(`{id:1}`, `{slug:"acme"}`). Quote the map so your shell passes it through intact.
 
 ### Authenticate and choose an environment
 
@@ -79,7 +81,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export KASHIMI_APIKEY=sk_live_xxx            # API key
 export KASHIMI_BASE=https://api.example.com  # optional: override the API base URL
-./kashimi-cli list capability
+./kashimi-cli load 1 callback
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -91,7 +93,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./kashimi-cli
-kashimi> list capability
+kashimi> load 1 callback
 kashimi> /help
 kashimi> /quit
 ```
@@ -106,7 +108,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 11 entities.
+below — this SDK exposes 18 entities.
 
 ## Reference
 
@@ -120,7 +122,7 @@ The CLI registers these boru words, each bound to the SDK:
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
 | `update` | `update <query> <entity>`                     | Update a record, return it     |
 
-- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `capability`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `callback`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -161,9 +163,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 11 entities this SDK exposes (any is valid as `<entity>`):
+The 18 entities this SDK exposes (any is valid as `<entity>`):
 
-capability client_hosted_ui_customizations_output_dto create_payment_output_dto create_token_output_dto healthcheck latest obn payment payment_status provider providers_subsidiary_output_dto
+callback client_jwk confirmation_data consent_status country followup healthcheck hosted_ui_customization payment payment_status provider psu_provided_data report sca_data sca_method sender_account subsidiary token
 
 ## Explanation
 

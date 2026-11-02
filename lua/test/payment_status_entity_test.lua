@@ -147,7 +147,7 @@ describe("PaymentStatusEntity", function()
     local setup = payment_status_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"list"}) do
+    for _, _op in ipairs({"list", "load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "payment_status." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -155,6 +155,11 @@ describe("PaymentStatusEntity", function()
       end
     end
     local client = setup.client
+    if setup.live then
+      runner.live_existing(pending, setup, LIVE_STRICT, "payment_status", function()
+        return client:PaymentStatus(nil):list({["payment_id"] = "123e4567-e89b-12d3-a456-426614174000"}, nil)
+      end)
+    end
 
     -- Bootstrap entity data from existing test data.
     local payment_status_ref01_data_raw = vs.items(helpers.to_map(
@@ -174,6 +179,16 @@ describe("PaymentStatusEntity", function()
     local payment_status_ref01_list_result, err = payment_status_ref01_ent:list(payment_status_ref01_match, nil)
     assert.is_nil(err)
     assert.is_table(payment_status_ref01_list_result)
+
+    -- LOAD
+    local payment_status_ref01_match_dt0 = {
+      id = payment_status_ref01_data["id"],
+    }
+    local payment_status_ref01_data_dt0_loaded, err = payment_status_ref01_ent:load(payment_status_ref01_match_dt0, nil)
+    assert.is_nil(err)
+    local payment_status_ref01_data_dt0_load_result = helpers.to_map(type(payment_status_ref01_data_dt0_loaded) == 'table' and payment_status_ref01_data_dt0_loaded.data_get and payment_status_ref01_data_dt0_loaded:data_get() or payment_status_ref01_data_dt0_loaded)
+    assert.is_not_nil(payment_status_ref01_data_dt0_load_result)
+    assert.are.equal(payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"])
 
   end)
 end)
@@ -217,7 +232,6 @@ function payment_status_basic_setup(extra)
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_TEST_EXPLAIN"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -233,9 +247,6 @@ function payment_status_basic_setup(extra)
       runner.live_client_options(),
       {
         apikey = env["KASHIMI_APIKEY"],
-        server = {
-          ["base"] = env["KASHIMI_SERVER_BASE"],
-        },
       },
       extra or {},
     })

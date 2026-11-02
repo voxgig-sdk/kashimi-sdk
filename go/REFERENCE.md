@@ -48,33 +48,37 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 ### Instance Methods
 
-#### `Capability(data map[string]any) KashimiEntityBase`
+#### `Callback(data map[string]any) KashimiEntityBase`
 
-Create a new `Capability` entity instance. Pass `nil` for no initial data.
+Create a new `Callback` entity instance. Pass `nil` for no initial data.
 
-#### `ClientHostedUiCustomizationsOutputDto(data map[string]any) KashimiEntityBase`
+#### `ClientJwk(data map[string]any) KashimiEntityBase`
 
-Create a new `ClientHostedUiCustomizationsOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ClientJwk` entity instance. Pass `nil` for no initial data.
 
-#### `CreatePaymentOutputDto(data map[string]any) KashimiEntityBase`
+#### `ConfirmationData(data map[string]any) KashimiEntityBase`
 
-Create a new `CreatePaymentOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConfirmationData` entity instance. Pass `nil` for no initial data.
 
-#### `CreateTokenOutputDto(data map[string]any) KashimiEntityBase`
+#### `ConsentStatus(data map[string]any) KashimiEntityBase`
 
-Create a new `CreateTokenOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `ConsentStatus` entity instance. Pass `nil` for no initial data.
+
+#### `Country(data map[string]any) KashimiEntityBase`
+
+Create a new `Country` entity instance. Pass `nil` for no initial data.
+
+#### `Followup(data map[string]any) KashimiEntityBase`
+
+Create a new `Followup` entity instance. Pass `nil` for no initial data.
 
 #### `Healthcheck(data map[string]any) KashimiEntityBase`
 
 Create a new `Healthcheck` entity instance. Pass `nil` for no initial data.
 
-#### `Latest(data map[string]any) KashimiEntityBase`
+#### `HostedUiCustomization(data map[string]any) KashimiEntityBase`
 
-Create a new `Latest` entity instance. Pass `nil` for no initial data.
-
-#### `Obn(data map[string]any) KashimiEntityBase`
-
-Create a new `Obn` entity instance. Pass `nil` for no initial data.
+Create a new `HostedUiCustomization` entity instance. Pass `nil` for no initial data.
 
 #### `Payment(data map[string]any) KashimiEntityBase`
 
@@ -88,9 +92,33 @@ Create a new `PaymentStatus` entity instance. Pass `nil` for no initial data.
 
 Create a new `Provider` entity instance. Pass `nil` for no initial data.
 
-#### `ProvidersSubsidiaryOutputDto(data map[string]any) KashimiEntityBase`
+#### `PsuProvidedData(data map[string]any) KashimiEntityBase`
 
-Create a new `ProvidersSubsidiaryOutputDto` entity instance. Pass `nil` for no initial data.
+Create a new `PsuProvidedData` entity instance. Pass `nil` for no initial data.
+
+#### `Report(data map[string]any) KashimiEntityBase`
+
+Create a new `Report` entity instance. Pass `nil` for no initial data.
+
+#### `ScaData(data map[string]any) KashimiEntityBase`
+
+Create a new `ScaData` entity instance. Pass `nil` for no initial data.
+
+#### `ScaMethod(data map[string]any) KashimiEntityBase`
+
+Create a new `ScaMethod` entity instance. Pass `nil` for no initial data.
+
+#### `SenderAccount(data map[string]any) KashimiEntityBase`
+
+Create a new `SenderAccount` entity instance. Pass `nil` for no initial data.
+
+#### `Subsidiary(data map[string]any) KashimiEntityBase`
+
+Create a new `Subsidiary` entity instance. Pass `nil` for no initial data.
+
+#### `Token(data map[string]any) KashimiEntityBase`
+
+Create a new `Token` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -128,11 +156,223 @@ same parameters as `Direct()`.
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```go
-capability := client.Capability(nil)
-fmt.Println(capability.GetName()) // "capability"
+callback := client.Callback(nil)
+fmt.Println(callback.GetName()) // "callback"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.Callback(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `CallbackEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ClientJwkEntity
+
+```go
+clientJwk := client.ClientJwk(nil)
+fmt.Println(clientJwk.GetName()) // "client_jwk"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.ClientJwk(nil).Load(map[string]any{"client_id": "client_id", "provider_id": "provider_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ClientJwkEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ConfirmationDataEntity
+
+```go
+confirmationData := client.ConfirmationData(nil)
+fmt.Println(confirmationData.GetName()) // "confirmation_data"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.ConfirmationData(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ConfirmationDataEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ConsentStatusEntity
+
+```go
+consentStatus := client.ConsentStatus(nil)
+fmt.Println(consentStatus.GetName()) // "consent_status"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.ConsentStatus(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ConsentStatusEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```go
+country := client.Country(nil)
+fmt.Println(country.GetName()) // "country"
 ```
 
 ### Operations
@@ -142,7 +382,7 @@ fmt.Println(capability.GetName()) // "capability"
 List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
 
 ```go
-results, err := client.Capability(nil).List(nil, nil)
+results, err := client.Country(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
@@ -165,7 +405,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `CapabilityEntity` instance with the same client and
+Create a new `CountryEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
@@ -183,98 +423,20 @@ Return the entity name.
 
 ---
 
-## ClientHostedUiCustomizationsOutputDtoEntity
+## FollowupEntity
 
 ```go
-clientHostedUiCustomizationsOutputDto := client.ClientHostedUiCustomizationsOutputDto(nil)
-fmt.Println(clientHostedUiCustomizationsOutputDto.GetName()) // "client_hosted_ui_customizations_output_dto"
+followup := client.Followup(nil)
+fmt.Println(followup.GetName()) // "followup"
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
-
-### Operations
-
-#### `Load(reqmatch, ctrl map[string]any) (any, error)`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
-
-```go
-result, err := client.ClientHostedUiCustomizationsOutputDto(nil).Load(map[string]any{"id": "client_hosted_ui_customizations_output_dto_id"}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same client and
-options.
-
-#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
-
-Run an operation through the pipeline and send its result items on the
-returned channel, which closes when the stream ends. A `StreamItem` holds
-one item in `Item`, or in `Err` the error that ended the stream: the
-error the operation itself would return, sent as the last value. Under
-`throw: false` in `callopts["ctrl"]`, no error is sent.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## CreatePaymentOutputDtoEntity
-
-```go
-createPaymentOutputDto := client.CreatePaymentOutputDto(nil)
-fmt.Println(createPaymentOutputDto.GetName()) // "create_payment_output_dto"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `amount` | `float64` | Yes | The amount to be transferred. |
-| `currency` | `string` | Yes | The currency of the payment. |
-| `metadata` | `map[string]any` | Yes |  |
-| `paymentScheme` | `any` | Yes | Payment scheme. |
 | `provider` | `any` | Yes | The provider information for the followup |
-| `recipient` | `any` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
 | `sender` | `any` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
 #### `Create(reqdata, ctrl map[string]any) (any, error)`
@@ -282,13 +444,9 @@ fmt.Println(createPaymentOutputDto.GetName()) // "create_payment_output_dto"
 Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
 
 ```go
-result, err := client.CreatePaymentOutputDto(nil).Create(map[string]any{
-    "amount": 1,
-    "currency": "example_currency",
-    "metadata": map[string]any{},
-    "paymentScheme": "example_paymentScheme",
-    "recipient": "example_recipient",
-    "remittanceInformation": "example_remittanceInformation",
+result, err := client.Followup(nil).Create(map[string]any{
+    "payment_id": "example_payment_id",
+    "provider": "example_provider",
 }, nil)
 if err != nil {
     panic(err)
@@ -310,78 +468,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same client and
-options.
-
-#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
-
-Run an operation through the pipeline and send its result items on the
-returned channel, which closes when the stream ends. A `StreamItem` holds
-one item in `Item`, or in `Err` the error that ended the stream: the
-error the operation itself would return, sent as the last value. Under
-`throw: false` in `callopts["ctrl"]`, no error is sent.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```go
-createTokenOutputDto := client.CreateTokenOutputDto(nil)
-fmt.Println(createTokenOutputDto.GetName()) // "create_token_output_dto"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `string` | Yes | The JWT access token. |
-| `expires_in` | `float64` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `string` | Yes | The type of grant being requested. |
-| `scope` | `string` | Yes | Scopes being requested. |
-| `token_type` | `string` | Yes | Token type. |
-
-### Operations
-
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
-
-```go
-result, err := client.CreateTokenOutputDto(nil).Create(map[string]any{
-    "access_token": "example_access_token",
-    "expires_in": 1,
-    "grant_type": "example_grant_type",
-    "scope": "example_scope",
-    "token_type": "example_token_type",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same client and
+Create a new `FollowupEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
@@ -461,78 +548,25 @@ Return the entity name.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```go
-latest := client.Latest(nil)
-fmt.Println(latest.GetName()) // "latest"
+hostedUiCustomization := client.HostedUiCustomization(nil)
+fmt.Println(hostedUiCustomization.GetName()) // "hosted_ui_customization"
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `string` | Yes | Timestamp of status creation |
-| `detailedStatus` | `string` | Yes | Detailed payment status |
-| `failureReasons` | `[]any` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Yes | Unique payment status identifier |
-| `paymentId` | `string` | Yes | Unique payment identifier |
-| `status` | `string` | Yes | Payment status. |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
-
-```go
-results, err := client.Latest(nil).List(map[string]any{"payment_id": "example"}, nil)
-if err != nil {
-    panic(err)
-}
-for _, item := range results.([]any) {
-    fmt.Println(item.(sdk.Entity).Data())
-}
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `LatestEntity` instance with the same client and
-options.
-
-#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
-
-Run an operation through the pipeline and send its result items on the
-returned channel, which closes when the stream ends. A `StreamItem` holds
-one item in `Item`, or in `Err` the error that ended the stream: the
-error the operation itself would return, sent as the last value. Under
-`throw: false` in `callopts["ctrl"]`, no error is sent.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
-## ObnEntity
-
-```go
-obn := client.Obn(nil)
-fmt.Println(obn.GetName()) // "obn"
-```
+| `clientId` | `string` | Yes |  |
+| `faviconUrl` | `string` | Yes |  |
+| `footerText` | `string` | Yes |  |
+| `logoUrl` | `string` | Yes |  |
+| `primaryColor` | `string` | Yes |  |
+| `privacyPolicyUrl` | `string` | Yes |  |
+| `psuPortalBaseUrl` | `string` | Yes |  |
+| `termsUrl` | `string` | Yes |  |
 
 ### Operations
 
@@ -541,36 +575,7 @@ fmt.Println(obn.GetName()) // "obn"
 Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
 
 ```go
-result, err := client.Obn(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-#### `Create(reqdata, ctrl map[string]any) (any, error)`
-
-Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
-
-```go
-result, err := client.Obn(nil).Create(map[string]any{
-    "provider_id": "example_provider_id",
-    "state": "example_state",
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result.(sdk.Entity).Data())
-```
-
-#### `Update(reqdata, ctrl map[string]any) (any, error)`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
-
-```go
-result, err := client.Obn(nil).Update(map[string]any{
-    // Fields to update
-}, nil)
+result, err := client.HostedUiCustomization(nil).Load(map[string]any{"client_id": "client_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -591,7 +596,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `ObnEntity` instance with the same client and
+Create a new `HostedUiCustomizationEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
@@ -621,36 +626,32 @@ fmt.Println(payment.GetName()) // "payment"
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `float64` | Yes | Payment amount |
-| `clientId` | `string` | Yes | Client identifier |
 | `createdAt` | `string` | Yes |  |
 | `currency` | `string` | Yes | Currency code |
 | `id` | `string` | Yes | Unique payment identifier |
 | `metadata` | `map[string]any` | Yes |  |
 | `paymentScheme` | `any` | Yes | Payment scheme used |
 | `provider` | `any` | Yes | Payment provider details. |
-| `recipient` | `map[string]any` | Yes |  |
+| `recipient` | `map[string]any` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `any` | Yes | Unstructured or structured remittance information. |
-| `sender` | `map[string]any` | Yes |  |
-| `status` | `string` | Yes | The most recent status of the payment. |
+| `sender` | `map[string]any` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
-| --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
 
 ### Operations
 
@@ -674,6 +675,25 @@ Load a single entity matching the given criteria. Returns the entity, whose reco
 
 ```go
 result, err := client.Payment(nil).Load(map[string]any{"id": "payment_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
+
+```go
+result, err := client.Payment(nil).Create(map[string]any{
+    "amount": 1,
+    "currency": "example_currency",
+    "metadata": map[string]any{},
+    "paymentScheme": "example_paymentScheme",
+    "recipient": map[string]any{},
+    "remittanceInformation": "example_remittanceInformation",
+}, nil)
 if err != nil {
     panic(err)
 }
@@ -744,6 +764,18 @@ if err != nil {
 for _, item := range results.([]any) {
     fmt.Println(item.(sdk.Entity).Data())
 }
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.PaymentStatus(nil).Load(map[string]any{"payment_id": "payment_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
 ```
 
 ### Common Methods
@@ -847,11 +879,334 @@ Return the entity name.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```go
-providersSubsidiaryOutputDto := client.ProvidersSubsidiaryOutputDto(nil)
-fmt.Println(providersSubsidiaryOutputDto.GetName()) // "providers_subsidiary_output_dto"
+psuProvidedData := client.PsuProvidedData(nil)
+fmt.Println(psuProvidedData.GetName()) // "psu_provided_data"
+```
+
+### Operations
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
+
+```go
+result, err := client.PsuProvidedData(nil).Update(map[string]any{
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `PsuProvidedDataEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```go
+report := client.Report(nil)
+fmt.Println(report.GetName()) // "report"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `float64` | Yes | Payment amount |
+| `createdAt` | `string` | Yes |  |
+| `currency` | `string` | Yes | Currency code |
+| `id` | `string` | Yes | Unique payment identifier |
+| `provider` | `map[string]any` | No | Selected provider details (name, country). |
+| `recipient` | `map[string]any` | Yes |  |
+| `remittanceInformation` | `any` | Yes |  |
+| `sender` | `map[string]any` | No |  |
+| `status` | `string` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.Report(nil).Load(map[string]any{"id": "report_id"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ScaDataEntity
+
+```go
+scaData := client.ScaData(nil)
+fmt.Println(scaData.GetName()) // "sca_data"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.ScaData(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
+
+```go
+result, err := client.ScaData(nil).Update(map[string]any{
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ScaDataEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ScaMethodEntity
+
+```go
+scaMethod := client.ScaMethod(nil)
+fmt.Println(scaMethod.GetName()) // "sca_method"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.ScaMethod(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
+
+```go
+result, err := client.ScaMethod(nil).Update(map[string]any{
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ScaMethodEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## SenderAccountEntity
+
+```go
+senderAccount := client.SenderAccount(nil)
+fmt.Println(senderAccount.GetName()) // "sender_account"
+```
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
+
+```go
+result, err := client.SenderAccount(nil).Load(map[string]any{"provider_id": "provider_id", "state": "state"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity; `err` is non-nil on failure.
+
+```go
+result, err := client.SenderAccount(nil).Update(map[string]any{
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `SenderAccountEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## SubsidiaryEntity
+
+```go
+subsidiary := client.Subsidiary(nil)
+fmt.Println(subsidiary.GetName()) // "subsidiary"
 ```
 
 ### Fields
@@ -875,7 +1230,7 @@ fmt.Println(providersSubsidiaryOutputDto.GetName()) // "providers_subsidiary_out
 List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
 
 ```go
-results, err := client.ProvidersSubsidiaryOutputDto(nil).List(map[string]any{"provider_id": "example"}, nil)
+results, err := client.Subsidiary(nil).List(map[string]any{"provider_id": "example"}, nil)
 if err != nil {
     panic(err)
 }
@@ -898,7 +1253,78 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same client and
+Create a new `SubsidiaryEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## TokenEntity
+
+```go
+token := client.Token(nil)
+fmt.Println(token.GetName()) // "token"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `string` | Yes | The JWT access token. |
+| `expires_in` | `float64` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `string` | Yes | The type of grant being requested. |
+| `scope` | `string` | Yes | Scopes being requested. |
+| `token_type` | `string` | Yes | Token type. |
+
+### Operations
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data. Returns the created entity; `err` is non-nil on failure.
+
+```go
+result, err := client.Token(nil).Create(map[string]any{
+    "access_token": "example_access_token",
+    "expires_in": 1,
+    "grant_type": "example_grant_type",
+    "scope": "example_scope",
+    "token_type": "example_token_type",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result.(sdk.Entity).Data())
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `TokenEntity` instance with the same client and
 options.
 
 #### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`

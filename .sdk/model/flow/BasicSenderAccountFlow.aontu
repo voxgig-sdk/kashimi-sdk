@@ -1,0 +1,46 @@
+# BasicSenderAccountFlow
+
+main: kit: flow: BasicSenderAccountFlow:
+{
+  entity: "sender_account",
+  kind: "basic",
+  name: "BasicSenderAccountFlow",
+  step: [
+    {
+      i: {
+        ref: "sender_account_ref01",
+        srcdatavar: "sender_account_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sender_account_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "sender_account_ref01",
+        srcdatavar: "sender_account_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sender_account_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicSenderAccountFlow"
+}

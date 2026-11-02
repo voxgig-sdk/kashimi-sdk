@@ -103,7 +103,6 @@ function healthcheck_basic_setup(extra)
     ["KASHIMI_TEST_LIVE"] = "FALSE",
     ["KASHIMI_TEST_EXPLAIN"] = "FALSE",
     ["KASHIMI_APIKEY"] = "",
-    ["KASHIMI_SERVER_BASE"] = "",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -119,9 +118,6 @@ function healthcheck_basic_setup(extra)
       runner.live_client_options(),
       {
         apikey = env["KASHIMI_APIKEY"],
-        server = {
-          ["base"] = env["KASHIMI_SERVER_BASE"],
-        },
       },
       extra or {},
     })

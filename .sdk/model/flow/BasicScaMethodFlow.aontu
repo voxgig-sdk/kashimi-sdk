@@ -1,0 +1,46 @@
+# BasicScaMethodFlow
+
+main: kit: flow: BasicScaMethodFlow:
+{
+  entity: "sca_method",
+  kind: "basic",
+  name: "BasicScaMethodFlow",
+  step: [
+    {
+      i: {
+        ref: "sca_method_ref01",
+        srcdatavar: "sca_method_ref01_data",
+        suffix: "_up0"
+      }
+
+      o: "update",
+      s: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sca_method_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "sca_method_ref01",
+        srcdatavar: "sca_method_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-sca_method_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicScaMethodFlow"
+}

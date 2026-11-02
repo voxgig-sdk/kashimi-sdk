@@ -42,33 +42,37 @@ client = KashimiSDK.test()
 
 ### Instance Methods
 
-#### `Capability(data=None)`
+#### `Callback(data=None)`
 
-Create a new `CapabilityEntity` instance. Pass `None` for no initial data.
+Create a new `CallbackEntity` instance. Pass `None` for no initial data.
 
-#### `ClientHostedUiCustomizationsOutputDto(data=None)`
+#### `ClientJwk(data=None)`
 
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance. Pass `None` for no initial data.
+Create a new `ClientJwkEntity` instance. Pass `None` for no initial data.
 
-#### `CreatePaymentOutputDto(data=None)`
+#### `ConfirmationData(data=None)`
 
-Create a new `CreatePaymentOutputDtoEntity` instance. Pass `None` for no initial data.
+Create a new `ConfirmationDataEntity` instance. Pass `None` for no initial data.
 
-#### `CreateTokenOutputDto(data=None)`
+#### `ConsentStatus(data=None)`
 
-Create a new `CreateTokenOutputDtoEntity` instance. Pass `None` for no initial data.
+Create a new `ConsentStatusEntity` instance. Pass `None` for no initial data.
+
+#### `Country(data=None)`
+
+Create a new `CountryEntity` instance. Pass `None` for no initial data.
+
+#### `Followup(data=None)`
+
+Create a new `FollowupEntity` instance. Pass `None` for no initial data.
 
 #### `Healthcheck(data=None)`
 
 Create a new `HealthcheckEntity` instance. Pass `None` for no initial data.
 
-#### `Latest(data=None)`
+#### `HostedUiCustomization(data=None)`
 
-Create a new `LatestEntity` instance. Pass `None` for no initial data.
-
-#### `Obn(data=None)`
-
-Create a new `ObnEntity` instance. Pass `None` for no initial data.
+Create a new `HostedUiCustomizationEntity` instance. Pass `None` for no initial data.
 
 #### `Payment(data=None)`
 
@@ -82,9 +86,33 @@ Create a new `PaymentStatusEntity` instance. Pass `None` for no initial data.
 
 Create a new `ProviderEntity` instance. Pass `None` for no initial data.
 
-#### `ProvidersSubsidiaryOutputDto(data=None)`
+#### `PsuProvidedData(data=None)`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance. Pass `None` for no initial data.
+Create a new `PsuProvidedDataEntity` instance. Pass `None` for no initial data.
+
+#### `Report(data=None)`
+
+Create a new `ReportEntity` instance. Pass `None` for no initial data.
+
+#### `ScaData(data=None)`
+
+Create a new `ScaDataEntity` instance. Pass `None` for no initial data.
+
+#### `ScaMethod(data=None)`
+
+Create a new `ScaMethodEntity` instance. Pass `None` for no initial data.
+
+#### `SenderAccount(data=None)`
+
+Create a new `SenderAccountEntity` instance. Pass `None` for no initial data.
+
+#### `Subsidiary(data=None)`
+
+Create a new `SubsidiaryEntity` instance. Pass `None` for no initial data.
+
+#### `Token(data=None)`
+
+Create a new `TokenEntity` instance. Pass `None` for no initial data.
 
 #### `options_map() -> dict`
 
@@ -118,73 +146,20 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```python
-capability = client.Capability()
+callback = client.Callback()
 ```
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list[CapabilityEntity]`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
-
-```python
-results = client.Capability().list()
-for capability in results:
-    print(capability.data_get())
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `CapabilityEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## ClientHostedUiCustomizationsOutputDtoEntity
-
-```python
-client_hosted_ui_customizations_output_dto = client.ClientHostedUiCustomizationsOutputDto()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | `str` | No |  |
-
-### Operations
-
-#### `load(reqmatch, ctrl=None) -> ClientHostedUiCustomizationsOutputDtoEntity`
+#### `load(reqmatch, ctrl=None) -> CallbackEntity`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
-result = client.ClientHostedUiCustomizationsOutputDto().load({"id": "client_hosted_ui_customizations_output_dto_id"})
+result = client.Callback().load({"provider_id": "provider_id", "state": "state"})
 ```
 
 ### Common Methods
@@ -207,7 +182,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same options.
+Create a new `CallbackEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -216,52 +191,211 @@ Return the entity name.
 
 ---
 
-## CreatePaymentOutputDtoEntity
+## ClientJwkEntity
 
 ```python
-create_payment_output_dto = client.CreatePaymentOutputDto()
+client_jwk = client.ClientJwk()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ClientJwkEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.ClientJwk().load({"client_id": "client_id", "provider_id": "provider_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ClientJwkEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ConfirmationDataEntity
+
+```python
+confirmation_data = client.ConfirmationData()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ConfirmationDataEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.ConfirmationData().load()
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ConfirmationDataEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ConsentStatusEntity
+
+```python
+consent_status = client.ConsentStatus()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ConsentStatusEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.ConsentStatus().load()
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ConsentStatusEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```python
+country = client.Country()
+```
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list[CountryEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.Country().list()
+for country in results:
+    print(country.data_get())
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CountryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## FollowupEntity
+
+```python
+followup = client.Followup()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `float` | Yes | The amount to be transferred. |
-| `currency` | `str` | Yes | The currency of the payment. |
-| `metadata` | `dict` | Yes |  |
-| `paymentScheme` | `Any` | Yes | Payment scheme. |
 | `provider` | `Any` | Yes | The provider information for the followup |
-| `recipient` | `Any` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `Any` | Yes | Unstructured or structured remittance information. |
 | `sender` | `Any` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
-#### `create(reqdata, ctrl=None) -> CreatePaymentOutputDtoEntity`
+#### `create(reqdata, ctrl=None) -> FollowupEntity`
 
 Create a new entity with the given data. Returns the created entity and raises on error.
 
 ```python
-result = client.CreatePaymentOutputDto().create({
-    "amount": 1,  # float
-    "currency": "example_currency",  # str
-    "metadata": {},  # dict
-    "paymentScheme": "example_paymentScheme",  # Any
-    "recipient": "example_recipient",  # Any
-    "remittanceInformation": "example_remittanceInformation",  # Any
+result = client.Followup().create({
+    "payment_id": "example_payment_id",  # str
+    "provider": "example_provider",  # Any
 })
 ```
 
@@ -285,70 +419,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```python
-create_token_output_dto = client.CreateTokenOutputDto()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `str` | Yes | The JWT access token. |
-| `expires_in` | `float` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `str` | Yes | The type of grant being requested. |
-| `scope` | `str` | Yes | Scopes being requested. |
-| `token_type` | `str` | Yes | Token type. |
-
-### Operations
-
-#### `create(reqdata, ctrl=None) -> CreateTokenOutputDtoEntity`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-```python
-result = client.CreateTokenOutputDto().create({
-    "access_token": "example_access_token",  # str
-    "expires_in": 1,  # float
-    "grant_type": "example_grant_type",  # str
-    "scope": "example_scope",  # str
-    "token_type": "example_token_type",  # str
-})
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same options.
+Create a new `FollowupEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -411,99 +482,33 @@ Return the entity name.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```python
-latest = client.Latest()
+hosted_ui_customization = client.HostedUiCustomization()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `str` | Yes | Timestamp of status creation |
-| `detailedStatus` | `str` | Yes | Detailed payment status |
-| `failureReasons` | `list` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `str` | Yes | Unique payment status identifier |
-| `paymentId` | `str` | Yes | Unique payment identifier |
-| `status` | `str` | Yes | Payment status. |
+| `clientId` | `str` | Yes |  |
+| `faviconUrl` | `str` | Yes |  |
+| `footerText` | `str` | Yes |  |
+| `logoUrl` | `str` | Yes |  |
+| `primaryColor` | `str` | Yes |  |
+| `privacyPolicyUrl` | `str` | Yes |  |
+| `psuPortalBaseUrl` | `str` | Yes |  |
+| `termsUrl` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list[LatestEntity]`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
-
-```python
-results = client.Latest().list({"payment_id": "example"})
-for latest in results:
-    print(latest.data_get())
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `LatestEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
-## ObnEntity
-
-```python
-obn = client.Obn()
-```
-
-### Operations
-
-#### `create(reqdata, ctrl=None) -> ObnEntity`
-
-Create a new entity with the given data. Returns the created entity and raises on error.
-
-```python
-result = client.Obn().create({
-    "provider_id": "example_provider_id",  # str
-    "state": "example_state",  # str
-})
-```
-
-#### `load(reqmatch, ctrl=None) -> ObnEntity`
+#### `load(reqmatch, ctrl=None) -> HostedUiCustomizationEntity`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
-result = client.Obn().load({"provider_id": "provider_id", "state": "state"})
-```
-
-#### `update(reqdata, ctrl=None) -> ObnEntity`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
-
-```python
-result = client.Obn().update({
-    # Fields to update
-})
+result = client.HostedUiCustomization().load({"client_id": "client_id"})
 ```
 
 ### Common Methods
@@ -526,7 +531,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `ObnEntity` instance with the same options.
+Create a new `HostedUiCustomizationEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -546,38 +551,49 @@ payment = client.Payment()
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `float` | Yes | Payment amount |
-| `clientId` | `str` | Yes | Client identifier |
 | `createdAt` | `str` | Yes |  |
 | `currency` | `str` | Yes | Currency code |
 | `id` | `str` | Yes | Unique payment identifier |
 | `metadata` | `dict` | Yes |  |
 | `paymentScheme` | `Any` | Yes | Payment scheme used |
 | `provider` | `Any` | Yes | Payment provider details. |
-| `recipient` | `dict` | Yes |  |
+| `recipient` | `dict` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `Any` | Yes | Unstructured or structured remittance information. |
-| `sender` | `dict` | Yes |  |
-| `status` | `str` | Yes | The most recent status of the payment. |
+| `sender` | `dict` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `str` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
-| --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
 
 ### Operations
+
+#### `create(reqdata, ctrl=None) -> PaymentEntity`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.Payment().create({
+    "amount": 1,  # float
+    "currency": "example_currency",  # str
+    "metadata": {},  # dict
+    "paymentScheme": "example_paymentScheme",  # Any
+    "recipient": {},  # dict
+    "remittanceInformation": "example_remittanceInformation",  # Any
+})
+```
 
 #### `list(reqmatch=None, ctrl=None) -> list[PaymentEntity]`
 
@@ -653,6 +669,14 @@ List entities matching the given criteria. The match is optional — call `list(
 results = client.PaymentStatus().list({"payment_id": "example"})
 for payment_status in results:
     print(payment_status.data_get())
+```
+
+#### `load(reqmatch, ctrl=None) -> PaymentStatusEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.PaymentStatus().load({"payment_id": "payment_id"})
 ```
 
 ### Common Methods
@@ -745,36 +769,22 @@ Return the entity name.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```python
-providers_subsidiary_output_dto = client.ProvidersSubsidiaryOutputDto()
+psu_provided_data = client.PsuProvidedData()
 ```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `bic` | `str` | Yes | BIC code of the provider |
-| `countryCode` | `str` | Yes | Country code of the provider. |
-| `hasSubsidiaries` | `bool` | Yes | Whether the provider has subsidiaries. |
-| `iconUrl` | `str` | Yes | URL of the provider's icon. |
-| `id` | `str` | Yes | Unique identifier for the provider. |
-| `logoUrl` | `str` | Yes | URL of the provider's logo. |
-| `name` | `str` | Yes | Name of the provider. |
-| `paymentSchemes` | `list` | Yes | Array of payment schemes that we support for this provider. |
-| `requiredPaymentFields` | `list` | Yes | Array of required payment fields for this provider. |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list[ProvidersSubsidiaryOutputDtoEntity]`
+#### `update(reqdata, ctrl=None) -> PsuProvidedDataEntity`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
 
 ```python
-results = client.ProvidersSubsidiaryOutputDto().list({"provider_id": "example"})
-for providers_subsidiary_output_dto in results:
-    print(providers_subsidiary_output_dto.data_get())
+result = client.PsuProvidedData().update({
+    # Fields to update
+})
 ```
 
 ### Common Methods
@@ -797,7 +807,355 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same options.
+Create a new `PsuProvidedDataEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```python
+report = client.Report()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `float` | Yes | Payment amount |
+| `createdAt` | `str` | Yes |  |
+| `currency` | `str` | Yes | Currency code |
+| `id` | `str` | Yes | Unique payment identifier |
+| `provider` | `dict` | No | Selected provider details (name, country). |
+| `recipient` | `dict` | Yes |  |
+| `remittanceInformation` | `Any` | Yes |  |
+| `sender` | `dict` | No |  |
+| `status` | `str` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ReportEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.Report().load({"id": "report_id"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ReportEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ScaDataEntity
+
+```python
+sca_data = client.ScaData()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ScaDataEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.ScaData().load()
+```
+
+#### `update(reqdata, ctrl=None) -> ScaDataEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```python
+result = client.ScaData().update({
+    # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ScaDataEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ScaMethodEntity
+
+```python
+sca_method = client.ScaMethod()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> ScaMethodEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.ScaMethod().load()
+```
+
+#### `update(reqdata, ctrl=None) -> ScaMethodEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```python
+result = client.ScaMethod().update({
+    # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ScaMethodEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## SenderAccountEntity
+
+```python
+sender_account = client.SenderAccount()
+```
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> SenderAccountEntity`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
+
+```python
+result = client.SenderAccount().load({"provider_id": "provider_id", "state": "state"})
+```
+
+#### `update(reqdata, ctrl=None) -> SenderAccountEntity`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and raises on error.
+
+```python
+result = client.SenderAccount().update({
+    # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `SenderAccountEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## SubsidiaryEntity
+
+```python
+subsidiary = client.Subsidiary()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `bic` | `str` | Yes | BIC code of the provider |
+| `countryCode` | `str` | Yes | Country code of the provider. |
+| `hasSubsidiaries` | `bool` | Yes | Whether the provider has subsidiaries. |
+| `iconUrl` | `str` | Yes | URL of the provider's icon. |
+| `id` | `str` | Yes | Unique identifier for the provider. |
+| `logoUrl` | `str` | Yes | URL of the provider's logo. |
+| `name` | `str` | Yes | Name of the provider. |
+| `paymentSchemes` | `list` | Yes | Array of payment schemes that we support for this provider. |
+| `requiredPaymentFields` | `list` | Yes | Array of required payment fields for this provider. |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list[SubsidiaryEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.Subsidiary().list({"provider_id": "example"})
+for subsidiary in results:
+    print(subsidiary.data_get())
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `SubsidiaryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## TokenEntity
+
+```python
+token = client.Token()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `str` | Yes | The JWT access token. |
+| `expires_in` | `float` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `str` | Yes | The type of grant being requested. |
+| `scope` | `str` | Yes | Scopes being requested. |
+| `token_type` | `str` | Yes | Token type. |
+
+### Operations
+
+#### `create(reqdata, ctrl=None) -> TokenEntity`
+
+Create a new entity with the given data. Returns the created entity and raises on error.
+
+```python
+result = client.Token().create({
+    "access_token": "example_access_token",  # str
+    "expires_in": 1,  # float
+    "grant_type": "example_grant_type",  # str
+    "scope": "example_scope",  # str
+    "token_type": "example_token_type",  # str
+})
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `TokenEntity` instance with the same options.
 
 #### `get_name() -> str`
 

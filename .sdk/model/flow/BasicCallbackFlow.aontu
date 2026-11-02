@@ -1,0 +1,28 @@
+# BasicCallbackFlow
+
+main: kit: flow: BasicCallbackFlow:
+{
+  entity: "callback",
+  kind: "basic",
+  name: "BasicCallbackFlow",
+  step: [
+    {
+      i: {
+        ref: "callback_ref01",
+        srcdatavar: "callback_ref01_data",
+        suffix: "_dt0"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-callback_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCallbackFlow"
+}

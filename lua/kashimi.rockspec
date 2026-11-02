@@ -8,7 +8,7 @@ source = {
   dir = "kashimi-sdk/lua"
 }
 description = {
-  summary = "Unofficial generated Lua SDK for the Gatekeeper docs public API. Not affiliated with or endorsed by the upstream API provider.",
+  summary = "Unofficial generated Lua SDK for the Kashimi public API. Not affiliated with or endorsed by the upstream API provider.",
   homepage = "https://github.com/voxgig-sdk/kashimi-sdk",
   issues_url = "https://github.com/voxgig-sdk/kashimi-sdk/issues",
   license = "MIT",

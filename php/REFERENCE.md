@@ -42,33 +42,37 @@ $client = KashimiSDK::test();
 
 ### Instance Methods
 
-#### `Capability($data = null)`
+#### `Callback($data = null)`
 
-Create a new `CapabilityEntity` instance. Pass `null` for no initial data.
+Create a new `CallbackEntity` instance. Pass `null` for no initial data.
 
-#### `ClientHostedUiCustomizationsOutputDto($data = null)`
+#### `ClientJwk($data = null)`
 
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance. Pass `null` for no initial data.
+Create a new `ClientJwkEntity` instance. Pass `null` for no initial data.
 
-#### `CreatePaymentOutputDto($data = null)`
+#### `ConfirmationData($data = null)`
 
-Create a new `CreatePaymentOutputDtoEntity` instance. Pass `null` for no initial data.
+Create a new `ConfirmationDataEntity` instance. Pass `null` for no initial data.
 
-#### `CreateTokenOutputDto($data = null)`
+#### `ConsentStatus($data = null)`
 
-Create a new `CreateTokenOutputDtoEntity` instance. Pass `null` for no initial data.
+Create a new `ConsentStatusEntity` instance. Pass `null` for no initial data.
+
+#### `Country($data = null)`
+
+Create a new `CountryEntity` instance. Pass `null` for no initial data.
+
+#### `Followup($data = null)`
+
+Create a new `FollowupEntity` instance. Pass `null` for no initial data.
 
 #### `Healthcheck($data = null)`
 
 Create a new `HealthcheckEntity` instance. Pass `null` for no initial data.
 
-#### `Latest($data = null)`
+#### `HostedUiCustomization($data = null)`
 
-Create a new `LatestEntity` instance. Pass `null` for no initial data.
-
-#### `Obn($data = null)`
-
-Create a new `ObnEntity` instance. Pass `null` for no initial data.
+Create a new `HostedUiCustomizationEntity` instance. Pass `null` for no initial data.
 
 #### `Payment($data = null)`
 
@@ -82,9 +86,33 @@ Create a new `PaymentStatusEntity` instance. Pass `null` for no initial data.
 
 Create a new `ProviderEntity` instance. Pass `null` for no initial data.
 
-#### `ProvidersSubsidiaryOutputDto($data = null)`
+#### `PsuProvidedData($data = null)`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance. Pass `null` for no initial data.
+Create a new `PsuProvidedDataEntity` instance. Pass `null` for no initial data.
+
+#### `Report($data = null)`
+
+Create a new `ReportEntity` instance. Pass `null` for no initial data.
+
+#### `ScaData($data = null)`
+
+Create a new `ScaDataEntity` instance. Pass `null` for no initial data.
+
+#### `ScaMethod($data = null)`
+
+Create a new `ScaMethodEntity` instance. Pass `null` for no initial data.
+
+#### `SenderAccount($data = null)`
+
+Create a new `SenderAccountEntity` instance. Pass `null` for no initial data.
+
+#### `Subsidiary($data = null)`
+
+Create a new `SubsidiaryEntity` instance. Pass `null` for no initial data.
+
+#### `Token($data = null)`
+
+Create a new `TokenEntity` instance. Pass `null` for no initial data.
 
 #### `options_map(): array`
 
@@ -123,10 +151,194 @@ Prepare a fetch definition without sending the request. Returns the
 
 ---
 
-## CapabilityEntity
+## CallbackEntity
 
 ```php
-$capability = $client->Capability();
+$callback = $client->Callback();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->Callback()->load(["provider_id" => "provider_id", "state" => "state"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): CallbackEntity`
+
+Create a new `CallbackEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ClientJwkEntity
+
+```php
+$client_jwk = $client->ClientJwk();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->ClientJwk()->load(["client_id" => "client_id", "provider_id" => "provider_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ClientJwkEntity`
+
+Create a new `ClientJwkEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ConfirmationDataEntity
+
+```php
+$confirmation_data = $client->ConfirmationData();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->ConfirmationData()->load();
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ConfirmationDataEntity`
+
+Create a new `ConfirmationDataEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ConsentStatusEntity
+
+```php
+$consent_status = $client->ConsentStatus();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->ConsentStatus()->load();
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ConsentStatusEntity`
+
+Create a new `ConsentStatusEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```php
+$country = $client->Country();
 ```
 
 ### Operations
@@ -136,7 +348,7 @@ $capability = $client->Capability();
 List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Capability()->list();
+$results = $client->Country()->list();
 ```
 
 ### Common Methods
@@ -157,9 +369,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): CapabilityEntity`
+#### `make(): CountryEntity`
 
-Create a new `CapabilityEntity` instance with the same client and
+Create a new `CountryEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -169,90 +381,19 @@ Return the entity name.
 
 ---
 
-## ClientHostedUiCustomizationsOutputDtoEntity
+## FollowupEntity
 
 ```php
-$client_hosted_ui_customizations_output_dto = $client->ClientHostedUiCustomizationsOutputDto();
+$followup = $client->Followup();
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `string` | No |  |
-
-### Operations
-
-#### `load(array $reqmatch, ?array $ctrl = null): mixed`
-
-Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
-
-```php
-$result = $client->ClientHostedUiCustomizationsOutputDto()->load(["id" => "client_hosted_ui_customizations_output_dto_id"]);
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): ClientHostedUiCustomizationsOutputDtoEntity`
-
-Create a new `ClientHostedUiCustomizationsOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## CreatePaymentOutputDtoEntity
-
-```php
-$create_payment_output_dto = $client->CreatePaymentOutputDto();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `amount` | `float` | Yes | The amount to be transferred. |
-| `currency` | `string` | Yes | The currency of the payment. |
-| `metadata` | `array` | Yes |  |
-| `paymentScheme` | `mixed` | Yes | Payment scheme. |
 | `provider` | `mixed` | Yes | The provider information for the followup |
-| `recipient` | `mixed` | Yes | Data about the party receiving the payment. |
-| `remittanceInformation` | `mixed` | Yes | Unstructured or structured remittance information. |
 | `sender` | `mixed` | No | The sender information to be used with the payment |
 
-### Field Usage by Operation
-
-| Field | create |
-| --- | --- |
-| `amount` | - |
-| `currency` | - |
-| `metadata` | - |
-| `paymentScheme` | - |
-| `provider` | Yes |
-| `recipient` | - |
-| `remittanceInformation` | - |
-| `sender` | - |
-
 ### Operations
 
 #### `create(array $reqdata, ?array $ctrl = null): mixed`
@@ -260,13 +401,9 @@ $create_payment_output_dto = $client->CreatePaymentOutputDto();
 Create a new entity with the given data. Returns the created entity and throws on error.
 
 ```php
-$result = $client->CreatePaymentOutputDto()->create([
-  "amount" => null, // float
-  "currency" => null, // string
-  "metadata" => null, // array
-  "paymentScheme" => null, // mixed
-  "recipient" => null, // mixed
-  "remittanceInformation" => null, // mixed
+$result = $client->Followup()->create([
+  "payment_id" => null, // string
+  "provider" => null, // mixed
 ]);
 ```
 
@@ -288,73 +425,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): CreatePaymentOutputDtoEntity`
+#### `make(): FollowupEntity`
 
-Create a new `CreatePaymentOutputDtoEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## CreateTokenOutputDtoEntity
-
-```php
-$create_token_output_dto = $client->CreateTokenOutputDto();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `access_token` | `string` | Yes | The JWT access token. |
-| `expires_in` | `float` | Yes | Expiration time of the token in seconds. |
-| `grant_type` | `string` | Yes | The type of grant being requested. |
-| `scope` | `string` | Yes | Scopes being requested. |
-| `token_type` | `string` | Yes | Token type. |
-
-### Operations
-
-#### `create(array $reqdata, ?array $ctrl = null): mixed`
-
-Create a new entity with the given data. Returns the created entity and throws on error.
-
-```php
-$result = $client->CreateTokenOutputDto()->create([
-  "access_token" => null, // string
-  "expires_in" => null, // float
-  "grant_type" => null, // string
-  "scope" => null, // string
-  "token_type" => null, // string
-]);
-```
-
-Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): CreateTokenOutputDtoEntity`
-
-Create a new `CreateTokenOutputDtoEntity` instance with the same client and
+Create a new `FollowupEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -419,98 +492,33 @@ Return the entity name.
 
 ---
 
-## LatestEntity
+## HostedUiCustomizationEntity
 
 ```php
-$latest = $client->Latest();
+$hosted_ui_customization = $client->HostedUiCustomization();
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `createdAt` | `string` | Yes | Timestamp of status creation |
-| `detailedStatus` | `string` | Yes | Detailed payment status |
-| `failureReasons` | `array` | Yes | Failure reasons (for `status: FAILED` only) |
-| `id` | `string` | Yes | Unique payment status identifier |
-| `paymentId` | `string` | Yes | Unique payment identifier |
-| `status` | `string` | Yes | Payment status. |
+| `clientId` | `string` | Yes |  |
+| `faviconUrl` | `string` | Yes |  |
+| `footerText` | `string` | Yes |  |
+| `logoUrl` | `string` | Yes |  |
+| `primaryColor` | `string` | Yes |  |
+| `privacyPolicyUrl` | `string` | Yes |  |
+| `psuPortalBaseUrl` | `string` | Yes |  |
+| `termsUrl` | `string` | Yes |  |
 
 ### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
-
-```php
-$results = $client->Latest()->list(["payment_id" => "example"]);
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): LatestEntity`
-
-Create a new `LatestEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
-## ObnEntity
-
-```php
-$obn = $client->Obn();
-```
-
-### Operations
-
-#### `create(array $reqdata, ?array $ctrl = null): mixed`
-
-Create a new entity with the given data. Returns the created entity and throws on error.
-
-```php
-$result = $client->Obn()->create([
-  "provider_id" => null, // string
-  "state" => null, // string
-]);
-```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
 Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
-$result = $client->Obn()->load(["provider_id" => "provider_id", "state" => "state"]);
-```
-
-#### `update(array $reqdata, ?array $ctrl = null): mixed`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
-
-```php
-$result = $client->Obn()->update([
-  // Fields to update
-]);
+$result = $client->HostedUiCustomization()->load(["client_id" => "client_id"]);
 ```
 
 ### Common Methods
@@ -531,9 +539,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): ObnEntity`
+#### `make(): HostedUiCustomizationEntity`
 
-Create a new `ObnEntity` instance with the same client and
+Create a new `HostedUiCustomizationEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -554,38 +562,49 @@ $payment = $client->Payment();
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `amount` | `float` | Yes | Payment amount |
-| `clientId` | `string` | Yes | Client identifier |
 | `createdAt` | `string` | Yes |  |
 | `currency` | `string` | Yes | Currency code |
 | `id` | `string` | Yes | Unique payment identifier |
 | `metadata` | `array` | Yes |  |
 | `paymentScheme` | `mixed` | Yes | Payment scheme used |
 | `provider` | `mixed` | Yes | Payment provider details. |
-| `recipient` | `array` | Yes |  |
+| `recipient` | `array` | Yes | Data about the party receiving the payment. |
 | `remittanceInformation` | `mixed` | Yes | Unstructured or structured remittance information. |
-| `sender` | `array` | Yes |  |
-| `status` | `string` | Yes | The most recent status of the payment. |
+| `sender` | `array` | Yes | Data about the party sending the payment. |
 | `updatedAt` | `string` | Yes |  |
 
 ### Field Usage by Operation
 
-| Field | load | list |
-| --- | --- | --- |
-| `amount` | - | - |
-| `clientId` | - | - |
-| `createdAt` | - | - |
-| `currency` | - | - |
-| `id` | - | - |
-| `metadata` | - | - |
-| `paymentScheme` | - | - |
-| `provider` | Yes | - |
-| `recipient` | - | - |
-| `remittanceInformation` | - | - |
-| `sender` | Yes | - |
-| `status` | - | - |
-| `updatedAt` | - | - |
+| Field | load | list | create |
+| --- | --- | --- | --- |
+| `amount` | - | - | - |
+| `createdAt` | - | - | - |
+| `currency` | - | - | - |
+| `id` | - | - | - |
+| `metadata` | - | - | - |
+| `paymentScheme` | - | - | - |
+| `provider` | - | - | Yes |
+| `recipient` | - | - | - |
+| `remittanceInformation` | - | - | - |
+| `sender` | - | - | Yes |
+| `updatedAt` | - | - | - |
 
 ### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+```php
+$result = $client->Payment()->create([
+  "amount" => null, // float
+  "currency" => null, // string
+  "metadata" => null, // array
+  "paymentScheme" => null, // mixed
+  "recipient" => null, // array
+  "remittanceInformation" => null, // mixed
+]);
+```
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
@@ -658,6 +677,14 @@ List entities matching the given criteria (call with no argument to list all). R
 
 ```php
 $results = $client->PaymentStatus()->list(["payment_id" => "example"]);
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->PaymentStatus()->load(["payment_id" => "payment_id"]);
 ```
 
 ### Common Methods
@@ -750,10 +777,286 @@ Return the entity name.
 
 ---
 
-## ProvidersSubsidiaryOutputDtoEntity
+## PsuProvidedDataEntity
 
 ```php
-$providers_subsidiary_output_dto = $client->ProvidersSubsidiaryOutputDto();
+$psu_provided_data = $client->PsuProvidedData();
+```
+
+### Operations
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
+
+```php
+$result = $client->PsuProvidedData()->update([
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): PsuProvidedDataEntity`
+
+Create a new `PsuProvidedDataEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ReportEntity
+
+```php
+$report = $client->Report();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `float` | Yes | Payment amount |
+| `createdAt` | `string` | Yes |  |
+| `currency` | `string` | Yes | Currency code |
+| `id` | `string` | Yes | Unique payment identifier |
+| `provider` | `array` | No | Selected provider details (name, country). |
+| `recipient` | `array` | Yes |  |
+| `remittanceInformation` | `mixed` | Yes |  |
+| `sender` | `array` | No |  |
+| `status` | `string` | Yes | The most recent status of the payment. |
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->Report()->load(["id" => "report_id"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ReportEntity`
+
+Create a new `ReportEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ScaDataEntity
+
+```php
+$sca_data = $client->ScaData();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->ScaData()->load();
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
+
+```php
+$result = $client->ScaData()->update([
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ScaDataEntity`
+
+Create a new `ScaDataEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## ScaMethodEntity
+
+```php
+$sca_method = $client->ScaMethod();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->ScaMethod()->load();
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
+
+```php
+$result = $client->ScaMethod()->update([
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): ScaMethodEntity`
+
+Create a new `ScaMethodEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## SenderAccountEntity
+
+```php
+$sender_account = $client->SenderAccount();
+```
+
+### Operations
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
+
+```php
+$result = $client->SenderAccount()->load(["provider_id" => "provider_id", "state" => "state"]);
+```
+
+#### `update(array $reqdata, ?array $ctrl = null): mixed`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity and throws on error.
+
+```php
+$result = $client->SenderAccount()->update([
+  // Fields to update
+]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): SenderAccountEntity`
+
+Create a new `SenderAccountEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## SubsidiaryEntity
+
+```php
+$subsidiary = $client->Subsidiary();
 ```
 
 ### Fields
@@ -777,7 +1080,7 @@ $providers_subsidiary_output_dto = $client->ProvidersSubsidiaryOutputDto();
 List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->ProvidersSubsidiaryOutputDto()->list(["provider_id" => "example"]);
+$results = $client->Subsidiary()->list(["provider_id" => "example"]);
 ```
 
 ### Common Methods
@@ -798,9 +1101,73 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): ProvidersSubsidiaryOutputDtoEntity`
+#### `make(): SubsidiaryEntity`
 
-Create a new `ProvidersSubsidiaryOutputDtoEntity` instance with the same client and
+Create a new `SubsidiaryEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
+## TokenEntity
+
+```php
+$token = $client->Token();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `access_token` | `string` | Yes | The JWT access token. |
+| `expires_in` | `float` | Yes | Expiration time of the token in seconds. |
+| `grant_type` | `string` | Yes | The type of grant being requested. |
+| `scope` | `string` | Yes | Scopes being requested. |
+| `token_type` | `string` | Yes | Token type. |
+
+### Operations
+
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
+
+Create a new entity with the given data. Returns the created entity and throws on error.
+
+```php
+$result = $client->Token()->create([
+  "access_token" => null, // string
+  "expires_in" => null, // float
+  "grant_type" => null, // string
+  "scope" => null, // string
+  "token_type" => null, // string
+]);
+```
+
+Declares a `application/x-www-form-urlencoded` body, which this SDK does not encode yet: it sends the data as JSON.
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): TokenEntity`
+
+Create a new `TokenEntity` instance with the same client and
 options.
 
 #### `get_name(): string`

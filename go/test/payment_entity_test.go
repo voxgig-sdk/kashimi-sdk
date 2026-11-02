@@ -190,7 +190,7 @@ func TestPaymentEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"list", "load"} {
+		for _, _op := range []string{"create", "list", "load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "payment." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -199,6 +199,8 @@ func TestPaymentEntity(t *testing.T) {
 				return
 			}
 		}
+		if setup.live && os.Getenv("VOXGIG_GETONLY_GUARD") == "TRUE" {
+			t.Log("LIVE STEP {\"id\":\"payment.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /api/v1/ob/payments/cancel\"}")
 		client := setup.client
 		_ = client
 		if setup.live {
@@ -228,6 +230,62 @@ func TestPaymentEntity(t *testing.T) {
 		_, paymentRef01ListOk := paymentRef01ListResult.([]any)
 		if !paymentRef01ListOk {
 			t.Fatalf("expected list result to be an array, got %T", paymentRef01ListResult)
+		}
+
+		// LOAD
+		paymentRef01MatchDt0 := map[string]any{
+			"id": paymentRef01Data["id"],
+		}
+		paymentRef01DataDt0Loaded, err := paymentRef01Ent.Load(paymentRef01MatchDt0, nil)
+		if err != nil {
+			t.Fatalf("load failed: %v", err)
+		}
+		paymentRef01DataDt0LoadResult := core.ToMapAny(entityData(paymentRef01DataDt0Loaded))
+		if paymentRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if paymentRef01DataDt0LoadResult["id"] != paymentRef01Data["id"] {
+			t.Fatal("expected load result id to match")
+		}
+
+		return
+		}
+
+		client := setup.client
+		_ = client
+
+		// CREATE
+		paymentRef01Ent := client.Payment(nil)
+		paymentRef01Data := core.ToMapAny(vs.GetProp(
+			vs.GetPath(setup.data, []any{"new", "payment"}), "payment_ref01"))
+
+		paymentRef01DataResult, err := paymentRef01Ent.Create(paymentRef01Data, nil)
+		if err != nil {
+			t.Fatalf("create failed: %v", err)
+		}
+		paymentRef01Data = core.ToMapAny(entityData(paymentRef01DataResult))
+		if paymentRef01Data == nil {
+			t.Fatal("expected create result to be a map")
+		}
+		if paymentRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
+
+		// LIST
+		paymentRef01Match := map[string]any{}
+
+		paymentRef01ListResult, err := paymentRef01Ent.List(paymentRef01Match, nil)
+		if err != nil {
+			t.Fatalf("list failed: %v", err)
+		}
+		paymentRef01List, paymentRef01ListOk := paymentRef01ListResult.([]any)
+		if !paymentRef01ListOk {
+			t.Fatalf("expected list result to be an array, got %T", paymentRef01ListResult)
+		}
+
+		foundItem := vs.Select(entityListToData(paymentRef01List), map[string]any{"id": paymentRef01Data["id"]})
+		if vs.IsEmpty(foundItem) {
+			t.Fatal("expected to find created entity in list")
 		}
 
 		// LOAD
@@ -293,7 +351,6 @@ func paymentBasicSetup(extra map[string]any) *entityTestSetup {
 		"KASHIMI_TEST_LIVE":      "FALSE",
 		"KASHIMI_TEST_EXPLAIN":   "FALSE",
 		"KASHIMI_APIKEY":         "",
-		"KASHIMI_SERVER_BASE": "",
 	})
 
 	idmapResolved := core.ToMapAny(env["KASHIMI_TEST_PAYMENT_ENTID"])
@@ -317,9 +374,6 @@ func paymentBasicSetup(extra map[string]any) *entityTestSetup {
 			liveClientOptions(),
 			map[string]any{
 				"apikey": env["KASHIMI_APIKEY"],
-				"server": map[string]any{
-					"base": env["KASHIMI_SERVER_BASE"],
-				},
 			},
 			extraOpts,
 		})

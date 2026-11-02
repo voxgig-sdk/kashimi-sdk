@@ -12,72 +12,74 @@ declare(strict_types=1);
 // registered on the composer classmap autoload. The SDK boundary exchanges
 // assoc-arrays; these classes name the shapes for tooling and typed callers.
 
-/** Capability entity data model. */
-class Capability
+/** Callback entity data model. */
+class Callback
 {
 }
 
-/** Request payload for Capability#list. */
-class CapabilityListMatch
+/** Request payload for Callback#load. */
+class CallbackLoadMatch
+{
+    public string $provider_id;
+    public string $state;
+}
+
+/** ClientJwk entity data model. */
+class ClientJwk
 {
 }
 
-/** ClientHostedUiCustomizationsOutputDto entity data model. */
-class ClientHostedUiCustomizationsOutputDto
+/** Request payload for ClientJwk#load. */
+class ClientJwkLoadMatch
 {
-    public ?string $id = null;
+    public string $client_id;
+    public string $provider_id;
+    public ?bool $revoked = null;
 }
 
-/** Request payload for ClientHostedUiCustomizationsOutputDto#load. */
-class ClientHostedUiCustomizationsOutputDtoLoadMatch
+/** ConfirmationData entity data model. */
+class ConfirmationData
 {
-    public string $id;
 }
 
-/** CreatePaymentOutputDto entity data model. */
-class CreatePaymentOutputDto
+/** Request payload for ConfirmationData#load. */
+class ConfirmationDataLoadMatch
 {
-    public float $amount;
-    public string $currency;
-    public array $metadata;
-    public mixed $paymentScheme;
+}
+
+/** ConsentStatus entity data model. */
+class ConsentStatus
+{
+}
+
+/** Request payload for ConsentStatus#load. */
+class ConsentStatusLoadMatch
+{
+}
+
+/** Country entity data model. */
+class Country
+{
+}
+
+/** Request payload for Country#list. */
+class CountryListMatch
+{
+}
+
+/** Followup entity data model. */
+class Followup
+{
     public mixed $provider;
-    public mixed $recipient;
-    public mixed $remittanceInformation;
     public mixed $sender = null;
 }
 
-/** Request payload for CreatePaymentOutputDto#create. */
-class CreatePaymentOutputDtoCreateData
+/** Request payload for Followup#create. */
+class FollowupCreateData
 {
-    public float $amount;
-    public string $currency;
-    public array $metadata;
-    public mixed $paymentScheme;
-    public mixed $provider = null;
-    public mixed $recipient;
-    public mixed $remittanceInformation;
+    public string $payment_id;
+    public mixed $provider;
     public mixed $sender = null;
-}
-
-/** CreateTokenOutputDto entity data model. */
-class CreateTokenOutputDto
-{
-    public string $access_token;
-    public float $expires_in;
-    public string $grant_type;
-    public string $scope;
-    public string $token_type;
-}
-
-/** Request payload for CreateTokenOutputDto#create. */
-class CreateTokenOutputDtoCreateData
-{
-    public string $access_token;
-    public float $expires_in;
-    public string $grant_type;
-    public string $scope;
-    public string $token_type;
 }
 
 /** Healthcheck entity data model. */
@@ -98,52 +100,29 @@ class HealthcheckLoadMatch
     public ?string $status = null;
 }
 
-/** Latest entity data model. */
-class Latest
+/** HostedUiCustomization entity data model. */
+class HostedUiCustomization
 {
-    public string $createdAt;
-    public string $detailedStatus;
-    public array $failureReasons;
-    public string $id;
-    public string $paymentId;
-    public string $status;
+    public string $clientId;
+    public string $faviconUrl;
+    public string $footerText;
+    public string $logoUrl;
+    public string $primaryColor;
+    public string $privacyPolicyUrl;
+    public string $psuPortalBaseUrl;
+    public string $termsUrl;
 }
 
-/** Request payload for Latest#list. */
-class LatestListMatch
+/** Request payload for HostedUiCustomization#load. */
+class HostedUiCustomizationLoadMatch
 {
-    public string $payment_id;
-}
-
-/** Obn entity data model. */
-class Obn
-{
-}
-
-/** Request payload for Obn#load. */
-class ObnLoadMatch
-{
-    public string $provider_id;
-    public string $state;
-}
-
-/** Request payload for Obn#create. */
-class ObnCreateData
-{
-    public string $provider_id;
-    public string $state;
-}
-
-/** Request payload for Obn#update. */
-class ObnUpdateData
-{
+    public string $client_id;
 }
 
 /** Payment entity data model. */
 class Payment
 {
     public float $amount;
-    public string $clientId;
     public string $createdAt;
     public string $currency;
     public string $id;
@@ -153,7 +132,6 @@ class Payment
     public array $recipient;
     public mixed $remittanceInformation;
     public array $sender;
-    public string $status;
     public string $updatedAt;
 }
 
@@ -172,6 +150,19 @@ class PaymentListMatch
     public ?string $filters_metadata_end_to_end_id = null;
 }
 
+/** Request payload for Payment#create. */
+class PaymentCreateData
+{
+    public float $amount;
+    public string $currency;
+    public array $metadata;
+    public mixed $paymentScheme;
+    public mixed $provider = null;
+    public array $recipient;
+    public mixed $remittanceInformation;
+    public ?array $sender = null;
+}
+
 /** PaymentStatus entity data model. */
 class PaymentStatus
 {
@@ -181,6 +172,12 @@ class PaymentStatus
     public string $id;
     public string $paymentId;
     public string $status;
+}
+
+/** Request payload for PaymentStatus#load. */
+class PaymentStatusLoadMatch
+{
+    public string $payment_id;
 }
 
 /** Request payload for PaymentStatus#list. */
@@ -210,8 +207,85 @@ class ProviderListMatch
     public ?array $filter = null;
 }
 
-/** ProvidersSubsidiaryOutputDto entity data model. */
-class ProvidersSubsidiaryOutputDto
+/** PsuProvidedData entity data model. */
+class PsuProvidedData
+{
+}
+
+/** Request payload for PsuProvidedData#update. */
+class PsuProvidedDataUpdateData
+{
+}
+
+/** Report entity data model. */
+class Report
+{
+    public float $amount;
+    public string $createdAt;
+    public string $currency;
+    public string $id;
+    public ?array $provider = null;
+    public array $recipient;
+    public mixed $remittanceInformation;
+    public ?array $sender = null;
+    public string $status;
+}
+
+/** Request payload for Report#load. */
+class ReportLoadMatch
+{
+    public string $id;
+}
+
+/** ScaData entity data model. */
+class ScaData
+{
+}
+
+/** Request payload for ScaData#load. */
+class ScaDataLoadMatch
+{
+}
+
+/** Request payload for ScaData#update. */
+class ScaDataUpdateData
+{
+}
+
+/** ScaMethod entity data model. */
+class ScaMethod
+{
+}
+
+/** Request payload for ScaMethod#load. */
+class ScaMethodLoadMatch
+{
+}
+
+/** Request payload for ScaMethod#update. */
+class ScaMethodUpdateData
+{
+}
+
+/** SenderAccount entity data model. */
+class SenderAccount
+{
+}
+
+/** Request payload for SenderAccount#load. */
+class SenderAccountLoadMatch
+{
+    public string $provider_id;
+    public string $state;
+}
+
+/** Request payload for SenderAccount#update. */
+class SenderAccountUpdateData
+{
+}
+
+/** Subsidiary entity data model. */
+class Subsidiary
 {
     public string $bic;
     public string $countryCode;
@@ -224,11 +298,31 @@ class ProvidersSubsidiaryOutputDto
     public array $requiredPaymentFields;
 }
 
-/** Request payload for ProvidersSubsidiaryOutputDto#list. */
-class ProvidersSubsidiaryOutputDtoListMatch
+/** Request payload for Subsidiary#list. */
+class SubsidiaryListMatch
 {
     public string $provider_id;
     public ?array $cursor = null;
     public ?array $filter = null;
+}
+
+/** Token entity data model. */
+class Token
+{
+    public string $access_token;
+    public float $expires_in;
+    public string $grant_type;
+    public string $scope;
+    public string $token_type;
+}
+
+/** Request payload for Token#create. */
+class TokenCreateData
+{
+    public string $access_token;
+    public float $expires_in;
+    public string $grant_type;
+    public string $scope;
+    public string $token_type;
 }
 

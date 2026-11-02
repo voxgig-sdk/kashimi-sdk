@@ -1,0 +1,145 @@
+# Entity: report
+
+main: kit: entity: report: {
+
+  alias: field: {}
+
+  fields: {
+    amount: {
+      h: "Amount"
+      n: "amount"
+      r: true
+      sh: "Payment amount"
+      t: "`$NUMBER`"
+    }
+    createdAt: {
+      h: "Created At"
+      n: "createdAt"
+      r: true
+      t: "`$STRING`"
+    }
+    currency: {
+      h: "Currency"
+      n: "currency"
+      r: true
+      sh: "Currency code"
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "Unique payment identifier"
+      t: "`$STRING`"
+    }
+    provider: {
+      h: "Provider"
+      n: "provider"
+      r: false
+      sh: "Selected provider details (name, country)."
+      t: "`$OBJECT`"
+    }
+    recipient: {
+      h: "Recipient"
+      n: "recipient"
+      r: true
+      t: "`$OBJECT`"
+    }
+    remittanceInformation: {
+      h: "Remittance Information"
+      n: "remittanceInformation"
+      r: true
+      t: "`$ANY`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: false
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: true
+      sh: "The most recent status of the payment."
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "report"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /api/v1/reports/payments/{id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                k: "header"
+                n: "authorization"
+                or: "Authorization"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "id"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/api/v1/reports/payments/{id}"
+          q: {
+            exist: [
+              "authorization"
+              "id"
+            ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
+          s: [
+            {
+              lit: "api"
+            }
+            {
+              lit: "v1"
+            }
+            {
+              lit: "reports"
+            }
+            {
+              lit: "payments"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
