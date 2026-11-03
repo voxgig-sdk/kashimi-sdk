@@ -186,6 +186,9 @@ class PaymentStatusEntityTest < Minitest::Test
     payment_status_ref01_match_dt0 = {
       "id" => payment_status_ref01_data["id"],
     }
+    if setup[:live]
+      payment_status_ref01_match_dt0["payment_id"] = "123e4567-e89b-12d3-a456-426614174000"
+    end
     payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, nil)
     payment_status_ref01_data_dt0_load_result = Helpers.to_map(payment_status_ref01_data_dt0_loaded.respond_to?(:data_get) ? payment_status_ref01_data_dt0_loaded.data_get : payment_status_ref01_data_dt0_loaded)
     assert !payment_status_ref01_data_dt0_load_result.nil?

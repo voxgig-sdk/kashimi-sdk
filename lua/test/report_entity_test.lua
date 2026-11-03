@@ -45,9 +45,18 @@ describe("ReportEntity", function()
       end
     end
     if setup.live then
-      runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: " .. "the flow loads a report record it has no list to find")
+      for _, _live_key in ipairs({"report01"}) do
+        if setup.synthetic_only or setup.idmap[_live_key] == nil then
+          runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: needs " .. _live_key .. " via KASHIMI_TEST_REPORT_ENTID")
+        end
+      end
     end
     local client = setup.client
+    if setup.live then
+      runner.live_existing(pending, setup, LIVE_STRICT, "report", function()
+        return { { id = setup.idmap["report01"] } }
+      end)
+    end
 
     -- Bootstrap entity data from existing test data.
     local report_ref01_data_raw = vs.items(helpers.to_map(

@@ -42,9 +42,18 @@ class ReportEntityTest < Minitest::Test
       end
     end
     if setup[:live]
-      Runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a report record it has no list to find")
+      ["report01"].each do |_live_key|
+        if setup[:synthetic_only] || setup[:idmap][_live_key].nil?
+          Runner.live_miss(LIVE_STRICT, "Live entity test blocked: needs #{_live_key} via KASHIMI_TEST_REPORT_ENTID")
+        end
+      end
     end
     client = setup[:client]
+    if setup[:live]
+      Runner.live_existing(setup, LIVE_STRICT, "report") do
+        [{ "id" => setup[:idmap]["report01"] }]
+      end
+    end
 
     # Bootstrap entity data from existing test data.
     report_ref01_data_raw = Vs.items(Helpers.to_map(

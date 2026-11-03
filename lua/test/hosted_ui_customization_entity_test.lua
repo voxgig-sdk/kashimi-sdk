@@ -45,9 +45,18 @@ describe("HostedUiCustomizationEntity", function()
       end
     end
     if setup.live then
-      runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: " .. "the flow loads a hosted_ui_customization record it has no list to find")
+      for _, _live_key in ipairs({"hosted_ui_customization01"}) do
+        if setup.synthetic_only or setup.idmap[_live_key] == nil then
+          runner.live_miss(pending, LIVE_STRICT, "Live entity test blocked: needs " .. _live_key .. " via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
+        end
+      end
     end
     local client = setup.client
+    if setup.live then
+      runner.live_existing(pending, setup, LIVE_STRICT, "hosted_ui_customization", function()
+        return { { id = setup.idmap["hosted_ui_customization01"] } }
+      end)
+    end
 
     -- Bootstrap entity data from existing test data.
     local hosted_ui_customization_ref01_data_raw = vs.items(helpers.to_map(

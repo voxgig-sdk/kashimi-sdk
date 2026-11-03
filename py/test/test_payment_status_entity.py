@@ -159,6 +159,8 @@ class TestPaymentStatusEntity:
         payment_status_ref01_match_dt0 = {
             "id": payment_status_ref01_data["id"],
         }
+        if setup["live"]:
+            payment_status_ref01_match_dt0["payment_id"] = "123e4567-e89b-12d3-a456-426614174000"
         payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, None)
         payment_status_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(payment_status_ref01_data_dt0_loaded))
         assert payment_status_ref01_data_dt0_load_result is not None

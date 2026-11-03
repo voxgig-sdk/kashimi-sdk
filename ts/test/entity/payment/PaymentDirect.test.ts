@@ -65,7 +65,7 @@ describe('PaymentDirect', async () => {
       if (0 === listArr.length) {
         return void liveEmpty(t, 'The account has no payment record to load')
       }
-      const candidateId = listArr[0]?.id ?? listArr[0]?.id
+      const candidateId = listArr[0]?.id
       if (null == candidateId) {
         return void liveMiss(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity')
       }

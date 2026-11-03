@@ -52,8 +52,13 @@ class TestReportEntity:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         if setup["live"]:
-            runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a report record it has no list to find")
+            for _live_key in ["report01"]:
+                if setup.get("synthetic_only") or setup["idmap"].get(_live_key) is None:
+                    runner.live_miss(LIVE_STRICT, f"Live entity test blocked: needs {_live_key} via KASHIMI_TEST_REPORT_ENTID")
         client = setup["client"]
+        if setup["live"]:
+            runner.live_existing(setup, LIVE_STRICT, "report",
+                                 lambda: [{"id": setup["idmap"].get("report01")}])
 
         # Bootstrap entity data from existing test data.
         report_ref01_data_raw = vs.items(helpers.to_map(

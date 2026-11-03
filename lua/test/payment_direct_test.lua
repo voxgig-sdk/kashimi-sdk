@@ -88,7 +88,7 @@ describe("PaymentDirect", function()
         runner.live_empty(pending, "The account has no payment record to load")
       end
       local first = type(records[1]) == "table" and records[1] or {}
-      local found = first["id"] or first["id"]
+      local found = first["id"]
       if found == nil then
         runner.live_miss(pending, LIVE_STRICT, "Live load blocked: discovery returned no usable identity")
       end

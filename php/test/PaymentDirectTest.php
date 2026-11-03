@@ -91,7 +91,7 @@ class PaymentDirectTest extends TestCase
                 Runner::live_empty("The account has no payment record to load");
             }
             $first = is_array($records[0]) ? $records[0] : [];
-            $found = $first["id"] ?? $first["id"] ?? null;
+            $found = $first["id"] ?? null;
             if (null === $found) {
                 Runner::live_miss(self::LIVE_STRICT, "Live load blocked: discovery returned no usable identity");
             }

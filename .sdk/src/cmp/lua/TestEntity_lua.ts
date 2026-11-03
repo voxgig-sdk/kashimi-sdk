@@ -25,13 +25,13 @@ import {
   buildIdNames,
   getMatchEntries,
   isAuthActive,
-  entityDataIdField, envName, envToken,
+  entityDataIdField, entityRecordIdField, envName, envToken, luaKey,
   serverVarEnv,
   serverVariables,
   invalidRequest,
   liveFlowNeeds, liveStrict, liveStrictNote,
   liveRouteExamples, liveStepExamples, flowLoadRoute, flowLoadReadsRecord,
-  liveGetOnly, liveExcludedLines, liveExcludedSummary, LIVE_GETONLY_ENV,
+  liveGates, liveExcludedLines, liveExcludedSummary, LIVE_GETONLY_ENV,
   liveEntity,
 } from '@voxgig/sdkgen'
 
@@ -54,6 +54,17 @@ type OpGen = (ctx: GenCtx, step: ModelEntityFlowStep, index: number) => void
 // a lenient run observing its checks rather than failing on them.
 function liveFlowGate(entity: any, needs: any, entidEnv: string, strict: boolean): string {
   let out = ''
+  if (null != needs.examples) {
+    out += `    if setup.live then
+      for _live_key, _live_ex in pairs({${needs.examples
+      .map(([k, ex]: any) => '[' + JSON.stringify(k) + '] = ' + formatLuaValue(ex)).join(', ')}}) do
+        if setup.synthetic_only or setup.idmap[_live_key] == nil then
+          setup.idmap[_live_key] = _live_ex
+        end
+      end
+    end
+`
+  }
   if (0 < needs.keys.length) {
     out += `    if setup.live then
       for _, _live_key in ipairs({${needs.keys.map((k: string) => JSON.stringify(k)).join(', ')}}) do
@@ -71,6 +82,14 @@ function liveFlowGate(entity: any, needs: any, entidEnv: string, strict: boolean
 `
   }
   out += '    local client = setup.client\n'
+  if (null != needs.record) {
+    out += `    if setup.live then
+      runner.live_existing(pending, setup, LIVE_STRICT, ${JSON.stringify(entity.name)}, function()
+        return { { id = setup.idmap[${JSON.stringify(needs.record)}] } }
+      end)
+    end
+`
+  }
   if (null != needs.discover) {
     const match = Object.entries(needs.discover)
       .map(([k, v]: any) => `[${JSON.stringify(k)}] = setup.idmap[${JSON.stringify(v)}]`)
@@ -266,19 +285,18 @@ ${failureTests(entity)}` : ''}${validateTest(entity)}
 `)
     }
 
-    const getOnly = liveGetOnly(entity, basicflow)
-    if (null != getOnly) {
-      Content(`    if setup.live and os.getenv(${formatLuaValue(LIVE_GETONLY_ENV)}) == "TRUE" then
-${liveExcludedLines(getOnly).map((line) => '      print(' + formatLuaValue(line) + ')\n').join('')}`)
-      if (0 === flowSteps(getOnly.flow).length) {
-        Content(`      pending(${formatLuaValue(liveExcludedSummary(getOnly))})
+    for (const { getOnly, plan, runs } of liveGates(entity, basicflow)) {
+      Content(`    if setup.live${getOnly ? ` and os.getenv(${formatLuaValue(LIVE_GETONLY_ENV)}) == "TRUE"` : ''} then
+${liveExcludedLines(plan).map((line) => '      print(' + formatLuaValue(line) + ')\n').join('')}`)
+      if (!runs) {
+        Content(`      pending(${formatLuaValue(liveExcludedSummary(plan))})
       return
     end
 
 `)
       }
       else {
-        flowBody(getOnly.flow)
+        flowBody(plan.flow)
         Content(`      return
     end
 
@@ -306,7 +324,7 @@ end)
   f:close()
 
   local entity_data = json.decode(entity_data_source)
-
+${fixtureIdentity(entity)}
   local options = {}
   options["entity"] = entity_data["existing"]
 
@@ -433,7 +451,7 @@ const generateCreate: OpGen = (ctx, step, index) => {
     assert.is_not_nil(${datavar})
 `)
   if (null != ctx.entity.id) {
-    Content(`    assert.is_not_nil(${datavar}["id"])
+    Content(`    assert.is_not_nil(${datavar}[${rid(ctx.entity)}])
 `)
   }
 }
@@ -472,7 +490,7 @@ const generateList: OpGen = (ctx, step, index) => {
     Content(`    }
 `)
   }
-  Content(liveFill(entity, step, matchvar))
+  Content(liveFill(entity, step, matchvar, flow))
 
   Content(`
     local ${listvar}_result, err = ${entvar}:list(${matchvar}, nil)
@@ -493,7 +511,7 @@ const generateList: OpGen = (ctx, step, index) => {
         Content(`
     local found_item = vs.select(
       runner.entity_list_to_data(${listvar}_result),
-      { id = ${refDataVar}["id"] })
+      { ${luaKey(entityRecordIdField(entity))} = ${refDataVar}[${rid(entity)}] })
     assert.is_false(vs.isempty(found_item))
 `)
       } else if ('ItemNotExists' === validator.apply && hasRefData && hasDataId) {
@@ -501,7 +519,7 @@ const generateList: OpGen = (ctx, step, index) => {
         Content(`
     local not_found_item = vs.select(
       runner.entity_list_to_data(${listvar}_result),
-      { id = ${refDataVar}["id"] })
+      { ${luaKey(entityRecordIdField(entity))} = ${refDataVar}[${rid(entity)}] })
     assert.is_true(vs.isempty(not_found_item))
 `)
       }
@@ -534,7 +552,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
   Content(`    local ${datavar}_up = {
 `)
   if (hasEntIdU) {
-    Content(`      id = ${srcdatavar}["id"],
+    Content(`      id = ${srcdatavar}[${rid(entity)}],
 `)
   }
 
@@ -570,7 +588,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
     assert.is_not_nil(${resdatavar})
 `)
   if (hasEntIdU) {
-    Content(`    assert.are.equal(${resdatavar}["id"], ${datavar}_up["id"])
+    Content(`    assert.are.equal(${resdatavar}[${rid(entity)}], ${datavar}_up["id"])
 `)
   }
 
@@ -628,18 +646,18 @@ const generateLoad: OpGen = (ctx, step, index) => {
   }
   if (hasEntId) {
     Content(`    local ${matchvar} = {
-      id = ${srcdatavar}["id"],
+      id = ${srcdatavar}[${rid(entity)}],
     }
-${loadMatch(entity, step, matchvar, srcdatavar)}${liveFill(entity, step, matchvar)}    local ${datavar}_loaded, err = ${entvar}:load(${matchvar}, nil)
+${loadMatch(entity, step, matchvar, srcdatavar)}${liveFill(entity, step, matchvar, flow)}    local ${datavar}_loaded, err = ${entvar}:load(${matchvar}, nil)
     assert.is_nil(err)
     local ${datavar}_load_result = helpers.to_map(type(${datavar}_loaded) == 'table' and ${datavar}_loaded.data_get and ${datavar}_loaded:data_get() or ${datavar}_loaded)
     assert.is_not_nil(${datavar}_load_result)
-    assert.are.equal(${datavar}_load_result["id"], ${srcdatavar}["id"])
+    assert.are.equal(${datavar}_load_result[${rid(entity)}], ${srcdatavar}[${rid(entity)}])
 `)
   }
   else {
     Content(`    local ${matchvar} = {}
-${loadMatch(entity, step, matchvar, srcdatavar)}${liveFill(entity, step, matchvar)}    local ${datavar}_loaded, err = ${entvar}:load(${matchvar}, nil)
+${loadMatch(entity, step, matchvar, srcdatavar)}${liveFill(entity, step, matchvar, flow)}    local ${datavar}_loaded, err = ${entvar}:load(${matchvar}, nil)
     assert.is_nil(err)
     assert.is_not_nil(${datavar}_loaded)
 `)
@@ -669,7 +687,7 @@ const generateRemove: OpGen = (ctx, step, index) => {
   }
   // Always match the prior-created entity by id to avoid mock-order flakes.
   Content(`    local ${matchvar} = {
-      id = ${srcdatavar}["id"],
+      id = ${srcdatavar}[${rid(entity)}],
     }
 ${parentMatch(step, matchvar)}    local _, err = ${entvar}:remove(${matchvar}, nil)
     assert.is_nil(err)
@@ -678,12 +696,32 @@ ${parentMatch(step, matchvar)}    local _, err = ${entvar}:remove(${matchvar}, n
 
 
 
+// The record field the entity's identity is read from, as a Lua string.
+function rid(entity: any): string {
+  return JSON.stringify(entityRecordIdField(entity))
+}
+
+
+// The fixture keeps each record's key in `id`; an entity keeping its identity
+// in another field reads the key from there too.
+function fixtureIdentity(entity: any): string {
+  const field = entityRecordIdField(entity)
+  return 'id' === field ? '' : `
+  for _, rec in pairs(((entity_data["existing"] or {})[${JSON.stringify(entity.name)}]) or {}) do
+    if type(rec) == "table" and rec["id"] ~= nil then
+      rec[${JSON.stringify(field)}] = rec["id"]
+    end
+  end
+`
+}
+
+
 // A child's route names its parents, and an entity no earlier step has
 // filled knows none of them, so the call itself gives each parent id. A live
 // ENTID may key a parent by its field name, the fixture by its own name.
 // A live step sends each example its route requires and the step leaves unbound.
-function liveFill(entity: any, step: any, matchvar: string): string {
-  const fills = liveStepExamples(entity, step)
+function liveFill(entity: any, step: any, matchvar: string, flow: any): string {
+  const fills = liveStepExamples(entity, step, flow)
   return 0 === fills.length ? '' : `    if setup.live then
 ${fills.map(([k, ex]) => `      ${matchvar}[${JSON.stringify(k)}] = ${formatLuaValue(ex)}\n`).join('')}    end
 `

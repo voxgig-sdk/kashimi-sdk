@@ -24,6 +24,7 @@ import {
   jsOptProp, envName, envToken, liveStrict, liveStrictNote,
   jsKey,
   pointParts,
+  pointSlash,
   pointPlaceholders,
   pointIsGraphql,
   hasLiveScenarios,
@@ -34,6 +35,7 @@ import {
   liveEntity,
   liveGetOnlyReason, LIVE_GETONLY_ENV,
   liveDirectGetOnly, liveExcludedLines, liveExcludedSummary,
+  liveDirectDiscovery, liveIdKey,
 } from '@voxgig/sdkgen'
 
 
@@ -300,7 +302,7 @@ function generateDirectLoad(model: Model, entity: ModelEntity) {
   }
 
   const allLoadParams = loadPoint.g?.params || []
-  const loadPath = normalizePathParams(pointParts(loadPoint), allLoadParams, loadPoint.r?.param)
+  const loadPath = normalizePathParams(pointParts(loadPoint), allLoadParams, loadPoint.r?.param) + pointSlash(loadPoint)
 
   // Some upstream OpenAPI specs declare a parameter as `in: path` even when
   // that path has no `{name}` placeholder for it. Only path params that
@@ -331,25 +333,13 @@ function generateDirectLoad(model: Model, entity: ModelEntity) {
   const listPoint = null == listOp?.points ? undefined :
     primaryPoint(listOp.points, entity.name, 'list')
   const listParams = listPoint?.g?.params || []
-  const listPath = listPoint ? normalizePathParams(pointParts(listPoint), listParams, listPoint.r?.param) : ''
-  const hasList = null != listPoint
-
-  const ancestorParams = loadParams.filter((p: any) => p.n !== 'id')
+  const listPath = listPoint ? normalizePathParams(pointParts(listPoint), listParams, listPoint.r?.param) + pointSlash(listPoint) : ''
+  const discovery = liveDirectDiscovery(entity, loadParams, listPoint)
 
   const paramAsserts = loadParams.map((p: any, i: number) =>
     '      assert(calls[0].url.includes(\'direct0' + (i + 1) + '\'))\n').join('')
 
-  const liveListParams = listParams.map((p: any) => {
-    const key = p.n === 'id'
-      ? entity.name + '01'
-      : p.n.replace(/_id$/, '') + '01'
-    return { name: p.n, key }
-  })
-
-  const liveAncestorParams = ancestorParams.map((p: any) => {
-    const key = p.n.replace(/_id$/, '') + '01'
-    return { name: p.n, key }
-  })
+  const liveListParams = listParams.map((p: any) => ({ name: p.n, key: liveIdKey(entity.name, p.n) }))
 
   const liveQueryPrefix = liveQueryLines ? liveQueryLines + '\n' : ''
 
@@ -377,19 +367,14 @@ ${liveQueryPrefix}${exampleLines}
 ${loadParams.map((p: any, i: number) => `      ${jsProp('params', p.n)} = 'direct0${i + 1}'`).join('\n')}
     }`
   }
-  else if (hasList) {
-    // List-bootstrap pattern picks the load id from a list call's response,
-    // so the test can succeed without ENTID env var. Ancestor params, if
-    // any, still need ENTID overrides because the list call itself can need
-    // them embedded.
+  else if (null != discovery) {
+    const liveAncestorParams = loadParams.filter((p: any) => p.n !== discovery.param)
+      .map((p: any) => ({ name: p.n, key: liveIdKey(entity.name, p.n) }))
     liveIdKeys = [...new Set([...liveListParams, ...liveAncestorParams].map((lp: any) => lp.key))]
     const listParamLines = liveListParams.map((lp: any) =>
       `        ${lp.name}: setup.idmap['${lp.key}'],`).join('\n')
     const ancestorParamLines = liveAncestorParams.map((lp: any) =>
       `      ${jsProp('params', lp.name)} = setup.idmap['${lp.key}']`).join('\n')
-    const idParamName = loadParams.find((p: any) => p.n === 'id')
-      ? 'id'
-      : (loadParams[0]?.n ?? 'id')
 
     liveParamsBlock = `    if (setup.live) {
 ${liveQueryPrefix}      const listResult: any = await client.direct({
@@ -409,21 +394,19 @@ ${listParamLines}
       if (0 === listArr.length) {
         return void liveEmpty(t, 'The account has no ${entity.name} record to load')
       }
-      const candidateId = ${jsOptProp('listArr[0]', idParamName)} ?? listArr[0]?.id
+      const candidateId = ${jsOptProp('listArr[0]', discovery.field)}
       if (null == candidateId) {
         return void liveMiss(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity')
       }
-      ${jsProp('params', idParamName)} = candidateId
+      ${jsProp('params', discovery.param)} = candidateId
 ${ancestorParamLines}
     } else {
 ${loadParams.map((p: any, i: number) => `      ${jsProp('params', p.n)} = 'direct0${i + 1}'`).join('\n')}
     }`
   } else if (hasLiveQuery || loadParams.length > 0) {
-    // With no examples and no list to discover from, the ids come from the
-    // *_ENTID variable; without them the test is blocked.
-    const liveLoadParams = loadParams.map((p: any) => ({
-      name: p.n, key: p.n === 'id' ? entity.name + '01' : p.n.replace(/_id$/, '') + '01',
-    }))
+    // A path parameter no listed record gives comes from *_ENTID and the
+    // examples merged into it; without them the test is blocked.
+    const liveLoadParams = loadParams.map((p: any) => ({ name: p.n, key: liveIdKey(entity.name, p.n) }))
     liveIdKeys = liveLoadParams.map((lp: any) => lp.key)
     liveParamsBlock = `    if (setup.live) {
 ${liveQueryPrefix}${liveLoadParams.map((lp: any) =>
@@ -488,7 +471,7 @@ function generateDirectList(model: Model, entity: ModelEntity) {
   }
 
   const listParams = listPoint.g?.params || []
-  const listPath = normalizePathParams(pointParts(listPoint), listParams, listPoint.r?.param)
+  const listPath = normalizePathParams(pointParts(listPoint), listParams, listPoint.r?.param) + pointSlash(listPoint)
 
   const liveQueryLines = liveQueryLinesTs(listPoint)
 

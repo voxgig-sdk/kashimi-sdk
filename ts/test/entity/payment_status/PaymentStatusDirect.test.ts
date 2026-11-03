@@ -49,28 +49,6 @@ describe('PaymentStatusDirect', async () => {
     const query: any = {}
     if (setup.live) {
       query.paymentId = "123e4567-e89b-12d3-a456-426614174000"
-      const listResult: any = await client.direct({
-        path: 'api/v1/archive/payment-statuses',
-        method: 'GET',
-        params: {
-
-        },
-      })
-      if (!listResult.ok || listResult.status < 200 || listResult.status >= 300) {
-        return void liveMiss(t, LIVE_STRICT, 'Live list discovery failed: ' + describeLive(listResult))
-      }
-      const listArr = unwrapListData(listResult.data)
-      if (null == listArr) {
-        return void liveMiss(t, LIVE_STRICT, 'Live list discovery returned no list: ' + describeLive(listResult))
-      }
-      if (0 === listArr.length) {
-        return void liveEmpty(t, 'The account has no payment_status record to load')
-      }
-      const candidateId = listArr[0]?.id ?? listArr[0]?.id
-      if (null == candidateId) {
-        return void liveMiss(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity')
-      }
-      params.id = candidateId
 
     } else {
 

@@ -42,9 +42,18 @@ class HostedUiCustomizationEntityTest < Minitest::Test
       end
     end
     if setup[:live]
-      Runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a hosted_ui_customization record it has no list to find")
+      ["hosted_ui_customization01"].each do |_live_key|
+        if setup[:synthetic_only] || setup[:idmap][_live_key].nil?
+          Runner.live_miss(LIVE_STRICT, "Live entity test blocked: needs #{_live_key} via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
+        end
+      end
     end
     client = setup[:client]
+    if setup[:live]
+      Runner.live_existing(setup, LIVE_STRICT, "hosted_ui_customization") do
+        [{ "id" => setup[:idmap]["hosted_ui_customization01"] }]
+      end
+    end
 
     # Bootstrap entity data from existing test data.
     hosted_ui_customization_ref01_data_raw = Vs.items(Helpers.to_map(

@@ -48,7 +48,7 @@ const utility_1 = require("../../utility");
             if (0 === listArr.length) {
                 return void (0, utility_1.liveEmpty)(t, 'The account has no payment record to load');
             }
-            const candidateId = listArr[0]?.id ?? listArr[0]?.id;
+            const candidateId = listArr[0]?.id;
             if (null == candidateId) {
                 return void (0, utility_1.liveMiss)(t, LIVE_STRICT, 'Live load blocked: discovery returned no usable identity');
             }

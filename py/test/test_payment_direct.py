@@ -80,9 +80,9 @@ class TestPaymentDirect:
             if 0 == len(records):
                 runner.live_empty("The account has no payment record to load")
             first = records[0] if isinstance(records[0], dict) else {}
-            if first.get("id", first.get("id")) is None:
+            if first.get("id") is None:
                 runner.live_miss(LIVE_STRICT, "Live load blocked: discovery returned no usable identity")
-            params["id"] = first.get("id", first.get("id"))
+            params["id"] = first.get("id")
             pass
         else:
             params["id"] = "direct01"

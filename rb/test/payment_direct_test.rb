@@ -84,7 +84,7 @@ class PaymentDirectTest < Minitest::Test
         Runner.live_empty("The account has no payment record to load")
       end
       first = records[0].is_a?(Hash) ? records[0] : {}
-      found = first.fetch("id", first["id"])
+      found = first["id"]
       if found.nil?
         Runner.live_miss(LIVE_STRICT, "Live load blocked: discovery returned no usable identity")
       end

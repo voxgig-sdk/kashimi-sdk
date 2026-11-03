@@ -63,10 +63,19 @@ func TestReportEntity(t *testing.T) {
 			}
 		}
 		if setup.live {
-			liveMiss(t, reportEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a report record it has no list to find")
+			for _, _liveKey := range []string{"report01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, reportEntityLiveStrict, "Live entity test blocked: needs %s via KASHIMI_TEST_REPORT_ENTID", _liveKey)
+				}
+			}
 		}
 		client := setup.client
 		_ = client
+		if setup.live {
+			liveExisting(t, reportEntityLiveStrict, setup.data, "report", func() (any, error) {
+				return []any{map[string]any{"id": setup.idmap["report01"]}}, nil
+			})
+		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		reportRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.report")))

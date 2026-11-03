@@ -237,6 +237,9 @@ func TestPaymentStatusEntity(t *testing.T) {
 		paymentStatusRef01MatchDt0 := map[string]any{
 			"id": paymentStatusRef01Data["id"],
 		}
+		if setup.live {
+			paymentStatusRef01MatchDt0["payment_id"] = "123e4567-e89b-12d3-a456-426614174000"
+		}
 		paymentStatusRef01DataDt0Loaded, err := paymentStatusRef01Ent.Load(paymentStatusRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)

@@ -63,10 +63,19 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 			}
 		}
 		if setup.live {
-			liveMiss(t, hosted_ui_customizationEntityLiveStrict, "Live entity test blocked: %s", "the flow loads a hosted_ui_customization record it has no list to find")
+			for _, _liveKey := range []string{"hosted_ui_customization01"} {
+				if setup.syntheticOnly || setup.idmap[_liveKey] == nil {
+					liveMiss(t, hosted_ui_customizationEntityLiveStrict, "Live entity test blocked: needs %s via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID", _liveKey)
+				}
+			}
 		}
 		client := setup.client
 		_ = client
+		if setup.live {
+			liveExisting(t, hosted_ui_customizationEntityLiveStrict, setup.data, "hosted_ui_customization", func() (any, error) {
+				return []any{map[string]any{"id": setup.idmap["hosted_ui_customization01"]}}, nil
+			})
+		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
 		hostedUiCustomizationRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.hosted_ui_customization")))

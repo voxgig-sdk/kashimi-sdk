@@ -52,8 +52,13 @@ class TestHostedUiCustomizationEntity:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
                 return
         if setup["live"]:
-            runner.live_miss(LIVE_STRICT, "Live entity test blocked: " + "the flow loads a hosted_ui_customization record it has no list to find")
+            for _live_key in ["hosted_ui_customization01"]:
+                if setup.get("synthetic_only") or setup["idmap"].get(_live_key) is None:
+                    runner.live_miss(LIVE_STRICT, f"Live entity test blocked: needs {_live_key} via KASHIMI_TEST_HOSTED_UI_CUSTOMIZATION_ENTID")
         client = setup["client"]
+        if setup["live"]:
+            runner.live_existing(setup, LIVE_STRICT, "hosted_ui_customization",
+                                 lambda: [{"id": setup["idmap"].get("hosted_ui_customization01")}])
 
         # Bootstrap entity data from existing test data.
         hosted_ui_customization_ref01_data_raw = vs.items(helpers.to_map(

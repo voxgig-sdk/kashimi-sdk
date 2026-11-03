@@ -15,6 +15,7 @@ import {
   serverVarEnv,
   serverVariables, envName, envToken, liveStrict, liveStrictNote,
   pointParts,
+  pointSlash,
   pointPlaceholders,
   pointIsGraphql,
   primaryPoint,
@@ -23,6 +24,7 @@ import {
   liveEntity,
   liveGetOnlyReason, LIVE_GETONLY_ENV,
   liveDirectGetOnly, liveExcludedLines, liveExcludedSummary,
+  liveDirectDiscovery,
 } from '@voxgig/sdkgen'
 
 
@@ -117,7 +119,7 @@ const TestDirect = cmp(function TestDirect(props: any) {
   const loadPoint = null == loadOp?.points ? undefined :
     primaryPoint(loadOp.points, entity.name, 'load')
   const loadIsGraphql = pointIsGraphql(loadPoint)
-  const loadPath = loadPoint ? normalizePathParams(pointParts(loadPoint), loadPoint?.g?.params || [], loadPoint?.r?.param) : ''
+  const loadPath = loadPoint ? normalizePathParams(pointParts(loadPoint), loadPoint?.g?.params || [], loadPoint?.r?.param) + pointSlash(loadPoint) : ''
   const allLoadParams = loadPoint?.g?.params || []
   // Some upstream OpenAPI specs declare a parameter as `in: path` even when
   // that path has no `{name}` placeholder for it. Only path params that
@@ -139,7 +141,7 @@ const TestDirect = cmp(function TestDirect(props: any) {
   const listPoint = null == listOp?.points ? undefined :
     primaryPoint(listOp.points, entity.name, 'list')
   const listIsGraphql = pointIsGraphql(listPoint)
-  const listPath = listPoint ? normalizePathParams(pointParts(listPoint), listPoint?.g?.params || [], listPoint?.r?.param) : ''
+  const listPath = listPoint ? normalizePathParams(pointParts(listPoint), listPoint?.g?.params || [], listPoint?.r?.param) + pointSlash(listPoint) : ''
   const listParams = listPoint?.g?.params || []
 
   const liveQueryLines = (point: any) => liveQueryExamples(point)
@@ -359,13 +361,14 @@ ${listLiveQueryLines}
           `"${p.n}": "direct0${i + 1}"`).join(', ')
         : ''
 
-      const ancestorParams = loadParams.filter((p: any) => p.n !== 'id')
+      const discovery = liveDirectDiscovery(entity, loadParams, listPoint)
+      const ancestorParams = loadParams.filter((p: any) => p.n !== discovery?.param)
 
       const liveKey = (p: any) => p.n === 'id' ? entity.name + '01' : p.n.replace(/_id$/, '') + '01'
       let loadLiveIdKeys: string[] = []
       if (loadParams.length > 0 && !loadAllHaveExamples) {
-        loadLiveIdKeys = [...new Set((hasList ?
-          [...listParams, ...loadParams.filter((p: any) => p.n !== 'id')] : loadParams).map(liveKey))]
+        loadLiveIdKeys = [...new Set((discovery ?
+          [...listParams, ...ancestorParams] : loadParams).map(liveKey))]
       }
       const loadSkipBlock = getOnlyKeysBlock(model, entity, 'direct-load-' + entity.name, loadLiveIdKeys) +
         (loadLiveIdKeys.length > 0
@@ -414,7 +417,7 @@ ${loadSkipBlock}		client := setup.client
 
         if (loadAllHaveExamples) {
           Content(loadExampleLines + '\n')
-        } else if (hasList && loadParams.length > 0) {
+        } else if (discovery) {
           Content(`			listParams := map[string]any{}
 `)
           for (const p of listParams) {
@@ -444,14 +447,13 @@ ${loadSkipBlock}		client := setup.client
 				liveEmpty(t, "The account has no ${entity.name} record to load")
 			}
 			firstEnt := core.ToMapAny(listData[0])
-			if firstEnt["id"] == nil {
+			if firstEnt[${JSON.stringify(discovery.field)}] == nil {
 				liveMiss(t, ${strictConst}, "Live load blocked: discovery returned no usable identity")
 			}
-			params["id"] = firstEnt["id"]
+			params[${JSON.stringify(discovery.param)}] = firstEnt[${JSON.stringify(discovery.field)}]
 `)
           for (const p of ancestorParams) {
-            const key = p.n.replace(/_id$/, '') + '01'
-            Content(`			params["${p.n}"] = setup.idmap["${key}"]
+            Content(`			params["${p.n}"] = setup.idmap["${liveKey(p)}"]
 `)
           }
         } else if (loadParams.length > 0) {

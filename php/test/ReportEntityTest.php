@@ -53,9 +53,17 @@ class ReportEntityTest extends TestCase
             }
         }
         if (!empty($setup["live"])) {
-            Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: " . "the flow loads a report record it has no list to find");
+            foreach (["report01"] as $_liveKey) {
+                if (!empty($setup["synthetic_only"]) || null === ($setup["idmap"][$_liveKey] ?? null)) {
+                    Runner::live_miss(self::LIVE_STRICT, "Live entity test blocked: needs " . $_liveKey . " via KASHIMI_TEST_REPORT_ENTID");
+                }
+            }
         }
         $client = $setup["client"];
+        if (!empty($setup["live"])) {
+            Runner::live_existing($setup, self::LIVE_STRICT, "report",
+                fn() => [["id" => $setup["idmap"]["report01"] ?? null]]);
+        }
 
         // Bootstrap entity data from existing test data.
         $report_ref01_data_raw = Vs::items(Helpers::to_map(
