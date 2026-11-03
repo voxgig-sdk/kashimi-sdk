@@ -10,6 +10,14 @@ declare class Config {
         target: string;
     };
     feature: {
+        conform: {
+            options: {
+                active: boolean;
+            };
+            optspec: {};
+            strict: boolean;
+            transport: string;
+        };
         debug: {
             options: {
                 active: boolean;

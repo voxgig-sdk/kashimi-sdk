@@ -37,6 +37,7 @@ component.* After editing a component run `npm run build` before
 
 ## Features in this target
 
+- [`conform`](./src/feature/conform/AGENTS.md) — Conform
 - [`debug`](./src/feature/debug/AGENTS.md) — Debug capture
 - [`idempotency`](./src/feature/idempotency/AGENTS.md) — Idempotency
 - [`metrics`](./src/feature/metrics/AGENTS.md) — Metrics

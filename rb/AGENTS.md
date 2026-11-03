@@ -43,6 +43,7 @@ the runtime under `.sdk/tm/rb/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **conform** — Conform | `feature/conform_feature.rb` | `PreRequest` |
 | **debug** — Debug capture | `feature/debug_feature.rb` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.rb` | `PreRequest` |
 | **metrics** — Metrics | `feature/metrics_feature.rb` | `PreDone`, `PrePoint`, `PreUnexpected` |

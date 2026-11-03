@@ -151,7 +151,8 @@ function KashimiSDK.new(options)
 
   utility.feature_hook(self._rootctx, "PostConstruct")
 
-    -- feature: debug
+    -- feature: conform
+  -- feature: debug
   -- feature: idempotency
   -- feature: metrics
   -- feature: paging

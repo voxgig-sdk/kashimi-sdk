@@ -4,6 +4,8 @@ var UtilityRegistrar func(u *Utility)
 
 var NewBaseFeatureFunc func() Feature
 
+var NewConformFeatureFunc func() Feature
+
 var NewDebugFeatureFunc func() Feature
 
 var NewIdempotencyFeatureFunc func() Feature

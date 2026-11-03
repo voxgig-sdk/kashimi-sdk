@@ -56,6 +56,18 @@ const OPTSPEC = {
       "`$OPEN`": true,
       "active": false
     },
+    "conform": [
+      "`$ONE`",
+      {
+        "`$OPEN`": true,
+        "active": [
+          "`$ONE`",
+          "`$BOOLEAN`",
+          "`$NIL`"
+        ]
+      },
+      "`$NIL`"
+    ],
     "debug": [
       "`$ONE`",
       {

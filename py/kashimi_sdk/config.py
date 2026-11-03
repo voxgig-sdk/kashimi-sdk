@@ -41,6 +41,14 @@ def make_config():
             "target": "py",
         },
         "feature": {
+            "conform": {
+        "options": {
+          "active": False,
+        },
+        "optspec": {},
+        "strict": False,
+        "transport": "none",
+      },
             "debug": {
         "options": {
           "active": False,

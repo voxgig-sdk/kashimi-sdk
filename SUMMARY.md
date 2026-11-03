@@ -287,6 +287,7 @@ Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
 Features supply behaviour around API calls, such as request handling, diagnostics, or local testing. Inclusion in this project does not mean a feature is enabled at runtime. Check the selected SDK’s supported features and configuration defaults, then enable the behaviour your application needs.
 
+- [`conform`](docs/features/conform.html): Form-encoded bodies and call credentials, as the definition declares
 - [`debug`](docs/features/debug.html): Request/response capture ring buffer for debugging
 - [`idempotency`](docs/features/idempotency.html): Idempotency keys for safe retries of mutating operations
 - [`metrics`](docs/features/metrics.html): Statistics capture: per-operation counters and latency

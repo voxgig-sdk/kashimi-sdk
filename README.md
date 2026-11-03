@@ -14,14 +14,44 @@ Full documentation for this SDK: [https://voxgig-sdk.github.io/kashimi-sdk/](htt
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout` — opt-in,
+> **Features:** `conform`, `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
 ## About Kashimi API
 
 **Credentials.** Kashimi uses OAuth 2.0 client credentials. Exchange your client ID
-and secret for an access token, valid for 30 minutes:
+and secret for an access token, valid for 30 minutes, then pass the token as the `apikey`
+option:
+
+```ts
+import { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'
+
+// The Sandbox. Without `base` the SDK calls Production, https://api.kashimi.tech.
+const base = 'https://api-sandbox.kashimi.tech'
+
+// The token call is form-encoded, with HTTP Basic credentials: the conform
+// feature sends it that way. The generated TokenCreateData type also requires
+// the response's fields, hence the cast.
+const auth = new KashimiSDK({ base, feature: { conform: { active: true } } })
+const basic = Buffer.from(
+  `${process.env.KASHIMI_CLIENT_ID}:${process.env.KASHIMI_CLIENT_SECRET}`).toString('base64')
+const token = await auth.Token().create({
+  grant_type: 'client_credentials',
+  scope: 'payments:read payments:write providers:read',
+  authorization: 'Basic ' + basic,
+} as any)
+
+// Every other call sends the token as `Authorization: Bearer <token>`.
+const apikey = token.data().access_token
+const client = new KashimiSDK({ base, apikey })
+
+const providers = await client.Provider().list()
+const payment = await client.Payment().load({ id: 'your-payment-id' })
+console.log(payment.data())
+```
+
+The same exchange with curl:
 
 ```bash
 curl --request POST "https://api-sandbox.kashimi.tech/api/v1/auth/token" \
@@ -30,36 +60,18 @@ curl --request POST "https://api-sandbox.kashimi.tech/api/v1/auth/token" \
   --data-urlencode "scope=payments:read payments:write providers:read"
 ```
 
-Pass the `access_token` as the `apikey` option. The SDK sends it as
-`Authorization: Bearer <token>`.
-
-**Environments.** The SDK calls Production, `https://api.kashimi.tech`. For the Sandbox,
-pass `base`:
-
-```ts
-import { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'
-
-const client = new KashimiSDK({
-  apikey: process.env.KASHIMI_APIKEY,
-  base: 'https://api-sandbox.kashimi.tech',
-})
-
-const providers = await client.Provider().list()
-const payment = await client.Payment().load({ id: 'your-payment-id' })
-console.log(payment.data())
-```
+**The conform feature.** Kashimi's token call takes a form-encoded body and HTTP Basic
+credentials. A generated SDK sends JSON with the client's bearer token, so this repository
+adds a `conform` feature, from its own sdkgen package in `ext/`. It sends a form-encoded
+body as the definition declares, and keeps a credential the call passes itself. Like every
+SDK feature, it is off until you turn it on.
 
 **Scope.** Every operation in Kashimi's published definition is here except the three it
 tags "Internal Endpoints". The `callback`, `client_jwk`, `sender_account`,
 `psu_provided_data`, `sca_method`, `sca_data`, `confirmation_data` and
 `consent_status` entities are the routes of Kashimi's hosted payment flow.
-
-**Known rough edges.** `Token().create()` can't make the token exchange yet: it sends a JSON
-body with the client's bearer token, and the endpoint takes a form-encoded body with HTTP
-Basic credentials. Use the call above. The countries endpoint answers a bare array of codes,
-which `Country().list()` doesn't keep. Call
-`client.direct({ path: 'api/v1/capabilities/providers/countries', method: 'GET' })` instead;
-its `data` is the array.
+`Country().list()` returns one entity per country, and each entity's data is the bare
+country code, such as `'DE'`.
 
 ## Entities, not endpoints
 
@@ -417,6 +429,7 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
+| **ConformFeature** | Conform |
 | **DebugFeature** | Debug capture |
 | **IdempotencyFeature** | Idempotency |
 | **MetricsFeature** | Metrics |

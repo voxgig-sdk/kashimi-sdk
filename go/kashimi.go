@@ -34,6 +34,9 @@ func init() {
 	core.NewBaseFeatureFunc = func() core.Feature {
 		return feature.NewBaseFeature()
 	}
+	core.NewConformFeatureFunc = func() core.Feature {
+		return feature.NewConformFeature()
+	}
 	core.NewDebugFeatureFunc = func() core.Feature {
 		return feature.NewDebugFeature()
 	}
@@ -135,6 +138,7 @@ var SharedConfig = core.SharedConfig
 func New() *KashimiSDK  { return NewKashimiSDK(nil) }
 func Test() *KashimiSDK { return TestSDK(nil, nil) }
 var NewBaseFeature = feature.NewBaseFeature
+var NewConformFeature = feature.NewConformFeature
 var NewDebugFeature = feature.NewDebugFeature
 var NewIdempotencyFeature = feature.NewIdempotencyFeature
 var NewMetricsFeature = feature.NewMetricsFeature

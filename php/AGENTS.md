@@ -43,6 +43,7 @@ the runtime under `.sdk/tm/php/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
+| **conform** — Conform | `feature/ConformFeature.php` | `PreRequest` |
 | **debug** — Debug capture | `feature/DebugFeature.php` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/IdempotencyFeature.php` | `PreRequest` |
 | **metrics** — Metrics | `feature/MetricsFeature.php` | `PreDone`, `PrePoint`, `PreUnexpected` |

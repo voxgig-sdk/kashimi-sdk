@@ -12,6 +12,14 @@ local function make_config()
       target = "lua",
     },
     feature = {
+      ["conform"] = {
+        ["options"] = {
+          ["active"] = false,
+        },
+        ["optspec"] = {},
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
       ["debug"] = {
         ["options"] = {
           ["active"] = false,

@@ -929,7 +929,7 @@ local token, err = client:Token():create({
 
 ## Features
 
-This SDK ships 9 optional features. Each is **inactive until you
+This SDK ships 10 optional features. Each is **inactive until you
 switch it on**, so an SDK you have not configured behaves exactly as if none of
 them existed — no retries, no cache, no logging, no measurable overhead.
 
@@ -938,6 +938,7 @@ above:
 
 | Feature | What it does |
 |---|---|
+| [`conform`](#conform) | Conform |
 | [`debug`](#debug) | Debug capture |
 | [`idempotency`](#idempotency) | Idempotency |
 | [`metrics`](#metrics) | Metrics |
@@ -952,6 +953,16 @@ above:
 > transport, so each one wraps whatever is already installed: the order you
 > activate them in IS the nesting order. Activating them as an ordered list
 > rather than a map is what fixes that order.
+
+### conform
+
+Conform.
+
+| Option | Default |
+|---|---|
+| `active` | `false` |
+
+Set `feature.conform.active` to enable it, then override any of the options above.
 
 ### debug
 
@@ -1121,6 +1132,7 @@ with hook methods named after pipeline stages (e.g. `PrePoint`,
 
 The SDK ships with built-in features:
 
+- **ConformFeature**: Conform
 - **DebugFeature**: Debug capture
 - **IdempotencyFeature**: Idempotency
 - **MetricsFeature**: Metrics

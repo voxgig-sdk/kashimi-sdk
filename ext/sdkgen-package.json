@@ -1,0 +1,27 @@
+{
+  "sdkgen": {
+    "package": 1
+  },
+  "name": "@voxgig-sdk/sdkgen-kashimi-ext",
+  "version": "0.1.0",
+  "engines": {
+    "sdkgen": ">=4.37.0"
+  },
+  "provides": {
+    "feature": [
+      "conform"
+    ]
+  },
+  "targetsSupported": {
+    "conform": [
+      "ts",
+      "py",
+      "php",
+      "go",
+      "go-cli",
+      "go-mcp",
+      "rb",
+      "lua"
+    ]
+  }
+}

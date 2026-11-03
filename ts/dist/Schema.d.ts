@@ -51,6 +51,10 @@ declare const OPTSPEC: {
             "`$OPEN`": boolean;
             active: boolean;
         };
+        conform: (string | {
+            "`$OPEN`": boolean;
+            active: string[];
+        })[];
         debug: (string | {
             "`$OPEN`": boolean;
             active: string[];

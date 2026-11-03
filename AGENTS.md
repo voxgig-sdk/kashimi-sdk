@@ -25,7 +25,7 @@ There are companion guides deeper in the tree: one per language
 | `rb` | `rb/` | [`rb/AGENTS.md`](./rb/AGENTS.md) |
 | `ts` | `ts/` | [`ts/AGENTS.md`](./ts/AGENTS.md) |
 
-**Features** (9): `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout`.
+**Features** (10): `conform`, `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout`.
 
 Each feature is generated into every SDK target — as a directory
 `<lang>/src/feature/<name>/` (ts/js) or a flat file in the `<lang>/feature/`

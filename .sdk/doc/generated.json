@@ -46,6 +46,7 @@
     "docs/assets/nunito.woff2.license.txt",
     "docs/assets/search.js",
     "docs/assets/style.css",
+    "docs/features/conform.html",
     "docs/features/debug.html",
     "docs/features/idempotency.html",
     "docs/features/metrics.html",

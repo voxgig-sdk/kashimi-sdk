@@ -16,6 +16,14 @@ func MakeConfig() map[string]any {
 			"target": "go",
 		},
 		"feature": map[string]any{
+			"conform": map[string]any{
+				"options": map[string]any{
+					"active": false,
+				},
+				"optspec": map[string]any{},
+				"strict": false,
+				"transport": "none",
+			},
 			"debug": map[string]any{
 				"options": map[string]any{
 					"active": false,
@@ -2427,6 +2435,10 @@ func SharedConfig() map[string]any {
 
 func makeFeature(name string) Feature {
 	switch name {
+	case "conform":
+		if NewConformFeatureFunc != nil {
+			return NewConformFeatureFunc()
+		}
 	case "debug":
 		if NewDebugFeatureFunc != nil {
 			return NewDebugFeatureFunc()
