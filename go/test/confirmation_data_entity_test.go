@@ -62,6 +62,9 @@ func TestConfirmationDataEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = confirmationDataRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		confirmationDataRef01Ent := client.ConfirmationData(nil)
 		confirmationDataRef01MatchDt0 := map[string]any{}

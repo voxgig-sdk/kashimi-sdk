@@ -9,9 +9,9 @@ class KashimiFetcher
 {
     // Default User-Agent — many CDNs (notably Cloudflare) reject requests
     // with PHP's default UA (which file_get_contents doesn't even set),
-    // returning 403 before the request reaches the origin. Set a Mozilla-
-    // shaped UA so the SDK behaves like every other HTTP client by default.
-    // Users can override by passing a User-Agent header in fetchdef.
+    // returning 403 before the request reaches the origin. The project's
+    // agent (main.kit.http.useragent) is browser-shaped unless the model says
+    // otherwise. Users can override by passing a User-Agent header in fetchdef.
     public const DEFAULT_USER_AGENT = 'Mozilla/5.0 (compatible; KashimiSDK/1.0)';
 
     // One cURL handle per process, reset between calls rather than closed:
@@ -206,6 +206,13 @@ class KashimiFetcher
             }
         }
 
+        // The stream wrapper does not decode a compressed body, which a
+        // server may send whatever the request asked for.
+        [$response_body, $decode_err] = self::decodeBody($response_body, $resp_headers['content-encoding'] ?? '');
+        if (null !== $decode_err) {
+            return [null, $decode_err];
+        }
+
         $json_body = null;
         $unreadable = false;
         if (trim($response_body) !== '') {
@@ -230,6 +237,32 @@ class KashimiFetcher
         ];
     }
 
+    // A gzip or deflate body decoded, as cURL does with CURLOPT_ENCODING; a
+    // deflate body is zlib-wrapped, or raw as some servers
+    // send it. Any other encoding is left as it came.
+    public static function decodeBody(string $body, string $encoding): array
+    {
+        $encoding = strtolower(trim($encoding));
+        if ('' === $body || !in_array($encoding, ['gzip', 'x-gzip', 'deflate'], true)) {
+            return [$body, null];
+        }
+        if (!function_exists('gzdecode')) {
+            return [null, "response body is {$encoding} encoded, and this PHP has no zlib to decode it"];
+        }
+        if ('deflate' === $encoding) {
+            $decoded = @gzuncompress($body);
+            if (false === $decoded) {
+                $decoded = @gzinflate($body);
+            }
+        } else {
+            $decoded = @gzdecode($body);
+        }
+        if (!is_string($decoded)) {
+            return [null, "response body is not valid {$encoding} data"];
+        }
+        return [$decoded, null];
+    }
+
     private static function curlFetch(string $fullurl, string $method, $body_str, array $header_lines): array
     {
         $ch = self::curlHandle($fullurl);
@@ -239,6 +272,9 @@ class KashimiFetcher
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        // '' offers every encoding this cURL decodes, and decodes it: a
+        // server may compress its answer whatever the request asked for.
+        curl_setopt($ch, CURLOPT_ENCODING, '');
         if (!empty($header_lines)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header_lines);
         }

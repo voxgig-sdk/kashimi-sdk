@@ -55,6 +55,8 @@ class TestScaDataEntity:
         if len(sca_data_ref01_data_raw) > 0:
             sca_data_ref01_data = helpers.to_map(sca_data_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # UPDATE
         sca_data_ref01_ent = client.ScaData(None)
         sca_data_ref01_data_up0_up = {
@@ -63,6 +65,8 @@ class TestScaDataEntity:
         sca_data_ref01_resdata_up0 = helpers.to_map(runner.entity_data(sca_data_ref01_ent.update(sca_data_ref01_data_up0_up, None)))
         assert sca_data_ref01_resdata_up0 is not None
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         sca_data_ref01_match_dt0 = {}
         sca_data_ref01_data_dt0_loaded = sca_data_ref01_ent.load(sca_data_ref01_match_dt0, None)
@@ -79,6 +83,8 @@ class TestScaDataEntity:
         if len(sca_data_ref01_data_raw) > 0:
             sca_data_ref01_data = helpers.to_map(sca_data_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         sca_data_ref01_ent = client.ScaData(None)
         sca_data_ref01_match_dt0 = {}

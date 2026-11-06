@@ -71,6 +71,9 @@ func TestTokenEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 
+		if setup.live {
+			livePace()
+		}
 		// CREATE
 		tokenRef01Ent := client.Token(nil)
 		tokenRef01Data := core.ToMapAny(vs.GetProp(

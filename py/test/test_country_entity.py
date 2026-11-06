@@ -141,6 +141,8 @@ class TestCountryEntity:
         if len(country_ref01_data_raw) > 0:
             country_ref01_data = helpers.to_map(country_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         country_ref01_ent = client.Country(None)
         country_ref01_match = {}

@@ -55,7 +55,7 @@ describe("ReportEntity", function()
     if setup.live then
       runner.live_existing(pending, setup, LIVE_STRICT, "report", function()
         return { { id = setup.idmap["report01"] } }
-      end)
+      end, "id", setup.idmap["report01"])
     end
 
     -- Bootstrap entity data from existing test data.
@@ -66,6 +66,9 @@ describe("ReportEntity", function()
       report_ref01_data = helpers.to_map(report_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local report_ref01_ent = client:Report(nil)
     local report_ref01_match_dt0 = {
@@ -75,7 +78,7 @@ describe("ReportEntity", function()
     assert.is_nil(err)
     local report_ref01_data_dt0_load_result = helpers.to_map(type(report_ref01_data_dt0_loaded) == 'table' and report_ref01_data_dt0_loaded.data_get and report_ref01_data_dt0_loaded:data_get() or report_ref01_data_dt0_loaded)
     assert.is_not_nil(report_ref01_data_dt0_load_result)
-    assert.are.equal(report_ref01_data_dt0_load_result["id"], report_ref01_data["id"])
+    assert.is_true(runner.live_same_id(report_ref01_data_dt0_load_result["id"], report_ref01_data["id"]))
 
   end)
 end)

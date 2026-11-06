@@ -43,6 +43,9 @@ describe("ConfirmationDataEntity", function()
       confirmation_data_ref01_data = helpers.to_map(confirmation_data_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local confirmation_data_ref01_ent = client:ConfirmationData(nil)
     local confirmation_data_ref01_match_dt0 = {}

@@ -61,6 +61,8 @@ class TestFollowupEntity:
                     runner.live_miss(LIVE_STRICT, f"Live entity test blocked: needs {_live_key} via KASHIMI_TEST_FOLLOWUP_ENTID")
         client = setup["client"]
 
+        if setup["live"]:
+            runner.live_pace()
         # CREATE
         followup_ref01_ent = client.Followup(None)
         followup_ref01_data = helpers.to_map(vs.getprop(

@@ -560,22 +560,8 @@ module KashimiConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
-                  },
+                  "args" => {},
+                  "select" => {},
                   "response" => {
                     "kind" => "json",
                     "media" => "application/json",
@@ -652,15 +638,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "params" => [
                       {
                         "name" => "payment_id",
@@ -673,7 +650,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "payment_id",
                     ],
                   },
@@ -865,15 +841,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "params" => [
                       {
                         "name" => "id",
@@ -886,7 +853,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "id",
                     ],
                   },
@@ -1096,20 +1062,9 @@ module KashimiConfig
                         "kind" => "header",
                         "example" => "en",
                       },
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
-                  },
+                  "select" => {},
                   "response" => {
                     "kind" => "json",
                     "media" => "application/json",
@@ -1151,15 +1106,6 @@ module KashimiConfig
                     "res" => "`body.items`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "query" => [
                       {
                         "name" => "cursor_value",
@@ -1190,11 +1136,7 @@ module KashimiConfig
                       },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
-                  },
+                  "select" => {},
                   "response" => {
                     "kind" => "json",
                     "media" => "application/json",
@@ -1240,15 +1182,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "params" => [
                       {
                         "name" => "id",
@@ -1261,7 +1194,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "id",
                     ],
                   },
@@ -1363,15 +1295,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "query" => [
                       {
                         "name" => "payment_id",
@@ -1385,7 +1308,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "payment_id",
                     ],
                   },
@@ -1434,15 +1356,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "query" => [
                       {
                         "name" => "payment_id",
@@ -1457,7 +1370,6 @@ module KashimiConfig
                   "select" => {
                     "$action" => "latest",
                     "exist" => [
-                      "authorization",
                       "payment_id",
                     ],
                   },
@@ -1579,15 +1491,6 @@ module KashimiConfig
                     "res" => "`body.items`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "query" => [
                       {
                         "name" => "cursor",
@@ -1603,11 +1506,7 @@ module KashimiConfig
                       },
                     ],
                   },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
-                  },
+                  "select" => {},
                   "response" => {
                     "kind" => "json",
                     "media" => "application/json",
@@ -1775,15 +1674,6 @@ module KashimiConfig
                     "res" => "`body`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "params" => [
                       {
                         "name" => "id",
@@ -1796,7 +1686,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "id",
                     ],
                   },
@@ -2247,15 +2136,6 @@ module KashimiConfig
                     "res" => "`body.items`",
                   },
                   "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                      },
-                    ],
                     "params" => [
                       {
                         "name" => "provider_id",
@@ -2282,7 +2162,6 @@ module KashimiConfig
                   },
                   "select" => {
                     "exist" => [
-                      "authorization",
                       "provider_id",
                     ],
                   },
@@ -2375,23 +2254,8 @@ module KashimiConfig
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "args" => {
-                    "header" => [
-                      {
-                        "name" => "authorization",
-                        "orig" => "Authorization",
-                        "type" => "`$STRING`",
-                        "kind" => "header",
-                        "reqd" => true,
-                        "example" => "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                      },
-                    ],
-                  },
-                  "select" => {
-                    "exist" => [
-                      "authorization",
-                    ],
-                  },
+                  "args" => {},
+                  "select" => {},
                   "body" => {
                     "fields" => [
                       {

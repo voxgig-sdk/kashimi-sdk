@@ -41,6 +41,7 @@ class ScaMethodEntityTest < Minitest::Test
       sca_method_ref01_data = Helpers.to_map(sca_method_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     sca_method_ref01_ent = client.ScaMethod(nil)
     sca_method_ref01_match_dt0 = {}
@@ -60,6 +61,7 @@ class ScaMethodEntityTest < Minitest::Test
       sca_method_ref01_data = Helpers.to_map(sca_method_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # UPDATE
     sca_method_ref01_ent = client.ScaMethod(nil)
     sca_method_ref01_data_up0_up = {
@@ -69,6 +71,7 @@ class ScaMethodEntityTest < Minitest::Test
     sca_method_ref01_resdata_up0 = Helpers.to_map(sca_method_ref01_resdata_up0_result.respond_to?(:data_get) ? sca_method_ref01_resdata_up0_result.data_get : sca_method_ref01_resdata_up0_result)
     assert !sca_method_ref01_resdata_up0.nil?
 
+    Runner.live_pace if setup[:live]
     # LOAD
     sca_method_ref01_match_dt0 = {}
     sca_method_ref01_data_dt0_loaded = sca_method_ref01_ent.load(sca_method_ref01_match_dt0, nil)

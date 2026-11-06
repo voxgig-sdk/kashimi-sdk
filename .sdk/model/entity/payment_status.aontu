@@ -67,15 +67,6 @@ main: kit: entity: payment_status: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             query: [
               {
                 ex: "123e4567-e89b-12d3-a456-426614174000"
@@ -91,7 +82,6 @@ main: kit: entity: payment_status: {
           o: "/api/v1/archive/payment-statuses"
           q: {
             exist: [
-              "authorization"
               "payment_id"
             ]
           }
@@ -130,15 +120,6 @@ main: kit: entity: payment_status: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             query: [
               {
                 ex: "123e4567-e89b-12d3-a456-426614174000"
@@ -155,7 +136,6 @@ main: kit: entity: payment_status: {
           q: {
             "$action": "latest"
             exist: [
-              "authorization"
               "payment_id"
             ]
           }

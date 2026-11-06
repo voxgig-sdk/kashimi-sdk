@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestFeature = void 0;
 exports.ownIdField = ownIdField;
+exports.ownIdFields = ownIdFields;
 exports.mintId = mintId;
 const BaseFeature_1 = require("../base/BaseFeature");
 const S_NOT_FOUND = 'Not found';
@@ -14,7 +15,21 @@ function mintId() {
     }
     return out;
 }
+// The entity's declared identity field (`entity.id.field`), where it names
+// one other than the `id` every record already carries.
+function declaredIdField(config, getpath, entityName) {
+    const field = getpath(config, ['entity', entityName, 'id', 'field']);
+    return 'string' === typeof field && '' !== field && 'id' !== field ? field : null;
+}
 function ownIdField(config, getpath, entityName) {
+    return declaredIdField(config, getpath, entityName) ?? routeIdField(config, getpath, entityName);
+}
+// The keys besides `id` a record is found by: declared field, then route param.
+function ownIdFields(config, getpath, entityName) {
+    const fields = [ownIdField(config, getpath, entityName), routeIdField(config, getpath, entityName)];
+    return fields.filter((f, i) => 'id' !== f && i === fields.indexOf(f));
+}
+function routeIdField(config, getpath, entityName) {
     let fallback = '';
     for (const opname of ['load', 'remove', 'update', 'patch']) {
         const points = getpath(config, ['entity', entityName, 'op', opname, 'points']) || [];
@@ -96,8 +111,7 @@ class TestFeature extends BaseFeature_1.BaseFeature {
         walk(entity, (k, v, _parent, path) => {
             if (2 === size(path)) {
                 setprop(v, 'id', k);
-                const idField = ownIdField(ctx.config, getpath, String(path[0]));
-                if ('id' !== idField) {
+                for (const idField of ownIdFields(ctx.config, getpath, String(path[0]))) {
                     setprop(v, idField, k);
                 }
             }
@@ -221,9 +235,10 @@ class TestFeature extends BaseFeature_1.BaseFeature {
                 // the initial walk gives seed data (see ownIdField above) — without
                 // it, only `id` is set, and a load by the entity's own key right
                 // after create (recordKey !== 'id') finds nothing.
-                const idField = ownIdField(ctx.config, struct.getpath, getprop(op, 'entity'));
-                if ('id' !== idField && null == getprop(ent, idField)) {
-                    setprop(ent, idField, id);
+                for (const idField of ownIdFields(ctx.config, struct.getpath, getprop(op, 'entity'))) {
+                    if (null == getprop(ent, idField)) {
+                        setprop(ent, idField, id);
+                    }
                 }
                 setprop(entmap, id, ent);
                 delprop(ent, '$KEY');

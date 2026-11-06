@@ -203,8 +203,10 @@ class PaymentStatusEntityTest extends TestCase
         }
         $client = $setup["client"];
         if (!empty($setup["live"])) {
+            $_liveId = empty($setup["synthetic_only"]) ? ($setup["idmap"]["payment_status01"] ?? null) : null;
+            Runner::live_pace();
             Runner::live_existing($setup, self::LIVE_STRICT, "payment_status",
-                fn() => $client->PaymentStatus(null)->list(["payment_id" => '123e4567-e89b-12d3-a456-426614174000'], null));
+                fn() => $client->PaymentStatus(null)->list(["payment_id" => '123e4567-e89b-12d3-a456-426614174000'], null), "id", $_liveId);
         }
 
         // Bootstrap entity data from existing test data.
@@ -215,6 +217,9 @@ class PaymentStatusEntityTest extends TestCase
             $payment_status_ref01_data = Helpers::to_map($payment_status_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $payment_status_ref01_ent = $client->PaymentStatus(null);
         $payment_status_ref01_match = [];
@@ -225,6 +230,9 @@ class PaymentStatusEntityTest extends TestCase
         $payment_status_ref01_list_result = $payment_status_ref01_ent->list($payment_status_ref01_match, null);
         $this->assertIsArray($payment_status_ref01_list_result);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $payment_status_ref01_match_dt0 = [
             "id" => $payment_status_ref01_data["id"],
@@ -235,7 +243,7 @@ class PaymentStatusEntityTest extends TestCase
         $payment_status_ref01_data_dt0_loaded = $payment_status_ref01_ent->load($payment_status_ref01_match_dt0, null);
         $payment_status_ref01_data_dt0_load_result = Helpers::to_map(is_object($payment_status_ref01_data_dt0_loaded) && method_exists($payment_status_ref01_data_dt0_loaded, 'data_get') ? $payment_status_ref01_data_dt0_loaded->data_get() : $payment_status_ref01_data_dt0_loaded);
         $this->assertNotNull($payment_status_ref01_data_dt0_load_result);
-        $this->assertEquals($payment_status_ref01_data_dt0_load_result["id"], $payment_status_ref01_data["id"]);
+        $this->assertTrue(Runner::live_same_id($payment_status_ref01_data_dt0_load_result["id"] ?? null, $payment_status_ref01_data["id"]));
 
     }
 }

@@ -62,7 +62,7 @@ class ReportEntityTest extends TestCase
         $client = $setup["client"];
         if (!empty($setup["live"])) {
             Runner::live_existing($setup, self::LIVE_STRICT, "report",
-                fn() => [["id" => $setup["idmap"]["report01"] ?? null]]);
+                fn() => [["id" => $setup["idmap"]["report01"] ?? null]], "id", $setup["idmap"]["report01"] ?? null);
         }
 
         // Bootstrap entity data from existing test data.
@@ -73,6 +73,9 @@ class ReportEntityTest extends TestCase
             $report_ref01_data = Helpers::to_map($report_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $report_ref01_ent = $client->Report(null);
         $report_ref01_match_dt0 = [
@@ -81,7 +84,7 @@ class ReportEntityTest extends TestCase
         $report_ref01_data_dt0_loaded = $report_ref01_ent->load($report_ref01_match_dt0, null);
         $report_ref01_data_dt0_load_result = Helpers::to_map(is_object($report_ref01_data_dt0_loaded) && method_exists($report_ref01_data_dt0_loaded, 'data_get') ? $report_ref01_data_dt0_loaded->data_get() : $report_ref01_data_dt0_loaded);
         $this->assertNotNull($report_ref01_data_dt0_load_result);
-        $this->assertEquals($report_ref01_data_dt0_load_result["id"], $report_ref01_data["id"]);
+        $this->assertTrue(Runner::live_same_id($report_ref01_data_dt0_load_result["id"] ?? null, $report_ref01_data["id"]));
 
     }
 }

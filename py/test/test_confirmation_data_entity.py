@@ -51,6 +51,8 @@ class TestConfirmationDataEntity:
         if len(confirmation_data_ref01_data_raw) > 0:
             confirmation_data_ref01_data = helpers.to_map(confirmation_data_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         confirmation_data_ref01_ent = client.ConfirmationData(None)
         confirmation_data_ref01_match_dt0 = {}

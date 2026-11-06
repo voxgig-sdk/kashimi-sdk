@@ -60,6 +60,8 @@ class TestClientJwkEntity:
         if len(client_jwk_ref01_data_raw) > 0:
             client_jwk_ref01_data = helpers.to_map(client_jwk_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         client_jwk_ref01_ent = client.ClientJwk(None)
         client_jwk_ref01_match_dt0 = {}

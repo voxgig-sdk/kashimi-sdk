@@ -199,6 +199,9 @@ func TestCountryEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = countryRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		countryRef01Ent := client.Country(nil)
 		countryRef01Match := map[string]any{}

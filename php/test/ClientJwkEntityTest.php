@@ -62,6 +62,9 @@ class ClientJwkEntityTest extends TestCase
             $client_jwk_ref01_data = Helpers::to_map($client_jwk_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $client_jwk_ref01_ent = $client->ClientJwk(null);
         $client_jwk_ref01_match_dt0 = [];

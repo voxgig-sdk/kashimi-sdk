@@ -59,6 +59,9 @@ class TokenEntityTest extends TestCase
 
         $client = $setup["client"];
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // CREATE
         $token_ref01_ent = $client->Token(null);
         $token_ref01_data = Helpers::to_map(Vs::getprop(

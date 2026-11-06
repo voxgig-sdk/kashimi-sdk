@@ -17,9 +17,10 @@ require_once __DIR__ . '/BaseFeature.php';
 //   form        a point whose body kind is `form` gets its body form-encoded,
 //               with the declared media type as its content type.
 //               MakeFetchDef sends a string body on a non-JSON point as given.
-//   credential  a header argument the point declares, under the credential
-//               header's name, and the call passes, replaces the credential
-//               PrepareAuth set (or restores the one it removed).
+//   credential  a value the call passes under the credential header's name, or
+//               under a header argument the point declares with that name, is
+//               sent as that header, in place of the credential PrepareAuth set
+//               (or restoring the one it removed), and leaves the body.
 //
 // Counts land on the client as `_conform: [form, credential]`.
 class ProjectNameConformFeature extends ProjectNameBaseFeature
@@ -32,7 +33,7 @@ class ProjectNameConformFeature extends ProjectNameBaseFeature
     public function __construct()
     {
         parent::__construct();
-        $this->version = '0.1.0';
+        $this->version = '0.1.1';
         $this->name = 'conform';
         $this->active = true;
         $this->client = null;
@@ -71,13 +72,17 @@ class ProjectNameConformFeature extends ProjectNameBaseFeature
     }
 
     // The credential header is the client's `auth.name`, else Authorization.
+    // The call passes it under a header argument the point declares with that
+    // name, or under the name itself: apidef drops an Authorization parameter,
+    // as OpenAPI 3 says to (voxgig/apidef#186), so the token call declares
+    // none. Either way it goes as the header, and not in the body.
     private function _credential(ProjectNameContext $ctx, mixed $spec, array $point): bool
     {
         $options = $ctx->client !== null ? $ctx->client->options_map() : [];
         $authname = $options['auth']['name'] ?? null;
         $credname = is_string($authname) && $authname !== '' ? strtolower($authname) : self::CRED_NAME;
 
-        $sent = false;
+        $names = [$credname];
         foreach (($point['args']['header'] ?? []) as $arg) {
             $name = is_array($arg) ? ($arg['name'] ?? null) : null;
             if (!is_string($name) || $name === '') {
@@ -85,11 +90,12 @@ class ProjectNameConformFeature extends ProjectNameBaseFeature
             }
 
             $orig = $arg['orig'] ?? null;
-            $wire = strtolower(is_string($orig) && $orig !== '' ? $orig : $name);
-            if ($wire !== $credname) {
-                continue;
+            if (strtolower(is_string($orig) && $orig !== '' ? $orig : $name) === $credname) {
+                array_unshift($names, $name);
             }
+        }
 
+        foreach ($names as $name) {
             $val = ($ctx->reqmatch ?? [])[$name] ?? null;
             if ($val === null) {
                 $val = ($ctx->reqdata ?? [])[$name] ?? null;
@@ -98,12 +104,17 @@ class ProjectNameConformFeature extends ProjectNameBaseFeature
                 continue;
             }
 
-            self::_dropHeader($spec->headers, $wire);
-            $spec->headers[$wire] = (string)$val;
-            $sent = true;
+            self::_dropHeader($spec->headers, $credname);
+            $spec->headers[$credname] = (string)$val;
+
+            if (is_array($spec->body)) {
+                unset($spec->body[$name]);
+            }
+
+            return true;
         }
 
-        return $sent;
+        return false;
     }
 
     private function _form(mixed $spec, array $point): bool

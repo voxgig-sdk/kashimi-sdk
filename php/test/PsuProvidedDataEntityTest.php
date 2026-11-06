@@ -51,6 +51,9 @@ class PsuProvidedDataEntityTest extends TestCase
             $psu_provided_data_ref01_data = Helpers::to_map($psu_provided_data_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // UPDATE
         $psu_provided_data_ref01_ent = $client->PsuProvidedData(null);
         $psu_provided_data_ref01_data_up0_up = [

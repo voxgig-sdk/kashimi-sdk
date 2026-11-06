@@ -199,6 +199,9 @@ func TestProviderEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = providerRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		providerRef01Ent := client.Provider(nil)
 		providerRef01Match := map[string]any{}

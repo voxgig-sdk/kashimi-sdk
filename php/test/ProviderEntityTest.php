@@ -195,6 +195,9 @@ class ProviderEntityTest extends TestCase
             $provider_ref01_data = Helpers::to_map($provider_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $provider_ref01_ent = $client->Provider(null);
         $provider_ref01_match = [];

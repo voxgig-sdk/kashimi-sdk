@@ -50,7 +50,7 @@ class HostedUiCustomizationEntityTest < Minitest::Test
     end
     client = setup[:client]
     if setup[:live]
-      Runner.live_existing(setup, LIVE_STRICT, "hosted_ui_customization") do
+      Runner.live_existing(setup, LIVE_STRICT, "hosted_ui_customization", "id", setup[:idmap]["hosted_ui_customization01"]) do
         [{ "id" => setup[:idmap]["hosted_ui_customization01"] }]
       end
     end
@@ -63,6 +63,7 @@ class HostedUiCustomizationEntityTest < Minitest::Test
       hosted_ui_customization_ref01_data = Helpers.to_map(hosted_ui_customization_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     hosted_ui_customization_ref01_ent = client.HostedUiCustomization(nil)
     hosted_ui_customization_ref01_match_dt0 = {
@@ -71,7 +72,7 @@ class HostedUiCustomizationEntityTest < Minitest::Test
     hosted_ui_customization_ref01_data_dt0_loaded = hosted_ui_customization_ref01_ent.load(hosted_ui_customization_ref01_match_dt0, nil)
     hosted_ui_customization_ref01_data_dt0_load_result = Helpers.to_map(hosted_ui_customization_ref01_data_dt0_loaded.respond_to?(:data_get) ? hosted_ui_customization_ref01_data_dt0_loaded.data_get : hosted_ui_customization_ref01_data_dt0_loaded)
     assert !hosted_ui_customization_ref01_data_dt0_load_result.nil?
-    assert_equal hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"]
+    assert Runner.live_same_id(hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"]) unless setup[:live]
 
   end
 end

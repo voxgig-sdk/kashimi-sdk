@@ -87,15 +87,6 @@ main: kit: entity: subsidiary: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             params: [
               {
                 k: "param"
@@ -126,7 +117,6 @@ main: kit: entity: subsidiary: {
           o: "/api/v1/capabilities/providers/{id}/subsidiaries"
           q: {
             exist: [
-              "authorization"
               "provider_id"
             ]
           }

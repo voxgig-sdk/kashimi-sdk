@@ -572,22 +572,8 @@ class Config {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ]
-                            },
-                            "select": {
-                                "exist": [
-                                    "authorization"
-                                ]
-                            },
+                            "args": {},
+                            "select": {},
                             "response": {
                                 "kind": "json",
                                 "media": "application/json"
@@ -664,15 +650,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "params": [
                                     {
                                         "name": "payment_id",
@@ -685,7 +662,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "payment_id"
                                 ]
                             },
@@ -877,15 +853,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -898,7 +865,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "id"
                                 ]
                             },
@@ -1107,21 +1073,10 @@ class Config {
                                         "type": "`$STRING`",
                                         "kind": "header",
                                         "example": "en"
-                                    },
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "authorization"
-                                ]
-                            },
+                            "select": {},
                             "response": {
                                 "kind": "json",
                                 "media": "application/json"
@@ -1163,15 +1118,6 @@ class Config {
                                 "res": "`body.items`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "query": [
                                     {
                                         "name": "cursor_value",
@@ -1202,11 +1148,7 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "authorization"
-                                ]
-                            },
+                            "select": {},
                             "response": {
                                 "kind": "json",
                                 "media": "application/json"
@@ -1252,15 +1194,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1273,7 +1206,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "id"
                                 ]
                             },
@@ -1375,15 +1307,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "query": [
                                     {
                                         "name": "payment_id",
@@ -1397,7 +1320,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "payment_id"
                                 ]
                             },
@@ -1446,15 +1368,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "query": [
                                     {
                                         "name": "payment_id",
@@ -1469,7 +1382,6 @@ class Config {
                             "select": {
                                 "$action": "latest",
                                 "exist": [
-                                    "authorization",
                                     "payment_id"
                                 ]
                             },
@@ -1591,15 +1503,6 @@ class Config {
                                 "res": "`body.items`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "query": [
                                     {
                                         "name": "cursor",
@@ -1615,11 +1518,7 @@ class Config {
                                     }
                                 ]
                             },
-                            "select": {
-                                "exist": [
-                                    "authorization"
-                                ]
-                            },
+                            "select": {},
                             "response": {
                                 "kind": "json",
                                 "media": "application/json"
@@ -1787,15 +1686,6 @@ class Config {
                                 "res": "`body`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "params": [
                                     {
                                         "name": "id",
@@ -1808,7 +1698,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "id"
                                 ]
                             },
@@ -2259,15 +2148,6 @@ class Config {
                                 "res": "`body.items`"
                             },
                             "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true
-                                    }
-                                ],
                                 "params": [
                                     {
                                         "name": "provider_id",
@@ -2294,7 +2174,6 @@ class Config {
                             },
                             "select": {
                                 "exist": [
-                                    "authorization",
                                     "provider_id"
                                 ]
                             },
@@ -2387,23 +2266,8 @@ class Config {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "args": {
-                                "header": [
-                                    {
-                                        "name": "authorization",
-                                        "orig": "Authorization",
-                                        "type": "`$STRING`",
-                                        "kind": "header",
-                                        "reqd": true,
-                                        "example": "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
-                                    }
-                                ]
-                            },
-                            "select": {
-                                "exist": [
-                                    "authorization"
-                                ]
-                            },
+                            "args": {},
+                            "select": {},
                             "body": {
                                 "fields": [
                                     {

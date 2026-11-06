@@ -50,7 +50,7 @@ class ReportEntityTest < Minitest::Test
     end
     client = setup[:client]
     if setup[:live]
-      Runner.live_existing(setup, LIVE_STRICT, "report") do
+      Runner.live_existing(setup, LIVE_STRICT, "report", "id", setup[:idmap]["report01"]) do
         [{ "id" => setup[:idmap]["report01"] }]
       end
     end
@@ -63,6 +63,7 @@ class ReportEntityTest < Minitest::Test
       report_ref01_data = Helpers.to_map(report_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     report_ref01_ent = client.Report(nil)
     report_ref01_match_dt0 = {
@@ -71,7 +72,7 @@ class ReportEntityTest < Minitest::Test
     report_ref01_data_dt0_loaded = report_ref01_ent.load(report_ref01_match_dt0, nil)
     report_ref01_data_dt0_load_result = Helpers.to_map(report_ref01_data_dt0_loaded.respond_to?(:data_get) ? report_ref01_data_dt0_loaded.data_get : report_ref01_data_dt0_loaded)
     assert !report_ref01_data_dt0_load_result.nil?
-    assert_equal report_ref01_data_dt0_load_result["id"], report_ref01_data["id"]
+    assert Runner.live_same_id(report_ref01_data_dt0_load_result["id"], report_ref01_data["id"])
 
   end
 end

@@ -12,9 +12,10 @@ package feature
 //   form        a point whose body kind is `form` gets its body form-encoded,
 //               with the declared media type as its content type.
 //               makeFetchDef sends a string body on a non-JSON point as given.
-//   credential  a header argument the point declares, under the credential
-//               header's name, and the call passes, replaces the credential
-//               prepareAuth set (or restores the one it removed).
+//   credential  a value the call passes under the credential header's name, or
+//               under a header argument the point declares with that name, is
+//               sent as that header, in place of the credential prepareAuth set
+//               (or restoring the one it removed), and leaves the body.
 //
 // Counts land on the feature as Form and Credential (the ts
 // client._conform record).
@@ -43,7 +44,7 @@ type ConformFeature struct {
 func NewConformFeature() *ConformFeature {
 	return &ConformFeature{
 		BaseFeature: BaseFeature{
-			Version: "0.1.0",
+			Version: "0.1.1",
 			Name:    "conform",
 			Active:  true,
 		},
@@ -94,7 +95,7 @@ func (f *ConformFeature) credential(ctx *core.Context, spec *core.Spec, point ma
 	args, _ := point["args"].(map[string]any)
 	header, _ := args["header"].([]any)
 
-	sent := false
+	names := []string{credname}
 	for _, a := range header {
 		arg, _ := a.(map[string]any)
 		name, _ := arg["name"].(string)
@@ -106,11 +107,12 @@ func (f *ConformFeature) credential(ctx *core.Context, spec *core.Spec, point ma
 		if wire == "" {
 			wire = name
 		}
-		wire = strings.ToLower(wire)
-		if wire != credname {
-			continue
+		if strings.ToLower(wire) == credname {
+			names = append([]string{name}, names...)
 		}
+	}
 
+	for _, name := range names {
 		val := ctx.Reqmatch[name]
 		if val == nil {
 			val = ctx.Reqdata[name]
@@ -119,12 +121,24 @@ func (f *ConformFeature) credential(ctx *core.Context, spec *core.Spec, point ma
 			continue
 		}
 
-		conformDropHeader(spec.Headers, wire)
-		spec.Headers[wire] = fmt.Sprint(val)
-		sent = true
+		conformDropHeader(spec.Headers, credname)
+		spec.Headers[credname] = fmt.Sprint(val)
+
+		// A copy, since the body can be the caller's own data.
+		if body, ok := spec.Body.(map[string]any); ok {
+			rest := make(map[string]any, len(body))
+			for key, v := range body {
+				if key != name {
+					rest[key] = v
+				}
+			}
+			spec.Body = rest
+		}
+
+		return true
 	}
 
-	return sent
+	return false
 }
 
 func (f *ConformFeature) form(spec *core.Spec, point map[string]any) bool {

@@ -39,6 +39,7 @@ class ConsentStatusEntityTest < Minitest::Test
       consent_status_ref01_data = Helpers.to_map(consent_status_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     consent_status_ref01_ent = client.ConsentStatus(nil)
     consent_status_ref01_match_dt0 = {}

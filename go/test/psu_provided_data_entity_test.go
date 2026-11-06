@@ -68,6 +68,9 @@ func TestPsuProvidedDataEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = psuProvidedDataRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// UPDATE
 		psuProvidedDataRef01Ent := client.PsuProvidedData(nil)
 		psuProvidedDataRef01DataUp0Up := map[string]any{

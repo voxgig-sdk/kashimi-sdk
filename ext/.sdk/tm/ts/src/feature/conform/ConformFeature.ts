@@ -12,9 +12,10 @@
 //   form        a point whose body kind is `form` gets its body form-encoded,
 //               with the declared media type as its content type. makeFetchDef
 //               sends a string body on a non-JSON point as given.
-//   credential  a header argument the point declares, under the credential
-//               header's name, and the call passes, replaces the credential
-//               prepareAuth set (or restores the one it removed).
+//   credential  a value the call passes under the credential header's name, or
+//               under a header argument the point declares with that name, is
+//               sent as that header, in place of the credential prepareAuth set
+//               (or restoring the one it removed), and leaves the body.
 //
 // Counts land on the client as `_conform: { form, credential }`.
 
@@ -28,7 +29,7 @@ const CRED_name = 'authorization'
 
 
 class ConformFeature extends BaseFeature {
-  version = '0.1.0'
+  version = '0.1.1'
   name = 'conform'
   active = true
 
@@ -69,33 +70,48 @@ class ConformFeature extends BaseFeature {
 
 
   // The credential header is the client's `auth.name`, else Authorization.
+  // The call passes it under a header argument the point declares with that
+  // name, or under the name itself: apidef drops an Authorization parameter,
+  // as OpenAPI 3 says to (voxgig/apidef#186), so the token call declares
+  // none. Either way it goes as the header, and not in the body.
   _credential(this: any, ctx: any, spec: any, point: any): boolean {
     const authname = ctx.options?.auth?.name
     const credname = 'string' === typeof authname && '' !== authname ?
       authname.toLowerCase() : CRED_name
 
-    let sent = false
+    const names = [credname]
     for (const arg of (point.args?.header || [])) {
-      if ('string' !== typeof arg?.name || '' === arg.name) {
-        continue
+      if ('string' === typeof arg?.name && '' !== arg.name &&
+        credname === String(arg.orig || arg.name).toLowerCase()) {
+        names.unshift(arg.name)
       }
+    }
 
-      const wire = String(arg.orig || arg.name).toLowerCase()
-      if (credname !== wire) {
-        continue
-      }
-
-      const val = ctx.reqmatch?.[arg.name] ?? ctx.reqdata?.[arg.name]
+    for (const name of names) {
+      const val = ctx.reqmatch?.[name] ?? ctx.reqdata?.[name]
       if (null == val || '' === val) {
         continue
       }
 
-      dropHeader(spec.headers, wire)
-      spec.headers[wire] = String(val)
-      sent = true
+      dropHeader(spec.headers, credname)
+      spec.headers[credname] = String(val)
+
+      // A copy, since the body can be the caller's own data.
+      const body = spec.body
+      if (null != body && 'object' === typeof body && !Array.isArray(body)) {
+        const rest: Record<string, any> = {}
+        for (const key of Object.keys(body)) {
+          if (name !== key) {
+            rest[key] = body[key]
+          }
+        }
+        spec.body = rest
+      }
+
+      return true
     }
 
-    return sent
+    return false
   }
 
 

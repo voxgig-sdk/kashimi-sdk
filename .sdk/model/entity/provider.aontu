@@ -87,15 +87,6 @@ main: kit: entity: provider: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             query: [
               {
                 k: "query"
@@ -115,11 +106,6 @@ main: kit: entity: provider: {
           }
           m: "GET"
           o: "/api/v1/capabilities/providers"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
           rs: {
             kind: "json"
             media: "application/json"

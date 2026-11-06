@@ -134,6 +134,8 @@ class TestProviderEntity:
         if len(provider_ref01_data_raw) > 0:
             provider_ref01_data = helpers.to_map(provider_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         provider_ref01_ent = client.Provider(None)
         provider_ref01_match = {}

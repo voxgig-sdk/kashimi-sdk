@@ -78,6 +78,9 @@ func TestFollowupEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 
+		if setup.live {
+			livePace()
+		}
 		// CREATE
 		followupRef01Ent := client.Followup(nil)
 		followupRef01Data := core.ToMapAny(vs.GetProp(

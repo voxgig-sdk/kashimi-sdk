@@ -12,9 +12,10 @@
 #   form        a point whose body kind is `form` gets its body form-encoded,
 #               with the declared media type as its content type.
 #               make_fetch_def sends a string body on a non-JSON point as given.
-#   credential  a header argument the point declares, under the credential
-#               header's name, and the call passes, replaces the credential
-#               prepare_auth set (or restores the one it removed).
+#   credential  a value the call passes under the credential header's name, or
+#               under a header argument the point declares with that name, is
+#               sent as that header, in place of the credential prepare_auth set
+#               (or restoring the one it removed), and leaves the body.
 #
 # Counts land on the client as `_conform: {form, credential}`.
 
@@ -32,7 +33,7 @@ CRED_NAME = "authorization"
 class ProjectNameConformFeature(ProjectNameBaseFeature):
     def __init__(self):
         super().__init__()
-        self.version = "0.1.0"
+        self.version = "0.1.1"
         self.name = "conform"
         self.active = True
         self.client = None
@@ -62,33 +63,40 @@ class ProjectNameConformFeature(ProjectNameBaseFeature):
             self._record("form")
 
     # The credential header is the client's `auth.name`, else Authorization.
+    # The call passes it under a header argument the point declares with that
+    # name, or under the name itself: apidef drops an Authorization parameter,
+    # as OpenAPI 3 says to (voxgig/apidef#186), so the token call declares
+    # none. Either way it goes as the header, and not in the body.
     def _credential(self, ctx, spec, point):
         options = ctx.client.options_map() if ctx.client is not None else {}
         authname = ((options or {}).get("auth") or {}).get("name")
         credname = authname.lower() if isinstance(authname, str) and authname != "" else CRED_NAME
 
-        sent = False
+        names = [credname]
         args = (point.get("args") or {}).get("header") or []
         for arg in args:
             name = arg.get("name") if isinstance(arg, dict) else None
-            if not isinstance(name, str) or name == "":
-                continue
+            if isinstance(name, str) and name != "" and \
+                    str(arg.get("orig") or name).lower() == credname:
+                names.insert(0, name)
 
-            wire = str(arg.get("orig") or name).lower()
-            if wire != credname:
-                continue
-
+        for name in names:
             val = (ctx.reqmatch or {}).get(name)
             if val is None:
                 val = (ctx.reqdata or {}).get(name)
             if val is None or val == "":
                 continue
 
-            _drop_header(spec.headers, wire)
-            spec.headers[wire] = str(val)
-            sent = True
+            _drop_header(spec.headers, credname)
+            spec.headers[credname] = str(val)
 
-        return sent
+            # A copy, since the body can be the caller's own data.
+            if isinstance(spec.body, dict):
+                spec.body = {k: v for k, v in spec.body.items() if k != name}
+
+            return True
+
+        return False
 
     def _form(self, spec, point):
         body = point.get("body") or {}

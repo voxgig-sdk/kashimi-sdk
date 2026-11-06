@@ -54,6 +54,9 @@ describe("CallbackEntity", function()
       callback_ref01_data = helpers.to_map(callback_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local callback_ref01_ent = client:Callback(nil)
     local callback_ref01_match_dt0 = {}

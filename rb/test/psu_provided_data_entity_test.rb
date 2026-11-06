@@ -44,6 +44,7 @@ class PsuProvidedDataEntityTest < Minitest::Test
       psu_provided_data_ref01_data = Helpers.to_map(psu_provided_data_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # UPDATE
     psu_provided_data_ref01_ent = client.PsuProvidedData(nil)
     psu_provided_data_ref01_data_up0_up = {

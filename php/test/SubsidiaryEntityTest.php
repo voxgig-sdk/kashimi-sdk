@@ -69,6 +69,9 @@ class SubsidiaryEntityTest extends TestCase
             $subsidiary_ref01_data = Helpers::to_map($subsidiary_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $subsidiary_ref01_ent = $client->Subsidiary(null);
         $subsidiary_ref01_match = [

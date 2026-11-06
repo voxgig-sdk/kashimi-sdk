@@ -202,9 +202,15 @@ func TestPaymentStatusEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 		if setup.live {
-			liveExisting(t, payment_statusEntityLiveStrict, setup.data, "payment_status", func() (any, error) {
-				return client.PaymentStatus(nil).List(map[string]any{"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, nil)
-			})
+			var _liveId any
+			if !setup.syntheticOnly {
+				_liveId = setup.idmap["payment_status01"]
+			}
+			livePace()
+			liveExisting(t, payment_statusEntityLiveStrict, setup.data, "payment_status", "id", _liveId,
+				func() (any, error) {
+					return client.PaymentStatus(nil).List(map[string]any{"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, nil)
+				})
 		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
@@ -217,6 +223,9 @@ func TestPaymentStatusEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = paymentStatusRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		paymentStatusRef01Ent := client.PaymentStatus(nil)
 		paymentStatusRef01Match := map[string]any{}
@@ -233,6 +242,9 @@ func TestPaymentStatusEntity(t *testing.T) {
 			t.Fatalf("expected list result to be an array, got %T", paymentStatusRef01ListResult)
 		}
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		paymentStatusRef01MatchDt0 := map[string]any{
 			"id": paymentStatusRef01Data["id"],
@@ -248,7 +260,7 @@ func TestPaymentStatusEntity(t *testing.T) {
 		if paymentStatusRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
-		if paymentStatusRef01DataDt0LoadResult["id"] != paymentStatusRef01Data["id"] {
+		if !liveSameId(paymentStatusRef01DataDt0LoadResult["id"], paymentStatusRef01Data["id"]) {
 			t.Fatal("expected load result id to match")
 		}
 

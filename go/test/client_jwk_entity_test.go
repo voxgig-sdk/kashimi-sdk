@@ -75,6 +75,9 @@ func TestClientJwkEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = clientJwkRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		clientJwkRef01Ent := client.ClientJwk(nil)
 		clientJwkRef01MatchDt0 := map[string]any{}

@@ -40,6 +40,9 @@ class SubsidiaryDirectTest extends TestCase
                 }
             }
         }
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         $client = $setup["client"];
 
         $params = [];

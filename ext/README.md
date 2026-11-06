@@ -9,7 +9,7 @@ It provides one feature:
 
 | Kind | Name | What it is |
 | --- | --- | --- |
-| feature | `conform` | Sends what Kashimi's definition declares, where stock sdkgen does not yet ([voxgig/sdkgen#465](https://github.com/voxgig/sdkgen/issues/465)): a body declared `application/x-www-form-urlencoded` goes form-encoded, and a credential header the operation declares, and the call passes, is sent as passed. Kashimi's token call, `POST /api/v1/auth/token`, needs both. |
+| feature | `conform` | Sends what Kashimi's definition declares, where stock sdkgen does not yet ([voxgig/sdkgen#465](https://github.com/voxgig/sdkgen/issues/465)): a body declared `application/x-www-form-urlencoded` goes form-encoded, and a credential the call passes under the header's name is sent as that header, whether or not the operation declares it (apidef drops a declared `Authorization` parameter, as OpenAPI 3 says to). Kashimi's token call, `POST /api/v1/auth/token`, needs both. |
 
 `conform` is implemented for every target this SDK builds: ts, py, php, go,
 rb and lua. go-cli and go-mcp use the go SDK, so they carry only the marker

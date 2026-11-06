@@ -55,6 +55,8 @@ class TestPsuProvidedDataEntity:
         if len(psu_provided_data_ref01_data_raw) > 0:
             psu_provided_data_ref01_data = helpers.to_map(psu_provided_data_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # UPDATE
         psu_provided_data_ref01_ent = client.PsuProvidedData(None)
         psu_provided_data_ref01_data_up0_up = {

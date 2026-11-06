@@ -46,6 +46,9 @@ class ConfirmationDataEntityTest extends TestCase
             $confirmation_data_ref01_data = Helpers::to_map($confirmation_data_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $confirmation_data_ref01_ent = $client->ConfirmationData(null);
         $confirmation_data_ref01_match_dt0 = [];

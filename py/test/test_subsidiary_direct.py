@@ -38,6 +38,8 @@ class TestSubsidiaryDirect:
                 if setup["idmap"].get(_live_key) is None:
                     runner.live_miss(LIVE_STRICT, f"Live test blocked: needs {_live_key} via KASHIMI_TEST_SUBSIDIARY_ENTID")
 
+        if setup["live"]:
+            runner.live_pace()
         client = setup["client"]
 
         params = {}

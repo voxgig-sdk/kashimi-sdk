@@ -55,6 +55,7 @@ class FollowupEntityTest < Minitest::Test
     end
     client = setup[:client]
 
+    Runner.live_pace if setup[:live]
     # CREATE
     followup_ref01_ent = client.Followup(nil)
     followup_ref01_data = Helpers.to_map(Vs.getprop(

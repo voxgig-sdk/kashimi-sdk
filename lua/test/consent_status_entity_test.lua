@@ -43,6 +43,9 @@ describe("ConsentStatusEntity", function()
       consent_status_ref01_data = helpers.to_map(consent_status_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local consent_status_ref01_ent = client:ConsentStatus(nil)
     local consent_status_ref01_match_dt0 = {}

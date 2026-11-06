@@ -454,26 +454,11 @@
                     "source": "openapi3",
                     "version": 2
                   },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
+                  "g": {},
                   "k": "http",
                   "m": "GET",
                   "o": "/api/v1/capabilities/providers/countries",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -549,16 +534,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "params": [
                       {
                         "a": true,
@@ -575,7 +550,6 @@
                   "o": "/api/v1/ob/payments/{paymentId}/followups",
                   "q": {
                     "exist": [
-                      "authorization",
                       "payment_id"
                     ]
                   },
@@ -734,6 +708,7 @@
               "h": "Id",
               "n": "id",
               "r": false,
+              "syn": true,
               "t": "`$STRING`"
             },
             "logoUrl": {
@@ -790,16 +765,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "params": [
                       {
                         "a": true,
@@ -816,7 +781,6 @@
                   "o": "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations",
                   "q": {
                     "exist": [
-                      "authorization",
                       "id"
                     ]
                   },
@@ -1062,25 +1026,13 @@
                         "or": "Accept-Language",
                         "r": false,
                         "t": "`$STRING`"
-                      },
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
                       }
                     ]
                   },
                   "k": "http",
                   "m": "POST",
                   "o": "/api/v1/ob/payments",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -1119,16 +1071,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "query": [
                       {
                         "a": true,
@@ -1170,11 +1112,7 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/v1/archive/payments",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -1213,16 +1151,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "params": [
                       {
                         "a": true,
@@ -1239,7 +1167,6 @@
                   "o": "/api/v1/archive/payments/{id}",
                   "q": {
                     "exist": [
-                      "authorization",
                       "id"
                     ]
                   },
@@ -1351,16 +1278,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "query": [
                       {
                         "a": true,
@@ -1378,7 +1295,6 @@
                   "o": "/api/v1/archive/payment-statuses",
                   "q": {
                     "exist": [
-                      "authorization",
                       "payment_id"
                     ]
                   },
@@ -1420,16 +1336,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "query": [
                       {
                         "a": true,
@@ -1448,7 +1354,6 @@
                   "q": {
                     "$action": "latest",
                     "exist": [
-                      "authorization",
                       "payment_id"
                     ]
                   },
@@ -1583,16 +1488,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "query": [
                       {
                         "a": true,
@@ -1615,11 +1510,7 @@
                   "k": "http",
                   "m": "GET",
                   "o": "/api/v1/capabilities/providers",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
                   "rs": {
                     "kind": "json",
@@ -1798,16 +1689,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "params": [
                       {
                         "a": true,
@@ -1824,7 +1705,6 @@
                   "o": "/api/v1/reports/payments/{id}",
                   "q": {
                     "exist": [
-                      "authorization",
                       "id"
                     ]
                   },
@@ -2283,16 +2163,6 @@
                     "version": 2
                   },
                   "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ],
                     "params": [
                       {
                         "a": true,
@@ -2327,7 +2197,6 @@
                   "o": "/api/v1/capabilities/providers/{id}/subsidiaries",
                   "q": {
                     "exist": [
-                      "authorization",
                       "provider_id"
                     ]
                   },
@@ -2436,27 +2305,11 @@
                     "source": "openapi3",
                     "version": 2
                   },
-                  "g": {
-                    "header": [
-                      {
-                        "a": true,
-                        "ex": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                        "k": "header",
-                        "n": "authorization",
-                        "or": "Authorization",
-                        "r": true,
-                        "t": "`$STRING`"
-                      }
-                    ]
-                  },
+                  "g": {},
                   "k": "http",
                   "m": "POST",
                   "o": "/api/v1/auth/token",
-                  "q": {
-                    "exist": [
-                      "authorization"
-                    ]
-                  },
+                  "q": {},
                   "r": {},
                   "rb": {
                     "fields": [
@@ -5046,6 +4899,9 @@
             }
           ]
         }
+      },
+      "http": {
+        "useragent": ""
       },
       "info": {
         "description": "gatekeeper API",

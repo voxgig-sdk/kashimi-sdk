@@ -32,7 +32,7 @@ import {
   liveFlowNeeds, liveStrict, liveStrictNote,
   liveRouteExamples, liveStepExamples, flowLoadRoute, flowLoadReadsRecord,
   liveGates, liveExcludedLines, liveExcludedSummary, LIVE_GETONLY_ENV,
-  liveEntity,
+  liveEntity, liveIdentity, liveRepeatsId, liveLoadComparesId, liveUnrouted,
 } from '@voxgig/sdkgen'
 
 
@@ -229,8 +229,8 @@ ${failureTests(model, entity)}` : ''}${validateTest(model, entity)}
 
     const flowBody = (flow: any) => {
       const steps = flowSteps(flow) as any[]
-      Content(liveFlowGate(entity, liveFlowNeeds(entity, flow), strict, strictConst,
-        PROJUPPER + '_TEST_' + envToken(entity.name) + '_ENTID', steps.length > 0))
+      Content(liveFlowGate(entity, liveFlowNeeds(entity, flow), liveIdentity(entity, flow), strict,
+        strictConst, PROJUPPER + '_TEST_' + envToken(entity.name) + '_ENTID', steps.length > 0))
 
       // Check if the flow has a create step; if not, bootstrap entity data
       const flowHasCreate = steps.some((s: any) => s.o === 'create')
@@ -262,6 +262,7 @@ ${failureTests(model, entity)}` : ''}${validateTest(model, entity)}
         }
         const opgen: OpGen = GENERATE_OP[step.o]
         if (opgen) {
+          Content(LIVE_PACE)
           opgen({ ...genCtx, flow }, step, index)
           Content('\n')
         }
@@ -397,10 +398,16 @@ ${fixtureIdentity(entity)}
 })
 
 
+const LIVE_PACE = `		if setup.live {
+			livePace()
+		}
+`
+
+
 // The live prologue of a flow built from offline fixtures: blocked without
 // the ids it binds, a create-less load reading the first listed record, and
 // a lenient run observing its checks rather than failing on them.
-function liveFlowGate(entity: any, needs: any, strict: boolean, strictConst: string,
+function liveFlowGate(entity: any, needs: any, identity: any, strict: boolean, strictConst: string,
   entidEnv: string, hasSteps: boolean): string {
   let out = ''
   if (null != needs.examples) {
@@ -435,22 +442,35 @@ function liveFlowGate(entity: any, needs: any, strict: boolean, strictConst: str
     out += '\t\tclient := setup.client\n\t\t_ = client\n'
   }
   if (null != needs.record) {
+    const id = `setup.idmap[${JSON.stringify(needs.record)}]`
     out += `		if setup.live {
-			liveExisting(t, ${strictConst}, setup.data, ${JSON.stringify(entity.name)}, func() (any, error) {
-				return []any{map[string]any{"id": setup.idmap[${JSON.stringify(needs.record)}]}}, nil
-			})
+			liveExisting(t, ${strictConst}, setup.data, ${JSON.stringify(entity.name)}, ${JSON.stringify(identity.field)}, ${id},
+				func() (any, error) {
+					return []any{map[string]any{"id": ${id}}}, nil
+				})
 		}
 `
   }
   if (null != needs.discover) {
-    const match = Object.entries(needs.discover)
+    const match = 'map[string]any{' + Object.entries(needs.discover)
       .map(([k, v]: any) => `${JSON.stringify(k)}: setup.idmap[${JSON.stringify(v)}]`)
       .concat(liveRouteExamples(entity, 'list', Object.keys(needs.discover))
-        .map(([k, ex]) => `${JSON.stringify(k)}: ${JSON.stringify(ex)}`)).join(', ')
+        .map(([k, ex]) => `${JSON.stringify(k)}: ${JSON.stringify(ex)}`)).join(', ') + '}'
+    const omit = needs.unrouted || []
     out += `		if setup.live {
-			liveExisting(t, ${strictConst}, setup.data, ${JSON.stringify(entity.name)}, func() (any, error) {
-				return client.${entity.Name}(nil).List(map[string]any{${match}}, nil)
-			})
+			var _liveId any
+			if !setup.syntheticOnly {
+				_liveId = setup.idmap[${JSON.stringify(identity.key)}]
+			}
+${undefined === identity.ex ? '' : `			if _liveId == nil {
+				_liveId = ${goIdLit(identity.ex)}
+			}
+`}${0 === omit.length ? '' : `			_liveMatch := ${match}
+${liveOmit(omit, '_liveMatch', '\t\t\t')}`}			livePace()
+			liveExisting(t, ${strictConst}, setup.data, ${JSON.stringify(entity.name)}, ${JSON.stringify(identity.field)}, _liveId,
+				func() (any, error) {
+					return client.${entity.Name}(nil).List(${0 === omit.length ? match : '_liveMatch'}, nil)
+				})
 		}
 `
   }
@@ -685,7 +705,7 @@ const generateUpdate: OpGen = (ctx, step, index) => {
 		}
 `)
   if (hasEntIdU) {
-    Content(`		if ${resdatavar}[${rid(entity)}] != ${datavar}Up["id"] {
+    Content(`		if ${liveDeclared(liveRepeatsId(entity))}!liveSameId(${resdatavar}[${rid(entity)}], ${datavar}Up["id"]) {
 			t.Fatal("expected update result id to match")
 		}
 `)
@@ -761,7 +781,7 @@ const generateLoad: OpGen = (ctx, step, index) => {
 		if ${datavar}LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
-		if ${datavar}LoadResult[${rid(entity)}] != ${srcdatavar}[${rid(entity)}] {
+		if ${liveDeclared(liveLoadComparesId(entity, flow))}!liveSameId(${datavar}LoadResult[${rid(entity)}], ${srcdatavar}[${rid(entity)}]) {
 			t.Fatal("expected load result id to match")
 		}
 `)
@@ -827,6 +847,12 @@ function rid(entity: any): string {
 }
 
 
+// A live result is compared on its identity only as the live entity harness does.
+function liveDeclared(compares: boolean): string {
+  return compares ? '' : '!setup.live && '
+}
+
+
 // The fixture keeps each record's key in `id`; an entity keeping its identity
 // in another field reads the key from there too.
 function fixtureIdentity(entity: any): string {
@@ -847,11 +873,21 @@ function fixtureIdentity(entity: any): string {
 // A live step sends each example its route requires and the step leaves unbound.
 function liveFill(entity: any, step: any, matchvar: string, flow: any) {
   const fills = liveStepExamples(entity, step, flow)
-  if (0 < fills.length) {
+  const omit = liveUnrouted(entity, step, flow)
+  if (0 < fills.length + omit.length) {
     Content(`		if setup.live {
-${fills.map(([k, ex]) => `			${matchvar}[${JSON.stringify(k)}] = ${JSON.stringify(ex)}\n`).join('')}		}
+${fills.map(([k, ex]) => `			${matchvar}[${JSON.stringify(k)}] = ${JSON.stringify(ex)}\n`).join('')}${liveOmit(omit, matchvar, '\t\t\t')}		}
 `)
   }
+}
+
+
+// A binding the live route does not take is sent only as *_ENTID gives it.
+function liveOmit(omit: [string, string][], matchvar: string, indent: string): string {
+  return omit.map(([name, key]) => `${indent}if setup.syntheticOnly || setup.idmap[${JSON.stringify(key)}] == nil {
+${indent}	delete(${matchvar}, ${JSON.stringify(name)})
+${indent}}
+`).join('')
 }
 
 

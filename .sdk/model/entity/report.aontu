@@ -83,15 +83,6 @@ main: kit: entity: report: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             params: [
               {
                 k: "param"
@@ -106,7 +97,6 @@ main: kit: entity: report: {
           o: "/api/v1/reports/payments/{id}"
           q: {
             exist: [
-              "authorization"
               "id"
             ]
           }

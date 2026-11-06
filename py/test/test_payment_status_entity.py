@@ -136,8 +136,11 @@ class TestPaymentStatusEntity:
                 return
         client = setup["client"]
         if setup["live"]:
+            _live_id = None if setup.get("synthetic_only") else setup["idmap"].get("payment_status01")
+            runner.live_pace()
             runner.live_existing(setup, LIVE_STRICT, "payment_status",
-                                 lambda: client.PaymentStatus(None).list({"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, None))
+                                 lambda: client.PaymentStatus(None).list({"payment_id": "123e4567-e89b-12d3-a456-426614174000"}, None),
+                                 "id", _live_id)
 
         # Bootstrap entity data from existing test data.
         payment_status_ref01_data_raw = vs.items(helpers.to_map(
@@ -146,6 +149,8 @@ class TestPaymentStatusEntity:
         if len(payment_status_ref01_data_raw) > 0:
             payment_status_ref01_data = helpers.to_map(payment_status_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         payment_status_ref01_ent = client.PaymentStatus(None)
         payment_status_ref01_match = {}
@@ -155,6 +160,8 @@ class TestPaymentStatusEntity:
         payment_status_ref01_list_result = payment_status_ref01_ent.list(payment_status_ref01_match, None)
         assert isinstance(payment_status_ref01_list_result, list)
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         payment_status_ref01_match_dt0 = {
             "id": payment_status_ref01_data["id"],
@@ -164,7 +171,7 @@ class TestPaymentStatusEntity:
         payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, None)
         payment_status_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(payment_status_ref01_data_dt0_loaded))
         assert payment_status_ref01_data_dt0_load_result is not None
-        assert payment_status_ref01_data_dt0_load_result["id"] == payment_status_ref01_data["id"]
+        assert runner.live_same_id(payment_status_ref01_data_dt0_load_result.get("id"), payment_status_ref01_data["id"])
 
 
 

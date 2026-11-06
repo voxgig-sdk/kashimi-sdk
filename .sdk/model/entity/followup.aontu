@@ -37,15 +37,6 @@ main: kit: entity: followup: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             params: [
               {
                 k: "param"
@@ -60,7 +51,6 @@ main: kit: entity: followup: {
           o: "/api/v1/ob/payments/{paymentId}/followups"
           q: {
             exist: [
-              "authorization"
               "payment_id"
             ]
           }

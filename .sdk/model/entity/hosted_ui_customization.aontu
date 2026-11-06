@@ -27,6 +27,7 @@ main: kit: entity: hosted_ui_customization: {
       h: "Id"
       n: "id"
       r: false
+      syn: true
       t: "`$STRING`"
     }
     logoUrl: {
@@ -78,15 +79,6 @@ main: kit: entity: hosted_ui_customization: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             params: [
               {
                 k: "param"
@@ -101,7 +93,6 @@ main: kit: entity: hosted_ui_customization: {
           o: "/api/v1/capabilities/clients/{clientId}/hosted-ui-customizations"
           q: {
             exist: [
-              "authorization"
               "id"
             ]
           }

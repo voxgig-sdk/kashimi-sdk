@@ -64,6 +64,9 @@ class SenderAccountEntityTest extends TestCase
             $sender_account_ref01_data = Helpers::to_map($sender_account_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $sender_account_ref01_ent = $client->SenderAccount(null);
         $sender_account_ref01_match_dt0 = [];
@@ -83,6 +86,9 @@ class SenderAccountEntityTest extends TestCase
             $sender_account_ref01_data = Helpers::to_map($sender_account_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // UPDATE
         $sender_account_ref01_ent = $client->SenderAccount(null);
         $sender_account_ref01_data_up0_up = [
@@ -92,6 +98,9 @@ class SenderAccountEntityTest extends TestCase
         $sender_account_ref01_resdata_up0 = Helpers::to_map(is_object($sender_account_ref01_resdata_up0_result) && method_exists($sender_account_ref01_resdata_up0_result, 'data_get') ? $sender_account_ref01_resdata_up0_result->data_get() : $sender_account_ref01_resdata_up0_result);
         $this->assertNotNull($sender_account_ref01_resdata_up0);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $sender_account_ref01_match_dt0 = [];
         $sender_account_ref01_data_dt0_loaded = $sender_account_ref01_ent->load($sender_account_ref01_match_dt0, null);

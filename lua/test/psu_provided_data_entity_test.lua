@@ -49,6 +49,9 @@ describe("PsuProvidedDataEntity", function()
       psu_provided_data_ref01_data = helpers.to_map(psu_provided_data_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- UPDATE
     local psu_provided_data_ref01_ent = client:PsuProvidedData(nil)
     local psu_provided_data_ref01_data_up0_up = {

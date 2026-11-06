@@ -58,6 +58,7 @@ class SubsidiaryEntityTest < Minitest::Test
       subsidiary_ref01_data = Helpers.to_map(subsidiary_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LIST
     subsidiary_ref01_ent = client.Subsidiary(nil)
     subsidiary_ref01_match = {

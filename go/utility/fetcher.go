@@ -2,7 +2,11 @@ package utility
 
 import (
 	"bytes"
+	"compress/flate"
+	"compress/gzip"
+	"compress/zlib"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -125,8 +129,9 @@ func defaultHTTPFetch(fullurl string, fetchdef map[string]any) (map[string]any, 
 		}
 	}
 	// Default User-Agent — Go's net/http defaults to "Go-http-client/1.1"
-	// which some CDNs block. Use a Mozilla-shaped UA unless the caller
-	// already set one, and record it with the headers the request sent.
+	// which some CDNs block. Use the project's agent (main.kit.http.useragent,
+	// browser-shaped by default) unless the caller already set one, and record
+	// it with the headers the request sent.
 	if !hasUA {
 		agent := "Mozilla/5.0 (compatible; KashimiSDK/1.0)"
 		req.Header.Set("User-Agent", agent)
@@ -142,6 +147,10 @@ func defaultHTTPFetch(fullurl string, fetchdef map[string]any) (map[string]any, 
 	defer resp.Body.Close()
 
 	bodyBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	bodyBytes, err = decodeBody(bodyBytes, resp.Header.Get("Content-Encoding"))
 	if err != nil {
 		return nil, err
 	}
@@ -174,6 +183,38 @@ func defaultHTTPFetch(fullurl string, fetchdef map[string]any) (map[string]any, 
 		"body":       string(bodyBytes),
 		"unreadable": unreadable,
 	}, nil
+}
+
+// A body net/http left encoded: it decodes gzip only when it asked for gzip
+// itself, and deflate never. Deflate is zlib-wrapped, or raw
+// as some servers send it.
+func decodeBody(body []byte, encoding string) ([]byte, error) {
+	encoding = strings.ToLower(strings.TrimSpace(encoding))
+	if len(body) == 0 {
+		return body, nil
+	}
+	var reader io.Reader
+	switch encoding {
+	case "gzip", "x-gzip":
+		zr, err := gzip.NewReader(bytes.NewReader(body))
+		if err != nil {
+			return nil, fmt.Errorf("response body is not valid %s data: %w", encoding, err)
+		}
+		reader = zr
+	case "deflate":
+		if zr, err := zlib.NewReader(bytes.NewReader(body)); err == nil {
+			reader = zr
+		} else {
+			reader = flate.NewReader(bytes.NewReader(body))
+		}
+	default:
+		return body, nil
+	}
+	out, err := io.ReadAll(reader)
+	if err != nil {
+		return nil, fmt.Errorf("response body is not valid %s data: %w", encoding, err)
+	}
+	return out, nil
 }
 
 func fetcherUtil(ctx *core.Context, fullurl string, fetchdef map[string]any) (any, error) {

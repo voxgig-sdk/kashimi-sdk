@@ -52,6 +52,9 @@ describe("TokenEntity", function()
 
     local client = setup.client
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- CREATE
     local token_ref01_ent = client:Token(nil)
     local token_ref01_data = helpers.to_map(vs.getprop(

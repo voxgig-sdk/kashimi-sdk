@@ -53,25 +53,8 @@ main: kit: entity: token: {
             source: "openapi3"
             version: 2
           }
-          g: {
-            header: [
-              {
-                ex: "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
           m: "POST"
           o: "/api/v1/auth/token"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
           rb: {
             fields: [
               {

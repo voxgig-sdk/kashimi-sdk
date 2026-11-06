@@ -72,9 +72,10 @@ func TestReportEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 		if setup.live {
-			liveExisting(t, reportEntityLiveStrict, setup.data, "report", func() (any, error) {
-				return []any{map[string]any{"id": setup.idmap["report01"]}}, nil
-			})
+			liveExisting(t, reportEntityLiveStrict, setup.data, "report", "id", setup.idmap["report01"],
+				func() (any, error) {
+					return []any{map[string]any{"id": setup.idmap["report01"]}}, nil
+				})
 		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
@@ -87,6 +88,9 @@ func TestReportEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = reportRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		reportRef01Ent := client.Report(nil)
 		reportRef01MatchDt0 := map[string]any{
@@ -100,7 +104,7 @@ func TestReportEntity(t *testing.T) {
 		if reportRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
-		if reportRef01DataDt0LoadResult["id"] != reportRef01Data["id"] {
+		if !liveSameId(reportRef01DataDt0LoadResult["id"], reportRef01Data["id"]) {
 			t.Fatal("expected load result id to match")
 		}
 

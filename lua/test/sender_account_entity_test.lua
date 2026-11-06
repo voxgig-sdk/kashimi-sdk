@@ -56,6 +56,9 @@ describe("SenderAccountEntity", function()
       sender_account_ref01_data = helpers.to_map(sender_account_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local sender_account_ref01_ent = client:SenderAccount(nil)
     local sender_account_ref01_match_dt0 = {}
@@ -76,6 +79,9 @@ describe("SenderAccountEntity", function()
       sender_account_ref01_data = helpers.to_map(sender_account_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- UPDATE
     local sender_account_ref01_ent = client:SenderAccount(nil)
     local sender_account_ref01_data_up0_up = {
@@ -86,6 +92,9 @@ describe("SenderAccountEntity", function()
     local sender_account_ref01_resdata_up0 = helpers.to_map(type(sender_account_ref01_resdata_up0_result) == 'table' and sender_account_ref01_resdata_up0_result.data_get and sender_account_ref01_resdata_up0_result:data_get() or sender_account_ref01_resdata_up0_result)
     assert.is_not_nil(sender_account_ref01_resdata_up0)
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local sender_account_ref01_match_dt0 = {}
     local sender_account_ref01_data_dt0_loaded, err = sender_account_ref01_ent:load(sender_account_ref01_match_dt0, nil)

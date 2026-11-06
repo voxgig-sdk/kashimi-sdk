@@ -15,24 +15,8 @@ main: kit: entity: country: {
             source: "openapi3"
             version: 2
           }
-          g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
-          }
           m: "GET"
           o: "/api/v1/capabilities/providers/countries"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
           rs: {
             kind: "json"
             media: "application/json"

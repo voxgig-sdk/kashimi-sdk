@@ -161,7 +161,9 @@ class PaymentEntityTest < Minitest::Test
       puts "LIVE STEP {\"id\":\"payment.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /api/v1/ob/payments/cancel\"}"
     client = setup[:client]
     if setup[:live]
-      Runner.live_existing(setup, LIVE_STRICT, "payment") do
+      _live_id = setup[:synthetic_only] ? nil : setup[:idmap]["payment01"]
+      Runner.live_pace
+      Runner.live_existing(setup, LIVE_STRICT, "payment", "id", _live_id) do
         client.Payment(nil).list({}, nil)
       end
     end
@@ -174,6 +176,7 @@ class PaymentEntityTest < Minitest::Test
       payment_ref01_data = Helpers.to_map(payment_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LIST
     payment_ref01_ent = client.Payment(nil)
     payment_ref01_match = {}
@@ -181,6 +184,7 @@ class PaymentEntityTest < Minitest::Test
     payment_ref01_list_result = payment_ref01_ent.list(payment_ref01_match, nil)
     assert payment_ref01_list_result.is_a?(Array)
 
+    Runner.live_pace if setup[:live]
     # LOAD
     payment_ref01_match_dt0 = {
       "id" => payment_ref01_data["id"],
@@ -188,13 +192,14 @@ class PaymentEntityTest < Minitest::Test
     payment_ref01_data_dt0_loaded = payment_ref01_ent.load(payment_ref01_match_dt0, nil)
     payment_ref01_data_dt0_load_result = Helpers.to_map(payment_ref01_data_dt0_loaded.respond_to?(:data_get) ? payment_ref01_data_dt0_loaded.data_get : payment_ref01_data_dt0_loaded)
     assert !payment_ref01_data_dt0_load_result.nil?
-    assert_equal payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"]
+    assert Runner.live_same_id(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"])
 
       return
     end
 
     client = setup[:client]
 
+    Runner.live_pace if setup[:live]
     # CREATE
     payment_ref01_ent = client.Payment(nil)
     payment_ref01_data = Helpers.to_map(Vs.getprop(
@@ -205,6 +210,7 @@ class PaymentEntityTest < Minitest::Test
     assert !payment_ref01_data.nil?
     assert !payment_ref01_data["id"].nil?
 
+    Runner.live_pace if setup[:live]
     # LIST
     payment_ref01_match = {}
 
@@ -216,6 +222,7 @@ class PaymentEntityTest < Minitest::Test
       { "id" => payment_ref01_data["id"] })
     assert !Vs.isempty(found_item)
 
+    Runner.live_pace if setup[:live]
     # LOAD
     payment_ref01_match_dt0 = {
       "id" => payment_ref01_data["id"],
@@ -223,7 +230,7 @@ class PaymentEntityTest < Minitest::Test
     payment_ref01_data_dt0_loaded = payment_ref01_ent.load(payment_ref01_match_dt0, nil)
     payment_ref01_data_dt0_load_result = Helpers.to_map(payment_ref01_data_dt0_loaded.respond_to?(:data_get) ? payment_ref01_data_dt0_loaded.data_get : payment_ref01_data_dt0_loaded)
     assert !payment_ref01_data_dt0_load_result.nil?
-    assert_equal payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"]
+    assert Runner.live_same_id(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"])
 
   end
 end

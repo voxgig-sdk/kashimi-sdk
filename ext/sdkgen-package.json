@@ -3,7 +3,7 @@
     "package": 1
   },
   "name": "@voxgig-sdk/sdkgen-kashimi-ext",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "sdkgen": ">=4.37.0"
   },

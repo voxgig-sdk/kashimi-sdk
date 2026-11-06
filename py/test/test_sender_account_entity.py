@@ -64,6 +64,8 @@ class TestSenderAccountEntity:
         if len(sender_account_ref01_data_raw) > 0:
             sender_account_ref01_data = helpers.to_map(sender_account_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # UPDATE
         sender_account_ref01_ent = client.SenderAccount(None)
         sender_account_ref01_data_up0_up = {
@@ -72,6 +74,8 @@ class TestSenderAccountEntity:
         sender_account_ref01_resdata_up0 = helpers.to_map(runner.entity_data(sender_account_ref01_ent.update(sender_account_ref01_data_up0_up, None)))
         assert sender_account_ref01_resdata_up0 is not None
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         sender_account_ref01_match_dt0 = {}
         sender_account_ref01_data_dt0_loaded = sender_account_ref01_ent.load(sender_account_ref01_match_dt0, None)
@@ -88,6 +92,8 @@ class TestSenderAccountEntity:
         if len(sender_account_ref01_data_raw) > 0:
             sender_account_ref01_data = helpers.to_map(sender_account_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         sender_account_ref01_ent = client.SenderAccount(None)
         sender_account_ref01_match_dt0 = {}

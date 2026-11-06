@@ -1,49 +1,88 @@
 {
   point: "warning"
-  note: "no server URL in the definition (servers[0].url): the SDK takes it as the server variable `base`; set the `server` build option to fix one"
+  note: "header parameter `Authorization` of GET /api/v1/archive/internal/payments/{id} ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
 }
 
 
 {
   point: "warning"
-  note: "Points GET /api/v1/ob/callbacks/with-provider-nano-id, GET /api/v1/ob/payments/decoupled/confirmation-data, GET /api/v1/ob/payments/decoupled/consent-status, GET /api/v1/ob/payments/decoupled/sca-data and GET /api/v1/ob/payments/decoupled/sca-methods on entity=obn op=load have the same selector (exist: none), so only GET /api/v1/ob/callbacks/with-provider-nano-id is ever chosen. An action or another entity in guide.aontu tells them apart."
-  entity: "obn"
-  op: "load"
-  points: [
-    "GET /api/v1/ob/callbacks/with-provider-nano-id"
-    "GET /api/v1/ob/payments/decoupled/confirmation-data"
-    "GET /api/v1/ob/payments/decoupled/consent-status"
-    "GET /api/v1/ob/payments/decoupled/sca-data"
-    "GET /api/v1/ob/payments/decoupled/sca-methods"
-  ]
-
+  note: "header parameter `Authorization` of GET /api/v1/archive/payment-statuses ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
 }
 
 
 {
   point: "warning"
-  note: "Points PATCH /api/v1/ob/payments/decoupled/sca-data, PATCH /api/v1/ob/payments/decoupled/selected-sca-method, PATCH /api/v1/ob/payments/psu-provided-data and PATCH /api/v1/ob/payments/sender-accounts on entity=obn op=update have the same selector (exist: none), so only PATCH /api/v1/ob/payments/decoupled/sca-data is ever chosen. An action or another entity in guide.aontu tells them apart."
-  entity: "obn"
-  op: "update"
-  points: [
-    "PATCH /api/v1/ob/payments/decoupled/sca-data"
-    "PATCH /api/v1/ob/payments/decoupled/selected-sca-method"
-    "PATCH /api/v1/ob/payments/psu-provided-data"
-    "PATCH /api/v1/ob/payments/sender-accounts"
-  ]
-
+  note: "header parameter `Authorization` of GET /api/v1/archive/payment-statuses/latest ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
 }
 
 
 {
   point: "warning"
-  note: "Points GET /api/v1/archive/internal/payments/{id}, GET /api/v1/archive/payments/{id} and GET /api/v1/reports/payments/{id} on entity=payment op=load have the same selector (exist: authorization,id), so only GET /api/v1/archive/internal/payments/{id} is ever chosen. An action or another entity in guide.aontu tells them apart."
-  entity: "payment"
-  op: "load"
-  points: [
-    "GET /api/v1/archive/internal/payments/{id}"
-    "GET /api/v1/archive/payments/{id}"
-    "GET /api/v1/reports/payments/{id}"
-  ]
+  note: "header parameter `Authorization` of GET /api/v1/archive/payments ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
 
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/archive/payments/{id} ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of POST /api/v1/auth/token ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/clients/{clientId}/hosted-ui-customizations ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/internal/providers ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/internal/providers/{id}/subsidiaries ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/providers ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/providers/countries ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/capabilities/providers/{id}/subsidiaries ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of POST /api/v1/ob/payments ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of POST /api/v1/ob/payments/{paymentId}/followups ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
+}
+
+
+{
+  point: "warning"
+  note: "header parameter `Authorization` of GET /api/v1/reports/payments/{id} ignored: OpenAPI ignores Accept, Content-Type and Authorization header parameters"
 }

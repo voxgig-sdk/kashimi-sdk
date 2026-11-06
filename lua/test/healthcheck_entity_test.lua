@@ -54,6 +54,9 @@ describe("HealthcheckEntity", function()
       healthcheck_ref01_data = helpers.to_map(healthcheck_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local healthcheck_ref01_ent = client:Healthcheck(nil)
     local healthcheck_ref01_match_dt0 = {}

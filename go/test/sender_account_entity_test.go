@@ -77,6 +77,9 @@ func TestSenderAccountEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = senderAccountRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		senderAccountRef01Ent := client.SenderAccount(nil)
 		senderAccountRef01MatchDt0 := map[string]any{}
@@ -104,6 +107,9 @@ func TestSenderAccountEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = senderAccountRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// UPDATE
 		senderAccountRef01Ent := client.SenderAccount(nil)
 		senderAccountRef01DataUp0Up := map[string]any{
@@ -118,6 +124,9 @@ func TestSenderAccountEntity(t *testing.T) {
 			t.Fatal("expected update result to be a map")
 		}
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		senderAccountRef01MatchDt0 := map[string]any{}
 		senderAccountRef01DataDt0Loaded, err := senderAccountRef01Ent.Load(senderAccountRef01MatchDt0, nil)

@@ -60,6 +60,8 @@ class TestHealthcheckEntity:
         if len(healthcheck_ref01_data_raw) > 0:
             healthcheck_ref01_data = helpers.to_map(healthcheck_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         healthcheck_ref01_ent = client.Healthcheck(None)
         healthcheck_ref01_match_dt0 = {}

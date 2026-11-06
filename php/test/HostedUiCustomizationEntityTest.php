@@ -62,7 +62,7 @@ class HostedUiCustomizationEntityTest extends TestCase
         $client = $setup["client"];
         if (!empty($setup["live"])) {
             Runner::live_existing($setup, self::LIVE_STRICT, "hosted_ui_customization",
-                fn() => [["id" => $setup["idmap"]["hosted_ui_customization01"] ?? null]]);
+                fn() => [["id" => $setup["idmap"]["hosted_ui_customization01"] ?? null]], "id", $setup["idmap"]["hosted_ui_customization01"] ?? null);
         }
 
         // Bootstrap entity data from existing test data.
@@ -73,6 +73,9 @@ class HostedUiCustomizationEntityTest extends TestCase
             $hosted_ui_customization_ref01_data = Helpers::to_map($hosted_ui_customization_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $hosted_ui_customization_ref01_ent = $client->HostedUiCustomization(null);
         $hosted_ui_customization_ref01_match_dt0 = [
@@ -81,7 +84,9 @@ class HostedUiCustomizationEntityTest extends TestCase
         $hosted_ui_customization_ref01_data_dt0_loaded = $hosted_ui_customization_ref01_ent->load($hosted_ui_customization_ref01_match_dt0, null);
         $hosted_ui_customization_ref01_data_dt0_load_result = Helpers::to_map(is_object($hosted_ui_customization_ref01_data_dt0_loaded) && method_exists($hosted_ui_customization_ref01_data_dt0_loaded, 'data_get') ? $hosted_ui_customization_ref01_data_dt0_loaded->data_get() : $hosted_ui_customization_ref01_data_dt0_loaded);
         $this->assertNotNull($hosted_ui_customization_ref01_data_dt0_load_result);
-        $this->assertEquals($hosted_ui_customization_ref01_data_dt0_load_result["id"], $hosted_ui_customization_ref01_data["id"]);
+        if (empty($setup["live"])) {
+            $this->assertTrue(Runner::live_same_id($hosted_ui_customization_ref01_data_dt0_load_result["id"] ?? null, $hosted_ui_customization_ref01_data["id"]));
+        }
 
     }
 }

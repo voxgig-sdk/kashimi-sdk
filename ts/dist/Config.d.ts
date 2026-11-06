@@ -361,18 +361,8 @@ declare class Config {
                             req: string;
                             res: string;
                         };
-                        args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
-                        };
-                        select: {
-                            exist: string[];
-                        };
+                        args: {};
+                        select: {};
                         response: {
                             kind: string;
                             media: string;
@@ -425,13 +415,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             params: {
                                 name: string;
                                 orig: string;
@@ -534,13 +517,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             params: {
                                 name: string;
                                 orig: string;
@@ -641,26 +617,18 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: ({
+                            header: {
                                 name: string;
                                 orig: string;
                                 type: string;
                                 kind: string;
                                 example: string;
-                                reqd?: undefined;
-                            } | {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                                example?: undefined;
-                            })[];
+                            }[];
                             query?: undefined;
                         };
                         select: {
-                            exist: string[];
                             $action?: undefined;
+                            exist?: undefined;
                         };
                         response: {
                             kind: string;
@@ -685,13 +653,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             query: ({
                                 name: string;
                                 orig: string;
@@ -706,9 +667,7 @@ declare class Config {
                                 example: string;
                             })[];
                         };
-                        select: {
-                            exist: string[];
-                        };
+                        select: {};
                         response: {
                             kind: string;
                             media: string;
@@ -736,13 +695,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             params: {
                                 name: string;
                                 orig: string;
@@ -804,13 +756,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             query: {
                                 name: string;
                                 orig: string;
@@ -846,13 +791,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             query: {
                                 name: string;
                                 orig: string;
@@ -908,13 +846,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             query: {
                                 name: string;
                                 orig: string;
@@ -922,9 +853,7 @@ declare class Config {
                                 kind: string;
                             }[];
                         };
-                        select: {
-                            exist: string[];
-                        };
+                        select: {};
                         response: {
                             kind: string;
                             media: string;
@@ -1018,13 +947,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             params: {
                                 name: string;
                                 orig: string;
@@ -1243,13 +1165,6 @@ declare class Config {
                             res: string;
                         };
                         args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                            }[];
                             params: {
                                 name: string;
                                 orig: string;
@@ -1304,19 +1219,8 @@ declare class Config {
                             req: string;
                             res: string;
                         };
-                        args: {
-                            header: {
-                                name: string;
-                                orig: string;
-                                type: string;
-                                kind: string;
-                                reqd: boolean;
-                                example: string;
-                            }[];
-                        };
-                        select: {
-                            exist: string[];
-                        };
+                        args: {};
+                        select: {};
                         body: {
                             fields: {
                                 name: string;

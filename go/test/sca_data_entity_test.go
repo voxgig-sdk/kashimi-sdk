@@ -64,6 +64,9 @@ func TestScaDataEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = scaDataRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		scaDataRef01Ent := client.ScaData(nil)
 		scaDataRef01MatchDt0 := map[string]any{}
@@ -91,6 +94,9 @@ func TestScaDataEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = scaDataRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// UPDATE
 		scaDataRef01Ent := client.ScaData(nil)
 		scaDataRef01DataUp0Up := map[string]any{
@@ -105,6 +111,9 @@ func TestScaDataEntity(t *testing.T) {
 			t.Fatal("expected update result to be a map")
 		}
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		scaDataRef01MatchDt0 := map[string]any{}
 		scaDataRef01DataDt0Loaded, err := scaDataRef01Ent.Load(scaDataRef01MatchDt0, nil)

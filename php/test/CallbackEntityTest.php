@@ -62,6 +62,9 @@ class CallbackEntityTest extends TestCase
             $callback_ref01_data = Helpers::to_map($callback_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $callback_ref01_ent = $client->Callback(null);
         $callback_ref01_match_dt0 = [];

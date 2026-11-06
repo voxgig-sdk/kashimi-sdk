@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DEFAULT_USER_AGENT = void 0;
 exports.fetcher = fetcher;
-// Several CDNs refuse a library's own agent, so outside a browser a request
-// without one carries the browser-shaped agent most other targets send.
+// Outside a browser a request without an agent carries the project's
+// (main.kit.http.useragent): browser-shaped unless the model says otherwise,
+// as several CDNs refuse a library's own.
 const DEFAULT_USER_AGENT = 'Mozilla/5.0 (compatible; KashimiSDK/1.0)';
 exports.DEFAULT_USER_AGENT = DEFAULT_USER_AGENT;
 function defaultUserAgent(fetchdef) {

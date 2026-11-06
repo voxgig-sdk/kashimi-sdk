@@ -45,6 +45,9 @@ describe("ScaMethodEntity", function()
       sca_method_ref01_data = helpers.to_map(sca_method_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local sca_method_ref01_ent = client:ScaMethod(nil)
     local sca_method_ref01_match_dt0 = {}
@@ -65,6 +68,9 @@ describe("ScaMethodEntity", function()
       sca_method_ref01_data = helpers.to_map(sca_method_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- UPDATE
     local sca_method_ref01_ent = client:ScaMethod(nil)
     local sca_method_ref01_data_up0_up = {
@@ -75,6 +81,9 @@ describe("ScaMethodEntity", function()
     local sca_method_ref01_resdata_up0 = helpers.to_map(type(sca_method_ref01_resdata_up0_result) == 'table' and sca_method_ref01_resdata_up0_result.data_get and sca_method_ref01_resdata_up0_result:data_get() or sca_method_ref01_resdata_up0_result)
     assert.is_not_nil(sca_method_ref01_resdata_up0)
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local sca_method_ref01_match_dt0 = {}
     local sca_method_ref01_data_dt0_loaded, err = sca_method_ref01_ent:load(sca_method_ref01_match_dt0, nil)

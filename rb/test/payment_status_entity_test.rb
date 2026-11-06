@@ -159,7 +159,9 @@ class PaymentStatusEntityTest < Minitest::Test
     end
     client = setup[:client]
     if setup[:live]
-      Runner.live_existing(setup, LIVE_STRICT, "payment_status") do
+      _live_id = setup[:synthetic_only] ? nil : setup[:idmap]["payment_status01"]
+      Runner.live_pace
+      Runner.live_existing(setup, LIVE_STRICT, "payment_status", "id", _live_id) do
         client.PaymentStatus(nil).list({"payment_id" => "123e4567-e89b-12d3-a456-426614174000"}, nil)
       end
     end
@@ -172,6 +174,7 @@ class PaymentStatusEntityTest < Minitest::Test
       payment_status_ref01_data = Helpers.to_map(payment_status_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LIST
     payment_status_ref01_ent = client.PaymentStatus(nil)
     payment_status_ref01_match = {}
@@ -182,6 +185,7 @@ class PaymentStatusEntityTest < Minitest::Test
     payment_status_ref01_list_result = payment_status_ref01_ent.list(payment_status_ref01_match, nil)
     assert payment_status_ref01_list_result.is_a?(Array)
 
+    Runner.live_pace if setup[:live]
     # LOAD
     payment_status_ref01_match_dt0 = {
       "id" => payment_status_ref01_data["id"],
@@ -192,7 +196,7 @@ class PaymentStatusEntityTest < Minitest::Test
     payment_status_ref01_data_dt0_loaded = payment_status_ref01_ent.load(payment_status_ref01_match_dt0, nil)
     payment_status_ref01_data_dt0_load_result = Helpers.to_map(payment_status_ref01_data_dt0_loaded.respond_to?(:data_get) ? payment_status_ref01_data_dt0_loaded.data_get : payment_status_ref01_data_dt0_loaded)
     assert !payment_status_ref01_data_dt0_load_result.nil?
-    assert_equal payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"]
+    assert Runner.live_same_id(payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"])
 
   end
 end

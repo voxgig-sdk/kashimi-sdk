@@ -53,6 +53,7 @@ class SenderAccountEntityTest < Minitest::Test
       sender_account_ref01_data = Helpers.to_map(sender_account_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     sender_account_ref01_ent = client.SenderAccount(nil)
     sender_account_ref01_match_dt0 = {}
@@ -72,6 +73,7 @@ class SenderAccountEntityTest < Minitest::Test
       sender_account_ref01_data = Helpers.to_map(sender_account_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # UPDATE
     sender_account_ref01_ent = client.SenderAccount(nil)
     sender_account_ref01_data_up0_up = {
@@ -81,6 +83,7 @@ class SenderAccountEntityTest < Minitest::Test
     sender_account_ref01_resdata_up0 = Helpers.to_map(sender_account_ref01_resdata_up0_result.respond_to?(:data_get) ? sender_account_ref01_resdata_up0_result.data_get : sender_account_ref01_resdata_up0_result)
     assert !sender_account_ref01_resdata_up0.nil?
 
+    Runner.live_pace if setup[:live]
     # LOAD
     sender_account_ref01_match_dt0 = {}
     sender_account_ref01_data_dt0_loaded = sender_account_ref01_ent.load(sender_account_ref01_match_dt0, nil)

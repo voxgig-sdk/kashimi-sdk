@@ -60,6 +60,11 @@ class ReadmeExamplesTest extends TestCase
         "Token" => "token",
     ];
 
+    // Fixture key => the entity's declared identity field, where it is not "id".
+    private const ID_FIELDS = [
+
+    ];
+
     // Documented SDK method names — used only to recognise the NARROW
     // signature/method-table "illustration" class.
     private const METHODS = [
@@ -230,6 +235,16 @@ class ReadmeExamplesTest extends TestCase
         $this->assertSame([], $failures, "docs php blocks with syntax errors:\n" . implode("\n\n", $failures));
     }
 
+    /** The one mock record seeded per entity, keyed as the mock keys it. */
+    private static function seedRecord(string $storage): array
+    {
+        $record = ["id" => "test01"];
+        if (isset(self::ID_FIELDS[$storage])) {
+            $record[self::ID_FIELDS[$storage]] = "test01";
+        }
+        return $record;
+    }
+
     /**
      * Build the SDK 'entity' fixture option for the entities a block references,
      * falling back to seeding all entities when none are named.
@@ -239,12 +254,12 @@ class ReadmeExamplesTest extends TestCase
         $refs = [];
         foreach (self::ENTITIES as $name => $storage) {
             if (preg_match('/\$client->' . preg_quote($name, '/') . '\b/', $block)) {
-                $refs[$storage] = ["test01" => ["id" => "test01"]];
+                $refs[$storage] = ["test01" => self::seedRecord($storage)];
             }
         }
         if (empty($refs)) {
             foreach (self::ENTITIES as $storage) {
-                $refs[$storage] = ["test01" => ["id" => "test01"]];
+                $refs[$storage] = ["test01" => self::seedRecord($storage)];
             }
         }
         return ["entity" => $refs];

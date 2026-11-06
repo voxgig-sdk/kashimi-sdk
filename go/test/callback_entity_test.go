@@ -75,6 +75,9 @@ func TestCallbackEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = callbackRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		callbackRef01Ent := client.Callback(nil)
 		callbackRef01MatchDt0 := map[string]any{}

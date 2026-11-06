@@ -96,6 +96,9 @@ _ENTITIES = {
     "Token": "token",
 }
 
+# Fixture key -> the entity's declared identity field, where it is not "id".
+_ID_FIELDS = {}
+
 # The three documents held to the gate, tagged by human label.
 _DOCS = (
     ("root README", _README),
@@ -367,7 +370,10 @@ def _seed_literal(block):
     seeded = {}
     for cap, key in _ENTITIES.items():
         if ("." + cap + "(") in block:
-            seeded[key] = {"test01": {"id": "test01"}}
+            record = {"id": "test01"}
+            if key in _ID_FIELDS:
+                record[_ID_FIELDS[key]] = "test01"
+            seeded[key] = {"test01": record}
     return {"entity": seeded}
 
 

@@ -153,6 +153,9 @@ describe("CountryEntity", function()
       country_ref01_data = helpers.to_map(country_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LIST
     local country_ref01_ent = client:Country(nil)
     local country_ref01_match = {}

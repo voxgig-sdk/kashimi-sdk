@@ -540,22 +540,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
+                ["args"] = {},
+                ["select"] = {},
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -632,15 +618,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["params"] = {
                     {
                       ["name"] = "payment_id",
@@ -653,7 +630,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "payment_id",
                   },
                 },
@@ -845,15 +821,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -866,7 +833,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "id",
                   },
                 },
@@ -1076,20 +1042,9 @@ local function make_config()
                       ["kind"] = "header",
                       ["example"] = "en",
                     },
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
+                ["select"] = {},
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1131,15 +1086,6 @@ local function make_config()
                   ["res"] = "`body.items`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["query"] = {
                     {
                       ["name"] = "cursor_value",
@@ -1170,11 +1116,7 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
+                ["select"] = {},
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1220,15 +1162,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1241,7 +1174,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "id",
                   },
                 },
@@ -1343,15 +1275,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["query"] = {
                     {
                       ["name"] = "payment_id",
@@ -1365,7 +1288,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "payment_id",
                   },
                 },
@@ -1414,15 +1336,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["query"] = {
                     {
                       ["name"] = "payment_id",
@@ -1437,7 +1350,6 @@ local function make_config()
                 ["select"] = {
                   ["$action"] = "latest",
                   ["exist"] = {
-                    "authorization",
                     "payment_id",
                   },
                 },
@@ -1559,15 +1471,6 @@ local function make_config()
                   ["res"] = "`body.items`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["query"] = {
                     {
                       ["name"] = "cursor",
@@ -1583,11 +1486,7 @@ local function make_config()
                     },
                   },
                 },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
+                ["select"] = {},
                 ["response"] = {
                   ["kind"] = "json",
                   ["media"] = "application/json",
@@ -1755,15 +1654,6 @@ local function make_config()
                   ["res"] = "`body`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["params"] = {
                     {
                       ["name"] = "id",
@@ -1776,7 +1666,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "id",
                   },
                 },
@@ -2227,15 +2116,6 @@ local function make_config()
                   ["res"] = "`body.items`",
                 },
                 ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                    },
-                  },
                   ["params"] = {
                     {
                       ["name"] = "provider_id",
@@ -2262,7 +2142,6 @@ local function make_config()
                 },
                 ["select"] = {
                   ["exist"] = {
-                    "authorization",
                     "provider_id",
                   },
                 },
@@ -2355,23 +2234,8 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
-                ["args"] = {
-                  ["header"] = {
-                    {
-                      ["name"] = "authorization",
-                      ["orig"] = "Authorization",
-                      ["type"] = "`$STRING`",
-                      ["kind"] = "header",
-                      ["reqd"] = true,
-                      ["example"] = "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                    },
-                  },
-                },
-                ["select"] = {
-                  ["exist"] = {
-                    "authorization",
-                  },
-                },
+                ["args"] = {},
+                ["select"] = {},
                 ["body"] = {
                   ["fields"] = {
                     {

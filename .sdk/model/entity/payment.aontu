@@ -184,22 +184,10 @@ main: kit: entity: payment: {
                 r: false
                 t: "`$STRING`"
               }
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
             ]
           }
           m: "POST"
           o: "/api/v1/ob/payments"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
           rs: {
             kind: "json"
             media: "application/json"
@@ -235,15 +223,6 @@ main: kit: entity: payment: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             query: [
               {
                 k: "query"
@@ -280,11 +259,6 @@ main: kit: entity: payment: {
           }
           m: "GET"
           o: "/api/v1/archive/payments"
-          q: {
-            exist: [
-              "authorization"
-            ]
-          }
           rs: {
             kind: "json"
             media: "application/json"
@@ -320,15 +294,6 @@ main: kit: entity: payment: {
             version: 2
           }
           g: {
-            header: [
-              {
-                k: "header"
-                n: "authorization"
-                or: "Authorization"
-                r: true
-                t: "`$STRING`"
-              }
-            ]
             params: [
               {
                 k: "param"
@@ -343,7 +308,6 @@ main: kit: entity: payment: {
           o: "/api/v1/archive/payments/{id}"
           q: {
             exist: [
-              "authorization"
               "id"
             ]
           }

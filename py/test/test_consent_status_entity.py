@@ -51,6 +51,8 @@ class TestConsentStatusEntity:
         if len(consent_status_ref01_data_raw) > 0:
             consent_status_ref01_data = helpers.to_map(consent_status_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         consent_status_ref01_ent = client.ConsentStatus(None)
         consent_status_ref01_match_dt0 = {}

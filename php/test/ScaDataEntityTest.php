@@ -48,6 +48,9 @@ class ScaDataEntityTest extends TestCase
             $sca_data_ref01_data = Helpers::to_map($sca_data_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $sca_data_ref01_ent = $client->ScaData(null);
         $sca_data_ref01_match_dt0 = [];
@@ -67,6 +70,9 @@ class ScaDataEntityTest extends TestCase
             $sca_data_ref01_data = Helpers::to_map($sca_data_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // UPDATE
         $sca_data_ref01_ent = $client->ScaData(null);
         $sca_data_ref01_data_up0_up = [
@@ -76,6 +82,9 @@ class ScaDataEntityTest extends TestCase
         $sca_data_ref01_resdata_up0 = Helpers::to_map(is_object($sca_data_ref01_resdata_up0_result) && method_exists($sca_data_ref01_resdata_up0_result, 'data_get') ? $sca_data_ref01_resdata_up0_result->data_get() : $sca_data_ref01_resdata_up0_result);
         $this->assertNotNull($sca_data_ref01_resdata_up0);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $sca_data_ref01_match_dt0 = [];
         $sca_data_ref01_data_dt0_loaded = $sca_data_ref01_ent->load($sca_data_ref01_match_dt0, null);

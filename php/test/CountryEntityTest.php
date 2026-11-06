@@ -206,6 +206,9 @@ class CountryEntityTest extends TestCase
             $country_ref01_data = Helpers::to_map($country_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $country_ref01_ent = $client->Country(null);
         $country_ref01_match = [];

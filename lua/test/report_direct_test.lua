@@ -35,6 +35,9 @@ describe("ReportDirect", function()
         end
       end
     end
+    if setup.live then
+      runner.live_pace()
+    end
     local client = setup.client
 
     local params = {}

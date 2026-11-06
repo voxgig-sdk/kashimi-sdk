@@ -205,8 +205,10 @@ class PaymentEntityTest extends TestCase
             fwrite(STDOUT, 'LIVE STEP {"id":"payment.create.0","state":"excluded","attempted":false,"reason":"GET-only live run: needs POST /api/v1/ob/payments/cancel"}' . "\n");
         $client = $setup["client"];
         if (!empty($setup["live"])) {
+            $_liveId = empty($setup["synthetic_only"]) ? ($setup["idmap"]["payment01"] ?? null) : null;
+            Runner::live_pace();
             Runner::live_existing($setup, self::LIVE_STRICT, "payment",
-                fn() => $client->Payment(null)->list([], null));
+                fn() => $client->Payment(null)->list([], null), "id", $_liveId);
         }
 
         // Bootstrap entity data from existing test data.
@@ -217,6 +219,9 @@ class PaymentEntityTest extends TestCase
             $payment_ref01_data = Helpers::to_map($payment_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $payment_ref01_ent = $client->Payment(null);
         $payment_ref01_match = [];
@@ -224,6 +229,9 @@ class PaymentEntityTest extends TestCase
         $payment_ref01_list_result = $payment_ref01_ent->list($payment_ref01_match, null);
         $this->assertIsArray($payment_ref01_list_result);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $payment_ref01_match_dt0 = [
             "id" => $payment_ref01_data["id"],
@@ -231,13 +239,16 @@ class PaymentEntityTest extends TestCase
         $payment_ref01_data_dt0_loaded = $payment_ref01_ent->load($payment_ref01_match_dt0, null);
         $payment_ref01_data_dt0_load_result = Helpers::to_map(is_object($payment_ref01_data_dt0_loaded) && method_exists($payment_ref01_data_dt0_loaded, 'data_get') ? $payment_ref01_data_dt0_loaded->data_get() : $payment_ref01_data_dt0_loaded);
         $this->assertNotNull($payment_ref01_data_dt0_load_result);
-        $this->assertEquals($payment_ref01_data_dt0_load_result["id"], $payment_ref01_data["id"]);
+        $this->assertTrue(Runner::live_same_id($payment_ref01_data_dt0_load_result["id"] ?? null, $payment_ref01_data["id"]));
 
             return;
         }
 
         $client = $setup["client"];
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // CREATE
         $payment_ref01_ent = $client->Payment(null);
         $payment_ref01_data = Helpers::to_map(Vs::getprop(
@@ -248,6 +259,9 @@ class PaymentEntityTest extends TestCase
         $this->assertNotNull($payment_ref01_data);
         $this->assertNotNull($payment_ref01_data["id"]);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LIST
         $payment_ref01_match = [];
 
@@ -259,6 +273,9 @@ class PaymentEntityTest extends TestCase
             ["id" => $payment_ref01_data["id"]]);
         $this->assertNotEmpty($found_item);
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $payment_ref01_match_dt0 = [
             "id" => $payment_ref01_data["id"],
@@ -266,7 +283,7 @@ class PaymentEntityTest extends TestCase
         $payment_ref01_data_dt0_loaded = $payment_ref01_ent->load($payment_ref01_match_dt0, null);
         $payment_ref01_data_dt0_load_result = Helpers::to_map(is_object($payment_ref01_data_dt0_loaded) && method_exists($payment_ref01_data_dt0_loaded, 'data_get') ? $payment_ref01_data_dt0_loaded->data_get() : $payment_ref01_data_dt0_loaded);
         $this->assertNotNull($payment_ref01_data_dt0_load_result);
-        $this->assertEquals($payment_ref01_data_dt0_load_result["id"], $payment_ref01_data["id"]);
+        $this->assertTrue(Runner::live_same_id($payment_ref01_data_dt0_load_result["id"] ?? null, $payment_ref01_data["id"]));
 
     }
 }

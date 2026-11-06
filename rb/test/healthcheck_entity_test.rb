@@ -51,6 +51,7 @@ class HealthcheckEntityTest < Minitest::Test
       healthcheck_ref01_data = Helpers.to_map(healthcheck_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     healthcheck_ref01_ent = client.Healthcheck(nil)
     healthcheck_ref01_match_dt0 = {}

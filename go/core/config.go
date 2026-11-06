@@ -544,22 +544,8 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"authorization",
-									},
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
@@ -636,15 +622,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"params": []any{
 										map[string]any{
 											"name": "payment_id",
@@ -657,7 +634,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"payment_id",
 									},
 								},
@@ -849,15 +825,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"params": []any{
 										map[string]any{
 											"name": "id",
@@ -870,7 +837,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"id",
 									},
 								},
@@ -1080,20 +1046,9 @@ func MakeConfig() map[string]any {
 											"kind": "header",
 											"example": "en",
 										},
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"authorization",
-									},
-								},
+								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
@@ -1135,15 +1090,6 @@ func MakeConfig() map[string]any {
 									"res": "`body.items`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"query": []any{
 										map[string]any{
 											"name": "cursor_value",
@@ -1174,11 +1120,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"authorization",
-									},
-								},
+								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
@@ -1224,15 +1166,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"params": []any{
 										map[string]any{
 											"name": "id",
@@ -1245,7 +1178,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"id",
 									},
 								},
@@ -1347,15 +1279,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"query": []any{
 										map[string]any{
 											"name": "payment_id",
@@ -1369,7 +1292,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"payment_id",
 									},
 								},
@@ -1418,15 +1340,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"query": []any{
 										map[string]any{
 											"name": "payment_id",
@@ -1441,7 +1354,6 @@ func MakeConfig() map[string]any {
 								"select": map[string]any{
 									"$action": "latest",
 									"exist": []any{
-										"authorization",
 										"payment_id",
 									},
 								},
@@ -1563,15 +1475,6 @@ func MakeConfig() map[string]any {
 									"res": "`body.items`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"query": []any{
 										map[string]any{
 											"name": "cursor",
@@ -1587,11 +1490,7 @@ func MakeConfig() map[string]any {
 										},
 									},
 								},
-								"select": map[string]any{
-									"exist": []any{
-										"authorization",
-									},
-								},
+								"select": map[string]any{},
 								"response": map[string]any{
 									"kind": "json",
 									"media": "application/json",
@@ -1759,15 +1658,6 @@ func MakeConfig() map[string]any {
 									"res": "`body`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"params": []any{
 										map[string]any{
 											"name": "id",
@@ -1780,7 +1670,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"id",
 									},
 								},
@@ -2231,15 +2120,6 @@ func MakeConfig() map[string]any {
 									"res": "`body.items`",
 								},
 								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-										},
-									},
 									"params": []any{
 										map[string]any{
 											"name": "provider_id",
@@ -2266,7 +2146,6 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"authorization",
 										"provider_id",
 									},
 								},
@@ -2359,23 +2238,8 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"args": map[string]any{
-									"header": []any{
-										map[string]any{
-											"name": "authorization",
-											"orig": "Authorization",
-											"type": "`$STRING`",
-											"kind": "header",
-											"reqd": true,
-											"example": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-										},
-									},
-								},
-								"select": map[string]any{
-									"exist": []any{
-										"authorization",
-									},
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 								"body": map[string]any{
 									"fields": []any{
 										map[string]any{

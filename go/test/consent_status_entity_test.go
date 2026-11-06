@@ -62,6 +62,9 @@ func TestConsentStatusEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = consentStatusRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		consentStatusRef01Ent := client.ConsentStatus(nil)
 		consentStatusRef01MatchDt0 := map[string]any{}

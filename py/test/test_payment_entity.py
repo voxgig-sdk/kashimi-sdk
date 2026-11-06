@@ -140,6 +140,8 @@ class TestPaymentEntity:
 
         client = setup["client"]
 
+        if setup["live"]:
+            runner.live_pace()
         # CREATE
         payment_ref01_ent = client.Payment(None)
         payment_ref01_data = helpers.to_map(vs.getprop(
@@ -149,6 +151,8 @@ class TestPaymentEntity:
         assert payment_ref01_data is not None
         assert payment_ref01_data["id"] is not None
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         payment_ref01_match = {}
 
@@ -160,6 +164,8 @@ class TestPaymentEntity:
             {"id": payment_ref01_data["id"]})
         assert not vs.isempty(found_item)
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         payment_ref01_match_dt0 = {
             "id": payment_ref01_data["id"],
@@ -167,14 +173,17 @@ class TestPaymentEntity:
         payment_ref01_data_dt0_loaded = payment_ref01_ent.load(payment_ref01_match_dt0, None)
         payment_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(payment_ref01_data_dt0_loaded))
         assert payment_ref01_data_dt0_load_result is not None
-        assert payment_ref01_data_dt0_load_result["id"] == payment_ref01_data["id"]
+        assert runner.live_same_id(payment_ref01_data_dt0_load_result.get("id"), payment_ref01_data["id"])
 
 
     def _run_get_only_flow(self, setup):
         client = setup["client"]
         if setup["live"]:
+            _live_id = None if setup.get("synthetic_only") else setup["idmap"].get("payment01")
+            runner.live_pace()
             runner.live_existing(setup, LIVE_STRICT, "payment",
-                                 lambda: client.Payment(None).list({}, None))
+                                 lambda: client.Payment(None).list({}, None),
+                                 "id", _live_id)
 
         # Bootstrap entity data from existing test data.
         payment_ref01_data_raw = vs.items(helpers.to_map(
@@ -183,6 +192,8 @@ class TestPaymentEntity:
         if len(payment_ref01_data_raw) > 0:
             payment_ref01_data = helpers.to_map(payment_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         payment_ref01_ent = client.Payment(None)
         payment_ref01_match = {}
@@ -190,6 +201,8 @@ class TestPaymentEntity:
         payment_ref01_list_result = payment_ref01_ent.list(payment_ref01_match, None)
         assert isinstance(payment_ref01_list_result, list)
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         payment_ref01_match_dt0 = {
             "id": payment_ref01_data["id"],
@@ -197,7 +210,7 @@ class TestPaymentEntity:
         payment_ref01_data_dt0_loaded = payment_ref01_ent.load(payment_ref01_match_dt0, None)
         payment_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(payment_ref01_data_dt0_loaded))
         assert payment_ref01_data_dt0_load_result is not None
-        assert payment_ref01_data_dt0_load_result["id"] == payment_ref01_data["id"]
+        assert runner.live_same_id(payment_ref01_data_dt0_load_result.get("id"), payment_ref01_data["id"])
 
 
 

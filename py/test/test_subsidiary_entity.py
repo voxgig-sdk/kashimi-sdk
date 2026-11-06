@@ -64,6 +64,8 @@ class TestSubsidiaryEntity:
         if len(subsidiary_ref01_data_raw) > 0:
             subsidiary_ref01_data = helpers.to_map(subsidiary_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LIST
         subsidiary_ref01_ent = client.Subsidiary(None)
         subsidiary_ref01_match = {

@@ -158,9 +158,14 @@ describe("PaymentEntity", function()
       print("LIVE STEP {\"id\":\"payment.create.0\",\"state\":\"excluded\",\"attempted\":false,\"reason\":\"GET-only live run: needs POST /api/v1/ob/payments/cancel\"}")
     local client = setup.client
     if setup.live then
+      local _live_id = nil
+      if not setup.synthetic_only then
+        _live_id = setup.idmap["payment01"]
+      end
+      runner.live_pace()
       runner.live_existing(pending, setup, LIVE_STRICT, "payment", function()
         return client:Payment(nil):list({}, nil)
-      end)
+      end, "id", _live_id)
     end
 
     -- Bootstrap entity data from existing test data.
@@ -171,6 +176,9 @@ describe("PaymentEntity", function()
       payment_ref01_data = helpers.to_map(payment_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LIST
     local payment_ref01_ent = client:Payment(nil)
     local payment_ref01_match = {}
@@ -179,6 +187,9 @@ describe("PaymentEntity", function()
     assert.is_nil(err)
     assert.is_table(payment_ref01_list_result)
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local payment_ref01_match_dt0 = {
       id = payment_ref01_data["id"],
@@ -187,13 +198,16 @@ describe("PaymentEntity", function()
     assert.is_nil(err)
     local payment_ref01_data_dt0_load_result = helpers.to_map(type(payment_ref01_data_dt0_loaded) == 'table' and payment_ref01_data_dt0_loaded.data_get and payment_ref01_data_dt0_loaded:data_get() or payment_ref01_data_dt0_loaded)
     assert.is_not_nil(payment_ref01_data_dt0_load_result)
-    assert.are.equal(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"])
+    assert.is_true(runner.live_same_id(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"]))
 
       return
     end
 
     local client = setup.client
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- CREATE
     local payment_ref01_ent = client:Payment(nil)
     local payment_ref01_data = helpers.to_map(vs.getprop(
@@ -205,6 +219,9 @@ describe("PaymentEntity", function()
     assert.is_not_nil(payment_ref01_data)
     assert.is_not_nil(payment_ref01_data["id"])
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LIST
     local payment_ref01_match = {}
 
@@ -217,6 +234,9 @@ describe("PaymentEntity", function()
       { id = payment_ref01_data["id"] })
     assert.is_false(vs.isempty(found_item))
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local payment_ref01_match_dt0 = {
       id = payment_ref01_data["id"],
@@ -225,7 +245,7 @@ describe("PaymentEntity", function()
     assert.is_nil(err)
     local payment_ref01_data_dt0_load_result = helpers.to_map(type(payment_ref01_data_dt0_loaded) == 'table' and payment_ref01_data_dt0_loaded.data_get and payment_ref01_data_dt0_loaded:data_get() or payment_ref01_data_dt0_loaded)
     assert.is_not_nil(payment_ref01_data_dt0_load_result)
-    assert.are.equal(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"])
+    assert.is_true(runner.live_same_id(payment_ref01_data_dt0_load_result["id"], payment_ref01_data["id"]))
 
   end)
 end)

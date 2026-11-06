@@ -137,9 +137,7 @@ const PLAN: any[] = [
     "method": "GET",
     "path": "/api/v1/capabilities/providers/countries",
     "args": [],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [
@@ -169,9 +167,7 @@ const PLAN: any[] = [
         "value": "p1"
       }
     ],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [
@@ -236,9 +232,7 @@ const PLAN: any[] = [
         "value": "p1"
       }
     ],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [
@@ -291,9 +285,7 @@ const PLAN: any[] = [
     "method": "POST",
     "path": "/api/v1/ob/payments",
     "args": [],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [
       {
         "name": "accept_language",
@@ -327,7 +319,6 @@ const PLAN: any[] = [
     "path": "/api/v1/archive/payments",
     "args": [],
     "select": {
-      "authorization": "v1",
       "cursor_value": "v1",
       "filters_created_at_from": "2026-07-01T00:00:00.000Z",
       "filters_created_at_to": "2026-07-02T00:00:00.000Z",
@@ -439,9 +430,7 @@ const PLAN: any[] = [
         "value": "p1"
       }
     ],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [
@@ -523,7 +512,6 @@ const PLAN: any[] = [
     "path": "/api/v1/archive/payment-statuses",
     "args": [],
     "select": {
-      "authorization": "v1",
       "payment_id": "v1"
     },
     "headers": [],
@@ -571,7 +559,6 @@ const PLAN: any[] = [
     "action": "latest",
     "args": [],
     "select": {
-      "authorization": "v1",
       "payment_id": "v1"
     },
     "headers": [],
@@ -610,7 +597,6 @@ const PLAN: any[] = [
     "path": "/api/v1/capabilities/providers",
     "args": [],
     "select": {
-      "authorization": "v1",
       "cursor": "v1",
       "filter": "v1"
     },
@@ -691,9 +677,7 @@ const PLAN: any[] = [
         "value": "p1"
       }
     ],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [
@@ -870,7 +854,6 @@ const PLAN: any[] = [
       }
     ],
     "select": {
-      "authorization": "v1",
       "cursor": "v1",
       "filter": "v1"
     },
@@ -928,9 +911,7 @@ const PLAN: any[] = [
     "method": "POST",
     "path": "/api/v1/auth/token",
     "args": [],
-    "select": {
-      "authorization": "v1"
-    },
+    "select": {},
     "headers": [],
     "cookies": [],
     "responseMedia": [

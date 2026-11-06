@@ -60,6 +60,8 @@ class TestCallbackEntity:
         if len(callback_ref01_data_raw) > 0:
             callback_ref01_data = helpers.to_map(callback_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         callback_ref01_ent = client.Callback(None)
         callback_ref01_match_dt0 = {}

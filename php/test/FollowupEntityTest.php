@@ -66,6 +66,9 @@ class FollowupEntityTest extends TestCase
         }
         $client = $setup["client"];
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // CREATE
         $followup_ref01_ent = $client->Followup(null);
         $followup_ref01_data = Helpers::to_map(Vs::getprop(

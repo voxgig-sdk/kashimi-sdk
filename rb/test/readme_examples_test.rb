@@ -63,6 +63,11 @@ class ReadmeExamplesTest < Minitest::Test
     "Token" => "token",
   }
 
+  # Fixture key => the entity's declared identity field, where it is not "id".
+  ID_FIELDS = {
+
+  }
+
   # Documented SDK method names — used only to recognise the NARROW
   # signature/method-table "illustration" class.
   METHODS = %w[options_map get_utility prepare direct data_get data_set match_get match_set make get_name]
@@ -162,7 +167,11 @@ class ReadmeExamplesTest < Minitest::Test
     refs = ENTITIES.select { |name, _| block =~ /#{CLIENT}\.#{Regexp.escape(name)}\b/ }
     refs = ENTITIES if refs.empty?
     entity = {}
-    refs.each_value { |storage| entity[storage] = { "test01" => { "id" => "test01" } } }
+    refs.each_value do |storage|
+      record = { "id" => "test01" }
+      record[ID_FIELDS[storage]] = "test01" if ID_FIELDS.key?(storage)
+      entity[storage] = { "test01" => record }
+    end
     { "entity" => entity }.inspect
   end
 

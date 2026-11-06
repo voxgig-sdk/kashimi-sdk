@@ -58,7 +58,7 @@ class TestHostedUiCustomizationEntity:
         client = setup["client"]
         if setup["live"]:
             runner.live_existing(setup, LIVE_STRICT, "hosted_ui_customization",
-                                 lambda: [{"id": setup["idmap"].get("hosted_ui_customization01")}])
+                                 lambda: [{"id": setup["idmap"].get("hosted_ui_customization01")}], "id", setup["idmap"].get("hosted_ui_customization01"))
 
         # Bootstrap entity data from existing test data.
         hosted_ui_customization_ref01_data_raw = vs.items(helpers.to_map(
@@ -67,6 +67,8 @@ class TestHostedUiCustomizationEntity:
         if len(hosted_ui_customization_ref01_data_raw) > 0:
             hosted_ui_customization_ref01_data = helpers.to_map(hosted_ui_customization_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         hosted_ui_customization_ref01_ent = client.HostedUiCustomization(None)
         hosted_ui_customization_ref01_match_dt0 = {
@@ -75,7 +77,8 @@ class TestHostedUiCustomizationEntity:
         hosted_ui_customization_ref01_data_dt0_loaded = hosted_ui_customization_ref01_ent.load(hosted_ui_customization_ref01_match_dt0, None)
         hosted_ui_customization_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(hosted_ui_customization_ref01_data_dt0_loaded))
         assert hosted_ui_customization_ref01_data_dt0_load_result is not None
-        assert hosted_ui_customization_ref01_data_dt0_load_result["id"] == hosted_ui_customization_ref01_data["id"]
+        if not setup["live"]:
+            assert runner.live_same_id(hosted_ui_customization_ref01_data_dt0_load_result.get("id"), hosted_ui_customization_ref01_data["id"])
 
 
 

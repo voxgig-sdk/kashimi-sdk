@@ -64,6 +64,9 @@ func TestScaMethodEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = scaMethodRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		scaMethodRef01Ent := client.ScaMethod(nil)
 		scaMethodRef01MatchDt0 := map[string]any{}
@@ -91,6 +94,9 @@ func TestScaMethodEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = scaMethodRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// UPDATE
 		scaMethodRef01Ent := client.ScaMethod(nil)
 		scaMethodRef01DataUp0Up := map[string]any{
@@ -105,6 +111,9 @@ func TestScaMethodEntity(t *testing.T) {
 			t.Fatal("expected update result to be a map")
 		}
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		scaMethodRef01MatchDt0 := map[string]any{}
 		scaMethodRef01DataDt0Loaded, err := scaMethodRef01Ent.Load(scaMethodRef01MatchDt0, nil)

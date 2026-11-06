@@ -51,6 +51,7 @@ class CallbackEntityTest < Minitest::Test
       callback_ref01_data = Helpers.to_map(callback_ref01_data_raw[0][1])
     end
 
+    Runner.live_pace if setup[:live]
     # LOAD
     callback_ref01_ent = client.Callback(nil)
     callback_ref01_match_dt0 = {}

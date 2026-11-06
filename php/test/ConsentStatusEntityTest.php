@@ -46,6 +46,9 @@ class ConsentStatusEntityTest extends TestCase
             $consent_status_ref01_data = Helpers::to_map($consent_status_ref01_data_raw[0][1]);
         }
 
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         // LOAD
         $consent_status_ref01_ent = $client->ConsentStatus(null);
         $consent_status_ref01_match_dt0 = [];

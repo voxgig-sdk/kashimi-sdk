@@ -82,6 +82,9 @@ func TestSubsidiaryEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = subsidiaryRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LIST
 		subsidiaryRef01Ent := client.Subsidiary(nil)
 		subsidiaryRef01Match := map[string]any{

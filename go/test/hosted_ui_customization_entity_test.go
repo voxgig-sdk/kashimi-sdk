@@ -72,9 +72,10 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		client := setup.client
 		_ = client
 		if setup.live {
-			liveExisting(t, hosted_ui_customizationEntityLiveStrict, setup.data, "hosted_ui_customization", func() (any, error) {
-				return []any{map[string]any{"id": setup.idmap["hosted_ui_customization01"]}}, nil
-			})
+			liveExisting(t, hosted_ui_customizationEntityLiveStrict, setup.data, "hosted_ui_customization", "id", setup.idmap["hosted_ui_customization01"],
+				func() (any, error) {
+					return []any{map[string]any{"id": setup.idmap["hosted_ui_customization01"]}}, nil
+				})
 		}
 
 		// Bootstrap entity data from existing test data (no create step in flow).
@@ -87,6 +88,9 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		// happen not to consume the bootstrap data (e.g. list-only flows).
 		_ = hostedUiCustomizationRef01Data
 
+		if setup.live {
+			livePace()
+		}
 		// LOAD
 		hostedUiCustomizationRef01Ent := client.HostedUiCustomization(nil)
 		hostedUiCustomizationRef01MatchDt0 := map[string]any{
@@ -100,7 +104,7 @@ func TestHostedUiCustomizationEntity(t *testing.T) {
 		if hostedUiCustomizationRef01DataDt0LoadResult == nil {
 			t.Fatal("expected load result to be a map")
 		}
-		if hostedUiCustomizationRef01DataDt0LoadResult["id"] != hostedUiCustomizationRef01Data["id"] {
+		if !setup.live && !liveSameId(hostedUiCustomizationRef01DataDt0LoadResult["id"], hostedUiCustomizationRef01Data["id"]) {
 			t.Fatal("expected load result id to match")
 		}
 

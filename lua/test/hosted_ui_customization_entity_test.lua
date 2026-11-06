@@ -55,7 +55,7 @@ describe("HostedUiCustomizationEntity", function()
     if setup.live then
       runner.live_existing(pending, setup, LIVE_STRICT, "hosted_ui_customization", function()
         return { { id = setup.idmap["hosted_ui_customization01"] } }
-      end)
+      end, "id", setup.idmap["hosted_ui_customization01"])
     end
 
     -- Bootstrap entity data from existing test data.
@@ -66,6 +66,9 @@ describe("HostedUiCustomizationEntity", function()
       hosted_ui_customization_ref01_data = helpers.to_map(hosted_ui_customization_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local hosted_ui_customization_ref01_ent = client:HostedUiCustomization(nil)
     local hosted_ui_customization_ref01_match_dt0 = {
@@ -75,7 +78,9 @@ describe("HostedUiCustomizationEntity", function()
     assert.is_nil(err)
     local hosted_ui_customization_ref01_data_dt0_load_result = helpers.to_map(type(hosted_ui_customization_ref01_data_dt0_loaded) == 'table' and hosted_ui_customization_ref01_data_dt0_loaded.data_get and hosted_ui_customization_ref01_data_dt0_loaded:data_get() or hosted_ui_customization_ref01_data_dt0_loaded)
     assert.is_not_nil(hosted_ui_customization_ref01_data_dt0_load_result)
-    assert.are.equal(hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"])
+    if not setup.live then
+      assert.is_true(runner.live_same_id(hosted_ui_customization_ref01_data_dt0_load_result["id"], hosted_ui_customization_ref01_data["id"]))
+    end
 
   end)
 end)

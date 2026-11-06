@@ -9,8 +9,10 @@
 #               application/x-www-form-urlencoded is sent form-encoded, with
 #               that content type. The stock pipeline sends every object body
 #               as JSON. Kashimi's token call, POST /api/v1/auth/token, is one.
-#   credential  A credential header the operation declares as a parameter, and
-#               the call passes itself, is sent as passed. The stock pipeline
+#   credential  A credential the call passes under the credential header's
+#               name, or under a header parameter the operation declares with
+#               that name, is sent as that header. apidef drops a declared
+#               Authorization parameter, as OpenAPI 3 says to. The stock pipeline
 #               replaces it with the client's `Bearer <apikey>`, or removes it
 #               when there is no apikey. The token call takes
 #               `Authorization: Basic <base64 clientId:clientSecret>` this way.
@@ -24,7 +26,7 @@ main: kit: feature: conform: {
   name: key()
   title: "Conform"
   description: "Form-encoded bodies and call credentials, as the definition declares"
-  version: '0.1.0'
+  version: '0.1.1'
   active: true
   base: 'BASE'
   transport: 'none'

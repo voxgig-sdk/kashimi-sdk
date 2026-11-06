@@ -569,22 +569,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "authorization",
-                  ],
-                },
+                "args": {},
+                "select": {},
                 "response": {
                   "kind": "json",
                   "media": "application/json",
@@ -661,15 +647,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "params": [
                     {
                       "name": "payment_id",
@@ -682,7 +659,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "payment_id",
                   ],
                 },
@@ -874,15 +850,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "params": [
                     {
                       "name": "id",
@@ -895,7 +862,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "id",
                   ],
                 },
@@ -1105,20 +1071,9 @@ def make_config():
                       "kind": "header",
                       "example": "en",
                     },
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "authorization",
-                  ],
-                },
+                "select": {},
                 "response": {
                   "kind": "json",
                   "media": "application/json",
@@ -1160,15 +1115,6 @@ def make_config():
                   "res": "`body.items`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "query": [
                     {
                       "name": "cursor_value",
@@ -1199,11 +1145,7 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "authorization",
-                  ],
-                },
+                "select": {},
                 "response": {
                   "kind": "json",
                   "media": "application/json",
@@ -1249,15 +1191,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "params": [
                     {
                       "name": "id",
@@ -1270,7 +1203,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "id",
                   ],
                 },
@@ -1372,15 +1304,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "query": [
                     {
                       "name": "payment_id",
@@ -1394,7 +1317,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "payment_id",
                   ],
                 },
@@ -1443,15 +1365,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "query": [
                     {
                       "name": "payment_id",
@@ -1466,7 +1379,6 @@ def make_config():
                 "select": {
                   "$action": "latest",
                   "exist": [
-                    "authorization",
                     "payment_id",
                   ],
                 },
@@ -1588,15 +1500,6 @@ def make_config():
                   "res": "`body.items`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "query": [
                     {
                       "name": "cursor",
@@ -1612,11 +1515,7 @@ def make_config():
                     },
                   ],
                 },
-                "select": {
-                  "exist": [
-                    "authorization",
-                  ],
-                },
+                "select": {},
                 "response": {
                   "kind": "json",
                   "media": "application/json",
@@ -1784,15 +1683,6 @@ def make_config():
                   "res": "`body`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "params": [
                     {
                       "name": "id",
@@ -1805,7 +1695,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "id",
                   ],
                 },
@@ -2256,15 +2145,6 @@ def make_config():
                   "res": "`body.items`",
                 },
                 "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                    },
-                  ],
                   "params": [
                     {
                       "name": "provider_id",
@@ -2291,7 +2171,6 @@ def make_config():
                 },
                 "select": {
                   "exist": [
-                    "authorization",
                     "provider_id",
                   ],
                 },
@@ -2384,23 +2263,8 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "args": {
-                  "header": [
-                    {
-                      "name": "authorization",
-                      "orig": "Authorization",
-                      "type": "`$STRING`",
-                      "kind": "header",
-                      "reqd": True,
-                      "example": "Basic dXNlcm5hbWU6cGFzc3dvcmQ=",
-                    },
-                  ],
-                },
-                "select": {
-                  "exist": [
-                    "authorization",
-                  ],
-                },
+                "args": {},
+                "select": {},
                 "body": {
                   "fields": [
                     {

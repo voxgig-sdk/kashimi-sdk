@@ -58,7 +58,7 @@ class TestReportEntity:
         client = setup["client"]
         if setup["live"]:
             runner.live_existing(setup, LIVE_STRICT, "report",
-                                 lambda: [{"id": setup["idmap"].get("report01")}])
+                                 lambda: [{"id": setup["idmap"].get("report01")}], "id", setup["idmap"].get("report01"))
 
         # Bootstrap entity data from existing test data.
         report_ref01_data_raw = vs.items(helpers.to_map(
@@ -67,6 +67,8 @@ class TestReportEntity:
         if len(report_ref01_data_raw) > 0:
             report_ref01_data = helpers.to_map(report_ref01_data_raw[0][1])
 
+        if setup["live"]:
+            runner.live_pace()
         # LOAD
         report_ref01_ent = client.Report(None)
         report_ref01_match_dt0 = {
@@ -75,7 +77,7 @@ class TestReportEntity:
         report_ref01_data_dt0_loaded = report_ref01_ent.load(report_ref01_match_dt0, None)
         report_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(report_ref01_data_dt0_loaded))
         assert report_ref01_data_dt0_load_result is not None
-        assert report_ref01_data_dt0_load_result["id"] == report_ref01_data["id"]
+        assert runner.live_same_id(report_ref01_data_dt0_load_result.get("id"), report_ref01_data["id"])
 
 
 

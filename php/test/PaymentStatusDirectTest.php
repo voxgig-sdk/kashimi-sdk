@@ -33,6 +33,9 @@ class PaymentStatusDirectTest extends TestCase
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
         }
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
+        }
         $client = $setup["client"];
 
         $params = [];
@@ -72,6 +75,9 @@ class PaymentStatusDirectTest extends TestCase
         if ($_shouldSkip) {
             $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
             return;
+        }
+        if (!empty($setup["live"])) {
+            Runner::live_pace();
         }
         $client = $setup["client"];
 

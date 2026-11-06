@@ -54,6 +54,9 @@ describe("ClientJwkEntity", function()
       client_jwk_ref01_data = helpers.to_map(client_jwk_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local client_jwk_ref01_ent = client:ClientJwk(nil)
     local client_jwk_ref01_match_dt0 = {}

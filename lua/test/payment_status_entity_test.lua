@@ -156,9 +156,14 @@ describe("PaymentStatusEntity", function()
     end
     local client = setup.client
     if setup.live then
+      local _live_id = nil
+      if not setup.synthetic_only then
+        _live_id = setup.idmap["payment_status01"]
+      end
+      runner.live_pace()
       runner.live_existing(pending, setup, LIVE_STRICT, "payment_status", function()
         return client:PaymentStatus(nil):list({["payment_id"] = "123e4567-e89b-12d3-a456-426614174000"}, nil)
-      end)
+      end, "id", _live_id)
     end
 
     -- Bootstrap entity data from existing test data.
@@ -169,6 +174,9 @@ describe("PaymentStatusEntity", function()
       payment_status_ref01_data = helpers.to_map(payment_status_ref01_data_raw[1][2])
     end
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LIST
     local payment_status_ref01_ent = client:PaymentStatus(nil)
     local payment_status_ref01_match = {}
@@ -180,6 +188,9 @@ describe("PaymentStatusEntity", function()
     assert.is_nil(err)
     assert.is_table(payment_status_ref01_list_result)
 
+    if setup.live then
+      runner.live_pace()
+    end
     -- LOAD
     local payment_status_ref01_match_dt0 = {
       id = payment_status_ref01_data["id"],
@@ -191,7 +202,7 @@ describe("PaymentStatusEntity", function()
     assert.is_nil(err)
     local payment_status_ref01_data_dt0_load_result = helpers.to_map(type(payment_status_ref01_data_dt0_loaded) == 'table' and payment_status_ref01_data_dt0_loaded.data_get and payment_status_ref01_data_dt0_loaded:data_get() or payment_status_ref01_data_dt0_loaded)
     assert.is_not_nil(payment_status_ref01_data_dt0_load_result)
-    assert.are.equal(payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"])
+    assert.is_true(runner.live_same_id(payment_status_ref01_data_dt0_load_result["id"], payment_status_ref01_data["id"]))
 
   end)
 end)

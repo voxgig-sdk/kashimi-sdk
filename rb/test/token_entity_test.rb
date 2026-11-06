@@ -48,6 +48,7 @@ class TokenEntityTest < Minitest::Test
 
     client = setup[:client]
 
+    Runner.live_pace if setup[:live]
     # CREATE
     token_ref01_ent = client.Token(nil)
     token_ref01_data = Helpers.to_map(Vs.getprop(
