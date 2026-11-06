@@ -59,7 +59,65 @@ function makeSpec(ctx) {
         spec.authquery = Object.keys(spec.query || {})
             .filter((key) => spec.query[key] !== query[key]);
         ctx.spec = spec;
+        callCredential(ctx, spec);
+        formBody(point, spec);
     }
     return spec;
+}
+// A credential the call passes under the credential header's name goes as
+// that header, in place of the client's, and not in the body. Kashimi's
+// token call takes its Basic credential this way (voxgig/sdkgen#465).
+function callCredential(ctx, spec) {
+    const authname = ctx.options.auth?.name;
+    const name = 'string' === typeof authname && '' !== authname ?
+        authname.toLowerCase() : 'authorization';
+    const val = ctx.reqmatch?.[name] ?? ctx.reqdata?.[name];
+    if (null == val || '' === val) {
+        return;
+    }
+    dropHeader(spec.headers, name);
+    spec.headers[name] = String(val);
+    // A copy, since the body can be the caller's own data.
+    const body = spec.body;
+    if (null != body && 'object' === typeof body && !Array.isArray(body)) {
+        const rest = {};
+        for (const key of Object.keys(body)) {
+            if (name !== key) {
+                rest[key] = body[key];
+            }
+        }
+        spec.body = rest;
+    }
+}
+// A body the point declares form-encoded goes form-encoded, under its
+// declared media type, where it would otherwise go as JSON.
+function formBody(point, spec) {
+    const decl = point?.body;
+    const data = spec.body;
+    if ('form' !== decl?.kind || null == data || 'object' !== typeof data || Array.isArray(data)) {
+        return;
+    }
+    const form = new URLSearchParams();
+    for (const key of Object.keys(data)) {
+        const val = data[key];
+        if (null == val) {
+            continue;
+        }
+        for (const item of (Array.isArray(val) ? val : [val])) {
+            form.append(key, 'object' === typeof item ? JSON.stringify(item) : String(item));
+        }
+    }
+    spec.body = form.toString();
+    dropHeader(spec.headers, 'content-type');
+    spec.headers['content-type'] = 'string' === typeof decl.media && '' !== decl.media ?
+        decl.media : 'application/x-www-form-urlencoded';
+}
+// Remove a header whatever its case.
+function dropHeader(headers, name) {
+    for (const key of Object.keys(headers)) {
+        if (name === key.toLowerCase()) {
+            delete headers[key];
+        }
+    }
 }
 //# sourceMappingURL=MakeSpecUtility.js.map

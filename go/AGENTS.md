@@ -42,7 +42,6 @@ the runtime under `.sdk/tm/go/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
-| **conform** — Conform | `feature/conform_feature.go` | `PreRequest` |
 | **debug** — Debug capture | `feature/debug_feature.go` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.go` | `PreRequest` |
 | **metrics** — Metrics | `feature/metrics_feature.go` | `PreDone`, `PrePoint`, `PreUnexpected` |

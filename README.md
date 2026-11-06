@@ -14,7 +14,7 @@ Full documentation for this SDK: [https://voxgig-sdk.github.io/kashimi-sdk/](htt
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI with an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
 
-> **Features:** `conform`, `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout` — opt-in,
+> **Features:** `debug`, `idempotency`, `metrics`, `paging`, `ratelimit`, `retry`, `secrets`, `test`, `timeout` — opt-in,
 > inactive until switched on, and configured per client. See the Features
 > section of any SDK README below for what each one does.
 
@@ -30,10 +30,10 @@ import { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'
 // The Sandbox. Without `base` the SDK calls Production, https://api.kashimi.tech.
 const base = 'https://api-sandbox.kashimi.tech'
 
-// The token call is form-encoded, with HTTP Basic credentials: the conform
-// feature sends it that way. The generated TokenCreateData type also requires
-// the response's fields, hence the cast.
-const auth = new KashimiSDK({ base, feature: { conform: { active: true } } })
+// The token call is form-encoded, with HTTP Basic credentials, and the SDK
+// sends it that way. The generated TokenCreateData type also requires the
+// response's fields, hence the cast.
+const auth = new KashimiSDK({ base })
 const basic = Buffer.from(
   `${process.env.KASHIMI_CLIENT_ID}:${process.env.KASHIMI_CLIENT_SECRET}`).toString('base64')
 const token = await auth.Token().create({
@@ -60,11 +60,10 @@ curl --request POST "https://api-sandbox.kashimi.tech/api/v1/auth/token" \
   --data-urlencode "scope=payments:read payments:write providers:read"
 ```
 
-**The conform feature.** Kashimi's token call takes a form-encoded body and HTTP Basic
-credentials. A generated SDK sends JSON with the client's bearer token, so this repository
-adds a `conform` feature, from its own sdkgen package in `ext/`. It sends a form-encoded
-body as the definition declares, and keeps a credential the call passes itself. Like every
-SDK feature, it is off until you turn it on.
+**The token call.** Kashimi's token call takes a form-encoded body and HTTP Basic
+credentials. Stock sdkgen sends JSON with the client's bearer token, so this SDK's request
+templates, in `.sdk/tm`, send a body the definition declares form-encoded as a form, and
+send a credential the call passes itself, such as `authorization` above, as that header.
 
 **Scope.** Every operation in Kashimi's published definition is here except the three it
 tags "Internal Endpoints". The `callback`, `client_jwk`, `sender_account`,
@@ -429,7 +428,6 @@ forking the SDK.
 
 | Feature | Purpose |
 | --- | --- |
-| **ConformFeature** | Conform |
 | **DebugFeature** | Debug capture |
 | **IdempotencyFeature** | Idempotency |
 | **MetricsFeature** | Metrics |

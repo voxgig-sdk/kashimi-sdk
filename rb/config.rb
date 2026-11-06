@@ -32,14 +32,6 @@ module KashimiConfig
         "target" => "rb",
       },
       "feature" => {
-        "conform" => {
-          "options" => {
-            "active" => false,
-          },
-          "optspec" => {},
-          "strict" => false,
-          "transport" => "none",
-        },
         "debug" => {
           "options" => {
             "active" => false,

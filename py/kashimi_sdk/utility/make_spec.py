@@ -1,6 +1,10 @@
 # Kashimi SDK utility: make_spec
 
 from __future__ import annotations
+
+import json
+from urllib.parse import urlencode
+
 from kashimi_sdk.utility.voxgig_struct import voxgig_struct as vs
 from kashimi_sdk.core.spec import KashimiSpec
 from kashimi_sdk.utility.graphql import GRAPHQL_CONTENT_TYPE
@@ -92,4 +96,70 @@ def make_spec_util(ctx):
                       if k not in query or query[k] != v]
 
     ctx.spec = spec
+    _call_credential(ctx, options, spec)
+    _form_body(point, spec)
     return spec, None
+
+
+# A credential the call passes under the credential header's name goes as
+# that header, in place of the client's, and not in the body. Kashimi's
+# token call takes its Basic credential this way (voxgig/sdkgen#465).
+def _call_credential(ctx, options, spec):
+    authname = vs.getpath(options, "auth.name")
+    name = authname.lower() if isinstance(authname, str) and authname != "" else "authorization"
+
+    val = (ctx.reqmatch or {}).get(name)
+    if val is None:
+        val = (ctx.reqdata or {}).get(name)
+    if val is None or val == "":
+        return
+
+    if spec.headers is None:
+        spec.headers = {}
+    _drop_header(spec.headers, name)
+    spec.headers[name] = str(val)
+
+    # A copy, since the body can be the caller's own data.
+    if isinstance(spec.body, dict):
+        spec.body = {k: v for k, v in spec.body.items() if k != name}
+
+
+# A body the point declares form-encoded goes form-encoded, under its
+# declared media type, where it would otherwise go as JSON.
+def _form_body(point, spec):
+    decl = vs.getprop(point, "body")
+    if not isinstance(decl, dict) or decl.get("kind") != "form" or not isinstance(spec.body, dict):
+        return
+
+    pairs = []
+    for key, val in spec.body.items():
+        if val is None:
+            continue
+        for item in (val if isinstance(val, list) else [val]):
+            pairs.append((key, _form_value(item)))
+
+    spec.body = urlencode(pairs)
+
+    if spec.headers is None:
+        spec.headers = {}
+    _drop_header(spec.headers, "content-type")
+    media = decl.get("media")
+    spec.headers["content-type"] = (
+        media if isinstance(media, str) and media != ""
+        else "application/x-www-form-urlencoded")
+
+
+# Remove a header whatever its case.
+def _drop_header(headers, name):
+    for key in [k for k in headers if isinstance(k, str) and k.lower() == name]:
+        del headers[key]
+
+
+# A value as the ts URLSearchParams writes it: booleans lower case, records
+# as JSON.
+def _form_value(item):
+    if isinstance(item, bool):
+        return "true" if item else "false"
+    if isinstance(item, (dict, list)):
+        return json.dumps(item, separators=(",", ":"))
+    return str(item)

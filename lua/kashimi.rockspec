@@ -28,7 +28,6 @@ build = {
     ["schema"] = "schema.lua",
     ["features"] = "features.lua",
     ["feature.base_feature"] = "feature/base_feature.lua",
-    ["feature.conform_feature"] = "feature/conform_feature.lua",
     ["feature.debug_feature"] = "feature/debug_feature.lua",
     ["feature.idempotency_feature"] = "feature/idempotency_feature.lua",
     ["feature.metrics_feature"] = "feature/metrics_feature.lua",

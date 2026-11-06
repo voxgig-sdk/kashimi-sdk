@@ -1,7 +1,6 @@
 # Kashimi SDK feature factory
 
 from kashimi_sdk.feature.base_feature import KashimiBaseFeature
-from kashimi_sdk.feature.conform_feature import KashimiConformFeature
 from kashimi_sdk.feature.debug_feature import KashimiDebugFeature
 from kashimi_sdk.feature.idempotency_feature import KashimiIdempotencyFeature
 from kashimi_sdk.feature.metrics_feature import KashimiMetricsFeature
@@ -15,7 +14,6 @@ from kashimi_sdk.feature.timeout_feature import KashimiTimeoutFeature
 
 _FEATURES = {
     "base": lambda: KashimiBaseFeature(),
-    "conform": lambda: KashimiConformFeature(),
     "debug": lambda: KashimiDebugFeature(),
     "idempotency": lambda: KashimiIdempotencyFeature(),
     "metrics": lambda: KashimiMetricsFeature(),

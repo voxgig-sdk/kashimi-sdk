@@ -20,7 +20,6 @@
     "docs/api/sender_account.html",
     "docs/api/subsidiary.html",
     "docs/api/token.html",
-    "docs/features/conform.html",
     "docs/features/debug.html",
     "docs/features/idempotency.html",
     "docs/features/metrics.html",

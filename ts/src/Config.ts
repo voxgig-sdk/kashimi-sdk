@@ -1,6 +1,5 @@
 
 import { BaseFeature } from './feature/base/BaseFeature'
-import { ConformFeature } from './feature/conform/ConformFeature'
 import { DebugFeature } from './feature/debug/DebugFeature'
 import { IdempotencyFeature } from './feature/idempotency/IdempotencyFeature'
 import { MetricsFeature } from './feature/metrics/MetricsFeature'
@@ -14,8 +13,7 @@ import { TimeoutFeature } from './feature/timeout/TimeoutFeature'
 
 
 const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
-   conform: ConformFeature,
- debug: DebugFeature,
+   debug: DebugFeature,
  idempotency: IdempotencyFeature,
  metrics: MetricsFeature,
  paging: PagingFeature,
@@ -59,15 +57,7 @@ class Config {
 
 
   feature = {
-     conform:     {
-      "options": {
-        "active": false
-      },
-      "optspec": {},
-      "strict": false,
-      "transport": "none"
-    },
- debug:     {
+     debug:     {
       "options": {
         "active": false,
         "max": 100,

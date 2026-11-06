@@ -4,7 +4,6 @@ declare(strict_types=1);
 // Kashimi SDK feature factory
 
 require_once __DIR__ . '/feature/BaseFeature.php';
-require_once __DIR__ . '/feature/ConformFeature.php';
 require_once __DIR__ . '/feature/DebugFeature.php';
 require_once __DIR__ . '/feature/IdempotencyFeature.php';
 require_once __DIR__ . '/feature/MetricsFeature.php';
@@ -23,8 +22,6 @@ class KashimiFeatures
         switch ($name) {
             case "base":
                 return new KashimiBaseFeature();
-            case "conform":
-                return new KashimiConformFeature();
             case "debug":
                 return new KashimiDebugFeature();
             case "idempotency":
@@ -58,7 +55,6 @@ class KashimiFeatures
     {
         switch ($name) {
             case "base":
-            case "conform":
             case "debug":
             case "idempotency":
             case "metrics":

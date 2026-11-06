@@ -1169,7 +1169,6 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `conform` | 0.1.1 | Conform |
 | `debug` | 0.0.1 | Debug capture |
 | `idempotency` | 0.0.1 | Idempotency |
 | `metrics` | 0.0.1 | Metrics |
@@ -1186,7 +1185,6 @@ Features are activated via the `feature` option:
 ```python
 client = KashimiSDK({
     "feature": {
-        "conform": {"active": True},
         "debug": {"active": True},
         "idempotency": {"active": True},
         "metrics": {"active": True},
@@ -1221,29 +1219,8 @@ That decides behaviour, not just sequence: a feature that short-circuits the
 call, such as a cache serving a hit, stops every feature nested inside it from
 ever seeing that call.
 
-`conform`, `debug`, `idempotency`, `metrics`, `paging`, `test` attach to pipeline hooks
+`debug`, `idempotency`, `metrics`, `paging`, `test` attach to pipeline hooks
 rather than the transport, so their order does not affect what they observe.
-
-#### `conform`
-
-Conform.
-
-**Configuration**
-
-| Option | Default |
-|---|---|
-| `active` | `false` |
-
-**Usage**
-
-Set `feature.conform.active` to true in the client options, and override any option above in the same entry. Every option keeps
-its default unless you name it.
-
-**Considerations**
-
-- Attaches to pipeline hooks, not the transport, so activation order does
-  not change what it observes.
-- Inactive by default: leaving it out costs nothing at runtime.
 
 #### `debug`
 

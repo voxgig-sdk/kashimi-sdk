@@ -1,7 +1,6 @@
 # Kashimi SDK feature factory
 
 require_relative 'feature/base_feature'
-require_relative 'feature/conform_feature'
 require_relative 'feature/debug_feature'
 require_relative 'feature/idempotency_feature'
 require_relative 'feature/metrics_feature'
@@ -18,8 +17,6 @@ module KashimiFeatures
     case name
     when "base"
       KashimiBaseFeature.new
-    when "conform"
-      KashimiConformFeature.new
     when "debug"
       KashimiDebugFeature.new
     when "idempotency"

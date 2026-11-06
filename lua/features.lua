@@ -1,7 +1,6 @@
 -- Kashimi SDK feature factory
 
 local BaseFeature = require("feature.base_feature")
-local ConformFeature = require("feature.conform_feature")
 local DebugFeature = require("feature.debug_feature")
 local IdempotencyFeature = require("feature.idempotency_feature")
 local MetricsFeature = require("feature.metrics_feature")
@@ -17,10 +16,6 @@ local features = {}
 
 features.base = function()
   return BaseFeature.new()
-end
-
-features["conform"] = function()
-  return ConformFeature.new()
 end
 
 features["debug"] = function()

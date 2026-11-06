@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FEATURE_PLUGINS = exports.config = void 0;
-const ConformFeature_1 = require("./feature/conform/ConformFeature");
 const DebugFeature_1 = require("./feature/debug/DebugFeature");
 const IdempotencyFeature_1 = require("./feature/idempotency/IdempotencyFeature");
 const MetricsFeature_1 = require("./feature/metrics/MetricsFeature");
@@ -12,7 +11,6 @@ const SecretsFeature_1 = require("./feature/secrets/SecretsFeature");
 const TestFeature_1 = require("./feature/test/TestFeature");
 const TimeoutFeature_1 = require("./feature/timeout/TimeoutFeature");
 const FEATURE_CLASS = {
-    conform: ConformFeature_1.ConformFeature,
     debug: DebugFeature_1.DebugFeature,
     idempotency: IdempotencyFeature_1.IdempotencyFeature,
     metrics: MetricsFeature_1.MetricsFeature,
@@ -44,14 +42,6 @@ class Config {
         target: "ts",
     };
     feature = {
-        conform: {
-            "options": {
-                "active": false
-            },
-            "optspec": {},
-            "strict": false,
-            "transport": "none"
-        },
         debug: {
             "options": {
                 "active": false,

@@ -43,7 +43,6 @@ the runtime under `.sdk/tm/py/feature/` and regenerate.
 
 | Feature | Runtime file | Active hooks |
 | --- | --- | --- |
-| **conform** — Conform | `feature/conform_feature.py` | `PreRequest` |
 | **debug** — Debug capture | `feature/debug_feature.py` | `PreDone`, `PreRequest`, `PreResponse`, `PreUnexpected` |
 | **idempotency** — Idempotency | `feature/idempotency_feature.py` | `PreRequest` |
 | **metrics** — Metrics | `feature/metrics_feature.py` | `PreDone`, `PrePoint`, `PreUnexpected` |

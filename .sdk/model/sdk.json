@@ -2355,99 +2355,6 @@
         }
       },
       "feature": {
-        "conform": {
-          "active": true,
-          "base": "../ext/.sdk",
-          "config": {
-            "options": {
-              "active": false
-            },
-            "optspec": {},
-            "strict": false
-          },
-          "description": "Form-encoded bodies and call credentials, as the definition declares",
-          "hook": {
-            "GetData": {
-              "active": false,
-              "await": false
-            },
-            "GetMatch": {
-              "active": false,
-              "await": false
-            },
-            "PostConstruct": {
-              "active": false,
-              "await": false
-            },
-            "PostConstructEntity": {
-              "active": false,
-              "await": false
-            },
-            "PostOperation": {
-              "active": false,
-              "await": false
-            },
-            "PreRequest": {
-              "active": true,
-              "await": false
-            },
-            "PreResponse": {
-              "active": false,
-              "await": false
-            },
-            "PreResult": {
-              "active": false,
-              "await": false
-            },
-            "PreSpec": {
-              "active": false,
-              "await": false
-            },
-            "PreTarget": {
-              "active": false,
-              "await": false
-            },
-            "SetData": {
-              "active": false,
-              "await": false
-            }
-          },
-          "name": "conform",
-          "needs": {},
-          "origname": "",
-          "package": "@voxgig-sdk/sdkgen-kashimi-ext",
-          "plugin": {},
-          "spec": {},
-          "target": {
-            "go": {
-              "deps": {}
-            },
-            "go-cli": {
-              "deps": {}
-            },
-            "go-mcp": {
-              "deps": {}
-            },
-            "lua": {
-              "deps": {}
-            },
-            "php": {
-              "deps": {}
-            },
-            "py": {
-              "deps": {}
-            },
-            "rb": {
-              "deps": {}
-            },
-            "ts": {
-              "deps": {}
-            }
-          },
-          "title": "Conform",
-          "transport": "none",
-          "version": "0.1.1"
-        },
         "debug": {
           "active": true,
           "base": "node_modules/@voxgig/sdkgen/project/.sdk",
@@ -5589,7 +5496,7 @@
         }
       },
       "text": {
-        "about_md": "**Credentials.** Kashimi uses OAuth 2.0 client credentials. Exchange your client ID\nand secret for an access token, valid for 30 minutes, then pass the token as the `apikey`\noption:\n\n```ts\nimport { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'\n\n// The Sandbox. Without `base` the SDK calls Production, https://api.kashimi.tech.\nconst base = 'https://api-sandbox.kashimi.tech'\n\n// The token call is form-encoded, with HTTP Basic credentials: the conform\n// feature sends it that way. The generated TokenCreateData type also requires\n// the response's fields, hence the cast.\nconst auth = new KashimiSDK({ base, feature: { conform: { active: true } } })\nconst basic = Buffer.from(\n  `${process.env.KASHIMI_CLIENT_ID}:${process.env.KASHIMI_CLIENT_SECRET}`).toString('base64')\nconst token = await auth.Token().create({\n  grant_type: 'client_credentials',\n  scope: 'payments:read payments:write providers:read',\n  authorization: 'Basic ' + basic,\n} as any)\n\n// Every other call sends the token as `Authorization: Bearer <token>`.\nconst apikey = token.data().access_token\nconst client = new KashimiSDK({ base, apikey })\n\nconst providers = await client.Provider().list()\nconst payment = await client.Payment().load({ id: 'your-payment-id' })\nconsole.log(payment.data())\n```\n\nThe same exchange with curl:\n\n```bash\ncurl --request POST \"https://api-sandbox.kashimi.tech/api/v1/auth/token\" \\\n  --user \"$KASHIMI_CLIENT_ID:$KASHIMI_CLIENT_SECRET\" \\\n  --data-urlencode \"grant_type=client_credentials\" \\\n  --data-urlencode \"scope=payments:read payments:write providers:read\"\n```\n\n**The conform feature.** Kashimi's token call takes a form-encoded body and HTTP Basic\ncredentials. A generated SDK sends JSON with the client's bearer token, so this repository\nadds a `conform` feature, from its own sdkgen package in `ext/`. It sends a form-encoded\nbody as the definition declares, and keeps a credential the call passes itself. Like every\nSDK feature, it is off until you turn it on.\n\n**Scope.** Every operation in Kashimi's published definition is here except the three it\ntags \"Internal Endpoints\". The `callback`, `client_jwk`, `sender_account`,\n`psu_provided_data`, `sca_method`, `sca_data`, `confirmation_data` and\n`consent_status` entities are the routes of Kashimi's hosted payment flow.\n`Country().list()` returns one entity per country, and each entity's data is the bare\ncountry code, such as `'DE'`.",
+        "about_md": "**Credentials.** Kashimi uses OAuth 2.0 client credentials. Exchange your client ID\nand secret for an access token, valid for 30 minutes, then pass the token as the `apikey`\noption:\n\n```ts\nimport { KashimiSDK } from '@voxgig-sdk/kashimi-sdk'\n\n// The Sandbox. Without `base` the SDK calls Production, https://api.kashimi.tech.\nconst base = 'https://api-sandbox.kashimi.tech'\n\n// The token call is form-encoded, with HTTP Basic credentials, and the SDK\n// sends it that way. The generated TokenCreateData type also requires the\n// response's fields, hence the cast.\nconst auth = new KashimiSDK({ base })\nconst basic = Buffer.from(\n  `${process.env.KASHIMI_CLIENT_ID}:${process.env.KASHIMI_CLIENT_SECRET}`).toString('base64')\nconst token = await auth.Token().create({\n  grant_type: 'client_credentials',\n  scope: 'payments:read payments:write providers:read',\n  authorization: 'Basic ' + basic,\n} as any)\n\n// Every other call sends the token as `Authorization: Bearer <token>`.\nconst apikey = token.data().access_token\nconst client = new KashimiSDK({ base, apikey })\n\nconst providers = await client.Provider().list()\nconst payment = await client.Payment().load({ id: 'your-payment-id' })\nconsole.log(payment.data())\n```\n\nThe same exchange with curl:\n\n```bash\ncurl --request POST \"https://api-sandbox.kashimi.tech/api/v1/auth/token\" \\\n  --user \"$KASHIMI_CLIENT_ID:$KASHIMI_CLIENT_SECRET\" \\\n  --data-urlencode \"grant_type=client_credentials\" \\\n  --data-urlencode \"scope=payments:read payments:write providers:read\"\n```\n\n**The token call.** Kashimi's token call takes a form-encoded body and HTTP Basic\ncredentials. Stock sdkgen sends JSON with the client's bearer token, so this SDK's request\ntemplates, in `.sdk/tm`, send a body the definition declares form-encoded as a form, and\nsend a credential the call passes itself, such as `authorization` above, as that header.\n\n**Scope.** Every operation in Kashimi's published definition is here except the three it\ntags \"Internal Endpoints\". The `callback`, `client_jwk`, `sender_account`,\n`psu_provided_data`, `sca_method`, `sca_data`, `confirmation_data` and\n`consent_status` entities are the routes of Kashimi's hosted payment flow.\n`Country().list()` returns one entity per country, and each entity's data is the bare\ncountry code, such as `'DE'`.",
         "docs_url": "",
         "entity_desc": {
           "callback": "The bank redirect back into the hosted payment flow.",

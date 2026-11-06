@@ -5,6 +5,110 @@ local graphql = require("utility.graphql")
 local Spec = require("core.spec")
 local helpers = require("core.helpers")
 
+
+-- Remove a header whatever its case.
+local function drop_header(headers, name)
+  local keys = {}
+  for key in pairs(headers) do
+    if type(key) == "string" and string.lower(key) == name then
+      keys[#keys + 1] = key
+    end
+  end
+  for _, key in ipairs(keys) do
+    headers[key] = nil
+  end
+end
+
+
+-- Form encoding as the ts URLSearchParams writes it: space as "+", and
+-- every byte outside A-Z a-z 0-9 * - . _ percent-encoded.
+local function form_escape(s)
+  s = string.gsub(s, "[^%w%*%-%._ ]", function(c)
+    return string.format("%%%02X", string.byte(c))
+  end)
+  return (string.gsub(s, " ", "+"))
+end
+
+
+local function form_value(item)
+  if type(item) == "table" then
+    return vs.jsonify(item)
+  end
+  return tostring(item)
+end
+
+
+-- A credential the call passes under the credential header's name goes as
+-- that header, in place of the client's, and not in the body. Kashimi's
+-- token call takes its Basic credential this way (voxgig/sdkgen#465).
+local function call_credential(ctx, options, spec)
+  local authname = vs.getpath(options, "auth.name")
+  local name = "authorization"
+  if type(authname) == "string" and authname ~= "" then
+    name = string.lower(authname)
+  end
+
+  local val = vs.getprop(ctx.reqmatch or {}, name)
+  if val == nil then
+    val = vs.getprop(ctx.reqdata or {}, name)
+  end
+  if val == nil or val == "" then
+    return
+  end
+
+  if spec.headers == nil then
+    spec.headers = {}
+  end
+  drop_header(spec.headers, name)
+  spec.headers[name] = tostring(val)
+
+  -- A copy, since the body can be the caller's own data.
+  if vs.ismap(spec.body) then
+    local rest = {}
+    for key, v in pairs(spec.body) do
+      if key ~= name then
+        rest[key] = v
+      end
+    end
+    spec.body = rest
+  end
+end
+
+
+-- A body the point declares form-encoded goes form-encoded, under its
+-- declared media type, where it would otherwise go as JSON.
+local function form_body(point, spec)
+  local decl = vs.getprop(point, "body")
+  local data = spec.body
+  if type(decl) ~= "table" or decl["kind"] ~= "form" or not vs.ismap(data) then
+    return
+  end
+
+  local pairs_ = {}
+  for _, key in ipairs(vs.keysof(data)) do
+    local val = data[key]
+    if val ~= nil then
+      local list = vs.islist(val) and val or { val }
+      for _, item in ipairs(list) do
+        pairs_[#pairs_ + 1] = form_escape(key) .. "=" .. form_escape(form_value(item))
+      end
+    end
+  end
+
+  spec.body = table.concat(pairs_, "&")
+
+  if spec.headers == nil then
+    spec.headers = {}
+  end
+  drop_header(spec.headers, "content-type")
+  local media = decl["media"]
+  if type(media) ~= "string" or media == "" then
+    media = "application/x-www-form-urlencoded"
+  end
+  spec.headers["content-type"] = media
+end
+
+
 local function make_spec_util(ctx)
   if ctx.out["spec"] ~= nil then
     local preset = ctx.out["spec"]
@@ -104,6 +208,8 @@ local function make_spec_util(ctx)
   end
 
   ctx.spec = spec
+  call_credential(ctx, options, spec)
+  form_body(point, spec)
   return spec, nil
 end
 
