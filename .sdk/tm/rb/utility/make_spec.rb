@@ -1,4 +1,6 @@
 # Kashimi SDK utility: make_spec
+require 'json'
+require 'uri'
 require_relative 'struct/voxgig_struct'
 require_relative 'graphql'
 require_relative 'prepare_method'
@@ -73,6 +75,57 @@ module KashimiUtilities
     }
 
     ctx.spec = spec
+    KashimiUtilities.call_credential(ctx, options, spec)
+    KashimiUtilities.form_body(point, spec)
     return spec, nil
   }
+
+  # A credential the call passes under the credential header's name goes as
+  # that header, in place of the client's, and not in the body. Kashimi's
+  # token call takes its Basic credential this way (voxgig/sdkgen#465).
+  def self.call_credential(ctx, options, spec)
+    authname = VoxgigStruct.getpath(options, "auth.name")
+    name = authname.is_a?(String) && !authname.empty? ? authname.downcase : "authorization"
+
+    val = (ctx.reqmatch || {})[name]
+    val = (ctx.reqdata || {})[name] if val.nil?
+    return if val.nil? || val == ""
+
+    spec.headers = {} if spec.headers.nil?
+    drop_header(spec.headers, name)
+    spec.headers[name] = val.to_s
+
+    # A copy, since the body can be the caller's own data.
+    spec.body = spec.body.reject { |key, _| key == name } if spec.body.is_a?(Hash)
+  end
+
+  # A body the point declares form-encoded goes form-encoded, under its
+  # declared media type, where it would otherwise go as JSON.
+  def self.form_body(point, spec)
+    decl = VoxgigStruct.getprop(point, "body")
+    return unless decl.is_a?(Hash) && decl["kind"] == "form" && spec.body.is_a?(Hash)
+
+    pairs = []
+    spec.body.each do |key, val|
+      next if val.nil?
+      (val.is_a?(Array) ? val : [val]).each do |item|
+        pairs << [key.to_s, (item.is_a?(Hash) || item.is_a?(Array)) ? JSON.generate(item) : item.to_s]
+      end
+    end
+
+    spec.body = URI.encode_www_form(pairs)
+
+    spec.headers = {} if spec.headers.nil?
+    drop_header(spec.headers, "content-type")
+    media = decl["media"]
+    spec.headers["content-type"] =
+      media.is_a?(String) && !media.empty? ? media : "application/x-www-form-urlencoded"
+  end
+
+  # Remove a header whatever its case.
+  def self.drop_header(headers, name)
+    headers.keys.each do |key|
+      headers.delete(key) if key.is_a?(String) && key.downcase == name
+    end
+  end
 end

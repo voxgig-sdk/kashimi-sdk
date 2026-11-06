@@ -1,7 +1,12 @@
 package utility
 
 import (
+	"encoding/json"
+	"fmt"
+	"net/url"
 	"reflect"
+	"sort"
+	"strings"
 
 	vs "github.com/voxgig/struct"
 
@@ -102,5 +107,105 @@ func makeSpecUtil(ctx *core.Context) (*core.Spec, error) {
 	}
 
 	ctx.Spec = spec
+	callCredential(ctx, options, spec)
+	formBody(point, spec)
 	return spec, nil
+}
+
+// A credential the call passes under the credential header's name goes as
+// that header, in place of the client's, and not in the body. Kashimi's
+// token call takes its Basic credential this way (voxgig/sdkgen#465).
+func callCredential(ctx *core.Context, options map[string]any, spec *core.Spec) {
+	name := "authorization"
+	if authname, ok := vs.GetPath(options, []any{"auth", "name"}).(string); ok && authname != "" {
+		name = strings.ToLower(authname)
+	}
+
+	val := ctx.Reqmatch[name]
+	if val == nil {
+		val = ctx.Reqdata[name]
+	}
+	if val == nil || val == "" {
+		return
+	}
+
+	if spec.Headers == nil {
+		spec.Headers = map[string]any{}
+	}
+	dropHeader(spec.Headers, name)
+	spec.Headers[name] = fmt.Sprint(val)
+
+	// A copy, since the body can be the caller's own data.
+	if body, ok := spec.Body.(map[string]any); ok {
+		rest := make(map[string]any, len(body))
+		for key, v := range body {
+			if key != name {
+				rest[key] = v
+			}
+		}
+		spec.Body = rest
+	}
+}
+
+// A body the point declares form-encoded goes form-encoded, under its
+// declared media type, where it would otherwise go as JSON.
+func formBody(point map[string]any, spec *core.Spec) {
+	decl, _ := vs.GetProp(point, "body").(map[string]any)
+	data, isMap := spec.Body.(map[string]any)
+	if kind, _ := decl["kind"].(string); kind != "form" || !isMap {
+		return
+	}
+
+	keys := make([]string, 0, len(data))
+	for key := range data {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	values := url.Values{}
+	for _, key := range keys {
+		val := data[key]
+		if val == nil {
+			continue
+		}
+		list, isList := val.([]any)
+		if !isList {
+			list = []any{val}
+		}
+		for _, item := range list {
+			values.Add(key, formValue(item))
+		}
+	}
+
+	spec.Body = values.Encode()
+
+	if spec.Headers == nil {
+		spec.Headers = map[string]any{}
+	}
+	dropHeader(spec.Headers, "content-type")
+	media, _ := decl["media"].(string)
+	if media == "" {
+		media = "application/x-www-form-urlencoded"
+	}
+	spec.Headers["content-type"] = media
+}
+
+// Remove a header whatever its case.
+func dropHeader(headers map[string]any, name string) {
+	for key := range headers {
+		if strings.ToLower(key) == name {
+			delete(headers, key)
+		}
+	}
+}
+
+// A value as the ts URLSearchParams writes it: records as JSON.
+func formValue(item any) string {
+	switch item.(type) {
+	case map[string]any, []any:
+		if b, err := json.Marshal(item); err == nil {
+			return string(b)
+		}
+	}
+	return fmt.Sprint(item)
 }

@@ -101,6 +101,90 @@ class KashimiMakeSpec
         }
 
         $ctx->spec = $spec;
+        self::callCredential($ctx, $options, $spec);
+        self::formBody($point, $spec);
         return [$spec, null];
+    }
+
+    // A credential the call passes under the credential header's name goes as
+    // that header, in place of the client's, and not in the body. Kashimi's
+    // token call takes its Basic credential this way (voxgig/sdkgen#465).
+    private static function callCredential(KashimiContext $ctx, mixed $options, mixed $spec): void
+    {
+        $authname = \Voxgig\Struct\Struct::getpath($options, 'auth.name');
+        $name = is_string($authname) && $authname !== '' ? strtolower($authname) : 'authorization';
+
+        $val = ($ctx->reqmatch ?? [])[$name] ?? null;
+        if ($val === null) {
+            $val = ($ctx->reqdata ?? [])[$name] ?? null;
+        }
+        if ($val === null || $val === '') {
+            return;
+        }
+
+        if (!is_array($spec->headers)) {
+            $spec->headers = [];
+        }
+        self::dropHeader($spec->headers, $name);
+        $spec->headers[$name] = (string)$val;
+
+        if (is_array($spec->body)) {
+            unset($spec->body[$name]);
+        }
+    }
+
+    // A body the point declares form-encoded goes form-encoded, under its
+    // declared media type, where it would otherwise go as JSON.
+    private static function formBody(mixed $point, mixed $spec): void
+    {
+        $decl = \Voxgig\Struct\Struct::getprop($point, 'body');
+        $data = $spec->body;
+        if (!is_array($decl) || ($decl['kind'] ?? null) !== 'form' ||
+            !is_array($data) || (array_is_list($data) && $data !== [])) {
+            return;
+        }
+
+        $pairs = [];
+        foreach ($data as $key => $val) {
+            if ($val === null) {
+                continue;
+            }
+            foreach ((is_array($val) && array_is_list($val) ? $val : [$val]) as $item) {
+                $pairs[] = urlencode((string)$key) . '=' . urlencode(self::formValue($item));
+            }
+        }
+
+        $spec->body = implode('&', $pairs);
+
+        if (!is_array($spec->headers)) {
+            $spec->headers = [];
+        }
+        self::dropHeader($spec->headers, 'content-type');
+        $media = $decl['media'] ?? null;
+        $spec->headers['content-type'] =
+            is_string($media) && $media !== '' ? $media : 'application/x-www-form-urlencoded';
+    }
+
+    // Remove a header whatever its case.
+    private static function dropHeader(array &$headers, string $name): void
+    {
+        foreach (array_keys($headers) as $key) {
+            if (is_string($key) && strtolower($key) === $name) {
+                unset($headers[$key]);
+            }
+        }
+    }
+
+    // A value as the ts URLSearchParams writes it: booleans as true/false,
+    // records as JSON.
+    private static function formValue(mixed $item): string
+    {
+        if (is_bool($item)) {
+            return $item ? 'true' : 'false';
+        }
+        if (is_array($item) || is_object($item)) {
+            return (string)json_encode($item, JSON_UNESCAPED_SLASHES);
+        }
+        return (string)$item;
     }
 }
