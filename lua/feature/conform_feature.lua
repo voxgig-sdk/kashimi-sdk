@@ -12,9 +12,10 @@
 --   form        a point whose body kind is "form" gets its body form-encoded,
 --               with the declared media type as its content type.
 --               make_fetch_def sends a string body on a non-JSON point as given.
---   credential  a header argument the point declares, under the credential
---               header's name, and the call passes, replaces the credential
---               prepare_auth set (or restores the one it removed).
+--   credential  a value the call passes under the credential header's name, or
+--               under a header argument the point declares with that name, is
+--               sent as that header, in place of the credential prepare_auth set
+--               (or restoring the one it removed), and leaves the body.
 --
 -- Counts land on the client as `_conform = { form, credential }`.
 
@@ -62,7 +63,7 @@ end
 
 function ConformFeature.new()
   local self = setmetatable(BaseFeature.new(), ConformFeature)
-  self.version = "0.1.0"
+  self.version = "0.1.1"
   self.name = "conform"
   self.active = true
   self.client = nil
@@ -112,32 +113,46 @@ function ConformFeature:_credential(ctx, spec, point)
     credname = string.lower(authname)
   end
 
-  local sent = false
+  local names = { credname }
   local args = vs.getpath(point, "args.header")
-  if type(args) ~= "table" then
-    return false
-  end
-
-  for _, arg in ipairs(args) do
-    local name = type(arg) == "table" and arg["name"] or nil
-    if type(name) == "string" and name ~= "" then
-      local orig = arg["orig"]
-      local wire = string.lower((type(orig) == "string" and orig ~= "") and orig or name)
-      if wire == credname then
-        local val = vs.getprop(ctx.reqmatch or {}, name)
-        if val == nil then
-          val = vs.getprop(ctx.reqdata or {}, name)
-        end
-        if val ~= nil and val ~= "" then
-          drop_header(spec.headers, wire)
-          spec.headers[wire] = tostring(val)
-          sent = true
+  if type(args) == "table" then
+    for _, arg in ipairs(args) do
+      local name = type(arg) == "table" and arg["name"] or nil
+      if type(name) == "string" and name ~= "" then
+        local orig = arg["orig"]
+        local wire = string.lower((type(orig) == "string" and orig ~= "") and orig or name)
+        if wire == credname then
+          table.insert(names, 1, name)
         end
       end
     end
   end
 
-  return sent
+  for _, name in ipairs(names) do
+    local val = vs.getprop(ctx.reqmatch or {}, name)
+    if val == nil then
+      val = vs.getprop(ctx.reqdata or {}, name)
+    end
+    if val ~= nil and val ~= "" then
+      drop_header(spec.headers, credname)
+      spec.headers[credname] = tostring(val)
+
+      -- A copy, since the body can be the caller's own data.
+      if type(spec.body) == "table" then
+        local rest = {}
+        for key, v in pairs(spec.body) do
+          if key ~= name then
+            rest[key] = v
+          end
+        end
+        spec.body = rest
+      end
+
+      return true
+    end
+  end
+
+  return false
 end
 
 

@@ -1,6 +1,6 @@
 # ConformFeature — Agent Guide
 
-Conform (v0.1.0).
+Conform (v0.1.1).
 
 A **feature** is a pipeline extension: an object of hooks that fire at named
 stages of every entity operation (load, list, create, update, patch, remove) and of

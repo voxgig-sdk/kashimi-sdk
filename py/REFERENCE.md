@@ -1169,7 +1169,7 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `conform` | 0.1.0 | Conform |
+| `conform` | 0.1.1 | Conform |
 | `debug` | 0.0.1 | Debug capture |
 | `idempotency` | 0.0.1 | Idempotency |
 | `metrics` | 0.0.1 | Metrics |
